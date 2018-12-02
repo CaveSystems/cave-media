@@ -1,0 +1,15 @@
+﻿#version 120
+
+uniform float shaderAlpha;
+uniform vec4 shaderTint;
+uniform sampler2D shaderTextureData;
+
+varying vec2 TextureCoordinates;
+
+void main(void)
+{
+    // mix color from texture with flat color, use alpha of flat color for interpolation
+    vec4 color = mix(texture2D(shaderTextureData, TextureCoordinates), vec4(shaderTint.rgb, 1), shaderTint.a);
+    // calculate transparency
+    gl_FragColor = vec4(color.rgb, color.a * shaderAlpha);
+}

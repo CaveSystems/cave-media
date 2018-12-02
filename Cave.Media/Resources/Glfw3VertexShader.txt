@@ -1,0 +1,25 @@
+#version 120
+
+attribute vec2 shaderVertexPosition;
+attribute vec2 shaderTextureCoordinates;
+uniform vec3 shaderRotation;
+uniform vec3 shaderTranslation;
+uniform vec3 shaderScale;
+
+varying vec2 TextureCoordinates;
+
+mat3 angleVec (vec3 angles)
+{
+    vec3 s = sin(radians(angles*360));
+    vec3 c = cos(radians(angles*360));
+    return mat3(c.z, s.z, 0, -s.z, c.z, 0, 0, 0, 1) * mat3(c.y, 0, -s.y, 0, 1, 0, s.y, 0, c.y) * mat3(1, 0, 0, 0, c.x, s.x, 0, -s.x, c.x);
+}
+
+void main(void)
+{
+    //calculate scale, then multiply with rotation matrix
+    vec3 newPos = vec3(shaderVertexPosition.xy, 0) * angleVec(shaderRotation) * vec3(shaderScale.xy, 0);
+	//add translation and set
+    gl_Position = gl_ProjectionMatrix * vec4(newPos + shaderTranslation, 1);
+    TextureCoordinates = shaderTextureCoordinates;
+}
