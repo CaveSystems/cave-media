@@ -1,5 +1,3 @@
-using Cave.Text;
-using System;
 using System.Collections.Generic;
 
 namespace Cave.Media.Audio
@@ -15,7 +13,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioAPI[] GetAvailableAudioAPIs()
         {
-            var apis = AppDom.GetTypes<IAudioAPI>();
+            List<IAudioAPI> apis = AppDom.GetTypes<IAudioAPI>();
             apis.Sort();
             return apis.ToArray();
         }
@@ -26,7 +24,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioEncoder[] GetAvailableAudioEncoders()
         {
-            var encoder = AppDom.GetTypes<IAudioEncoder>();
+            List<IAudioEncoder> encoder = AppDom.GetTypes<IAudioEncoder>();
             encoder.Sort();
             return encoder.ToArray();
         }
@@ -37,7 +35,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioDecoder[] GetAvailableAudioDecoders()
         {
-            var decoder = AppDom.GetTypes<IAudioDecoder>();
+            List<IAudioDecoder> decoder = AppDom.GetTypes<IAudioDecoder>();
             decoder.Sort();
             return decoder.ToArray();
         }
@@ -65,7 +63,11 @@ namespace Cave.Media.Audio
         {
             get
             {
-                if (OutputDevices.Length == 0) return null;
+                if (OutputDevices.Length == 0)
+                {
+                    return null;
+                }
+
                 return OutputDevices[0];
             }
         }
@@ -78,7 +80,11 @@ namespace Cave.Media.Audio
         {
             get
             {
-                if (InputDevices.Length == 0) return null;
+                if (InputDevices.Length == 0)
+                {
+                    return null;
+                }
+
                 return InputDevices[0];
             }
         }

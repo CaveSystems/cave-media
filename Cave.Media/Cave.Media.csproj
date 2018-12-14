@@ -10,7 +10,7 @@
     <PackageLicenseUrl>https://www.gnu.org/licenses/lgpl-3.0.en.html</PackageLicenseUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Cave.Media.snk</AssemblyOriginatorKeyFile>
-    <Version>1.0.0-alpha-$(Configuration.ToLower())-2</Version>
+    <Version>1.0.0</Version>
     <PackageIconUrl>https://www.cavesystems.de/favicon.ico</PackageIconUrl>
     <PackageTags>CaveSystems Media</PackageTags>
     <PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
@@ -20,8 +20,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
-    <FileVersion>2018.1202.1653.1317</FileVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>2018.1214.1927.1243</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>pdbonly</DebugType>
@@ -67,12 +67,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.0-alpha-release-1" />
-    <PackageReference Include="Cave.BaseX" Version="1.0.0-alpha-release-1" />
-    <PackageReference Include="Cave.Collections" Version="1.0.0-alpha-release-1" />
-    <PackageReference Include="Cave.Extensions" Version="1.0.0-alpha-release-5" />
-    <PackageReference Include="Cave.IO" Version="1.0.0-beta-release-1" />
-    <PackageReference Include="Cave.Platform" Version="1.0.0-alpha-release-2" />
+    <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.0" />
+    <PackageReference Include="Cave.BaseX" Version="1.0.0" />
+    <PackageReference Include="Cave.Collections" Version="1.0.0" />
+    <PackageReference Include="Cave.Extensions" Version="1.0.0" />
+    <PackageReference Include="Cave.IO" Version="1.0.0" />
+    <PackageReference Include="Cave.Platform" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

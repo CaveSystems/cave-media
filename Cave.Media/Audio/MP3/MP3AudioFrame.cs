@@ -1,5 +1,3 @@
-using Cave.Collections.Generic;
-using Cave.Text;
 using System;
 using System.IO;
 
@@ -50,9 +48,16 @@ namespace Cave.Media.Audio.MP3
         {
             m_Data = data;
             m_Header = new MP3AudioFrameHeader(data);
-            if (m_Header.Validation != MP3AudioFrameHeadervalidation.Valid) throw new InvalidDataException();
+            if (m_Header.Validation != MP3AudioFrameHeadervalidation.Valid)
+            {
+                throw new InvalidDataException();
+            }
+
             int dataLength = m_Header.Length;
-            if (dataLength == 0 || data.Length != dataLength) throw new InvalidDataException();
+            if (dataLength == 0 || data.Length != dataLength)
+            {
+                throw new InvalidDataException();
+            }
         }
 
         /// <summary>
@@ -61,16 +66,34 @@ namespace Cave.Media.Audio.MP3
         /// <param name="reader">FrameReader to read from</param>
         public override bool Parse(DataFrameReader reader)
         {
-            if (reader == null) throw new ArgumentNullException("Reader");
-            if (!reader.EnsureBuffer(4)) return false;
+            if (reader == null)
+            {
+                throw new ArgumentNullException("Reader");
+            }
+
+            if (!reader.EnsureBuffer(4))
+            {
+                return false;
+            }
+
             byte[] headerData = reader.Read(0, 4);
             m_Header = new MP3AudioFrameHeader(headerData);
-            if (m_Header.Validation != MP3AudioFrameHeadervalidation.Valid) return false;
+            if (m_Header.Validation != MP3AudioFrameHeadervalidation.Valid)
+            {
+                return false;
+            }
 
             int dataLength = m_Header.Length;
-            if (dataLength == 0) return false;
+            if (dataLength == 0)
+            {
+                return false;
+            }
 
-            if (!reader.EnsureBuffer(dataLength)) return false;
+            if (!reader.EnsureBuffer(dataLength))
+            {
+                return false;
+            }
+
             m_Data = reader.Read(0, dataLength);
 
             //check next header
@@ -112,7 +135,7 @@ namespace Cave.Media.Audio.MP3
                         }
                     }
                 }
-            }            
+            }
 
             reader.Remove(m_Data.Length);
             return true;
@@ -138,50 +161,38 @@ namespace Cave.Media.Audio.MP3
         /// <summary>
         /// Returns true
         /// </summary>
-        public override bool IsAudio
-        {
-            get { return true; }
-        }
+        public override bool IsAudio => true;
 
         /// <summary>
         /// Returns true
         /// </summary>
-        public override bool IsValid
-        {
-            get { return true; }
-        }
+        public override bool IsValid => true;
 
         /// <summary>
         /// Obtains whether the padding bit at the header was corrected during Parse()
         /// </summary>
-        public bool InvalidPaddingCorrected { get { return m_InvalidPaddingCorrected; } }
+        public bool InvalidPaddingCorrected => m_InvalidPaddingCorrected;
 
         /// <summary>
         /// Obtains the <see cref="MP3AudioFrameHeader"/>
         /// </summary>
-        public MP3AudioFrameHeader Header { get { return m_Header; } }
+        public MP3AudioFrameHeader Header => m_Header;
 
         /// <summary>
         /// Obtains an array with the data for this instance
         /// </summary>
         /// <returns></returns>
-        public override byte[] Data
-        {
-            get
-            {
-                return (byte[])m_Data.Clone();
-            }
-        }
+        public override byte[] Data => (byte[])m_Data.Clone();
 
         /// <summary>
         /// Length of the frame in bytes
         /// </summary>
-        public override int Length { get { return m_Data.Length; } }
+        public override int Length => m_Data.Length;
 
         /// <summary>
         /// Returns false (mp3 audio frames may differ in size depending on layer, bitrate and samplerate)
         /// </summary>
-        public override bool IsFixedLength { get { return false; } }
+        public override bool IsFixedLength => false;
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>

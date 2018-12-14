@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 
 namespace Cave.Media.Audio.ID3.Frames
@@ -37,7 +36,10 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2UFIDFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID[0] != 'U') throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "U*"));
+            if (frame.ID[0] != 'U')
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "U*"));
+            }
         }
 
         /// <summary>
@@ -47,7 +49,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Owner == null) m_Split();
+                if (m_Owner == null)
+                {
+                    m_Split();
+                }
+
                 return m_Owner;
             }
         }
@@ -59,7 +65,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Ufid == null) m_Split();
+                if (m_Ufid == null)
+                {
+                    m_Split();
+                }
+
                 return (byte[])m_Ufid.Clone();
             }
         }
@@ -67,13 +77,7 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <summary>
         /// Obtains the UFID as hex string
         /// </summary>
-        public string HexUFID
-        {
-            get
-            {
-                return StringExtensions.ToHexString(UFID);
-            }
-        }
+        public string HexUFID => StringExtensions.ToHexString(UFID);
 
         /// <summary>
         /// Obtains a string describing this frame

@@ -1,17 +1,14 @@
-using System.IO;
-using Cave.Media.Audio.MP3;
-using System.Text;
-using Cave.Text;
 using System;
-using Cave.Collections.Generic;
-using Cave.IO;
+using System.IO;
+using System.Text;
+using Cave.Media.Audio.MP3;
 
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
     /// Provides support for reading and writing ID3v1.0 and ID3v1.1 format.
     /// </summary>
-    
+
     public sealed class ID3v1 : MP3MetaFrame
     {
         /// <summary>
@@ -34,11 +31,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Provides the full Genre List supported by ID3v1
         /// </summary>
-        public static string[] Genres
-        {
-            get
-            {
-                return new string[]
+        public static string[] Genres => new string[]
                 {
                     "Blues","ClassicRock","Country","Dance","Disco","Funk","Grunge","Hip-Hop",
                     "Jazz","Metal","NewAge","Oldies","Other","Pop","R&B","Rap","Reggae",
@@ -57,8 +50,6 @@ namespace Cave.Media.Audio.ID3
                     "Club","Tango","Samba","Folklore","Ballad","PowerBallad","RhythmicSoul","Freestyle",
                     "Duet","PunkRock","DrumSolo","Acapella","Euro-House","DanceHall",
                 };
-            }
-        }
         #endregion
 
         #region private fields and implementation
@@ -86,8 +77,16 @@ namespace Cave.Media.Audio.ID3
         /// <param name="data"></param>
         public ID3v1(byte[] data)
         {
-            if (data == null) throw new ArgumentNullException("Data");
-            if (data.Length != 128) throw new InvalidDataException();
+            if (data == null)
+            {
+                throw new ArgumentNullException("Data");
+            }
+
+            if (data.Length != 128)
+            {
+                throw new InvalidDataException();
+            }
+
             m_Data = data;
             ParseData();
         }
@@ -100,7 +99,11 @@ namespace Cave.Media.Audio.ID3
         void ParseData()
         {
             string str = m_Encoding.GetString(m_Data);
-            if (str.Substring(0, 3) != "TAG") throw new InvalidDataException(string.Format("TAG header not found!"));
+            if (str.Substring(0, 3) != "TAG")
+            {
+                throw new InvalidDataException(string.Format("TAG header not found!"));
+            }
+
             m_Title = ASCII.Clean(str, 3, 30).TrimEnd();
             m_Artist = ASCII.Clean(str, 33, 30).TrimEnd();
             m_Album = ASCII.Clean(str, 63, 30).TrimEnd();
@@ -132,8 +135,16 @@ namespace Cave.Media.Audio.ID3
         /// <param name="reader">FrameReader to read from</param>
         public override bool Parse(DataFrameReader reader)
         {
-            if (reader == null) throw new ArgumentNullException("Reader");
-            if (!reader.EnsureBuffer(128)) return false;
+            if (reader == null)
+            {
+                throw new ArgumentNullException("Reader");
+            }
+
+            if (!reader.EnsureBuffer(128))
+            {
+                return false;
+            }
+
             m_Data = reader.Read(0, 128);
             ParseData();
             reader.Remove(128);
@@ -148,7 +159,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Title
         {
-            get { return m_Title; }
+            get => m_Title;
             set { m_Data = null; m_Title = value; }
         }
 
@@ -157,7 +168,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Artist
         {
-            get { return m_Artist; }
+            get => m_Artist;
             set { m_Data = null; m_Artist = value; }
         }
 
@@ -166,7 +177,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Album
         {
-            get { return m_Album; }
+            get => m_Album;
             set { m_Data = null; m_Album = value; }
         }
 
@@ -175,7 +186,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Year
         {
-            get { return m_Year; }
+            get => m_Year;
             set { m_Data = null; m_Year = value; }
         }
 
@@ -184,7 +195,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Comment
         {
-            get { return m_Comment; }
+            get => m_Comment;
             set { m_Data = null; m_Comment = value; }
         }
 
@@ -193,7 +204,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Genre
         {
-            get { return m_Genre; }
+            get => m_Genre;
             set { m_Data = null; m_Genre = value; }
         }
 
@@ -202,19 +213,19 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public byte TrackNumber
         {
-            get { return m_TrackNumber; }
+            get => m_TrackNumber;
             set { m_Data = null; m_TrackNumber = value; }
         }
 
         /// <summary>
         /// Length of the frame in bytes
         /// </summary>
-        public override int Length { get { return 128; } }
+        public override int Length => 128;
 
         /// <summary>
         /// Returns true (tag has always 128 byte)
         /// </summary>
-        public override bool IsFixedLength { get { return true; } }
+        public override bool IsFixedLength => true;
 
         /// <summary>
         /// Obtains an array with the data for this instance
@@ -243,7 +254,11 @@ namespace Cave.Media.Audio.ID3
                     }
                     stringBuilder.Append("\0");
                     byte[] data = m_Encoding.GetBytes(stringBuilder.ToString());
-                    if (data.Length != 128) throw new Exception(string.Format("Encoding for the TAG is invalid and does not return one byte for one character!"));
+                    if (data.Length != 128)
+                    {
+                        throw new Exception(string.Format("Encoding for the TAG is invalid and does not return one byte for one character!"));
+                    }
+
                     data[127] = (byte)Array.IndexOf(Genres, m_Genre);
                     m_Data = data;
                 }

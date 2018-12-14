@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,14 +52,33 @@ namespace Cave.Media
         /// <param name="size">Size to buffer</param>
         public int FillBuffer(int size)
         {
-            if (m_Stream == null) return 0;
-            if (size <= 0) return 0;
-            if (size < 1024) size = 1024;
+            if (m_Stream == null)
+            {
+                return 0;
+            }
+
+            if (size <= 0)
+            {
+                return 0;
+            }
+
+            if (size < 1024)
+            {
+                size = 1024;
+            }
+
             if (m_EndOfStream > 0)
             {
                 int l_Readable = (int)(m_EndOfStream - m_BufferEndPosition);
-                if (size > l_Readable) size = l_Readable;
-                if (size == 0) return 0;
+                if (size > l_Readable)
+                {
+                    size = l_Readable;
+                }
+
+                if (size == 0)
+                {
+                    return 0;
+                }
             }
 
             int l_Left = size;
@@ -68,14 +86,22 @@ namespace Cave.Media
             {
                 byte[] buffer = new byte[Math.Min(16 * 1024, l_Left)];
                 int len = m_Stream.Read(buffer, 0, buffer.Length);
-                if (len == 0) break;
+                if (len == 0)
+                {
+                    break;
+                }
+
                 if (len == size)
                 {
                     m_Buffers.AddLast(buffer);
                 }
                 else
                 {
-                    if (len == 0) return 0;
+                    if (len == 0)
+                    {
+                        return 0;
+                    }
+
                     byte[] newBuffer = new byte[len];
                     Array.Copy(buffer, newBuffer, len);
                     m_Buffers.AddLast(buffer);
@@ -101,7 +127,11 @@ namespace Cave.Media
         public bool EnsureBuffer(int lenght)
         {
             int l_Needed = lenght - Available;
-            if (l_Needed > 0) FillBuffer(l_Needed);
+            if (l_Needed > 0)
+            {
+                FillBuffer(l_Needed);
+            }
+
             return (Available >= lenght);
         }
 
@@ -112,7 +142,10 @@ namespace Cave.Media
         /// <returns></returns>
         public bool Contains(IDataFrameSearch search)
         {
-            if (m_ReadBufferNode == null) return false;
+            if (m_ReadBufferNode == null)
+            {
+                return false;
+            }
 
             int bufferPosition = m_ReadBufferPosition;
             LinkedListNode<byte[]> bufferNode = m_ReadBufferNode;
@@ -121,11 +154,19 @@ namespace Cave.Media
             while (true)
             {
                 byte b = buffer[bufferPosition++];
-                if (search.Check(b)) return true;
+                if (search.Check(b))
+                {
+                    return true;
+                }
+
                 if (bufferPosition >= buffer.Length)
                 {
                     bufferNode = bufferNode.Next;
-                    if (bufferNode == null) return false;
+                    if (bufferNode == null)
+                    {
+                        return false;
+                    }
+
                     buffer = bufferNode.Value;
                     bufferPosition = 0;
                 }
@@ -145,10 +186,7 @@ namespace Cave.Media
                 throw new EndOfStreamException();
             }
             byte[] result = new byte[count];
-
-            int bufferPosition;
-            LinkedListNode<byte[]> bufferNode;
-            Move(index, out bufferPosition, out bufferNode);
+            Move(index, out int bufferPosition, out LinkedListNode<byte[]> bufferNode);
 
             int l_Offset = 0;
             while (count > 0)
@@ -175,11 +213,11 @@ namespace Cave.Media
         /// <returns></returns>
         public byte ReadByte(int index)
         {
-            if (index >= m_BufferLength) throw new ArgumentOutOfRangeException(nameof(index));
-
-            int bufferPosition;
-            LinkedListNode<byte[]> bufferNode;
-            Move(index, out bufferPosition, out bufferNode);
+            if (index >= m_BufferLength)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            Move(index, out int bufferPosition, out LinkedListNode<byte[]> bufferNode);
 
             return bufferNode.Value[bufferPosition];
         }
@@ -190,9 +228,7 @@ namespace Cave.Media
         /// <param name="count"></param>
         public void Remove(int count)
         {
-            int bufferPosition;
-            LinkedListNode<byte[]> bufferNode;
-            Move(count, out bufferPosition, out bufferNode);
+            Move(count, out int bufferPosition, out LinkedListNode<byte[]> bufferNode);
 
             m_ReadBufferNode = bufferNode;
             m_ReadBufferPosition = bufferPosition;
@@ -210,7 +246,11 @@ namespace Cave.Media
         /// <returns></returns>
         public byte[] GetBuffer(int count)
         {
-            if (count == 0) return new byte[0];
+            if (count == 0)
+            {
+                return new byte[0];
+            }
+
             byte[] buffer = Read(0, count);
             Remove(count);
             return buffer;
@@ -219,7 +259,7 @@ namespace Cave.Media
         /// <summary>
         /// Obtains the number of bytes currently available for reading
         /// </summary>
-        public int Available { get { return m_BufferLength - m_ReadBufferPosition; } }
+        public int Available => m_BufferLength - m_ReadBufferPosition;
 
         /// <summary>
         /// Obtains all currently buffered data and removes it
@@ -228,7 +268,11 @@ namespace Cave.Media
         public byte[] GetBuffer()
         {
             int size = Available;
-            if (size == 0) return new byte[0];
+            if (size == 0)
+            {
+                return new byte[0];
+            }
+
             return GetBuffer(size);
         }
 
@@ -260,35 +304,17 @@ namespace Cave.Media
         /// <summary>
         /// Obtains the current start position (at the stream) of the buffer
         /// </summary>
-        public long BufferStartPosition
-        {
-            get
-            {
-                return m_BufferEndPosition - m_BufferLength + m_ReadBufferPosition;
-            }
-        }
+        public long BufferStartPosition => m_BufferEndPosition - m_BufferLength + m_ReadBufferPosition;
 
         /// <summary>
         /// Obtains the current end position (at the stream) of the buffer
         /// </summary>
-        public long BufferEndPosition
-        {
-            get
-            {
-                return m_BufferEndPosition;
-            }
-        }
+        public long BufferEndPosition => m_BufferEndPosition;
 
         /// <summary>
         /// Obtains the current buffer length
         /// </summary>
-        public int BufferLength
-        {
-            get
-            {
-                return m_BufferLength;
-            }
-        }
+        public int BufferLength => m_BufferLength;
 
         /// <summary>
         /// Returns "DataFrameReader &lt;Source&gt;"
@@ -297,7 +323,11 @@ namespace Cave.Media
         public override string ToString()
         {
             object source = Source;
-            if (source != null) return string.Format("DataFrameReader <{0}>", source);
+            if (source != null)
+            {
+                return string.Format("DataFrameReader <{0}>", source);
+            }
+
             return "DataFrameReader";
         }
 

@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 
 namespace Cave.Media.Audio.ID3.Frames
@@ -20,7 +19,10 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2PRIVFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "PRIV") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "PRIV"));
+            if (frame.ID != "PRIV")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "PRIV"));
+            }
         }
 
         /// <summary>
@@ -30,7 +32,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Owner == null) Parse();
+                if (m_Owner == null)
+                {
+                    Parse();
+                }
+
                 return m_Owner;
             }
         }
@@ -42,7 +48,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_StartIndex <= 0) Parse();
+                if (m_StartIndex <= 0)
+                {
+                    Parse();
+                }
+
                 return new DataFrameReader(m_Data).Read(m_StartIndex, m_Data.Length - m_StartIndex);
             }
         }
@@ -50,13 +60,7 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <summary>
         /// Obtains the private bytes this frame contains as hexadecimal string
         /// </summary>
-        public string HexPrivateBytes
-        {
-            get
-            {
-                return StringExtensions.ToHexString(PrivateBytes);
-            }
-        }
+        public string HexPrivateBytes => StringExtensions.ToHexString(PrivateBytes);
 
         /// <summary>
         /// Obtains a string describing this frame

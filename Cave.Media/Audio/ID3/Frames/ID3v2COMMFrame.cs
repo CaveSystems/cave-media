@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 
 namespace Cave.Media.Audio.ID3.Frames
@@ -20,15 +19,17 @@ namespace Cave.Media.Audio.ID3.Frames
             ID3v2EncodingType encoding = (ID3v2EncodingType)m_Content[0];
             m_Language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
             int len = ID3v2Encoding.Parse(encoding, m_Content, 4, out m_Description);
-            string text;
-            ID3v2Encoding.Parse(encoding, m_Content, 4 + len, out text);
+            ID3v2Encoding.Parse(encoding, m_Content, 4 + len, out string text);
             m_Lines = text.SplitNewLine();
         }
 
         internal ID3v2COMMFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "COMM") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "COMM"));
+            if (frame.ID != "COMM")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "COMM"));
+            }
         }
 
         /// <summary>
@@ -38,7 +39,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Language == null) Parse();
+                if (m_Language == null)
+                {
+                    Parse();
+                }
+
                 return m_Language;
             }
         }
@@ -50,7 +55,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Description== null) Parse();
+                if (m_Description == null)
+                {
+                    Parse();
+                }
+
                 return m_Description;
             }
         }
@@ -62,7 +71,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Lines == null) Parse();
+                if (m_Lines == null)
+                {
+                    Parse();
+                }
+
                 return m_Lines;
             }
         }

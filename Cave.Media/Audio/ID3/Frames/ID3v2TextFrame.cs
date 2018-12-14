@@ -1,8 +1,6 @@
-using Cave.IO;
-using Cave.Text;
 using System;
 using System.IO;
-using System.Text;
+using Cave.IO;
 
 namespace Cave.Media.Audio.ID3.Frames
 {
@@ -11,7 +9,7 @@ namespace Cave.Media.Audio.ID3.Frames
     /// The text information frames are the most important frames, containing information like artist, album and more.
     /// There may only be one text information frame of its kind in an tag.
     /// </summary>
-    
+
     public class ID3v2TextFrame : ID3v2Frame
     {
         /// <summary>Creates a new ID3v2TextFrame.</summary>
@@ -41,15 +39,18 @@ namespace Cave.Media.Audio.ID3.Frames
         void ParseData()
         {
             EncodingType = (ID3v2EncodingType)m_Content[0];
-            string text;
-            ID3v2Encoding.Parse(EncodingType, m_Content, 1, out text);
+            ID3v2Encoding.Parse(EncodingType, m_Content, 1, out string text);
             Text = text;
         }
 
         internal ID3v2TextFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if ((frame.ID[0] != 'T') || (frame.ID == "TXXX")) throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "T*"));
+            if ((frame.ID[0] != 'T') || (frame.ID == "TXXX"))
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "T*"));
+            }
+
             ParseData();
         }
 

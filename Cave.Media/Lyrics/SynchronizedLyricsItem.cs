@@ -1,9 +1,7 @@
-﻿using Cave.Collections.Generic;
-using Cave.IO;
-using Cave.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cave.IO;
 
 namespace Cave.Media.Lyrics
 {
@@ -34,10 +32,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Gets the commands.</summary>
         /// <value>The commands.</value>
-        public ISynchronizedLyricsCommand[] Commands
-        {
-            get { return (ISynchronizedLyricsCommand[])m_Commands.Clone(); }
-        }
+        public ISynchronizedLyricsCommand[] Commands => (ISynchronizedLyricsCommand[])m_Commands.Clone();
 
         /// <summary>The time code</summary>
         public readonly TimeSpan TimeCode;
@@ -52,7 +47,11 @@ namespace Cave.Media.Lyrics
             long lastMilliSecond = previousTime.Ticks / TimeSpan.TicksPerMillisecond;
             long myMilliSecond = TimeCode.Ticks / TimeSpan.TicksPerMillisecond;
             long diff = myMilliSecond - lastMilliSecond;
-            if (diff <= 0 && myMilliSecond > 0) throw new ArgumentOutOfRangeException(nameof(previousTime));
+            if (diff <= 0 && myMilliSecond > 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(previousTime));
+            }
+
             writer.Write7BitEncoded64(diff);
             //save all commands
             foreach (SynchronizedLyricsCommand command in Commands)

@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 using System.Globalization;
 
@@ -8,7 +7,7 @@ namespace Cave.Media
     /// Provides a simple 2d vector based on float values
     /// </summary>
     public struct Vector2
-	{
+    {
         #region static constructors
         /// <summary>
         /// Parses a string and returns a new <see cref="Vector2"/>.
@@ -55,9 +54,11 @@ namespace Cave.Media
         /// <param name="y">y value</param>
         public static Vector2 Create(float x, float y)
         {
-            Vector2 result = new Vector2();
-            result.X = x;
-            result.Y = y;
+            Vector2 result = new Vector2
+            {
+                X = x,
+                Y = y
+            };
             return result;
         }
 
@@ -68,24 +69,28 @@ namespace Cave.Media
         /// <exception cref="ArgumentException">Number of values do not match!</exception>
         public static Vector2 Create(float[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (values.Length != 2) throw new ArgumentException(string.Format("Number of values do not match!"));
-            Vector2 result = new Vector2();
-            result.X = values[0];
-            result.Y = values[1];
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
+            if (values.Length != 2)
+            {
+                throw new ArgumentException(string.Format("Number of values do not match!"));
+            }
+
+            Vector2 result = new Vector2
+            {
+                X = values[0],
+                Y = values[1]
+            };
             return result;
         }
 
         /// <summary>
         /// Obtains an empty <see cref="Vector2"/> object
         /// </summary>
-        public static Vector2 Empty
-        {
-            get
-            {
-                return new Vector2();
-            }
-        }
+        public static Vector2 Empty => new Vector2();
 
         #endregion
 
@@ -106,7 +111,11 @@ namespace Cave.Media
         /// <returns></returns>
         public static bool operator ==(Vector2 A, Vector2 B)
         {
-            if (Equals(null, A)) return Equals(null, B);
+            if (Equals(null, A))
+            {
+                return Equals(null, B);
+            }
+
             return A.Equals(B);
         }
 
@@ -118,7 +127,11 @@ namespace Cave.Media
         /// <returns></returns>
         public static bool operator !=(Vector2 A, Vector2 B)
         {
-            if (Equals(null, A)) return !Equals(null, B);
+            if (Equals(null, A))
+            {
+                return !Equals(null, B);
+            }
+
             return !A.Equals(B);
         }
 
@@ -236,19 +249,13 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the length of the vector
         /// </summary>
-        public float Length { get { return (float)Math.Sqrt(X * X + Y * Y); } }
+        public float Length => (float)Math.Sqrt(X * X + Y * Y);
 
         /// <summary>
         /// Obtains a normalized version of the vector. (Length near 1.0f watch out for rounding errors!)
         /// </summary>
         /// <returns>Returns the normalized version of this vector</returns>
-        public Vector2 Normalized
-        {
-            get
-            {
-                return Create(X, Y) / Length;
-            }
-        }
+        public Vector2 Normalized => Create(X, Y) / Length;
 
         /// <summary>
         /// Retrieves the vector values as array
@@ -286,7 +293,11 @@ namespace Cave.Media
         /// <returns>Returns true if the specified object equals this one</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is Vector2)) return false;
+            if (!(obj is Vector2))
+            {
+                return false;
+            }
+
             Vector2 other = (Vector2)obj;
             return (other.X == X) && (other.Y == Y);
         }

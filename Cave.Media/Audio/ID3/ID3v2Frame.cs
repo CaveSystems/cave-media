@@ -1,6 +1,4 @@
-using Cave.Text;
 using System;
-using System.IO;
 
 namespace Cave.Media.Audio.ID3
 {
@@ -24,7 +22,11 @@ namespace Cave.Media.Audio.ID3
         /// <exception cref="ArgumentNullException">Frame</exception>
         public ID3v2Frame(ID3v2Frame frame)
         {
-            if (frame == null) throw new ArgumentNullException("Frame");
+            if (frame == null)
+            {
+                throw new ArgumentNullException("Frame");
+            }
+
             m_Data = frame.m_Data;
             m_Content = frame.m_Content;
             m_Header = frame.m_Header;
@@ -37,7 +39,11 @@ namespace Cave.Media.Audio.ID3
         /// <exception cref="NotSupportedException"></exception>
         public ID3v2Frame(ID3v2Header header, DataFrameReader reader)
         {
-            if (reader == null) throw new ArgumentNullException("Reader");
+            if (reader == null)
+            {
+                throw new ArgumentNullException("Reader");
+            }
+
             m_Header = new ID3v2FrameHeader(header, reader);
             //prepare content (has to be decoded, decrypted, decompressed, ...
             m_Content = reader.Read(m_Header.HeaderSize, m_Header.ContentSize);
@@ -60,7 +66,11 @@ namespace Cave.Media.Audio.ID3
         public ID3v2Frame(ID3v2Header header, byte[] data)
         {
             m_Header = new ID3v2FrameHeader(header, data);
-            if (m_Header.ContentSize + m_Header.HeaderSize != data.Length) throw new ArgumentOutOfRangeException("data", $"Invalid size of data! Expected {m_Header.ContentSize + m_Header.HeaderSize} bytes, got {data.Length}!");
+            if (m_Header.ContentSize + m_Header.HeaderSize != data.Length)
+            {
+                throw new ArgumentOutOfRangeException("data", $"Invalid size of data! Expected {m_Header.ContentSize + m_Header.HeaderSize} bytes, got {data.Length}!");
+            }
+
             m_Data = data;
             m_Content = new byte[m_Header.ContentSize];
             Array.Copy(m_Data, m_Header.HeaderSize, m_Content, 0, m_Header.ContentSize);
@@ -89,8 +99,15 @@ namespace Cave.Media.Audio.ID3
 
         void ParseVersion3(DataFrameReader reader)
         {
-            if (m_Header.Flags.Compression) m_Content = Decompress(m_Content);
-            if (m_Header.Flags.Encryption) m_Content = Decrypt(m_Content);
+            if (m_Header.Flags.Compression)
+            {
+                m_Content = Decompress(m_Content);
+            }
+
+            if (m_Header.Flags.Encryption)
+            {
+                m_Content = Decrypt(m_Content);
+            }
         }
 
         /// <summary>
@@ -108,8 +125,15 @@ namespace Cave.Media.Audio.ID3
                     m_Content = ID3v2DeUnsync.Buffer(m_Content);
                 }
             }
-            if (m_Header.Flags.Compression) m_Content = Decompress(m_Content);
-            if (m_Header.Flags.Encryption) m_Content = Decrypt(m_Content);
+            if (m_Header.Flags.Compression)
+            {
+                m_Content = Decompress(m_Content);
+            }
+
+            if (m_Header.Flags.Encryption)
+            {
+                m_Content = Decrypt(m_Content);
+            }
         }
 
         #endregion
@@ -118,27 +142,27 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Gets the identifier.</summary>
         /// <value>The identifier.</value>
-        public string ID { get { return m_Header.ID; } }
+        public string ID => m_Header.ID;
 
         /// <summary>Gets the flags.</summary>
         /// <value>The flags.</value>
-        public ID3v2FrameFlags Flags { get { return m_Header.Flags; } }
+        public ID3v2FrameFlags Flags => m_Header.Flags;
 
         /// <summary>Gets the length of the raw data including header and body encoded, encrypted, compressed, ...</summary>
         /// <value>The length of the raw data.</value>
-        public int Length { get { return m_Header.HeaderSize + m_Header.ContentSize; } }
+        public int Length => m_Header.HeaderSize + m_Header.ContentSize;
 
         /// <summary>Gets the length of the content.</summary>
         /// <value>The length of the content.</value>
-        public int ContentLength { get { return m_Header.ContentSize; } }
+        public int ContentLength => m_Header.ContentSize;
 
         /// <summary>Gets the raw data.</summary>
         /// <value>The raw data.</value>
-        public byte[] RawData { get { return (byte[])m_Data.Clone(); } }
+        public byte[] RawData => (byte[])m_Data.Clone();
 
         /// <summary>Gets the content.</summary>
         /// <value>The content.</value>
-        public byte[] Content { get { return (byte[])m_Content.Clone(); } }
+        public byte[] Content => (byte[])m_Content.Clone();
 
         #endregion
 

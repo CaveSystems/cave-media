@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -10,7 +9,7 @@ namespace Cave.Media
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4 * 4)]
     public struct Vector4
-	{
+    {
         #region static constructors
         /// <summary>
         /// Parses a string and returns a new <see cref="Vector4"/>.
@@ -59,11 +58,13 @@ namespace Cave.Media
         /// <param name="w">w value</param>
         public static Vector4 Create(float x, float y, float z, float w)
         {
-            Vector4 l_Vector = new Vector4();
-            l_Vector.X = x;
-            l_Vector.Y = y;
-            l_Vector.Z = z;
-            l_Vector.W = w;
+            Vector4 l_Vector = new Vector4
+            {
+                X = x,
+                Y = y,
+                Z = z,
+                W = w
+            };
             return l_Vector;
         }
 
@@ -74,26 +75,30 @@ namespace Cave.Media
         /// <exception cref="ArgumentException">Number of values do not match!</exception>
         public static Vector4 Create(float[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (values.Length != 4) throw new ArgumentException(string.Format("Number of values do not match!"));
-            Vector4 l_Vector = new Vector4();
-            l_Vector.X = values[0];
-            l_Vector.Y = values[1];
-            l_Vector.Z = values[2];
-            l_Vector.W = values[3];
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
+            if (values.Length != 4)
+            {
+                throw new ArgumentException(string.Format("Number of values do not match!"));
+            }
+
+            Vector4 l_Vector = new Vector4
+            {
+                X = values[0],
+                Y = values[1],
+                Z = values[2],
+                W = values[3]
+            };
             return l_Vector;
         }
 
         /// <summary>
         /// Obtains an empty <see cref="Vector3"/> object
         /// </summary>
-        public static Vector4 Empty
-        {
-            get
-            {
-                return new Vector4();
-            }
-        }
+        public static Vector4 Empty => new Vector4();
 
         #endregion
 
@@ -124,7 +129,11 @@ namespace Cave.Media
         /// <returns></returns>
         public static bool operator ==(Vector4 A, Vector4 B)
         {
-            if (Equals(null, A)) return Equals(null, B);
+            if (Equals(null, A))
+            {
+                return Equals(null, B);
+            }
+
             return A.Equals(B);
         }
 
@@ -136,7 +145,11 @@ namespace Cave.Media
         /// <returns></returns>
         public static bool operator !=(Vector4 A, Vector4 B)
         {
-            if (Equals(null, A)) return !Equals(null, B);
+            if (Equals(null, A))
+            {
+                return !Equals(null, B);
+            }
+
             return !A.Equals(B);
         }
 
@@ -254,13 +267,7 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the length of the vector
         /// </summary>
-        public float Length
-        {
-            get
-            {
-                return (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
-            }
-        }
+        public float Length => (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
 
         /// <summary>
         /// Obtains a normalized version of the vector. (Length near 1.0f watch out for rounding errors!)
@@ -333,7 +340,11 @@ namespace Cave.Media
         /// <returns>Returns true if the specified object equals this one</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is Vector4)) return false;
+            if (!(obj is Vector4))
+            {
+                return false;
+            }
+
             Vector3 other = ((Vector4)obj).ToVector3();
             return ToVector3().Equals(other);
         }

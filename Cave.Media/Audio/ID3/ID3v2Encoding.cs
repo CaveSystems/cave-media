@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 using System.IO;
 using System.Text;
@@ -8,13 +7,13 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Provides available ID3v2 encodings
     /// </summary>
-    
+
     public sealed class ID3v2Encoding
     {
         /// <summary>
         /// Obtains the default encoding
         /// </summary>
-        public static Encoding ISO88591 { get { return Encoding.GetEncoding("ISO-8859-1"); } }
+        public static Encoding ISO88591 => Encoding.GetEncoding("ISO-8859-1");
 
         /// <summary>
         /// Obtains a specific encoding
@@ -73,7 +72,11 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static byte[] GetBytes(ID3v2EncodingType encoding, string value, bool termination)
         {
-            if (termination) value += "\0";
+            if (termination)
+            {
+                value += "\0";
+            }
+
             return Get(encoding).GetBytes(value);
         }
 
@@ -90,7 +93,7 @@ namespace Cave.Media.Audio.ID3
                 case ID3v2EncodingType.ISO88591_OLD:
                 case ID3v2EncodingType.ISO88591: return true;
 
-                case ID3v2EncodingType.Unicode: 
+                case ID3v2EncodingType.Unicode:
                 case ID3v2EncodingType.BigEndianUnicode: return false;
 
                 default: throw new NotSupportedException(string.Format("Encoding {0} is not supported!", encoding));
@@ -105,11 +108,19 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static int IndexOfNull16Bit(byte[] data, int start)
         {
-            if (data == null) throw new ArgumentNullException("Data");
+            if (data == null)
+            {
+                throw new ArgumentNullException("Data");
+            }
+
             int l_Index = start;
             while (l_Index < data.Length)
             {
-                if ((data[l_Index] == 0) && (data[l_Index + 1] == 0)) return l_Index;
+                if ((data[l_Index] == 0) && (data[l_Index + 1] == 0))
+                {
+                    return l_Index;
+                }
+
                 l_Index += 2;
             }
             return -1;
@@ -125,7 +136,11 @@ namespace Cave.Media.Audio.ID3
         /// <returns>Returns the number of bytes parsed</returns>
         public static int Parse(ID3v2EncodingType encoding, byte[] data, int index, out string text)
         {
-            if (data == null) throw new ArgumentNullException("Data");
+            if (data == null)
+            {
+                throw new ArgumentNullException("Data");
+            }
+
             int len;
             int l_MarkerLength;
             if (Is8Bit(encoding))
@@ -150,7 +165,11 @@ namespace Cave.Media.Audio.ID3
                 }
             }
             text = enc.GetString(data, index, len).Trim('\uFFFE', '\uFEFF', '\u200B', '\u180E', '\u202F', '\u205F', ' ', '\t');
-            if (text.StartsWith(ASCII.Strings.UTF8BOM)) text = text.Substring(ASCII.Strings.UTF8BOM.Length);
+            if (text.StartsWith(ASCII.Strings.UTF8BOM))
+            {
+                text = text.Substring(ASCII.Strings.UTF8BOM.Length);
+            }
+
             return len + l_MarkerLength;
         }
 
@@ -163,7 +182,11 @@ namespace Cave.Media.Audio.ID3
         public static int GetLength8BitString(byte[] data, int index)
         {
             int i = Array.IndexOf<byte>(data, 0, index);
-            if (i < 0) throw new InvalidDataException(string.Format("Error while parsing 8 bit character stream!"));
+            if (i < 0)
+            {
+                throw new InvalidDataException(string.Format("Error while parsing 8 bit character stream!"));
+            }
+
             return i - index;
         }
 
@@ -176,7 +199,11 @@ namespace Cave.Media.Audio.ID3
         public static int GetLength16BitString(byte[] data, int index)
         {
             int i = IndexOfNull16Bit(data, index);
-            if (i < 0) throw new InvalidDataException(string.Format("Error while parsing 16 bit character stream!"));
+            if (i < 0)
+            {
+                throw new InvalidDataException(string.Format("Error while parsing 16 bit character stream!"));
+            }
+
             return i - index;
         }
 

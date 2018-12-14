@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 
 namespace Cave.Media.Audio.MP3
@@ -66,7 +65,7 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Gets the channel count.</summary>
         /// <value>The channel count.</value>
-        public int ChannelCount { get { return Channels == MP3AudioFrameChannels.Mono ? 1 : 2; } }
+        public int ChannelCount => Channels == MP3AudioFrameChannels.Mono ? 1 : 2;
 
         /// <summary>
         /// Obtains the mode extension
@@ -244,7 +243,11 @@ namespace Cave.Media.Audio.MP3
                                 channelBytes = Channels == MP3AudioFrameChannels.Mono ? 9 : 17;
                                 break;
                         }
-                        if (!Protection) return l_FrameSize - channelBytes - 4;
+                        if (!Protection)
+                        {
+                            return l_FrameSize - channelBytes - 4;
+                        }
+
                         return l_FrameSize - channelBytes - 4 - 2;
                 }
             }
@@ -257,5 +260,5 @@ namespace Cave.Media.Audio.MP3
             return "MP3FrameHeader " + Version + " " + Layer + " " + BitRate + " kBit " + SamplingRate + " Hz " + Channels + " " + Length + " bytes (pad " + (Padding ? 1 : 0) + ", crc " + (Protection ? 2 : 0) + ")";
         }
 
-   }
+    }
 }

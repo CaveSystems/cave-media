@@ -1,5 +1,4 @@
-﻿using Cave.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Cave.Media.Lyrics

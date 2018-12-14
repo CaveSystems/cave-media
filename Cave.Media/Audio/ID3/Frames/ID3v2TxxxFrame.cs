@@ -1,9 +1,7 @@
-using Cave.IO;
-using Cave.Text;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
+using Cave.IO;
 
 namespace Cave.Media.Audio.ID3.Frames
 {
@@ -21,7 +19,7 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <exception cref="NotSupportedException"></exception>
         public static ID3v2TXXXFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string name, string value)
         {
-            ID3v2EncodingType encoding = ID3v2Encoding.Select(header, name + value);            
+            ID3v2EncodingType encoding = ID3v2Encoding.Select(header, name + value);
             //header, encoding[1], name+0, value+0
             byte[] nameBytes = ID3v2Encoding.GetBytes(encoding, name, true);
             byte[] valueBytes = ID3v2Encoding.GetBytes(encoding, value, true);
@@ -44,17 +42,20 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2TXXXFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "TXXX") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "TXXX"));
+            if (frame.ID != "TXXX")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "TXXX"));
+            }
+
             ParseData();
         }
 
         void ParseData()
         {
-            string name, value;
             int start = 0;
             EncodingType = (ID3v2EncodingType)m_Content[start++];
-            start += ID3v2Encoding.Parse(EncodingType, m_Content, start, out name);
-            start += ID3v2Encoding.Parse(EncodingType, m_Content, start, out value);
+            start += ID3v2Encoding.Parse(EncodingType, m_Content, start, out string name);
+            start += ID3v2Encoding.Parse(EncodingType, m_Content, start, out string value);
             if (start != m_Content.Length)
             {
                 Trace.WriteLine(string.Format("{0} bytes garbage at end of frame!", m_Content.Length - start));

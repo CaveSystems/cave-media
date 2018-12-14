@@ -1,6 +1,4 @@
-﻿using Cave.Text;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Reflection;
 
 namespace Cave
@@ -12,17 +10,16 @@ namespace Cave
     {
         /// <summary>Gets the type.</summary>
         /// <value>The type.</value>
-        public static Type Type { get { return typeof(CaveSystemMedia); } }
-
+        public static Type Type => typeof(CaveSystemMedia);
 
         /// <summary>
         /// Obtains the assembly
         /// </summary>
-        public static Assembly Assembly { get { return Type.Assembly; } }
+        public static Assembly Assembly => Type.Assembly;
 
         /// <summary>
         /// Obtains the <see cref="AssemblyVersionInfo"/> for the <see cref="Assembly"/>
         /// </summary>
-        public static AssemblyVersionInfo VersionInfo { get { return AssemblyVersionInfo.FromAssembly(Assembly); } }
+        public static AssemblyVersionInfo VersionInfo => AssemblyVersionInfo.FromAssembly(Assembly);
     }
 }

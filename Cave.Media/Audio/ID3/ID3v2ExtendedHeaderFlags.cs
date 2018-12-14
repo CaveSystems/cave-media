@@ -1,4 +1,3 @@
-using Cave.Text;
 using System;
 using System.IO;
 
@@ -27,8 +26,19 @@ namespace Cave.Media.Audio.ID3
         static byte[] ReadCRC32(byte[] data, ref int i)
         {
             byte[] buffer = ReadFlag(data, ref i);
-            if (buffer.Length != 5) throw new InvalidDataException(string.Format("Invalid CRC32 data!"));
-            for (int n = 0; n < 5; n++) if ((buffer[i] & 0x80) != 0) throw new InvalidDataException(string.Format("Invalid CRC32 data {0}!", StringExtensions.ToHexString(buffer)));
+            if (buffer.Length != 5)
+            {
+                throw new InvalidDataException(string.Format("Invalid CRC32 data!"));
+            }
+
+            for (int n = 0; n < 5; n++)
+            {
+                if ((buffer[i] & 0x80) != 0)
+                {
+                    throw new InvalidDataException(string.Format("Invalid CRC32 data {0}!", StringExtensions.ToHexString(buffer)));
+                }
+            }
+
             byte[] result = new byte[4];
             result[0] = (byte)((buffer[0] << 4) | ((buffer[1] >> 3) & 0xF));
             result[1] = (byte)((buffer[1] << 5) | ((buffer[2] >> 2) & 0x1F));
@@ -44,7 +54,11 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static ID3v2ExtendedHeaderFlags FromID3v23(byte[] extendedHeader)
         {
-            if (extendedHeader == null) throw new ArgumentNullException("ExtendedHeader");
+            if (extendedHeader == null)
+            {
+                throw new ArgumentNullException("ExtendedHeader");
+            }
+
             int index = 10;
             int l_ExtFlags = (extendedHeader[4] << 8) | extendedHeader[5];
             //crc present?
@@ -67,16 +81,30 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static ID3v2ExtendedHeaderFlags FromID3v24(byte[] extendedHeader)
         {
-            if (extendedHeader == null) throw new ArgumentNullException("ExtendedHeader");
-            if (extendedHeader[4] != 1) throw new InvalidDataException(string.Format("Invalid number of flag bytes!"));
+            if (extendedHeader == null)
+            {
+                throw new ArgumentNullException("ExtendedHeader");
+            }
+
+            if (extendedHeader[4] != 1)
+            {
+                throw new InvalidDataException(string.Format("Invalid number of flag bytes!"));
+            }
+
             int i = 6;
 
             //flag 1000 0000
-            if ((extendedHeader[5] & 0x80) != 0) SkipFlag(extendedHeader, ref i);
+            if ((extendedHeader[5] & 0x80) != 0)
+            {
+                SkipFlag(extendedHeader, ref i);
+            }
 
             //flag 0100 0000
             bool l_TagIsUpdate = (extendedHeader[5] & 0x40) != 0;
-            if (l_TagIsUpdate) SkipFlag(extendedHeader, ref i);
+            if (l_TagIsUpdate)
+            {
+                SkipFlag(extendedHeader, ref i);
+            }
 
             //flag 0010 0000
             byte[] cRC32;
@@ -98,7 +126,11 @@ namespace Cave.Media.Audio.ID3
             else
             {
                 byte[] bytes = ReadFlag(extendedHeader, ref i);
-                if (bytes.Length != 1) throw new InvalidDataException(string.Format("Invalid data length"));
+                if (bytes.Length != 1)
+                {
+                    throw new InvalidDataException(string.Format("Invalid data length"));
+                }
+
                 l_TagRestrictions = ID3v2ExtendedHeaderRestrictions.FromID3v24(bytes[0]);
             }
 
@@ -107,7 +139,11 @@ namespace Cave.Media.Audio.ID3
             {
                 SkipFlag(extendedHeader, ref i);
             }
-            if (i != extendedHeader.Length) throw new InvalidDataException(string.Format("Unexpected additional data at flag!"));
+            if (i != extendedHeader.Length)
+            {
+                throw new InvalidDataException(string.Format("Unexpected additional data at flag!"));
+            }
+
             return new ID3v2ExtendedHeaderFlags(l_TagIsUpdate, cRC32, l_TagRestrictions);
         }
 

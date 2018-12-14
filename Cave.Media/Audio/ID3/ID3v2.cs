@@ -6,32 +6,38 @@ using Cave.IO;
 using Cave.Media.Audio.ID3.Frames;
 using Cave.Media.Audio.MP3;
 using Cave.Media.Lyrics;
-using Cave.Text;
 
 namespace Cave.Media.Audio.ID3
 {
-	/// <summary>
-	/// Provides an ID3v2 tag implementation
-	/// </summary>
-	public sealed class ID3v2 : MP3MetaFrame
+    /// <summary>
+    /// Provides an ID3v2 tag implementation
+    /// </summary>
+    public sealed class ID3v2 : MP3MetaFrame
     {
         ID3v2ExtendedHeader m_ExtendedHeader = null;
         List<ID3v2Frame> m_Frames = new List<ID3v2Frame>(100);
         ID3v2Footer m_Footer = null;
         byte[] m_Data;
 
-		/// <summary>
-		/// Obtains the text of the first T* (not TXXX) frame with the specified ID
-		/// </summary>
-		/// <param name="frameID">ID of the frame</param>
-		/// <returns>Returns the text of the frame or an empty string</returns>
-		string GetTextFrameText(string frameID)
+        /// <summary>
+        /// Obtains the text of the first T* (not TXXX) frame with the specified ID
+        /// </summary>
+        /// <param name="frameID">ID of the frame</param>
+        /// <returns>Returns the text of the frame or an empty string</returns>
+        string GetTextFrameText(string frameID)
         {
             foreach (ID3v2Frame frame in m_Frames)
             {
-                if (frame.ID != frameID) continue;
+                if (frame.ID != frameID)
+                {
+                    continue;
+                }
+
                 ID3v2TextFrame textFrame = frame as ID3v2TextFrame;
-                if (textFrame != null) return textFrame.Text;
+                if (textFrame != null)
+                {
+                    return textFrame.Text;
+                }
             }
             return "";
         }
@@ -41,9 +47,16 @@ namespace Cave.Media.Audio.ID3
         {
             while (reader.State == ID3v2ReaderState.ReadFrames)
             {
-                ID3v2Frame frame;
-                if (!reader.ReadFrame(out frame)) return false;
-                if (frame == null) continue;
+                if (!reader.ReadFrame(out ID3v2Frame frame))
+                {
+                    return false;
+                }
+
+                if (frame == null)
+                {
+                    continue;
+                }
+
                 switch (frame.ID)
                 {
                     case "COM": /* TODO */ break;
@@ -58,27 +71,30 @@ namespace Cave.Media.Audio.ID3
                 m_Frames.Add(frame);
             }
             return true;
-        }		
+        }
 
         bool ParseFrames(ID3v2Reader reader)
         {
             while (reader.State == ID3v2ReaderState.ReadFrames)
             {
-                ID3v2Frame frame;
-                if (!reader.ReadFrame(out frame))
+                if (!reader.ReadFrame(out ID3v2Frame frame))
                 {
                     if (m_Frames.Count > 0)
                     {
-						if (reader.Available > 0)
-						{
-							Trace.WriteLine(string.Format("Invalid frame in id3v2 tag, ignoring remaining data of {0} bytes.", reader.Available));
-							ParserError = true;
-						}
-						return true;
+                        if (reader.Available > 0)
+                        {
+                            Trace.WriteLine(string.Format("Invalid frame in id3v2 tag, ignoring remaining data of {0} bytes.", reader.Available));
+                            ParserError = true;
+                        }
+                        return true;
                     }
                     return false;
                 }
-                if (frame == null) continue;
+                if (frame == null)
+                {
+                    continue;
+                }
+
                 switch (frame.ID)
                 {
                     case "APIC": frame = new ID3v2APICFrame(frame); break;
@@ -122,24 +138,33 @@ namespace Cave.Media.Audio.ID3
             ID3v2Reader reader = new ID3v2Reader(frameReader);
             //read header
             Header = reader.ReadHeader(out m_Data);
-            if (Header == null) return false;
+            if (Header == null)
+            {
+                return false;
+            }
 
             //read extended header (may be null)
-            if (!reader.ReadExtendedHeader(out m_ExtendedHeader)) return false;
+            if (!reader.ReadExtendedHeader(out m_ExtendedHeader))
+            {
+                return false;
+            }
 
             //read frames
             switch (Header.Version)
             {
-                case 2: if (!ParseFramesV2(reader)) return false; break;
+                case 2: if (!ParseFramesV2(reader)) { return false; } break;
                 case 3:
-                case 4: if (!ParseFrames(reader)) return false; break;
+                case 4: if (!ParseFrames(reader)) { return false; } break;
                 default: return false;
             }
 
             //read footer
             if (reader.State == ID3v2ReaderState.ReadFooter)
             {
-                if (!reader.ReadFooter(out m_Footer)) return false;
+                if (!reader.ReadFooter(out m_Footer))
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -155,7 +180,11 @@ namespace Cave.Media.Audio.ID3
         {
             foreach (ID3v2Frame f in m_Frames)
             {
-                if (id != null && !string.Equals(f.ID, id, StringComparison.InvariantCultureIgnoreCase)) continue;
+                if (id != null && !string.Equals(f.ID, id, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continue;
+                }
+
                 if (f is T) { frame = (T)f; return true; }
             }
             frame = default(T);
@@ -171,8 +200,16 @@ namespace Cave.Media.Audio.ID3
             foreach (ID3v2Frame f in m_Frames)
             {
                 frame = f as ID3v2TXXXFrame;
-                if (frame == null) continue;
-                if (!string.Equals(name, frame.Name, StringComparison.InvariantCultureIgnoreCase)) continue;
+                if (frame == null)
+                {
+                    continue;
+                }
+
+                if (!string.Equals(name, frame.Name, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continue;
+                }
+
                 return true;
             }
             frame = default(ID3v2TXXXFrame);
@@ -188,8 +225,15 @@ namespace Cave.Media.Audio.ID3
             List<T> result = new List<T>();
             foreach (ID3v2Frame f in m_Frames)
             {
-                if (id != null && !string.Equals(f.ID, id, StringComparison.InvariantCultureIgnoreCase)) continue;
-                if (f is T) result.Add((T)f);
+                if (id != null && !string.Equals(f.ID, id, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continue;
+                }
+
+                if (f is T)
+                {
+                    result.Add((T)f);
+                }
             }
             return result.ToArray();
         }
@@ -201,29 +245,35 @@ namespace Cave.Media.Audio.ID3
         {
             foreach (ID3v2APICFrame frame in GetFrames<ID3v2APICFrame>("APIC"))
             {
-                if (frame.PictureType == type) return frame;
+                if (frame.PictureType == type)
+                {
+                    return frame;
+                }
             }
             return null;
         }
-		#endregion
+        #endregion
 
-		#region public properties
-		/// <summary>Gets a value indicating whether a parser error occured.</summary>
-		/// <value><c>true</c> if a parser error within the tag; otherwise, <c>false</c>.</value>
-		public bool ParserError { get; private set; }
+        #region public properties
+        /// <summary>Gets a value indicating whether a parser error occured.</summary>
+        /// <value><c>true</c> if a parser error within the tag; otherwise, <c>false</c>.</value>
+        public bool ParserError { get; private set; }
 
-		/// <summary>
-		/// Gets the mood.
-		/// </summary>
-		/// <value>
-		/// The mood.
-		/// </value>
-		public string[] Moods
+        /// <summary>
+        /// Gets the mood.
+        /// </summary>
+        /// <value>
+        /// The mood.
+        /// </value>
+        public string[] Moods
         {
             get
             {
-                ID3v2TXXXFrame mood;
-                if (TryGetTXXXFrame("albummood", out mood)) return mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                if (TryGetTXXXFrame("albummood", out ID3v2TXXXFrame mood))
+                {
+                    return mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                }
+
                 return new string[0];
             }
         }
@@ -235,10 +285,12 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                ID3v2TXXXFrame acoustid;
-                if (TryGetTXXXFrame("Acoustid Id", out acoustid))
+                if (TryGetTXXXFrame("Acoustid Id", out ID3v2TXXXFrame acoustid))
                 {
-					if (BinaryGuid.TryParse(acoustid.Value, out BinaryGuid g)) return g;
+                    if (BinaryGuid.TryParse(acoustid.Value, out BinaryGuid g))
+                    {
+                        return g;
+                    }
                 }
                 return null;
             }
@@ -250,11 +302,13 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                ID3v2TXXXFrame frame;
-                if (TryGetTXXXFrame("MusicBrainz Artist Id", out frame))
+                if (TryGetTXXXFrame("MusicBrainz Artist Id", out ID3v2TXXXFrame frame))
                 {
-					string val = frame.Value.Split(';', ',', '/', ' ')[0];
-					if (BinaryGuid.TryParse(val, out BinaryGuid g)) return g;
+                    string val = frame.Value.Split(';', ',', '/', ' ')[0];
+                    if (BinaryGuid.TryParse(val, out BinaryGuid g))
+                    {
+                        return g;
+                    }
                 }
                 return null;
             }
@@ -266,27 +320,31 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                ID3v2TXXXFrame frame;
-                if (TryGetTXXXFrame("MusicBrainz Album Artist Id", out frame))
+                if (TryGetTXXXFrame("MusicBrainz Album Artist Id", out ID3v2TXXXFrame frame))
                 {
-					string val = frame.Value.Split(';', ',', '/', ' ')[0];
-					if (BinaryGuid.TryParse(val, out BinaryGuid g)) return g;
+                    string val = frame.Value.Split(';', ',', '/', ' ')[0];
+                    if (BinaryGuid.TryParse(val, out BinaryGuid g))
+                    {
+                        return g;
+                    }
                 }
                 return null;
             }
         }
-        
+
         /// <summary>Gets the music brainz album identifier.</summary>
         /// <value>The music brainz album identifier.</value>
         public BinaryGuid MusicBrainzAlbumId
         {
             get
             {
-                ID3v2TXXXFrame frame;
-                if (TryGetTXXXFrame("MusicBrainz Album Id", out frame))
+                if (TryGetTXXXFrame("MusicBrainz Album Id", out ID3v2TXXXFrame frame))
                 {
-					if (BinaryGuid.TryParse(frame.Value, out BinaryGuid g)) return g;
-				}
+                    if (BinaryGuid.TryParse(frame.Value, out BinaryGuid g))
+                    {
+                        return g;
+                    }
+                }
                 return null;
             }
         }
@@ -297,29 +355,25 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                ID3v2TXXXFrame frame;
-                if (TryGetTXXXFrame("MusicBrainz Release Group Id", out frame))
+                if (TryGetTXXXFrame("MusicBrainz Release Group Id", out ID3v2TXXXFrame frame))
                 {
-					if (BinaryGuid.TryParse(frame.Value, out BinaryGuid g)) return g;
-				}
+                    if (BinaryGuid.TryParse(frame.Value, out BinaryGuid g))
+                    {
+                        return g;
+                    }
+                }
                 return null;
             }
         }
 
         /// <summary>Gets or sets the cover front bitmap.</summary>
         /// <value>The cover front bitmap.</value>
-        public ID3v2APICFrame CoverFront
-        {
-            get
-            {
-                return GetPictureFrame(ID3v2PictureType.CoverFront);
-            }
-        }
+        public ID3v2APICFrame CoverFront => GetPictureFrame(ID3v2PictureType.CoverFront);
 
         /// <summary>
         /// Obtains the ID3v2.x version with 2 &lt;= x &lt;= 4
         /// </summary>
-        public byte Version { get { return Header.Version; } }
+        public byte Version => Header.Version;
 
         /// <summary>
         /// Obtains whether a date frame has been set or not
@@ -331,7 +385,7 @@ namespace Cave.Media.Audio.ID3
                 int year = 0;
                 {
                     string yyyy = GetTextFrameText("TYER");
-                    if (yyyy != null) 
+                    if (yyyy != null)
                     {
                         int.TryParse(yyyy, out year);
                     }
@@ -355,7 +409,10 @@ namespace Cave.Media.Audio.ID3
                         int.TryParse(yyyy, out year);
                     }
                 }
-                if (year == 0) return default(DateTime);
+                if (year == 0)
+                {
+                    return default(DateTime);
+                }
 
                 int hour = 0;
                 int min = 0;
@@ -377,8 +434,15 @@ namespace Cave.Media.Audio.ID3
                         int.TryParse(ddMM.Substring(0, 2), out day);
                         int.TryParse(ddMM.Substring(2), out month);
                     }
-                    if (day < 1) day = 1;
-                    if (month < 1) month = 1;
+                    if (day < 1)
+                    {
+                        day = 1;
+                    }
+
+                    if (month < 1)
+                    {
+                        month = 1;
+                    }
                 }
 
                 return new DateTime(year, month, day, hour, min, 0);
@@ -389,37 +453,37 @@ namespace Cave.Media.Audio.ID3
         /// The 'Content group description' frame is used if the sound belongs to a larger category of sounds/music. For example, classical music is often sorted in different musical sections (e.g. "Piano Concerto", "Weather - Hurricane").
         /// or the series name at audio books
         /// </summary>
-        public string Group { get { return GetTextFrameText("TIT1"); } }
+        public string Group => GetTextFrameText("TIT1");
 
         /// <summary>
         /// The 'Title/Songname/Content description' frame is the actual name of the piece (e.g. "Adagio", "Hurricane Donna").
         /// </summary>
-        public string Title { get { return GetTextFrameText("TIT2"); } }
+        public string Title => GetTextFrameText("TIT2");
 
         /// <summary>
         /// The 'Subtitle/Description refinement' frame is used for information directly related to the contents title (e.g. "Op. 16" or "Performed live at Wembley").
         /// </summary>
-        public string SubTitle { get { return GetTextFrameText("TIT3"); } }
+        public string SubTitle => GetTextFrameText("TIT3");
 
         /// <summary>
         /// The 'Album/Movie/Show title' frame is intended for the title of the recording(/source of sound) which the audio in the file is taken from.
         /// </summary>
-        public string Album { get { return GetTextFrameText("TALB"); } }
+        public string Album => GetTextFrameText("TALB");
 
         /// <summary>
         /// The 'Lead artist(s)/Lead performer(s)/Soloist(s)/Performing group' is used for the main artist(s). They are seperated with the "/" character.
         /// </summary>
-        public string SongArtist { get { return GetTextFrameText("TPE1"); } }
+        public string SongArtist => GetTextFrameText("TPE1");
 
         /// <summary>
         /// The 'Band/orchestra/accompaniment' is used for the album/recording artist(s). They are seperated with the "/" character.
         /// </summary>
-        public string AlbumArtist { get { return GetTextFrameText("TPE2"); } }
+        public string AlbumArtist => GetTextFrameText("TPE2");
 
         /// <summary>
         /// The 'Interpreted, remixed, or otherwise modified by' frame contains more information about the people behind a remix and similar interpretations of another existing piece.
         /// </summary>
-        public string Performer { get { return GetTextFrameText("TPE4"); } }
+        public string Performer => GetTextFrameText("TPE4");
 
         /// <summary>
         /// Obtains the content types (genres)
@@ -429,7 +493,11 @@ namespace Cave.Media.Audio.ID3
             get
             {
                 string str = GetTextFrameText("TCON");
-                if (str == null) return new string[0];
+                if (str == null)
+                {
+                    return new string[0];
+                }
+
                 string[] parts = str.Split('(', '/');
                 List<string> result = new List<string>();
                 for (int i = 0; i < parts.Length; i++)
@@ -448,8 +516,7 @@ namespace Cave.Media.Audio.ID3
                             case "RX": result.Add("Remix"); continue;
                             case "CR": result.Add("Cover"); continue;
                         }
-                        uint l_GenreCode;
-                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out l_GenreCode))
+                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out uint l_GenreCode))
                         {
                             if (l_GenreCode < ID3v1.Genres.Length)
                             {
@@ -468,10 +535,7 @@ namespace Cave.Media.Audio.ID3
         /// The 'Track number/Position in set' frame is a numeric string containing the order number of the audio-file on its original recording. 
         /// This may be extended with a "/" character and a numeric string containing the total numer of tracks/elements on the original recording. E.g. "4/9".
         /// </summary>
-        public string Track
-        {
-            get { return GetTextFrameText("TRCK"); }
-        }
+        public string Track => GetTextFrameText("TRCK");
 
         /// <summary>Gets or sets the track number.</summary>
         /// <value>The track number.</value>
@@ -524,7 +588,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Obtains all frames currently present at the tag
         /// </summary>
-        public ID3v2Frame[] Frames { get { return m_Frames.ToArray(); } }
+        public ID3v2Frame[] Frames => m_Frames.ToArray();
 
         /// <summary>Gets or sets the lyrics.</summary>
         /// <value>The lyrics.</value>
@@ -532,8 +596,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                ID3v2XSLTFrame frame;
-                if (TryGetFrame("XSLT", out frame))
+                if (TryGetFrame("XSLT", out ID3v2XSLTFrame frame))
                 {
                     return SynchronizedLyrics.FromData(frame.Content);
                 }
@@ -545,27 +608,18 @@ namespace Cave.Media.Audio.ID3
         /// Obtains an array with the data for this instance
         /// </summary>
         /// <returns></returns>
-        public override byte[] Data { get { return m_Data; } }
+        public override byte[] Data => m_Data;
 
         /// <summary>
         /// Length of the frame in bytes
         /// </summary>
-        public override int Length
-        {
-            get
-            {
-                return Header.BodySize + Header.Length;
-            }
-        }
+        public override int Length => Header.BodySize + Header.Length;
 
         /// <summary>
         /// Returns false.
         /// </summary>
-        public override bool IsFixedLength
-        {
-            get { return false; }
-        }
-#endregion
+        public override bool IsFixedLength => false;
+        #endregion
 
         /// <summary>
         /// Returns the full tag as string

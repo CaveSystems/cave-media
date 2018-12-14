@@ -1,16 +1,15 @@
-using Cave.Text;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace Cave.Media
 {
-	/// <summary>
-	/// Provides a simple 3d vector based on float values
-	/// </summary>
-	[StructLayout(LayoutKind.Explicit, Size = 3 * 4)]
-	public struct Vector3
-	{
+    /// <summary>
+    /// Provides a simple 3d vector based on float values
+    /// </summary>
+    [StructLayout(LayoutKind.Explicit, Size = 3 * 4)]
+    public struct Vector3
+    {
         #region static constructors
         /// <summary>
         /// Parses a string and returns a new <see cref="Vector3"/>.
@@ -58,10 +57,12 @@ namespace Cave.Media
         /// <param name="z">z value</param>
         public static Vector3 Create(float x, float y, float z)
         {
-            Vector3 l_Vector = new Vector3();
-            l_Vector.X = x;
-            l_Vector.Y = y;
-            l_Vector.Z = z;
+            Vector3 l_Vector = new Vector3
+            {
+                X = x,
+                Y = y,
+                Z = z
+            };
             return l_Vector;
         }
 
@@ -72,25 +73,29 @@ namespace Cave.Media
         /// <exception cref="ArgumentException">Number of values do not match!</exception>
         public static Vector3 Create(float[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (values.Length != 3) throw new ArgumentException(string.Format("Number of values do not match!"));
-            Vector3 l_Vector = new Vector3();
-            l_Vector.X = values[0];
-            l_Vector.Y = values[1];
-            l_Vector.Z = values[2];
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
+            if (values.Length != 3)
+            {
+                throw new ArgumentException(string.Format("Number of values do not match!"));
+            }
+
+            Vector3 l_Vector = new Vector3
+            {
+                X = values[0],
+                Y = values[1],
+                Z = values[2]
+            };
             return l_Vector;
         }
 
         /// <summary>
         /// Obtains an empty <see cref="Vector3"/> object
         /// </summary>
-        public static Vector3 Empty
-        {
-            get
-            {
-                return new Vector3();
-            }
-        }
+        public static Vector3 Empty => new Vector3();
 
         #endregion
 
@@ -117,7 +122,11 @@ namespace Cave.Media
         /// <returns></returns>
         public static bool operator ==(Vector3 A, Vector3 B)
         {
-            if (Equals(null, A)) return Equals(null, B);
+            if (Equals(null, A))
+            {
+                return Equals(null, B);
+            }
+
             return A.Equals(B);
         }
 
@@ -129,7 +138,11 @@ namespace Cave.Media
         /// <returns></returns>
         public static bool operator !=(Vector3 A, Vector3 B)
         {
-            if (Equals(null, A)) return !Equals(null, B);
+            if (Equals(null, A))
+            {
+                return !Equals(null, B);
+            }
+
             return !A.Equals(B);
         }
 
@@ -247,19 +260,13 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the length of the vector
         /// </summary>
-        public float Length { get { return (float)Math.Sqrt(X * X + Y * Y + Z * Z); } }
+        public float Length => (float)Math.Sqrt(X * X + Y * Y + Z * Z);
 
         /// <summary>
         /// Obtains a normalized version of the vector. (Length near 1.0f watch out for rounding errors!)
         /// </summary>
         /// <returns>Returns the normalized version of this vector</returns>
-        public Vector3 Normalized
-        {
-            get
-            {
-                return Create(X, Y, Z) / Length;
-            }
-        }
+        public Vector3 Normalized => Create(X, Y, Z) / Length;
 
         /// <summary>
         /// Retrieves the vector values as array
@@ -297,7 +304,11 @@ namespace Cave.Media
         /// <returns>Returns true if the specified object equals this one</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is Vector3)) return false;
+            if (!(obj is Vector3))
+            {
+                return false;
+            }
+
             Vector3 other = (Vector3)obj;
             return (other.X == X) && (other.Y == Y) && (other.Z == Z);
         }

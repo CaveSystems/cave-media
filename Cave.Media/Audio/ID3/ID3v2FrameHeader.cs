@@ -1,5 +1,4 @@
-﻿using Cave.Text;
-using System;
+﻿using System;
 using System.IO;
 
 namespace Cave.Media.Audio.ID3
@@ -19,7 +18,7 @@ namespace Cave.Media.Audio.ID3
             switch (header.Version)
             {
                 case 2: return 6;
-                case 3: 
+                case 3:
                 case 4: return 10;
                 default: throw new NotSupportedException(string.Format("Unsupported ID3v2 Version {0}", header.Version));
             }
@@ -53,17 +52,25 @@ namespace Cave.Media.Audio.ID3
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion4(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
-            if (id.Length != 4) throw new ArgumentException("Invalid identifier!", nameof(id));
+            if (id.Length != 4)
+            {
+                throw new ArgumentException("Invalid identifier!", nameof(id));
+            }
+
             byte[] data = ASCII.GetBytes(id + "      ");
             ushort f = (ushort)flags.ToID3v2d4Flags();
             data[9] = (byte)(f & 0xFF);
             data[8] = (byte)(f >> 8);
-            for(int i = 7; i >= 4; i--)
+            for (int i = 7; i >= 4; i--)
             {
                 data[i] = (byte)(contentSize & 0x7F);
                 contentSize >>= 7;
             }
-            if (contentSize > 0) throw new ArgumentOutOfRangeException(nameof(contentSize));
+            if (contentSize > 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contentSize));
+            }
+
             return new ID3v2FrameHeader(header, data);
         }
 
@@ -77,7 +84,11 @@ namespace Cave.Media.Audio.ID3
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion3(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
-            if (id.Length != 4) throw new ArgumentException("Invalid identifier!", nameof(id));
+            if (id.Length != 4)
+            {
+                throw new ArgumentException("Invalid identifier!", nameof(id));
+            }
+
             byte[] data = ASCII.GetBytes(id + "      ");
             ushort f = (ushort)flags.ToID3v2d3Flags();
             data[9] = (byte)(f & 0xFF);
@@ -87,7 +98,11 @@ namespace Cave.Media.Audio.ID3
                 data[i] = (byte)(contentSize & 0xFF);
                 contentSize >>= 8;
             }
-            if (contentSize > 0) throw new ArgumentOutOfRangeException(nameof(contentSize));
+            if (contentSize > 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contentSize));
+            }
+
             return new ID3v2FrameHeader(header, data);
         }
 
@@ -100,14 +115,22 @@ namespace Cave.Media.Audio.ID3
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion2(ID3v2Header header, string id, int contentSize)
         {
-            if (id.Length != 3) throw new ArgumentException("Invalid identifier!", nameof(id));
+            if (id.Length != 3)
+            {
+                throw new ArgumentException("Invalid identifier!", nameof(id));
+            }
+
             byte[] data = ASCII.GetBytes(id + "  ");
             for (int i = 5; i >= 3; i--)
             {
                 data[i] = (byte)(contentSize & 0xFF);
                 contentSize >>= 8;
             }
-            if (contentSize > 0) throw new ArgumentOutOfRangeException(nameof(contentSize));
+            if (contentSize > 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contentSize));
+            }
+
             return new ID3v2FrameHeader(header, data);
         }
         #endregion
@@ -140,7 +163,11 @@ namespace Cave.Media.Audio.ID3
             ID3v2d3FrameFlags flags = (ID3v2d3FrameFlags)((data[8] << 8) | data[9]);
             Flags = ID3v2FrameFlags.FromID3v2d3(flags);
             int size = 0;
-            for (int i = 4; i < 8; i++) size = ((size << 8) | data[i]);
+            for (int i = 4; i < 8; i++)
+            {
+                size = ((size << 8) | data[i]);
+            }
+
             ContentSize = size;
         }
 
@@ -150,14 +177,18 @@ namespace Cave.Media.Audio.ID3
             ID = ASCII.GetString(data, 0, 3);
             Flags = new ID3v2FrameFlags();
             int size = 0;
-            for (int i = 3; i < 6; i++) size = ((size << 8) | data[i]);
+            for (int i = 3; i < 6; i++)
+            {
+                size = ((size << 8) | data[i]);
+            }
+
             ContentSize = size;
         }
         #endregion
 
         /// <summary>Gets the data.</summary>
         /// <value>The data.</value>
-        public byte[] Data { get { return (byte[])m_Data.Clone(); } }
+        public byte[] Data => (byte[])m_Data.Clone();
 
         /// <summary>Gets the global tag header.</summary>
         /// <value>The tag header.</value>

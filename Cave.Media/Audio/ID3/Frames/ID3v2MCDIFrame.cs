@@ -1,5 +1,3 @@
-using Cave.Collections.Generic;
-using Cave.Text;
 using System;
 
 namespace Cave.Media.Audio.ID3.Frames
@@ -14,30 +12,21 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2MCDIFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "MCDI") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "MCDI"));
+            if (frame.ID != "MCDI")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "MCDI"));
+            }
         }
 
         /// <summary>
         /// Obtains the TOC
         /// </summary>
-        public byte[] TOC
-        {
-            get
-            {
-                return (byte[])m_Content.Clone();
-            }
-        }
+        public byte[] TOC => (byte[])m_Content.Clone();
 
         /// <summary>
         /// Returns the TOC as hexadecimal string
         /// </summary>
-        public string HexTOC
-        {
-            get
-            {
-                return StringExtensions.ToHexString(m_Content);
-            }
-        }
+        public string HexTOC => StringExtensions.ToHexString(m_Content);
 
         /// <summary>
         /// Obtains a string describing this frame
