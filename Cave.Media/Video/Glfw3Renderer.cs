@@ -73,6 +73,7 @@ namespace Cave.Media.Video
 					gl2.DeleteTextures(1, ref texture);
 					texture = 0;
 					renderer.CheckErrors("DeleteTextures");
+                    TextureSize = Vector2.Empty;
 				}
 			}
 
@@ -81,31 +82,61 @@ namespace Cave.Media.Video
 			public override bool IsStreamingTexture { get; protected set; }
 			public override Vector2 TextureSize { get; protected set; }
 
+            private void LoadNewTexture(Bitmap32 image)
+            {
+                DeleteTexture();
+                CreateTexture();
+
+                Trace.TraceInformation("Generating Texture...");
+                gl2.BindTexture(GL._TEXTURE_2D, texture);
+                renderer.CheckErrors("BindTexture");
+
+                Trace.TraceInformation("retrieve raw pixels...");
+                int[] pixels = image.Data.Data;
+
+                Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
+                gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+                renderer.CheckErrors("TexImage2D");
+
+
+                // Probably not needed.. to check
+                //  Trace.TraceInformation("bind texture to attribute...");
+                //  gl2.Uniform1i(renderer.shaderTextureData, 0);
+                //  renderer.CheckErrors("Uniform1i");
+
+            }
+
+            private void UpdateTexture(Bitmap32 image)
+            {
+                Trace.TraceInformation("Updating Texture...");
+                gl2.BindTexture(GL._TEXTURE_2D, texture);
+                renderer.CheckErrors("BindTexture");
+
+                Trace.TraceInformation("retrieve raw pixels...");
+                int[] pixels = image.Data.Data;
+
+                Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
+                gl2.TexSubImage2D(GL._TEXTURE_2D, 0, 0, 0, image.Width, image.Height, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+              //  gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+                renderer.CheckErrors("TexSubImage2D");
+            }
+
 			public override void LoadTexture(Bitmap32 image)
 			{
-				DeleteTexture();
-				CreateTexture();
-
-				if (renderer.MaxTextureSize > 0)
-				{
-					if (image.Width > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Width > {0}", renderer.MaxTextureSize));
-					if (image.Height > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Height > {0}", renderer.MaxTextureSize));
-				}
-
-				Trace.TraceInformation("Generating Texture...");
-				gl2.BindTexture(GL._TEXTURE_2D, texture);
-				renderer.CheckErrors("BindTexture");
-
-				Trace.TraceInformation("retrieve raw pixels...");
-				int[] pixels = image.Data.Data;
-
-				Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
-				gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
-				renderer.CheckErrors("TexImage2D");
-
-				Trace.TraceInformation("bind texture to attribute...");
-				gl2.Uniform1i(renderer.shaderTextureData, 0);
-				renderer.CheckErrors("Uniform1i");
+                if (renderer.MaxTextureSize > 0)
+                {
+                    if (image.Width > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Width > {0}", renderer.MaxTextureSize));
+                    if (image.Height > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Height > {0}", renderer.MaxTextureSize));
+                }
+                
+                if ((TextureSize.X > 0) && (TextureSize.Y > 0) && (TextureSize.X == image.Width) && (TextureSize.Y == image.Height))
+                {
+                    UpdateTexture(image);
+                }
+                else
+                {
+                    LoadNewTexture(image);
+                }
 
 				TextureSize = Vector2.Create(image.Width, image.Height);
 			}
