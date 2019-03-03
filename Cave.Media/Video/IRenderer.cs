@@ -35,6 +35,12 @@ namespace Cave.Media.Video
         /// Obtains the resolution (in pixel) of the renderers backbuffer surface
         /// </summary>
         Vector2 Resolution { get; }
+
+
+        /// <summary>
+        /// gets or sets the aspect correction mode
+        /// </summary>
+        AspectCorrectionMode AspectCorrection { get; set; }
        
         /// <summary>
         /// Closes the renderer

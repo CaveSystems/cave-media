@@ -100,6 +100,7 @@ namespace Cave.Media.Video
             }
         }
 
+        /// <inheritdoc/>
 		public string LogSourceName => "RenderText";
 
 		/// <summary>

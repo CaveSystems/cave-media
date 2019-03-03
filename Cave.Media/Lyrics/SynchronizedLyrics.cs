@@ -145,6 +145,7 @@ namespace Cave.Media.Lyrics
                 catch (Exception ex)
                 {
                     Trace.TraceError("Error playing synchronized lyrics item {0} {1}", m_CurrentPosition, item);
+                    Trace.TraceError(ex.ToString());
                 }
             }
         }

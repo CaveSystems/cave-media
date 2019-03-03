@@ -5866,7 +5866,7 @@ namespace Cave.Media.OpenGL
 			}
 		}
 
-		public static void TexSubImage2D(GL target, Int32 level, Int32 xoffset, Int32 yoffset, Int32 width, Int32 height, int format, GL type, IntPtr pixels)
+		public static void TexSubImage2D(GL target, Int32 level, Int32 xoffset, Int32 yoffset, Int32 width, Int32 height, GL format, GL type, IntPtr pixels)
 		{
 			unsafe
 			{
@@ -5874,7 +5874,7 @@ namespace Cave.Media.OpenGL
 			}
 		}
 
-		public static void TexSubImage2D(GL target, Int32 level, Int32 xoffset, Int32 yoffset, Int32 width, Int32 height, int format, GL type, [In, Out] object pixels)
+		public static void TexSubImage2D(GL target, Int32 level, Int32 xoffset, Int32 yoffset, Int32 width, Int32 height, GL format, GL type, [In, Out] object pixels)
 		{
 			unsafe
 			{

@@ -156,6 +156,7 @@ namespace Cave.Media.Audio.ID3
             catch (Exception ex)
             {
                 Trace.TraceError("Error parsing id3 frame.");
+                Trace.TraceError(ex.ToString());
                 return false;
             }
             return true;

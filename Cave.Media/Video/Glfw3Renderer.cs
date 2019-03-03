@@ -73,6 +73,7 @@ namespace Cave.Media.Video
 					gl2.DeleteTextures(1, ref texture);
 					texture = 0;
 					renderer.CheckErrors("DeleteTextures");
+                    TextureSize = Vector2.Empty;
 				}
 			}
 
@@ -81,31 +82,53 @@ namespace Cave.Media.Video
 			public override bool IsStreamingTexture { get; protected set; }
 			public override Vector2 TextureSize { get; protected set; }
 
+            void LoadNewTexture(Bitmap32 image)
+            {
+                DeleteTexture();
+                CreateTexture();
+
+                Trace.TraceInformation("Generating Texture...");
+                gl2.BindTexture(GL._TEXTURE_2D, texture);
+                renderer.CheckErrors("BindTexture");
+
+                Trace.TraceInformation("retrieve raw pixels...");
+                int[] pixels = image.Data.Data;
+
+                Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
+                gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+                renderer.CheckErrors("TexImage2D");
+            }
+
+            void UpdateTexture(Bitmap32 image)
+            {
+                Trace.TraceInformation("Updating Texture...");
+                gl2.BindTexture(GL._TEXTURE_2D, texture);
+                renderer.CheckErrors("BindTexture");
+
+                Trace.TraceInformation("retrieve raw pixels...");
+                int[] pixels = image.Data.Data;
+
+                Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
+                gl2.TexSubImage2D(GL._TEXTURE_2D, 0, 0, 0, image.Width, image.Height, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+                renderer.CheckErrors("TexSubImage2D");
+            }
+
 			public override void LoadTexture(Bitmap32 image)
 			{
-				DeleteTexture();
-				CreateTexture();
-
-				if (renderer.MaxTextureSize > 0)
-				{
-					if (image.Width > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Width > {0}", renderer.MaxTextureSize));
-					if (image.Height > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Height > {0}", renderer.MaxTextureSize));
-				}
-
-				Trace.TraceInformation("Generating Texture...");
-				gl2.BindTexture(GL._TEXTURE_2D, texture);
-				renderer.CheckErrors("BindTexture");
-
-				Trace.TraceInformation("retrieve raw pixels...");
-				int[] pixels = image.Data.Data;
-
-				Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
-				gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
-				renderer.CheckErrors("TexImage2D");
-
-				Trace.TraceInformation("bind texture to attribute...");
-				gl2.Uniform1i(renderer.shaderTextureData, 0);
-				renderer.CheckErrors("Uniform1i");
+                if (renderer.MaxTextureSize > 0)
+                {
+                    if (image.Width > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Width > {0}", renderer.MaxTextureSize));
+                    if (image.Height > renderer.MaxTextureSize) throw new Exception(string.Format("Maximum pixel size exceeded! Height > {0}", renderer.MaxTextureSize));
+                }
+                
+                if ((TextureSize.X > 0) && (TextureSize.Y > 0) && (TextureSize.X == image.Width) && (TextureSize.Y == image.Height))
+                {
+                    UpdateTexture(image);
+                }
+                else
+                {
+                    LoadNewTexture(image);
+                }
 
 				TextureSize = Vector2.Create(image.Width, image.Height);
 			}
@@ -144,7 +167,8 @@ namespace Cave.Media.Video
 		glfw3.Window window;
 		bool disposedValue = false;
 		glfw3.WindowCloseFunc funcWindowClose;
-		glfw3.FramebufferSizeFunc funcWindowChanged;
+		glfw3.FramebufferSizeFunc funcWindowChange;
+        glfw3.MouseButtonFunc funcMouseButtonChange;
 		int shaderProgram;
 		int shaderVertexPosition;
 		int shaderTextureCoordinates;
@@ -154,6 +178,7 @@ namespace Cave.Media.Video
 		int shaderTranslation;
 		int shaderRotation;
 		int shaderScale;
+        AspectCorrectionMode aspectCorrection = AspectCorrectionMode.None;
 		#endregion
 
 		#region private functions
@@ -280,17 +305,73 @@ namespace Cave.Media.Video
 			Closed?.Invoke(this, new EventArgs());
 		}
 
-		void WindowChanged(glfw3.Window window, int width, int height)
+		void WindowChange(glfw3.Window window, int width, int height)
 		{
 			PrepareFramebuffer();
 		}
+
+        Vector2 GetMousePosition(glfw3.Window window)
+        {
+            double x, y;
+            glfw3.GetCursorPos(window, out x, out y);
+            return Vector2.Create((float)x, (float)y);
+        }
+
+        void MouseButtonChange(glfw3.Window window, glfw3.MouseButton button, glfw3.InputState state, glfw3.KeyMods mods)
+        {
+            Vector2 mousePosition = GetMousePosition(window);
+            Vector2 mousePositionNorm = Vector2.Create(mousePosition.X / Resolution.X, mousePosition.Y / Resolution.Y);
+            MouseButtonChanged?.Invoke(this,new glfw3.MouseButtonEventArgs(mousePosition, mousePositionNorm, button, state, mods));
+        }
 
 		void PrepareFramebuffer()
 		{
 			glfw3.GetFramebufferSize(window, out int w, out int h);
 			gl2.Viewport(0, 0, w, h);
-			//Resolution = Vector2.Create(w, h);
+			Resolution = Vector2.Create(w, h);
+            UpdateAspectCorrection();
+            FrameBufferChanged?.Invoke(this, new glfw3.SizeEventArgs(w, h));
 		}
+
+        void UpdateAspectCorrection()
+        {
+            float hb = 1f, vb = 1f;
+            float aspect = Resolution.X / Resolution.Y;
+            switch (aspectCorrection)
+            {
+                case AspectCorrectionMode.None:
+                    gl2.LoadIdentity();
+                    gl2.Ortho(-1, 1, -1, 1, 0, -100);
+                    break;
+                case AspectCorrectionMode.TouchInner:
+                    if (aspect > 1)
+                    {
+                        hb = aspect;
+                    }
+                    if (aspect < 1)
+                    {
+                        vb = 1f / aspect;
+                    }
+                    gl2.LoadIdentity();
+                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
+                    break;
+                case AspectCorrectionMode.TouchOuter:
+                    if (aspect > 1)
+                    {
+                        vb = 1 / aspect;
+                    }
+                    if (aspect < 1)
+                    {
+                        hb = aspect;
+                    }
+                    gl2.LoadIdentity();
+                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
+                    break;
+                default:
+                    throw new NotImplementedException("unknown aspect correction mode!");
+            }
+        }
+
 		#endregion
 
 		/// <summary>
@@ -308,6 +389,9 @@ namespace Cave.Media.Video
 			}
 		}
 
+        /// <summary>
+        /// Provides the maximum texture size for a openGL texture on the current device
+        /// </summary>
 		public int MaxTextureSize { get; private set; }
 
 		/// <summary>
@@ -315,10 +399,37 @@ namespace Cave.Media.Video
 		/// </summary>
 		public event EventHandler<EventArgs> Closed;
 
+        /// <summary>
+        /// Provides a callback for mouse button events
+        /// </summary>
+        public event EventHandler<glfw3.MouseButtonEventArgs> MouseButtonChanged;
+
+        /// <summary>
+        /// Provides a callback when the framebuffer size changes
+        /// </summary>
+        public event EventHandler<glfw3.SizeEventArgs> FrameBufferChanged;
+
 		/// <summary>
 		/// Resolution of the backbuffer
 		/// </summary>
 		public Vector2 Resolution { get; private set; }
+
+
+        /// <summary>
+        /// aspect correction mode to use
+        /// </summary>
+        public AspectCorrectionMode AspectCorrection
+        {
+            get
+            {
+                return aspectCorrection;
+            }
+            set
+            {
+                aspectCorrection = value;
+                if (window.IsValid) UpdateAspectCorrection();
+            }
+        }
 
 		/// <summary>
 		/// Name of the Renderer
@@ -341,8 +452,12 @@ namespace Cave.Media.Video
 		/// <param name="backColor"></param>
 		public void Clear(ARGB backColor)
 		{
-			if (window == null) throw new InvalidOperationException("Not initialized!");
-			glfw3.MakeContextCurrent(window);
+            if (!window.IsValid)
+            {
+                throw new InvalidOperationException("Not initialized!");
+            }
+
+            glfw3.MakeContextCurrent(window);
 			gl2.ClearColor(backColor.RedFloat, backColor.GreenFloat, backColor.BlueFloat, backColor.AlphaFloat);
 			gl2.Clear(GL._COLOR_BUFFER_BIT | GL._DEPTH_BUFFER_BIT);
 		}
@@ -423,24 +538,40 @@ namespace Cave.Media.Video
 			}
 			glfw3.MakeContextCurrent(window);
 			glfw3.SwapInterval(flags.HasFlag(RendererFlags.WaitRetrace) ? 1 : 0);
-			glfw3.SetFramebufferSizeCallback(window, funcWindowChanged = new glfw3.FramebufferSizeFunc(WindowChanged));
+			glfw3.SetFramebufferSizeCallback(window, funcWindowChange = new glfw3.FramebufferSizeFunc(WindowChange));
 			glfw3.SetWindowCloseCallback(window, funcWindowClose = new glfw3.WindowCloseFunc(WindowClose));
+            glfw3.SetMouseButtonCallback(window, funcMouseButtonChange = new glfw3.MouseButtonFunc(MouseButtonChange));
 
 			gl2.GetIntegerv(GL._MAX_TEXTURE_SIZE, out int maxTextureSize);
 			CheckErrors("GL_MAX_TEXTURE_SIZE");
 			MaxTextureSize = maxTextureSize;
+            Trace.TraceInformation("Max Texture Size is {0}", maxTextureSize);
 
-			PrepareShaders();
+            gl2.GetIntegerv(GL._STENCIL_BITS, out int stencilBits);
+            CheckErrors("GL_STENCIL_BITS");
+            Trace.TraceInformation("Stecin Bit Size is {0}", stencilBits);
+
+            PrepareShaders();
 			PrepareBuffers();
 			//prepare viewport
 			gl2.Enable(GL._BLEND);
 			gl2.BlendFunc(GL._SRC_ALPHA, GL._ONE_MINUS_SRC_ALPHA);
 			gl2.MatrixMode(GL._PROJECTION);
-			gl2.LoadIdentity();
-			gl2.Ortho(-1, 1, -1, 1, 0, -100);
+            UpdateAspectCorrection();
 			PrepareFramebuffer();
             Trace.TraceInformation("Initialized {0} using {1} resolution {2}x{3} using OpenGL {4} Shader {5}", parent, flags, width, height, gl2.GetString(GL._VERSION), gl2.GetString(GL._SHADING_LANGUAGE_VERSION));
-		}		
+		}
+
+        /// <summary>
+        /// Sets the size of the underlying glfw3 window.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetWindowSize(int width, int height)
+        {
+            if (window == null) throw new InvalidOperationException("Not initialized!");
+            glfw3.SetWindowSize(window, width, height);
+        }
 
 		/// <summary>
 		/// Displays the current backbuffer.
