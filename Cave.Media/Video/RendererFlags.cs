@@ -3,7 +3,7 @@
 namespace Cave.Media.Video
 {
     /// <summary>
-    /// provides flags for renderer implementations
+    /// provides flags for renderer implementations.
     /// </summary>
     [Flags]
     public enum RendererFlags
@@ -13,5 +13,5 @@ namespace Cave.Media.Video
 
         /// <summary>wait for retrace</summary>
         WaitRetrace = 1,
-	}
+    }
 }
