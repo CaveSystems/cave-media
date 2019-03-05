@@ -16,7 +16,7 @@ namespace Cave.Media.Audio.MP3
     {
         float[] v1;
         float[] v2;
-        float[] actual_v; 
+        float[] actual_v;
 
         /// <summary>The current write position (0-15)</summary>
         int m_Position;
@@ -53,9 +53,16 @@ namespace Cave.Media.Audio.MP3
         void Reset()
         {
             // initialize v1[] and v2[]:
-            for (int p = 0; p < 512; p++) v1[p] = v2[p] = 0.0f;
+            for (int p = 0; p < 512; p++)
+            {
+                v1[p] = v2[p] = 0.0f;
+            }
             // initialize samples[]:
-            for (int p2 = 0; p2 < 32; p2++) m_Samples[p2] = 0.0f;
+            for (int p2 = 0; p2 < 32; p2++)
+            {
+                m_Samples[p2] = 0.0f;
+            }
+
             actual_v = v1;
             m_Position = 15;
         }
@@ -74,7 +81,10 @@ namespace Cave.Media.Audio.MP3
         public void AddSamples(float[] samples)
         {
 #if DEBUG
-            if (samples.Length != 32) throw new ArgumentException("Samples[32] expected!");
+            if (samples.Length != 32)
+            {
+                throw new ArgumentException("Samples[32] expected!");
+            }
 #endif
             for (int i = 31; i >= 0; i--)
             {
@@ -332,7 +342,7 @@ namespace Cave.Media.Audio.MP3
             new_v30 = (tmp1 = -p8 - p12 - p14 - p15) - p0;
             new_v28 = tmp1 - tmp2;
 
-            // insert V[0-15] (== new_v[0-15]) into actual v:	
+            // insert V[0-15] (== new_v[0-15]) into actual v:
             // float[] x2 = actual_v + actual_write_pos;
             float[] dest = actual_v;
 
@@ -449,7 +459,7 @@ namespace Cave.Media.Audio.MP3
                 float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
-                pcm_sample = ((vp[1 + dvp] * dp[0]) + (vp[0 + dvp] * dp[1]) + (vp[15 + dvp] * dp[2]) + (vp[14 + dvp] * dp[3]) + (vp[13 + dvp] * dp[4]) + (vp[12 + dvp] * dp[5]) + (vp[11 + dvp] * dp[6]) + (vp[10 + dvp] * dp[7]) + (vp[9 + dvp] * dp[8]) + (vp[8 + dvp] * dp[9]) + (vp[7 + dvp] * dp[10]) + (vp[6 + dvp] * dp[11]) + (vp[5 + dvp] * dp[12]) + (vp[4 + dvp] * dp[13]) + (vp[3 + dvp] * dp[14]) + (vp[2 + dvp] * dp[15])) ;
+                pcm_sample = ((vp[1 + dvp] * dp[0]) + (vp[0 + dvp] * dp[1]) + (vp[15 + dvp] * dp[2]) + (vp[14 + dvp] * dp[3]) + (vp[13 + dvp] * dp[4]) + (vp[12 + dvp] * dp[5]) + (vp[11 + dvp] * dp[6]) + (vp[10 + dvp] * dp[7]) + (vp[9 + dvp] * dp[8]) + (vp[8 + dvp] * dp[9]) + (vp[7 + dvp] * dp[10]) + (vp[6 + dvp] * dp[11]) + (vp[5 + dvp] * dp[12]) + (vp[4 + dvp] * dp[13]) + (vp[3 + dvp] * dp[14]) + (vp[2 + dvp] * dp[15]));
 
                 tmpOut[i] = pcm_sample;
 
@@ -471,7 +481,7 @@ namespace Cave.Media.Audio.MP3
                 float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
-                pcm_sample = ((vp[2 + dvp] * dp[0]) + (vp[1 + dvp] * dp[1]) + (vp[0 + dvp] * dp[2]) + (vp[15 + dvp] * dp[3]) + (vp[14 + dvp] * dp[4]) + (vp[13 + dvp] * dp[5]) + (vp[12 + dvp] * dp[6]) + (vp[11 + dvp] * dp[7]) + (vp[10 + dvp] * dp[8]) + (vp[9 + dvp] * dp[9]) + (vp[8 + dvp] * dp[10]) + (vp[7 + dvp] * dp[11]) + (vp[6 + dvp] * dp[12]) + (vp[5 + dvp] * dp[13]) + (vp[4 + dvp] * dp[14]) + (vp[3 + dvp] * dp[15])) ;
+                pcm_sample = ((vp[2 + dvp] * dp[0]) + (vp[1 + dvp] * dp[1]) + (vp[0 + dvp] * dp[2]) + (vp[15 + dvp] * dp[3]) + (vp[14 + dvp] * dp[4]) + (vp[13 + dvp] * dp[5]) + (vp[12 + dvp] * dp[6]) + (vp[11 + dvp] * dp[7]) + (vp[10 + dvp] * dp[8]) + (vp[9 + dvp] * dp[9]) + (vp[8 + dvp] * dp[10]) + (vp[7 + dvp] * dp[11]) + (vp[6 + dvp] * dp[12]) + (vp[5 + dvp] * dp[13]) + (vp[4 + dvp] * dp[14]) + (vp[3 + dvp] * dp[15]));
 
                 tmpOut[i] = pcm_sample;
 
@@ -494,7 +504,7 @@ namespace Cave.Media.Audio.MP3
                 float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
-                pcm_sample = ((vp[3 + dvp] * dp[0]) + (vp[2 + dvp] * dp[1]) + (vp[1 + dvp] * dp[2]) + (vp[0 + dvp] * dp[3]) + (vp[15 + dvp] * dp[4]) + (vp[14 + dvp] * dp[5]) + (vp[13 + dvp] * dp[6]) + (vp[12 + dvp] * dp[7]) + (vp[11 + dvp] * dp[8]) + (vp[10 + dvp] * dp[9]) + (vp[9 + dvp] * dp[10]) + (vp[8 + dvp] * dp[11]) + (vp[7 + dvp] * dp[12]) + (vp[6 + dvp] * dp[13]) + (vp[5 + dvp] * dp[14]) + (vp[4 + dvp] * dp[15])) ;
+                pcm_sample = ((vp[3 + dvp] * dp[0]) + (vp[2 + dvp] * dp[1]) + (vp[1 + dvp] * dp[2]) + (vp[0 + dvp] * dp[3]) + (vp[15 + dvp] * dp[4]) + (vp[14 + dvp] * dp[5]) + (vp[13 + dvp] * dp[6]) + (vp[12 + dvp] * dp[7]) + (vp[11 + dvp] * dp[8]) + (vp[10 + dvp] * dp[9]) + (vp[9 + dvp] * dp[10]) + (vp[8 + dvp] * dp[11]) + (vp[7 + dvp] * dp[12]) + (vp[6 + dvp] * dp[13]) + (vp[5 + dvp] * dp[14]) + (vp[4 + dvp] * dp[15]));
 
                 tmpOut[i] = pcm_sample;
 

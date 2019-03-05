@@ -3,11 +3,11 @@ using System.Drawing;
 
 namespace Cave.Media.Lyrics
 {
-	/// <summary>
-	/// Provides a SynchronizedLyrics version 1 backbuffer
-	/// </summary>
-	/// <seealso cref="ISynchronizedLyricsBackbuffer" />
-	public class SynchronizedLyricsBackbufferV1 : ISynchronizedLyricsBackbuffer
+    /// <summary>
+    /// Provides a SynchronizedLyrics version 1 backbuffer.
+    /// </summary>
+    /// <seealso cref="ISynchronizedLyricsBackbuffer" />
+    public class SynchronizedLyricsBackbufferV1 : ISynchronizedLyricsBackbuffer
     {
         const int BufferWidth = 300;
         const int BufferHeight = 216;
@@ -53,7 +53,10 @@ namespace Cave.Media.Lyrics
         /// <param name="sl">The sl.</param>
         public void Play(SynchronizedLyricsItem sl)
         {
-            foreach (ISynchronizedLyricsCommand cmd in sl.Commands) Play(cmd);
+            foreach (ISynchronizedLyricsCommand cmd in sl.Commands)
+            {
+                Play(cmd);
+            }
         }
 
         /// <summary>Plays the specified command.</summary>
@@ -79,7 +82,7 @@ namespace Cave.Media.Lyrics
 
         private void ScreenRoll(SlcScreenRoll cmd)
         {
-            return ;
+            return;
             throw new NotImplementedException();
         }
 
@@ -89,7 +92,11 @@ namespace Cave.Media.Lyrics
             targetOffset += cmd.Horizontal;
             targetOffset += cmd.Vertical * BufferWidth;
 
-            if (targetOffset == 0) return;
+            if (targetOffset == 0)
+            {
+                return;
+            }
+
             if (targetOffset > 0)
             {
                 //target offset > 0 : need to move from last to first pixel
@@ -135,7 +142,7 @@ namespace Cave.Media.Lyrics
         private void ReplacePaletteColors(SlcReplacePaletteColors cmd)
         {
             int i = cmd.ColorIndex;
-            foreach(ARGB color in cmd.PaletteUpdate)
+            foreach (ARGB color in cmd.PaletteUpdate)
             {
                 m_Palette[i++] = color;
             }
@@ -157,7 +164,7 @@ namespace Cave.Media.Lyrics
                 {
                     if (--shift < 0) { shift = 7; b++; }
                     int color = ((current >> shift) & 1);
-                    switch(cmd.Type)
+                    switch (cmd.Type)
                     {
                         case SynchronizedLyricsCommandType.SetSprite2Colors: m_Buffer[bufferOffset + x] = colors[color]; break;
                         case SynchronizedLyricsCommandType.SetSprite2ColorsXOR: m_Buffer[bufferOffset + x] ^= colors[color]; break;
@@ -186,11 +193,17 @@ namespace Cave.Media.Lyrics
             m_ClearColor = cmd.ColorIndex;
             if (TransparentColorOverride)
             {
-                for (int i = 0; i < BufferSize; i++) m_Buffer[i] = m_TransparentColor;
+                for (int i = 0; i < BufferSize; i++)
+                {
+                    m_Buffer[i] = m_TransparentColor;
+                }
             }
             else
             {
-                for (int i = 0; i < BufferSize; i++) m_Buffer[i] = m_ClearColor;
+                for (int i = 0; i < BufferSize; i++)
+                {
+                    m_Buffer[i] = m_ClearColor;
+                }
             }
             Invalidate();
         }
@@ -199,8 +212,8 @@ namespace Cave.Media.Lyrics
         /// <value><c>true</c> if updated; otherwise, <c>false</c>.</value>
         public bool Updated { get; private set; }
 
-		/// <summary>Invalidates this instance.</summary>
-		public void Invalidate()
+        /// <summary>Invalidates this instance.</summary>
+        public void Invalidate()
         {
             Updated = true;
 #if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
@@ -212,15 +225,15 @@ namespace Cave.Media.Lyrics
 #endif
 
 #if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
-			bitmap?.Dispose();
+            bitmap?.Dispose();
             bitmap = null;
 #elif NETSTANDARD20
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
-		}
+        }
 
-		ARGBImageData ToImage()
+        ARGBImageData ToImage()
         {
             int w = BufferWidth - 12;
             int h = BufferHeight - 24;
@@ -269,7 +282,7 @@ namespace Cave.Media.Lyrics
 #endif
 
 #if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
-		Bitmap bitmap;
+        Bitmap bitmap;
 
         /// <summary>
         /// Copies the image to the specified bitmapdata instance
@@ -286,5 +299,5 @@ namespace Cave.Media.Lyrics
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
-	}
+    }
 }

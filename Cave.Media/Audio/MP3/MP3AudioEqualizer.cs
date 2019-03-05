@@ -17,27 +17,39 @@ namespace Cave.Media.Audio.MP3
     /// At -1.0, the input signal is attenuated by 6dB, at +1.0 the signal is amplified by 6dB. 
     /// </summary>
     public sealed class MP3AudioEqualizer
-	{
+    {
         const int BANDS = 32;
 
         /// <summary>
         /// Equalizer setting to denote that a given band will not be present in the output signal.
         /// </summary>
         public static readonly float BAND_NOT_PRESENT = float.NegativeInfinity;
-		
+
         float[] m_Values;
 
         float limit(float eq)
         {
-            if (eq == BAND_NOT_PRESENT) return eq;
-            if (eq > 1.0f) return 1.0f;
-            if (eq < -1.0f) return -1.0f;
+            if (eq == BAND_NOT_PRESENT)
+            {
+                return eq;
+            }
+
+            if (eq > 1.0f)
+            {
+                return 1.0f;
+            }
+
+            if (eq < -1.0f)
+            {
+                return -1.0f;
+            }
+
             return eq;
         }
 
         /// <summary>Creates a new Equalizer instance.</summary>
         public MP3AudioEqualizer()
-		{
+        {
             m_Values = new float[BANDS];
         }
 
@@ -45,25 +57,33 @@ namespace Cave.Media.Audio.MP3
         /// <param name="itemstings">The 32 band settings.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public MP3AudioEqualizer(float[] itemstings) : this()
-		{
-            if (itemstings == null) throw new ArgumentNullException("Settings");
+        {
+            if (itemstings == null)
+            {
+                throw new ArgumentNullException("Settings");
+            }
+
             Reset();
-            if (itemstings.Length != BANDS) throw new ArgumentOutOfRangeException();
+            if (itemstings.Length != BANDS)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             for (int i = 0; i < BANDS; i++)
             {
                 m_Values[i] = limit(itemstings[i]);
             }
         }
-		
-		/// <summary> Sets all bands to 0.0
-		/// </summary>
-		public void Reset()
-		{
-			for (int i = 0; i < BANDS; i++)
-			{
-				m_Values[i] = 0.0f;
-			}
-		}
+
+        /// <summary> Sets all bands to 0.0
+        /// </summary>
+        public void Reset()
+        {
+            for (int i = 0; i < BANDS; i++)
+            {
+                m_Values[i] = 0.0f;
+            }
+        }
 
         /// <summary>Gets or sets the amplification value (-1 .. 1) for the specified band.</summary>
         /// <value>The amplification.</value>
@@ -91,7 +111,11 @@ namespace Cave.Media.Audio.MP3
         public float GetFactor(int band)
         {
             float value = m_Values[band];
-            if (value == BAND_NOT_PRESENT) return 0.0f;
+            if (value == BAND_NOT_PRESENT)
+            {
+                return 0.0f;
+            }
+
             return (float)Math.Pow(2.0, value);
         }
 
@@ -103,11 +127,11 @@ namespace Cave.Media.Audio.MP3
         public float[] GetFactors()
         {
             float[] result = new float[BANDS];
-            for(int i = 0; i <BANDS; i++)
+            for (int i = 0; i < BANDS; i++)
             {
                 result[i] = GetFactor(i);
             }
             return result;
         }
-	}
+    }
 }

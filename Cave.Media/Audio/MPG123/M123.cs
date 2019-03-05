@@ -22,13 +22,13 @@
 */
 #endregion
 
-using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
+using Cave.IO;
 
 namespace Cave.Media.Audio.MPG123
 {
@@ -40,7 +40,7 @@ namespace Cave.Media.Audio.MPG123
         /// <summary>The native library name (windows mpg123.dll, linux libmpg123.so, macos libmpg123.dylib</summary>
         const string NATIVE_LIBRARY = "mpg123";
 
-		static int initializationCounter;
+        static int initializationCounter;
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
@@ -269,7 +269,7 @@ namespace Cave.Media.Audio.MPG123
         /// Flag bits for MPG123_FLAGS, use the usual binary or to combine.
         /// </summary>
         [Flags]
-        public enum FLAGS : int
+        public enum FLAGS: int
         {
             /// <summary>
             /// Force some mono mode: This is a test bitmask for seeing if any mono forcing is active.
@@ -461,7 +461,7 @@ namespace Cave.Media.Audio.MPG123
         /// <summary>
         /// Enumeration of the message and error codes and returned by libmpg123 functions.
         /// </summary>
-        public enum RESULT : int
+        public enum RESULT: int
         {
             /// <summary>
             /// Message: Track ended. Stop decoding.
@@ -843,36 +843,40 @@ namespace Cave.Media.Audio.MPG123
             }
         }
 
-		/// <summary>
-		/// Initialized the mpg123 library (you have to call Deinitialize for each call to this function)
-		/// </summary>
-		public static void Initialize()
-		{
-			if (Interlocked.Increment(ref initializationCounter) > 1) return;
-			List<Exception> errors = new List<Exception>();
-			//Initialize
-			try
-			{
-				CheckResult(SafeNativeMethods.mpg123_init());
-				return;
-			}
-			catch (Exception ex)
-			{
-				Interlocked.Decrement(ref initializationCounter);
-                Trace.WriteLine("Library initialization exception.\n" + ex);
-				throw;
-			}
-		}
+        /// <summary>
+        /// Initialized the mpg123 library (you have to call Deinitialize for each call to this function)
+        /// </summary>
+        public static void Initialize()
+        {
+            if (Interlocked.Increment(ref initializationCounter) > 1)
+            {
+                return;
+            }
 
-		/// <summary>Deinitializes mpg123 library if the InitializeCount reaches 0.</summary>
-		/// <exception cref="InvalidOperationException"></exception>
-		public static void Deinitialize()
-		{
-			if (Interlocked.Decrement(ref initializationCounter) <= 0)
-			{
-				SafeNativeMethods.mpg123_exit();
-			}
-		}
+            List<Exception> errors = new List<Exception>();
+            //Initialize
+            try
+            {
+                CheckResult(SafeNativeMethods.mpg123_init());
+                return;
+            }
+            catch (Exception ex)
+            {
+                Interlocked.Decrement(ref initializationCounter);
+                Trace.WriteLine("Library initialization exception.\n" + ex);
+                throw;
+            }
+        }
+
+        /// <summary>Deinitializes mpg123 library if the InitializeCount reaches 0.</summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static void Deinitialize()
+        {
+            if (Interlocked.Decrement(ref initializationCounter) <= 0)
+            {
+                SafeNativeMethods.mpg123_exit();
+            }
+        }
 
         [SuppressUnmanagedCodeSecurity]
         internal static class SafeNativeMethods
@@ -886,7 +890,11 @@ namespace Cave.Media.Audio.MPG123
                 while (item != IntPtr.Zero)
                 {
                     string str = Marshal.PtrToStringAnsi(item);
-                    if (!string.IsNullOrEmpty(str)) result.Add(str);
+                    if (!string.IsNullOrEmpty(str))
+                    {
+                        result.Add(str);
+                    }
+
                     item = Marshal.ReadIntPtr(pointer, index);
                     index += IntPtr.Size;
                 }
@@ -1152,7 +1160,10 @@ namespace Cave.Media.Audio.MPG123
                 IntPtr encoding;
 
                 RESULT result = m_mpg123_getformat(handle, out sampleRate, out channelConfig, out encoding);
-                if (result != RESULT.OK) throw new Exception(mpg123_plain_strerror(result));
+                if (result != RESULT.OK)
+                {
+                    throw new Exception(mpg123_plain_strerror(result));
+                }
 
                 AudioSampleFormat format;
                 switch ((ENC)encoding.ToInt32())
@@ -1346,7 +1357,11 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_parnew(M123_PARS preset, [MarshalAs(UnmanagedType.LPStr)]string decoder, out IntPtr handle)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 IntPtr result;
                 handle = m_mpg123_parnew(ref l_PresetHandle, decoder, out result);
@@ -1386,7 +1401,11 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="preset"></param>
             public static void mpg123_delete_pars(M123_PARS preset)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 m_mpg123_delete_pars(ref l_PresetHandle);
                 preset.Disposed();
@@ -1402,7 +1421,11 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_fmt_none(M123_PARS preset)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 return m_mpg123_fmt_none(ref l_PresetHandle);
             }
@@ -1417,7 +1440,11 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_fmt_all(M123_PARS preset)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 return m_mpg123_fmt_all(ref l_PresetHandle);
             }

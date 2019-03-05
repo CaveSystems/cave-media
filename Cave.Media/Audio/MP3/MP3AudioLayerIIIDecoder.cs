@@ -12,7 +12,7 @@ using System;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary> Mpeg Audio Layer III frame decoder. </summary>
-    public sealed class MP3AudioLayerIIIDecoder 
+    public sealed class MP3AudioLayerIIIDecoder
     {
         #region static parts
 
@@ -55,8 +55,12 @@ namespace Cave.Media.Audio.MP3
                 int start = scalefac_band[sfb];
                 int end = scalefac_band[sfb + 1];
                 for (int window = 0; window < 3; window++)
+                {
                     for (int i = start; i < end; i++)
+                    {
                         ix[3 * i + window] = j++;
+                    }
+                }
             }
             return ix;
         }
@@ -228,10 +232,25 @@ namespace Cave.Media.Audio.MP3
         /// <exception cref="NotImplementedException"></exception>
         public MP3AudioLayerIIIDecoder(MP3AudioFrameHeader header, MP3AudioSynthesisFilter filter1, MP3AudioSynthesisFilter filter2, MP3AudioStereoBuffer buffer, MP3AudioOutputMode mode)
         {
-            if (header == null) throw new ArgumentNullException("Header");
-            if (filter1 == null) throw new ArgumentNullException("Filter1");
-            if (filter2 == null) throw new ArgumentNullException("Filter2");
-            if (buffer == null) throw new ArgumentNullException("Buffer");
+            if (header == null)
+            {
+                throw new ArgumentNullException("Header");
+            }
+
+            if (filter1 == null)
+            {
+                throw new ArgumentNullException("Filter1");
+            }
+
+            if (filter2 == null)
+            {
+                throw new ArgumentNullException("Filter2");
+            }
+
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("Buffer");
+            }
 
             m_Filter1 = filter1;
             m_Filter2 = filter2;
@@ -315,7 +334,9 @@ namespace Cave.Media.Audio.MP3
                 // SZD: generate LUT
                 reorder_table = new int[9][];
                 for (int i = 0; i < 9; i++)
+                {
                     reorder_table[i] = reorder(sfBandIndex[i].s);
+                }
             }
 
             // scalefac_buffer
@@ -371,8 +392,12 @@ namespace Cave.Media.Audio.MP3
             }
 
             for (int ch = 0; ch < 2; ch++)
+            {
                 for (int j = 0; j < 576; j++)
+                {
                     prevblck[ch][j] = 0.0f;
+                }
+            }
 
             nonzero[0] = nonzero[1] = 576;
 
@@ -386,8 +411,13 @@ namespace Cave.Media.Audio.MP3
         {
             frame_start = 0;
             for (int ch = 0; ch < 2; ch++)
+            {
                 for (int j = 0; j < 576; j++)
+                {
                     prevblck[ch][j] = 0.0f;
+                }
+            }
+
             m_BitReserve = new MP3BitReserve();
             m_SideInfo = new SideInfo();
         }
@@ -432,7 +462,10 @@ namespace Cave.Media.Audio.MP3
 
             frame_start += nSlots;
 
-            if (bytes_to_discard < 0) return;
+            if (bytes_to_discard < 0)
+            {
+                return;
+            }
 
             if (main_data_end > 4096)
             {
@@ -440,7 +473,10 @@ namespace Cave.Media.Audio.MP3
                 m_BitReserve.Rewind(4096 * 8);
             }
 
-            if (bytes_to_discard > 0) m_BitReserve.Skip(bytes_to_discard * 8);
+            if (bytes_to_discard > 0)
+            {
+                m_BitReserve.Skip(bytes_to_discard * 8);
+            }
 
             for (gr = 0; gr < max_gr; gr++)
             {
@@ -471,7 +507,9 @@ namespace Cave.Media.Audio.MP3
                 stereo(frameHeader, gr);
 
                 if ((m_OutputMode == MP3AudioOutputMode.DownMix) && (channels > 1))
+                {
                     do_downmix();
+                }
 
                 for (ch = first_channel; ch <= last_channel; ch++)
                 {
@@ -481,9 +519,13 @@ namespace Cave.Media.Audio.MP3
                     hybrid(ch, gr);
 
                     for (sb18 = 18; sb18 < 576; sb18 += 36)
+                    {
                         // Frequency inversion
                         for (ss = 1; ss < SSLIMIT; ss += 2)
+                        {
                             out_1d[sb18 + ss] = -out_1d[sb18 + ss];
+                        }
+                    }
 
                     if ((ch == 0) || (m_OutputMode == MP3AudioOutputMode.Right))
                     {
@@ -540,9 +582,13 @@ namespace Cave.Media.Audio.MP3
 
             m_SideInfo.main_data_begin = frame.Bits.ReadBits(8);
             if (channels == 1)
+            {
                 m_SideInfo.private_bits = frame.Bits.ReadBits(1);
+            }
             else
+            {
                 m_SideInfo.private_bits = frame.Bits.ReadBits(2);
+            }
 
             for (ch = 0; ch < channels; ch++)
             {
@@ -599,18 +645,22 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary> Reads the side info from the stream, assuming the entire.
-		/// frame has been read already.
-		/// Mono   : 136 bits (= 17 bytes)
-		/// Stereo : 256 bits (= 32 bytes)
-		/// </summary>
+        /// frame has been read already.
+        /// Mono   : 136 bits (= 17 bytes)
+        /// Stereo : 256 bits (= 32 bytes)
+        /// </summary>
         bool get_side_info_ver1(MP3AudioFrame frame)
         {
             int ch, gr;
             m_SideInfo.main_data_begin = frame.Bits.ReadBits(9);
             if (channels == 1)
+            {
                 m_SideInfo.private_bits = frame.Bits.ReadBits(5);
+            }
             else
+            {
                 m_SideInfo.private_bits = frame.Bits.ReadBits(3);
+            }
 
             for (ch = 0; ch < channels; ch++)
             {
@@ -645,7 +695,7 @@ namespace Cave.Media.Audio.MP3
 
                         if (m_SideInfo.ch[ch].gr[gr].block_type == 0)
                         {
-                            //	 Side info bad: block_type == 0 in split block
+                            //     Side info bad: block_type == 0 in split block
                             return false;
                         }
                         else if (m_SideInfo.ch[ch].gr[gr].block_type == 2 && m_SideInfo.ch[ch].gr[gr].mixed_block_flag == 0)
@@ -689,15 +739,30 @@ namespace Cave.Media.Audio.MP3
                 {
                     // MIXED
                     for (sfb = 0; sfb < 8; sfb++)
+                    {
                         m_ScaleFactors[ch].l[sfb] = m_BitReserve.ReadBits(slen[0][gr_info.scalefac_compress]);
+                    }
+
                     for (sfb = 3; sfb < 6; sfb++)
+                    {
                         for (window = 0; window < 3; window++)
+                        {
                             m_ScaleFactors[ch].s[window][sfb] = m_BitReserve.ReadBits(slen[0][gr_info.scalefac_compress]);
+                        }
+                    }
+
                     for (sfb = 6; sfb < 12; sfb++)
+                    {
                         for (window = 0; window < 3; window++)
+                        {
                             m_ScaleFactors[ch].s[window][sfb] = m_BitReserve.ReadBits(slen[1][gr_info.scalefac_compress]);
+                        }
+                    }
+
                     for (sfb = 12, window = 0; window < 3; window++)
+                    {
                         m_ScaleFactors[ch].s[window][sfb] = 0;
+                    }
                 }
                 else
                 {
@@ -805,11 +870,17 @@ namespace Cave.Media.Audio.MP3
             if (gr_info.block_type == 2)
             {
                 if (gr_info.mixed_block_flag == 0)
+                {
                     blocktypenumber = 1;
+                }
                 else if (gr_info.mixed_block_flag == 1)
+                {
                     blocktypenumber = 2;
+                }
                 else
+                {
                     blocktypenumber = 0;
+                }
             }
             else
             {
@@ -928,7 +999,9 @@ namespace Cave.Media.Audio.MP3
                         }
                     }
                     for (window = 0; window < 3; window++)
+                    {
                         m_ScaleFactors[ch].s[window][12] = 0;
+                    }
                 }
                 else
                 {
@@ -944,7 +1017,9 @@ namespace Cave.Media.Audio.MP3
                     }
 
                     for (window = 0; window < 3; window++)
+                    {
                         m_ScaleFactors[ch].s[window][12] = 0;
+                    }
                 }
             }
             else
@@ -996,7 +1071,9 @@ namespace Cave.Media.Audio.MP3
                 buf1 = buf + m_SideInfo.ch[ch].gr[gr].region1_count + 1;
 
                 if (buf1 > sfBandIndex[sfreq].l.Length - 1)
+                {
                     buf1 = sfBandIndex[sfreq].l.Length - 1;
+                }
 
                 region1Start = sfBandIndex[sfreq].l[buf];
                 region2Start = sfBandIndex[sfreq].l[buf1]; /* MI */
@@ -1007,11 +1084,17 @@ namespace Cave.Media.Audio.MP3
             for (int i = 0; i < (m_SideInfo.ch[ch].gr[gr].big_values << 1); i += 2)
             {
                 if (i < region1Start)
+                {
                     h = MP3AudioHuffman.Tables[m_SideInfo.ch[ch].gr[gr].table_select[0]];
+                }
                 else if (i < region2Start)
+                {
                     h = MP3AudioHuffman.Tables[m_SideInfo.ch[ch].gr[gr].table_select[1]];
+                }
                 else
+                {
                     h = MP3AudioHuffman.Tables[m_SideInfo.ch[ch].gr[gr].table_select[2]];
+                }
 
                 h.Decode(x, y, v, w, m_BitReserve);
 
@@ -1045,17 +1128,26 @@ namespace Cave.Media.Audio.MP3
             num_bits = m_BitReserve.ReadPosition;
 
             // Dismiss stuffing bits
-            if (num_bits < part2_3_end) m_BitReserve.Skip(part2_3_end - num_bits);
+            if (num_bits < part2_3_end)
+            {
+                m_BitReserve.Skip(part2_3_end - num_bits);
+            }
 
             // Zero out rest
 
             if (index < 576)
+            {
                 nonzero[ch] = index;
+            }
             else
+            {
                 nonzero[ch] = 576;
+            }
 
             if (index < 0)
+            {
                 index = 0;
+            }
 
             // may not be necessary , removed AR
             /*for (; index < 576; index++)
@@ -1097,7 +1189,9 @@ namespace Cave.Media.Audio.MP3
             if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
             {
                 if (gr_info.mixed_block_flag != 0)
+                {
                     next_cb_boundary = sfBandIndex[sfreq].l[1];
+                }
                 // LONG blocks: 0,1,3
                 else
                 {
@@ -1121,14 +1215,20 @@ namespace Cave.Media.Audio.MP3
                 int reste = j % SSLIMIT;
                 int quotien = (j - reste) / SSLIMIT;
                 if (is_1d[j] == 0)
+                {
                     xr_1d[quotien][reste] = 0.0f;
+                }
                 else
                 {
                     int abv = is_1d[j];
                     if (is_1d[j] > 0)
+                    {
                         xr_1d[quotien][reste] = g_gain * t_43[abv];
+                    }
                     else
+                    {
                         xr_1d[quotien][reste] = -g_gain * t_43[-abv];
+                    }
                 }
             }
 
@@ -1200,8 +1300,8 @@ namespace Cave.Media.Audio.MP3
 
                     t_index = (index - cb_begin) / cb_width;
                     /*            xr[sb][ss] *= pow(2.0, ((-2.0 * gr_info.subblock_gain[t_index])
-					-(0.5 * (1.0 + gr_info.scalefac_scale)
-					* scalefac[ch].s[t_index][cb]))); */
+                    -(0.5 * (1.0 + gr_info.scalefac_scale)
+                    * scalefac[ch].s[t_index][cb]))); */
                     int idx = m_ScaleFactors[ch].s[t_index][cb] << gr_info.scalefac_scale;
                     idx += (gr_info.subblock_gain[t_index] << 2);
 
@@ -1210,13 +1310,15 @@ namespace Cave.Media.Audio.MP3
                 else
                 {
                     // LONG block types 0,1,3 & 1st 2 subbands of switched blocks
-                    /*				xr[sb][ss] *= pow(2.0, -0.5 * (1.0+gr_info.scalefac_scale)
-					* (scalefac[ch].l[cb]
-					+ gr_info.preflag * pretab[cb])); */
+                    /*                xr[sb][ss] *= pow(2.0, -0.5 * (1.0+gr_info.scalefac_scale)
+                    * (scalefac[ch].l[cb]
+                    + gr_info.preflag * pretab[cb])); */
                     int idx = m_ScaleFactors[ch].l[cb];
 
                     if (gr_info.preflag != 0)
+                    {
                         idx += pretab[cb];
+                    }
 
                     idx = idx << gr_info.scalefac_scale;
                     xr_1d[quotien][reste] *= two_to_negative_half_pow[idx];
@@ -1230,9 +1332,15 @@ namespace Cave.Media.Audio.MP3
                 int reste = j % SSLIMIT;
                 int quotien = (j - reste) / SSLIMIT;
                 if (reste < 0)
+                {
                     reste = 0;
+                }
+
                 if (quotien < 0)
+                {
                     quotien = 0;
+                }
+
                 xr_1d[quotien][reste] = 0.0f;
             }
 
@@ -1252,7 +1360,9 @@ namespace Cave.Media.Audio.MP3
             {
 
                 for (index = 0; index < 576; index++)
+                {
                     out_1d[index] = 0.0f;
+                }
 
                 if (gr_info.mixed_block_flag != 0)
                 {
@@ -1330,12 +1440,14 @@ namespace Cave.Media.Audio.MP3
                 // mono , bypass xr[0][][] to lr[0][][]
 
                 for (sb = 0; sb < SBLIMIT; sb++)
+                {
                     for (ss = 0; ss < SSLIMIT; ss += 3)
                     {
                         lr[0][sb][ss] = ro[0][sb][ss];
                         lr[0][sb][ss + 1] = ro[0][sb][ss + 1];
                         lr[0][sb][ss + 2] = ro[0][sb][ss + 2];
                     }
+                }
             }
             else
             {
@@ -1406,7 +1518,9 @@ namespace Cave.Media.Audio.MP3
                                 sfb = sfbcnt + 1;
 
                                 if (sfb > max_sfb)
+                                {
                                     max_sfb = sfb;
+                                }
 
                                 while (sfb < 12)
                                 {
@@ -1418,10 +1532,16 @@ namespace Cave.Media.Audio.MP3
                                     {
                                         is_pos[i] = m_ScaleFactors[1].s[j][sfb];
                                         if (is_pos[i] != 7)
+                                        {
                                             if (lsf)
+                                            {
                                                 i_stereo_k_values(is_pos[i], io_type, i);
+                                            }
                                             else
+                                            {
                                                 is_ratio[i] = TAN12[is_pos[i]];
+                                            }
+                                        }
 
                                         i++;
                                     }
@@ -1477,7 +1597,10 @@ namespace Cave.Media.Audio.MP3
                                 } // while (i>=0)
                                 i = 0;
                                 while (sfBandIndex[sfreq].l[i] <= sb)
+                                {
                                     i++;
+                                }
+
                                 sfb = i;
                                 i = sfBandIndex[sfreq].l[i];
                                 for (; sfb < 8; sfb++)
@@ -1487,10 +1610,17 @@ namespace Cave.Media.Audio.MP3
                                     {
                                         is_pos[i] = m_ScaleFactors[1].l[sfb];
                                         if (is_pos[i] != 7)
+                                        {
                                             if (lsf)
+                                            {
                                                 i_stereo_k_values(is_pos[i], io_type, i);
+                                            }
                                             else
+                                            {
                                                 is_ratio[i] = TAN12[is_pos[i]];
+                                            }
+                                        }
+
                                         i++;
                                     }
                                     // for (; sb>0 ...
@@ -1538,10 +1668,17 @@ namespace Cave.Media.Audio.MP3
                                     {
                                         is_pos[i] = m_ScaleFactors[1].s[j][sfb];
                                         if (is_pos[i] != 7)
+                                        {
                                             if (lsf)
+                                            {
                                                 i_stereo_k_values(is_pos[i], io_type, i);
+                                            }
                                             else
+                                            {
                                                 is_ratio[i] = TAN12[is_pos[i]];
+                                            }
+                                        }
+
                                         i++;
                                     }
                                     // for (; sb>0 ...
@@ -1601,7 +1738,9 @@ namespace Cave.Media.Audio.MP3
                         }
                         i = 0;
                         while (sfBandIndex[sfreq].l[i] <= sb)
+                        {
                             i++;
+                        }
 
                         sfb = i;
                         i = sfBandIndex[sfreq].l[i];
@@ -1612,10 +1751,17 @@ namespace Cave.Media.Audio.MP3
                             {
                                 is_pos[i] = m_ScaleFactors[1].l[sfb];
                                 if (is_pos[i] != 7)
+                                {
                                     if (lsf)
+                                    {
                                         i_stereo_k_values(is_pos[i], io_type, i);
+                                    }
                                     else
+                                    {
                                         is_ratio[i] = TAN12[is_pos[i]];
+                                    }
+                                }
+
                                 i++;
                             }
                         }
@@ -1643,6 +1789,7 @@ namespace Cave.Media.Audio.MP3
 
                 i = 0;
                 for (sb = 0; sb < SBLIMIT; sb++)
+                {
                     for (ss = 0; ss < SSLIMIT; ss++)
                     {
                         if (is_pos[i] == 7)
@@ -1672,11 +1819,12 @@ namespace Cave.Media.Audio.MP3
                                 lr[0][sb][ss] = lr[1][sb][ss] * is_ratio[i];
                             }
                         }
-                        /*				else {
-						System.out.println("Error in stereo processing\n");
-						} */
+                        /*                else {
+                        System.out.println("Error in stereo processing\n");
+                        } */
                         i++;
                     }
+                }
             }
             // channels == 2
         }
@@ -1689,7 +1837,9 @@ namespace Cave.Media.Audio.MP3
             // with 8 butterflies between each pair
 
             if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2) && !(gr_info.mixed_block_flag != 0))
+            {
                 return;
+            }
 
             if ((gr_info.window_switching_flag != 0) && (gr_info.mixed_block_flag != 0) && (gr_info.block_type == 2))
             {
@@ -1730,13 +1880,17 @@ namespace Cave.Media.Audio.MP3
                 tsOut = out_1d;
                 // Modif E.B 02/22/99
                 for (int cc = 0; cc < 18; cc++)
+                {
                     tsOutCopy[cc] = tsOut[cc + sb18];
+                }
 
                 inv_mdct(tsOutCopy, rawout, bt);
 
 
                 for (int cc = 0; cc < 18; cc++)
+                {
                     tsOut[cc + sb18] = tsOutCopy[cc];
+                }
                 // Fin Modif
 
                 // overlap addition
@@ -1810,55 +1964,55 @@ namespace Cave.Media.Audio.MP3
             {
 
                 /*
-				*
-				*		Under MicrosoftVM 2922, This causes a GPF, or
-				*		At best, an ArrayIndexOutOfBoundsExceptin.
-				for(int p=0;p<36;p+=9)
-				{
-				out[p]   = out[p+1] = out[p+2] = out[p+3] =
-				out[p+4] = out[p+5] = out[p+6] = out[p+7] =
-				out[p+8] = 0.0f;
-				}
-				*/
+                *
+                *        Under MicrosoftVM 2922, This causes a GPF, or
+                *        At best, an ArrayIndexOutOfBoundsExceptin.
+                for(int p=0;p<36;p+=9)
+                {
+                out[p]   = out[p+1] = out[p+2] = out[p+3] =
+                out[p+4] = out[p+5] = out[p+6] = out[p+7] =
+                out[p+8] = 0.0f;
+                }
+                */
                 Array.Clear(out_Renamed, 0, out_Renamed.Length);
                 /*
-				out_Renamed[0] = 0.0f;
-				out_Renamed[1] = 0.0f;
-				out_Renamed[2] = 0.0f;
-				out_Renamed[3] = 0.0f;
-				out_Renamed[4] = 0.0f;
-				out_Renamed[5] = 0.0f;
-				out_Renamed[6] = 0.0f;
-				out_Renamed[7] = 0.0f;
-				out_Renamed[8] = 0.0f;
-				out_Renamed[9] = 0.0f;
-				out_Renamed[10] = 0.0f;
-				out_Renamed[11] = 0.0f;
-				out_Renamed[12] = 0.0f;
-				out_Renamed[13] = 0.0f;
-				out_Renamed[14] = 0.0f;
-				out_Renamed[15] = 0.0f;
-				out_Renamed[16] = 0.0f;
-				out_Renamed[17] = 0.0f;
-				out_Renamed[18] = 0.0f;
-				out_Renamed[19] = 0.0f;
-				out_Renamed[20] = 0.0f;
-				out_Renamed[21] = 0.0f;
-				out_Renamed[22] = 0.0f;
-				out_Renamed[23] = 0.0f;
-				out_Renamed[24] = 0.0f;
-				out_Renamed[25] = 0.0f;
-				out_Renamed[26] = 0.0f;
-				out_Renamed[27] = 0.0f;
-				out_Renamed[28] = 0.0f;
-				out_Renamed[29] = 0.0f;
-				out_Renamed[30] = 0.0f;
-				out_Renamed[31] = 0.0f;
-				out_Renamed[32] = 0.0f;
-				out_Renamed[33] = 0.0f;
-				out_Renamed[34] = 0.0f;
-				out_Renamed[35] = 0.0f;
-				*/
+                out_Renamed[0] = 0.0f;
+                out_Renamed[1] = 0.0f;
+                out_Renamed[2] = 0.0f;
+                out_Renamed[3] = 0.0f;
+                out_Renamed[4] = 0.0f;
+                out_Renamed[5] = 0.0f;
+                out_Renamed[6] = 0.0f;
+                out_Renamed[7] = 0.0f;
+                out_Renamed[8] = 0.0f;
+                out_Renamed[9] = 0.0f;
+                out_Renamed[10] = 0.0f;
+                out_Renamed[11] = 0.0f;
+                out_Renamed[12] = 0.0f;
+                out_Renamed[13] = 0.0f;
+                out_Renamed[14] = 0.0f;
+                out_Renamed[15] = 0.0f;
+                out_Renamed[16] = 0.0f;
+                out_Renamed[17] = 0.0f;
+                out_Renamed[18] = 0.0f;
+                out_Renamed[19] = 0.0f;
+                out_Renamed[20] = 0.0f;
+                out_Renamed[21] = 0.0f;
+                out_Renamed[22] = 0.0f;
+                out_Renamed[23] = 0.0f;
+                out_Renamed[24] = 0.0f;
+                out_Renamed[25] = 0.0f;
+                out_Renamed[26] = 0.0f;
+                out_Renamed[27] = 0.0f;
+                out_Renamed[28] = 0.0f;
+                out_Renamed[29] = 0.0f;
+                out_Renamed[30] = 0.0f;
+                out_Renamed[31] = 0.0f;
+                out_Renamed[32] = 0.0f;
+                out_Renamed[33] = 0.0f;
+                out_Renamed[34] = 0.0f;
+                out_Renamed[35] = 0.0f;
+                */
 
                 int six_i = 0;
 

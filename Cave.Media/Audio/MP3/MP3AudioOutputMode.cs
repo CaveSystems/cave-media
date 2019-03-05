@@ -16,5 +16,5 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Down mix to mono</summary>
         DownMix = 3
-	}
+    }
 }

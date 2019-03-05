@@ -6,10 +6,10 @@ using Cave.IO;
 
 namespace Cave.Media.Lyrics
 {
-	/// <summary>
-	/// Provides a SynchronizedLyrics reader for CDG files
-	/// </summary>
-	public class CdgReader
+    /// <summary>
+    /// Provides a SynchronizedLyrics reader for CDG files.
+    /// </summary>
+    public class CdgReader
     {
         /// <summary>Reads all frames.</summary>
         /// <param name="fileName">Name of the file.</param>
@@ -53,7 +53,10 @@ namespace Cave.Media.Lyrics
                         Trace.TraceError("Unknown command <red>{0}", packet.Instruction);
                         continue;
                 }
-                if (builder.Commands.Count > 0) items.Add(builder.ToSynchronizedLyricsItem());
+                if (builder.Commands.Count > 0)
+                {
+                    items.Add(builder.ToSynchronizedLyricsItem());
+                }
             }
             return new SynchronizedLyrics(items);
         }
@@ -89,7 +92,7 @@ namespace Cave.Media.Lyrics
 
             sbyte hScroll = 0;
             sbyte vScroll = 0;
-            switch(cdgHScroll >> 4)
+            switch (cdgHScroll >> 4)
             {
                 default:
                 case 0: /*no scroll*/ break;
@@ -173,7 +176,10 @@ namespace Cave.Media.Lyrics
         /// <exception cref="System.ObjectDisposedException"></exception>
         public bool GetNextPacket(out CdgPacket packet, out TimeSpan time)
         {
-            if (m_Reader == null) throw new ObjectDisposedException(nameof(CdgReader));
+            if (m_Reader == null)
+            {
+                throw new ObjectDisposedException(nameof(CdgReader));
+            }
             //can we check the position in the stream ? yes -> can we read another packet ? no -> exit
             if (m_Reader.BaseStream.CanSeek && m_Reader.Available < 24)
             {

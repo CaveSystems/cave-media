@@ -28,11 +28,11 @@ using Cave.IO;
 
 namespace Cave.Media.Audio.ID3.Frames
 {
-	/// <summary>
-	/// This frame contains a picture directly related to the audio file.
-	/// Image format is the MIME type and subtype [MIME] for the image.
-	/// </summary>
-	public sealed class ID3v2APICFrame : ID3v2Frame
+    /// <summary>
+    /// This frame contains a picture directly related to the audio file.
+    /// Image format is the MIME type and subtype [MIME] for the image.
+    /// </summary>
+    public sealed class ID3v2APICFrame: ID3v2Frame
     {
 #if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
 		/// <summary>
@@ -65,22 +65,22 @@ namespace Cave.Media.Audio.ID3.Frames
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
-		/// <summary>Creates the specified header.</summary>
-		/// <param name="header">The header.</param>
-		/// <param name="flags">The flags.</param>
-		/// <param name="description">The description.</param>
-		/// <param name="type">The type.</param>
-		/// <param name="mimeType">Type of the MIME.</param>
-		/// <param name="imageData">The image data.</param>
-		/// <returns></returns>
-		/// <exception cref="NotSupportedException"></exception>
-		public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, string mimeType, byte[] imageData)
+        /// <summary>Creates the specified header.</summary>
+        /// <param name="header">The header.</param>
+        /// <param name="flags">The flags.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="mimeType">Type of the MIME.</param>
+        /// <param name="imageData">The image data.</param>
+        /// <returns></returns>
+        /// <exception cref="NotSupportedException"></exception>
+        public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, string mimeType, byte[] imageData)
         {
             ID3v2EncodingType encoding = ID3v2Encoding.Select(header, description + mimeType);
             //header, encoding[1], mimeType+0, pitureType[1], description+0, data
-            byte[] descriptionBytes = ID3v2Encoding.GetBytes(encoding, description, true); 
+            byte[] descriptionBytes = ID3v2Encoding.GetBytes(encoding, description, true);
             byte[] mimeTypeBytes = ID3v2Encoding.GetBytes(encoding, mimeType, true);
-            int contentSize = descriptionBytes.Length + mimeTypeBytes.Length + 1 +1+ imageData.Length;
+            int contentSize = descriptionBytes.Length + mimeTypeBytes.Length + 1 + 1 + imageData.Length;
             ID3v2FrameHeader frameHeader = ID3v2FrameHeader.Create(header, "APIC", flags, contentSize);
             using (MemoryStream ms = new MemoryStream())
             {
@@ -91,7 +91,11 @@ namespace Cave.Media.Audio.ID3.Frames
                 writer.Write((byte)type);
                 writer.Write(descriptionBytes);
                 writer.Write(imageData);
-                if (frameHeader.HeaderSize + contentSize != ms.Position) throw new Exception();
+                if (frameHeader.HeaderSize + contentSize != ms.Position)
+                {
+                    throw new Exception();
+                }
+
                 return new ID3v2APICFrame(new ID3v2Frame(header, ms.ToArray()));
             }
         }
@@ -116,7 +120,10 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2APICFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "APIC") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "APIC"));
+            if (frame.ID != "APIC")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "APIC"));
+            }
         }
 
         /// <summary>
@@ -126,7 +133,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0) Parse();
+                if (m_ImageDataStart <= 0)
+                {
+                    Parse();
+                }
+
                 return m_MimeType;
             }
         }
@@ -138,7 +149,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0) Parse();
+                if (m_ImageDataStart <= 0)
+                {
+                    Parse();
+                }
+
                 return m_PictureType;
             }
         }
@@ -150,7 +165,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0) Parse();
+                if (m_ImageDataStart <= 0)
+                {
+                    Parse();
+                }
+
                 return m_Description;
             }
         }
@@ -162,7 +181,11 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0) Parse();
+                if (m_ImageDataStart <= 0)
+                {
+                    Parse();
+                }
+
                 return new DataFrameReader(m_Content).Read(m_ImageDataStart, m_Content.Length - m_ImageDataStart);
             }
         }

@@ -5,11 +5,9 @@
 */
 #endregion
 
-using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Cave.Media.Audio.OPENAL
 {
@@ -17,7 +15,7 @@ namespace Cave.Media.Audio.OPENAL
     /// Provides an audio out stream implementation for the open al api
     /// </summary>
     /// <seealso cref="AudioOut" />
-    public sealed class OALOut : AudioOut
+    public sealed class OALOut: AudioOut
     {
         //int m_BufferSize;
         long m_BytesQueued;
@@ -27,12 +25,16 @@ namespace Cave.Media.Audio.OPENAL
         Dictionary<int, IAudioData> m_Buffers = new Dictionary<int, IAudioData>();
         OALDevice m_Device;
         bool m_Playing;
-		long m_BufferUnderflowCount;
+        long m_BufferUnderflowCount;
 
-		/// <summary>Unqueues and disposes the played buffers.</summary>
-		void UnqueuePlayedBuffers()
+        /// <summary>Unqueues and disposes the played buffers.</summary>
+        void UnqueuePlayedBuffers()
         {
-            if (m_Source == 0) return;
+            if (m_Source == 0)
+            {
+                return;
+            }
+
             OAL.SafeNativeMethods.alcMakeContextCurrent(m_Device.Context);
 
             while (true)
@@ -41,7 +43,11 @@ namespace Cave.Media.Audio.OPENAL
                 int[] bufferIDs;
                 OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_BUFFERS_PROCESSED, out count);
                 OAL.SafeNativeMethods.CheckError();
-                if (count <= 0) break;
+                if (count <= 0)
+                {
+                    break;
+                }
+
                 bufferIDs = new int[count];
                 OAL.SafeNativeMethods.alSourceUnqueueBuffers(m_Source, count, bufferIDs);
                 OAL.SafeNativeMethods.CheckError();
@@ -50,53 +56,73 @@ namespace Cave.Media.Audio.OPENAL
                 foreach (int bufferID in bufferIDs)
                 {
                     m_BytesPassed += m_Buffers[bufferID].Length;
-                    if (!m_Buffers.Remove(bufferID)) throw new KeyNotFoundException();
+                    if (!m_Buffers.Remove(bufferID))
+                    {
+                        throw new KeyNotFoundException();
+                    }
                 }
 
-				if (m_Playing && m_Buffers.Count == 0)
-				{
-					Trace.WriteLine("OpenAL AudioOut stopped.");
-				}
-			}
+                if (m_Playing && m_Buffers.Count == 0)
+                {
+                    Trace.WriteLine("OpenAL AudioOut stopped.");
+                }
+            }
         }
 
         private void StartChecked(bool isStartup)
         {
-			int state = 0;
-			for (int tryNumber = 0; tryNumber < 10 && m_Buffers.Count > 0; tryNumber++)
-			{
-				OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
-				OAL.SafeNativeMethods.CheckError();
-				if (state != OAL.AL_PLAYING)
-				{
-					OAL.SafeNativeMethods.alSourcePlay(m_Source);
-					OAL.SafeNativeMethods.CheckError();
-					if (!isStartup) m_BufferUnderflowCount++;
-				}
-				else break;
-			}
-			if (state != OAL.AL_PLAYING) throw new Exception("Could not start open al playback.");
-			m_Playing = true;
+            int state = 0;
+            for (int tryNumber = 0; tryNumber < 10 && m_Buffers.Count > 0; tryNumber++)
+            {
+                OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
+                OAL.SafeNativeMethods.CheckError();
+                if (state != OAL.AL_PLAYING)
+                {
+                    OAL.SafeNativeMethods.alSourcePlay(m_Source);
+                    OAL.SafeNativeMethods.CheckError();
+                    if (!isStartup)
+                    {
+                        m_BufferUnderflowCount++;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (state != OAL.AL_PLAYING)
+            {
+                throw new Exception("Could not start open al playback.");
+            }
+
+            m_Playing = true;
         }
 
-		private void StopChecked()
-		{
-			int state = 0;
-			for (int tryNumber = 0; tryNumber < 10 && m_Playing; tryNumber++)
-			{
-				OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
-				OAL.SafeNativeMethods.CheckError();
-				//if not playing restart
-				if (state != OAL.AL_STOPPED)
-				{
-					OAL.SafeNativeMethods.alSourceStop(m_Source);
-					OAL.SafeNativeMethods.CheckError();
-				}
-				else break;
-			}
-			if (state != OAL.AL_STOPPED) throw new Exception("Could not stop open al playback.");
-			m_Playing = false;
-		}
+        private void StopChecked()
+        {
+            int state = 0;
+            for (int tryNumber = 0; tryNumber < 10 && m_Playing; tryNumber++)
+            {
+                OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
+                OAL.SafeNativeMethods.CheckError();
+                //if not playing restart
+                if (state != OAL.AL_STOPPED)
+                {
+                    OAL.SafeNativeMethods.alSourceStop(m_Source);
+                    OAL.SafeNativeMethods.CheckError();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (state != OAL.AL_STOPPED)
+            {
+                throw new Exception("Could not stop open al playback.");
+            }
+
+            m_Playing = false;
+        }
 
         #region constructor
         internal OALOut(OALDevice dev, IAudioConfiguration configuration)
@@ -123,23 +149,31 @@ namespace Cave.Media.Audio.OPENAL
         {
             lock (OAL.SyncRoot)
             {
-                if (m_Playing) throw new InvalidOperationException("Already started!");
+                if (m_Playing)
+                {
+                    throw new InvalidOperationException("Already started!");
+                }
+
                 OAL.SafeNativeMethods.alcMakeContextCurrent(m_Device.Context);
                 m_Playing = true;
-				m_BufferUnderflowCount = 0;
-				StartChecked(true);
+                m_BufferUnderflowCount = 0;
+                StartChecked(true);
             }
         }
-        
+
         /// <summary>Stops playing</summary>
         /// <exception cref="NotSupportedException">Invalid bit size!</exception>
         protected override void StopPlayback()
         {
             lock (OAL.SyncRoot)
             {
-                if (!m_Playing) throw new InvalidOperationException("Already stopped!");
+                if (!m_Playing)
+                {
+                    throw new InvalidOperationException("Already stopped!");
+                }
+
                 OAL.SafeNativeMethods.alcMakeContextCurrent(m_Device.Context);
-                StopChecked();                
+                StopChecked();
             }
         }
 
@@ -250,7 +284,11 @@ namespace Cave.Media.Audio.OPENAL
             }
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException();
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
                 lock (OAL.SyncRoot)
                 {
                     OAL.SafeNativeMethods.alcMakeContextCurrent(m_Device.Context);
@@ -290,12 +328,12 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-		/// <summary>Gets the buffer underflow count.</summary>
-		/// <value>The buffer underflow count.</value>
-		public override long BufferUnderflowCount => m_BufferUnderflowCount;
+        /// <summary>Gets the buffer underflow count.</summary>
+        /// <value>The buffer underflow count.</value>
+        public override long BufferUnderflowCount => m_BufferUnderflowCount;
 
-		/// <summary>Obtains the latency of the queue</summary>
-		public override TimeSpan Latency
+        /// <summary>Obtains the latency of the queue</summary>
+        public override TimeSpan Latency
         {
             get
             {
@@ -318,10 +356,18 @@ namespace Cave.Media.Audio.OPENAL
         /// <exception cref="ObjectDisposedException">OpenAL AudioOut</exception>
         public override void Write(IAudioData audioData)
         {
-            if (!Configuration.Equals(audioData)) throw new ArgumentException("AudioConfiguration does not match!");
+            if (!Configuration.Equals(audioData))
+            {
+                throw new ArgumentException("AudioConfiguration does not match!");
+            }
+
             lock (OAL.SyncRoot)
             {
-                if (m_Source == 0) throw new ObjectDisposedException("OpenAL AudioOut");
+                if (m_Source == 0)
+                {
+                    throw new ObjectDisposedException("OpenAL AudioOut");
+                }
+
                 UnqueuePlayedBuffers();
 
                 OAL.SafeNativeMethods.alcMakeContextCurrent(m_Device.Context);
@@ -335,12 +381,12 @@ namespace Cave.Media.Audio.OPENAL
                 m_Buffers.Add(bufferID, audioData);
                 m_BytesQueued += audioData.Length;
 
-				if (m_Playing)
-				{
-					StartChecked(false);
-				}
-			}
-		}
+                if (m_Playing)
+                {
+                    StartChecked(false);
+                }
+            }
+        }
         #endregion
     }
 }

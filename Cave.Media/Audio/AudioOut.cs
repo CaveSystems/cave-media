@@ -6,7 +6,7 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides a basic platform and device independent audio queue.
     /// </summary>
-    public abstract class AudioOut : IDisposable
+    public abstract class AudioOut: IDisposable
     {
         IAudioConfiguration m_Configuration;
         IAudioDevice m_Device;
@@ -20,8 +20,16 @@ namespace Cave.Media.Audio
         /// <param name="configuration">The configuration to use</param>
         protected internal AudioOut(IAudioDevice device, IAudioConfiguration configuration)
         {
-            if (device == null) throw new ArgumentNullException(nameof(device));
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (device == null)
+            {
+                throw new ArgumentNullException(nameof(device));
+            }
+
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             m_Device = device;
             m_Configuration = configuration;
         }
@@ -130,7 +138,11 @@ namespace Cave.Media.Audio
         /// </summary>
         public virtual void Close()
         {
-            if (m_State == AudioDeviceState.Started) Stop();
+            if (m_State == AudioDeviceState.Started)
+            {
+                Stop();
+            }
+
             if (m_State < AudioDeviceState.Closed)
             {
                 m_State = AudioDeviceState.Closed;
@@ -151,13 +163,13 @@ namespace Cave.Media.Audio
             }
         }
 
-		#endregion
+        #endregion
 
-		#region public implemented properties
+        #region public implemented properties
 
-		/// <summary>Gets the buffer underflow count.</summary>
-		/// <value>The buffer underflow count.</value>
-		public abstract long BufferUnderflowCount { get; }
+        /// <summary>Gets the buffer underflow count.</summary>
+        /// <value>The buffer underflow count.</value>
+        public abstract long BufferUnderflowCount { get; }
 
         /// <summary>Gets or sets the pitch.</summary>
         /// <value>The pitch.</value>
