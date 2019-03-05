@@ -17,7 +17,7 @@ namespace Cave.Media
         /// <returns>Returns a fingerprint with 6 bits per pixel (32 px = 6144 bit = 768 byte = 1024 base32 chars)</returns>
         public static FingerPrint Create(IBitmap32 bitmap)
         {
-            using (Bitmap32 thumb = bitmap.Resize(32, 32, ResizeFlags.KeepAspect))
+            using (Bitmap32 thumb = bitmap.Resize(32, 32, ResizeMode.TouchFromInside))
             {
                 ARGBImageData data = thumb.Data;
                 using (MemoryStream ms = new MemoryStream())
@@ -72,11 +72,11 @@ namespace Cave.Media
                     }
 
                     /*
-					uint b1 = (uint)(uint.MaxValue * (distanceMatrix[0] + distanceMatrix[1]  + distanceMatrix[4] + distanceMatrix[5]) /4);
-					uint b2 = (uint)(uint.MaxValue * (distanceMatrix[3] + distanceMatrix[2]  + distanceMatrix[7] + distanceMatrix[6]) / 4);
-					uint b3 = (uint)(uint.MaxValue * (distanceMatrix[12] + distanceMatrix[13]  + distanceMatrix[8]  + distanceMatrix[9]) / 4);
-					uint b4 = (uint)(uint.MaxValue * (distanceMatrix[15] + distanceMatrix[14]  + distanceMatrix[11] + distanceMatrix[10]) / 4);
-					*/
+                    uint b1 = (uint)(uint.MaxValue * (distanceMatrix[0] + distanceMatrix[1]  + distanceMatrix[4] + distanceMatrix[5]) /4);
+                    uint b2 = (uint)(uint.MaxValue * (distanceMatrix[3] + distanceMatrix[2]  + distanceMatrix[7] + distanceMatrix[6]) / 4);
+                    uint b3 = (uint)(uint.MaxValue * (distanceMatrix[12] + distanceMatrix[13]  + distanceMatrix[8]  + distanceMatrix[9]) / 4);
+                    uint b4 = (uint)(uint.MaxValue * (distanceMatrix[15] + distanceMatrix[14]  + distanceMatrix[11] + distanceMatrix[10]) / 4);
+                    */
                     return new FingerPrint(32, blocks, ms.ToArray());
                 }
             }
