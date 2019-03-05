@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides color counting and reduction
+    /// Provides color counting and reduction.
     /// </summary>
     /// <seealso cref="IComparable" />
     /// <seealso cref="IComparable{ColorCounter}" />
@@ -62,8 +62,8 @@ namespace Cave.Media
         /// <returns></returns>
         public int CompareTo(object other)
         {
-			if (other is ColorCounter) { return CompareTo((ColorCounter)other); }
-			if (other is ARGB) { return CompareTo((ARGB)other); }
+            if (other is ColorCounter) { return CompareTo((ColorCounter)other); }
+            if (other is ARGB) { return CompareTo((ARGB)other); }
             return -1;
         }
 
@@ -73,7 +73,7 @@ namespace Cave.Media
         public int CompareTo(ColorCounter other)
         {
             int check = -Count.CompareTo(other.Count);
-			if (check != 0) { return check; }
+            if (check != 0) { return check; }
             return Color.CompareTo(other.Color);
         }
 

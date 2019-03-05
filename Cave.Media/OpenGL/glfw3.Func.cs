@@ -57,21 +57,21 @@ namespace Cave.Media.OpenGL
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetVersion"), SuppressUnmanagedCodeSecurity]
         public static extern void GetVersion(out int major, out int minor, out int rev);
 
-		/// <summary>
-		/// <para>This function returns the compile-time generated version string of the GLFW
-		/// library binary. It describes the version, platform, compiler and any platform-specific
-		/// compile-time options. It should not be confused with the OpenGL or OpenGL ES version
-		/// string, queried with <c>glGetString</c>.</para>
-		/// <para><strong>Do not use the version string</strong> to parse the GLFW library version.
-		/// The <see cref="GetVersion(out int, out int, out int)"/> function provides the version of
-		/// the running library binary in numerical format.</para>
-		/// </summary>
-		/// <returns>The ASCII encoded GLFW version string.</returns>
-		/// <remarks>
-		/// This function may be called before <see cref="Init"/>.
-		/// </remarks>
-		/// <seealso cref="GetVersion(out int, out int, out int)"/>
-		public static unsafe string GetVersionString() => FromUTF8(glfwGetVersionString());
+        /// <summary>
+        /// <para>This function returns the compile-time generated version string of the GLFW
+        /// library binary. It describes the version, platform, compiler and any platform-specific
+        /// compile-time options. It should not be confused with the OpenGL or OpenGL ES version
+        /// string, queried with <c>glGetString</c>.</para>
+        /// <para><strong>Do not use the version string</strong> to parse the GLFW library version.
+        /// The <see cref="GetVersion(out int, out int, out int)"/> function provides the version of
+        /// the running library binary in numerical format.</para>
+        /// </summary>
+        /// <returns>The ASCII encoded GLFW version string.</returns>
+        /// <remarks>
+        /// This function may be called before <see cref="Init"/>.
+        /// </remarks>
+        /// <seealso cref="GetVersion(out int, out int, out int)"/>
+        public static unsafe string GetVersionString() => FromUTF8(glfwGetVersionString());
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetVersionString();
@@ -112,7 +112,9 @@ namespace Cave.Media.OpenGL
             var array = glfwGetMonitors(&count);
 
             if (count == 0)
+            {
                 return null;
+            }
 
             var monitors = new Monitor[count];
             int size = Marshal.SizeOf(typeof(IntPtr));
@@ -224,12 +226,16 @@ namespace Cave.Media.OpenGL
             var array = glfwGetVideoModes(monitor.Ptr, &count);
 
             if (count == 0)
+            {
                 return null;
+            }
 
             var result = new VideoMode[count];
 
             for (int i = 0; i < count; i++)
+            {
                 result[i] = array[i];
+            }
 
             return result;
         }
@@ -281,7 +287,7 @@ namespace Cave.Media.OpenGL
                 Green = new ushort[internalRamp->Size],
                 Blue = new ushort[internalRamp->Size]
             };
-            
+
             for (uint i = 0; i < ramp.Size; i++)
             {
                 ramp.Red[i] = internalRamp->Red[i];
@@ -363,7 +369,9 @@ namespace Cave.Media.OpenGL
         public static void WindowHint(Hint hint, int value)
         {
             if (value < 0)
+            {
                 value = DontCare;
+            }
 
             glfwWindowHint((int)hint, value);
         }
@@ -572,12 +580,16 @@ namespace Cave.Media.OpenGL
 
             IntPtr ptr;
             fixed (InternalImage* array = imgs)
+            {
                 ptr = new IntPtr((void*)array);
+            }
 
             glfwSetWindowIcon(window.Ptr, images.Length, ptr);
 
             for (int i = 0; i < imgs.Length; i++)
+            {
                 Marshal.FreeHGlobal(imgs[i].Pixels);
+            }
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -1329,7 +1341,7 @@ namespace Cave.Media.OpenGL
                 Height = image.Width,
                 Pixels = Marshal.AllocHGlobal(size)
             };
-            
+
             Marshal.Copy(image.Pixels, 0, img.Pixels, Math.Min(size, image.Pixels.Length));
 
             var ptr = new IntPtr(&img);
@@ -1486,17 +1498,17 @@ namespace Cave.Media.OpenGL
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetCursorEnterCallback(IntPtr window, IntPtr callback);
 
-		/// <summary>
-		/// <para>This function sets the scroll callback of the specified window, which is called
-		/// when a scrolling device is used, such as a mouse wheel or scrolling area of a
-		/// touchpad.</para>
-		/// <para>The scroll callback receives all scrolling input, like that from a mouse wheel or
-		/// a touchpad scrolling area.</para>
-		/// </summary>
-		/// <param name="window">The window whose callback to set.</param>
-		/// <param name="callback">The new callback, or <c>null</c> to remove the currently set
-		/// callback.</param>
-		public static void SetScrollCallback(Window window, CursorPosFunc callback) => glfwSetScrollCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
+        /// <summary>
+        /// <para>This function sets the scroll callback of the specified window, which is called
+        /// when a scrolling device is used, such as a mouse wheel or scrolling area of a
+        /// touchpad.</para>
+        /// <para>The scroll callback receives all scrolling input, like that from a mouse wheel or
+        /// a touchpad scrolling area.</para>
+        /// </summary>
+        /// <param name="window">The window whose callback to set.</param>
+        /// <param name="callback">The new callback, or <c>null</c> to remove the currently set
+        /// callback.</param>
+        public static void SetScrollCallback(Window window, CursorPosFunc callback) => glfwSetScrollCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetScrollCallback(IntPtr window, IntPtr callback);
@@ -1538,7 +1550,9 @@ namespace Cave.Media.OpenGL
             var array = glfwGetJoystickAxes((int)joy, &n);
 
             if (n == 0 || array == IntPtr.Zero)
+            {
                 return null;
+            }
 
             var axes = new float[n];
             Marshal.Copy(array, axes, 0, n);
@@ -1563,14 +1577,18 @@ namespace Cave.Media.OpenGL
             var array = glfwGetJoystickButtons((int)joy, &n);
 
             if (n == 0 || array == IntPtr.Zero)
+            {
                 return null;
+            }
 
             var b = new byte[n];
             Marshal.Copy(array, b, 0, n);
 
             var buttons = new bool[n];
             for (int i = 0; i < n; i++)
+            {
                 buttons[i] = b[i] > 0;
+            }
 
             return buttons;
         }
@@ -1746,7 +1764,7 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="SwapBuffers(Window)"/>
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSwapInterval"), SuppressUnmanagedCodeSecurity]
         public static extern void SwapInterval(int interval);
-        
+
         /// <summary>
         /// <para>This function returns whether the specified API extension is supported by the
         /// current OpenGL or OpenGL ES context. It searches both for client API extension and
@@ -1793,14 +1811,14 @@ namespace Cave.Media.OpenGL
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VulkanSupported();
 
-		/// <summary>Returns the HWND of the specified window.</summary>
-		/// <param name="window">The window.</param>
-		/// <returns>The HWND of the specified window, or NULL if an error occurred.</returns>
-		public static IntPtr GetWin32Window(Window window) => glfwGetWin32Window(window.Ptr);
+        /// <summary>Returns the HWND of the specified window.</summary>
+        /// <param name="window">The window.</param>
+        /// <returns>The HWND of the specified window, or NULL if an error occurred.</returns>
+        public static IntPtr GetWin32Window(Window window) => glfwGetWin32Window(window.Ptr);
 
-		[DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr glfwGetWin32Window(IntPtr window);
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        static extern IntPtr glfwGetWin32Window(IntPtr window);
 
-		//TODO X11
-	}
+        //TODO X11
+    }
 }

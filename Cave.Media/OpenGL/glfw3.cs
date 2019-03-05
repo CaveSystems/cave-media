@@ -22,38 +22,38 @@ namespace Cave.Media.OpenGL
         /// not found.</exception>
         public static void ConfigureNativesDirectory(string nativeDirectory)
         {
-			if (Directory.Exists(nativeDirectory))
-			{
-				Environment.SetEnvironmentVariable("Path", Environment.GetEnvironmentVariable("Path") + ";" + Path.GetFullPath(nativeDirectory) + ";");
-			}
-			else
-			{
-				throw new DirectoryNotFoundException(nativeDirectory);
-			}
+            if (Directory.Exists(nativeDirectory))
+            {
+                Environment.SetEnvironmentVariable("Path", Environment.GetEnvironmentVariable("Path") + ";" + Path.GetFullPath(nativeDirectory) + ";");
+            }
+            else
+            {
+                throw new DirectoryNotFoundException(nativeDirectory);
+            }
         }
 
         /// <summary>
         /// GLFW_DONT_CARE
         /// </summary>
-        public readonly static int DontCare = -1;
+        public static readonly int DontCare = -1;
 
         /// <summary>
         /// The major version number of the GLFW library. This is incremented when the API is
         /// changed in non-compatible ways.
         /// </summary>
-        public readonly static int VersionMajor = 3;
+        public static readonly int VersionMajor = 3;
 
         /// <summary>
         /// The minor version number of the GLFW library. This is incremented when features are
         /// added to the API but it remains backward-compatible.
         /// </summary>
-        public readonly static int VersionMinor = 2;
+        public static readonly int VersionMinor = 2;
 
         /// <summary>
         /// The revision number of the GLFW library. This is incremented when a bug fix release is
         /// made that does not contain any API changes.
         /// </summary>
-        public readonly static int VersionRevision = 1;
+        public static readonly int VersionRevision = 1;
 
         // string <> utf8 utility functions
         internal static IntPtr ToUTF8(string text)
@@ -70,7 +70,10 @@ namespace Cave.Media.OpenGL
         {
             int len = 0;
             while (Marshal.ReadByte(ptr, len) != 0)
+            {
                 ++len;
+            }
+
             byte[] buffer = new byte[len];
             Marshal.Copy(ptr, buffer, 0, buffer.Length);
             return Encoding.UTF8.GetString(buffer);

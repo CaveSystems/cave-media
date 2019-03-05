@@ -3,10 +3,10 @@ using System;
 
 namespace Cave.Media
 {
-	/// <summary>
-	/// Provides an interface for video frame informations
-	/// </summary>
-	public interface IVideoFrame
+    /// <summary>
+    /// Provides an interface for video frame informations.
+    /// </summary>
+    public interface IVideoFrame
     {
         /// <summary>
         /// Stream index (&lt;0 = invalid or unknown index)<br/>
