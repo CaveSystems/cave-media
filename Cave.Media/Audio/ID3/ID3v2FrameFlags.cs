@@ -6,7 +6,7 @@ namespace Cave.Media.Audio.ID3
     public class ID3v2FrameFlags
     {
         /// <summary>
-        /// Creates a <see cref="ID3v2FrameFlags"/> instance from the specified <see cref="ID3v2d4FrameFlags"/>
+        /// Creates a <see cref="ID3v2FrameFlags"/> instance from the specified <see cref="ID3v2d4FrameFlags"/>.
         /// </summary>
         /// <param name="flags"></param>
         /// <returns></returns>
@@ -25,7 +25,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Creates a <see cref="ID3v2FrameFlags"/> instance from the specified <see cref="ID3v2d3FrameFlags"/>
+        /// Creates a <see cref="ID3v2FrameFlags"/> instance from the specified <see cref="ID3v2d3FrameFlags"/>.
         /// </summary>
         /// <param name="flags"></param>
         /// <returns></returns>
@@ -126,7 +126,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public bool ReadOnly;
 
-          /// <summary>
+        /// <summary>
         /// <para>
         /// 0: Frame is not compressed.<br/>
         /// 1: Frame is compressed using zlib [zlib] with 4 bytes for
@@ -166,14 +166,46 @@ namespace Cave.Media.Audio.ID3
         public ID3v2d4FrameFlags ToID3v2d4Flags()
         {
             ID3v2d4FrameFlags flags = 0;
-            if (Compression) flags |= ID3v2d4FrameFlags.Compression;
-            if (DataLengthIndicator) flags |= ID3v2d4FrameFlags.DataLengthIndicator;
-            if (Encryption) flags |= ID3v2d4FrameFlags.Encryption;
-            if (FileAlterPreservation) flags |= ID3v2d4FrameFlags.FileAlterPreservation;
-            if (GroupingIdentity) flags |= ID3v2d4FrameFlags.GroupingIdentity;
-            if (ReadOnly) flags |= ID3v2d4FrameFlags.ReadOnly;
-            if (TagAlterPreservation) flags |= ID3v2d4FrameFlags.TagAlterPreservation;
-            if (Unsynchronisation) flags |= ID3v2d4FrameFlags.Unsynchronisation;
+            if (Compression)
+            {
+                flags |= ID3v2d4FrameFlags.Compression;
+            }
+
+            if (DataLengthIndicator)
+            {
+                flags |= ID3v2d4FrameFlags.DataLengthIndicator;
+            }
+
+            if (Encryption)
+            {
+                flags |= ID3v2d4FrameFlags.Encryption;
+            }
+
+            if (FileAlterPreservation)
+            {
+                flags |= ID3v2d4FrameFlags.FileAlterPreservation;
+            }
+
+            if (GroupingIdentity)
+            {
+                flags |= ID3v2d4FrameFlags.GroupingIdentity;
+            }
+
+            if (ReadOnly)
+            {
+                flags |= ID3v2d4FrameFlags.ReadOnly;
+            }
+
+            if (TagAlterPreservation)
+            {
+                flags |= ID3v2d4FrameFlags.TagAlterPreservation;
+            }
+
+            if (Unsynchronisation)
+            {
+                flags |= ID3v2d4FrameFlags.Unsynchronisation;
+            }
+
             return flags;
         }
 
@@ -182,12 +214,36 @@ namespace Cave.Media.Audio.ID3
         public ID3v2d3FrameFlags ToID3v2d3Flags()
         {
             ID3v2d3FrameFlags flags = 0;
-            if (Compression) flags |= ID3v2d3FrameFlags.Compression;
-            if (Encryption) flags |= ID3v2d3FrameFlags.Encryption;
-            if (FileAlterPreservation) flags |= ID3v2d3FrameFlags.FileAlterPreservation;
-            if (GroupingIdentity) flags |= ID3v2d3FrameFlags.GroupingIdentity;
-            if (ReadOnly) flags |= ID3v2d3FrameFlags.ReadOnly;
-            if (TagAlterPreservation) flags |= ID3v2d3FrameFlags.TagAlterPreservation;
+            if (Compression)
+            {
+                flags |= ID3v2d3FrameFlags.Compression;
+            }
+
+            if (Encryption)
+            {
+                flags |= ID3v2d3FrameFlags.Encryption;
+            }
+
+            if (FileAlterPreservation)
+            {
+                flags |= ID3v2d3FrameFlags.FileAlterPreservation;
+            }
+
+            if (GroupingIdentity)
+            {
+                flags |= ID3v2d3FrameFlags.GroupingIdentity;
+            }
+
+            if (ReadOnly)
+            {
+                flags |= ID3v2d3FrameFlags.ReadOnly;
+            }
+
+            if (TagAlterPreservation)
+            {
+                flags |= ID3v2d3FrameFlags.TagAlterPreservation;
+            }
+
             return flags;
         }
     }

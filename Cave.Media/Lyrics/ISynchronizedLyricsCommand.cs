@@ -3,7 +3,7 @@
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Provides a synchronized lyrics command interface
+    /// Provides a synchronized lyrics command interface.
     /// </summary>
     public interface ISynchronizedLyricsCommand
     {

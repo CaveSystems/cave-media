@@ -43,7 +43,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the owner of the ufid
+        /// Obtains the owner of the ufid.
         /// </summary>
         public string Owner
         {
@@ -59,7 +59,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the ufid data
+        /// Obtains the ufid data.
         /// </summary>
         public byte[] UFID
         {
@@ -75,14 +75,14 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the UFID as hex string
+        /// Obtains the UFID as hex string.
         /// </summary>
         public string HexUFID => StringExtensions.ToHexString(UFID);
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "Owner":HexUFID</returns>
+        /// <returns>ID[Length] "Owner":HexUFID.</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Owner + "\":" + HexUFID;

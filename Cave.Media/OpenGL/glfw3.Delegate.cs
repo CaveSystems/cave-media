@@ -113,7 +113,7 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window that received the event.</param>
         /// <param name="button">The <see cref="MouseButton"/> that was pressed or released.</param>
         /// <param name="state">One of <see cref="InputState.Press"/> or
-        /// <see cref="InputState.Release"/></param>
+        /// <see cref="InputState.Release"/>.</param>
         /// <param name="mods">Bit field describing which <see cref="KeyMods"/> were held
         /// down.</param>
         /// <seealso cref="SetMouseButtonCallback(Window, MouseButtonFunc)"/>

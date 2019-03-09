@@ -3,7 +3,7 @@ using System;
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// AVISTREAMINFOFLAGS flags
+    /// AVISTREAMINFOFLAGS flags.
     /// </summary>
     [Flags]
     public enum AVISTREAMHEADERFLAGS : int

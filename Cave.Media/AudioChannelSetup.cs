@@ -3,7 +3,7 @@ using System;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides available audio channel configurations
+    /// Provides available audio channel configurations.
     /// </summary>
     [Flags]
     public enum AudioChannelSetup : uint

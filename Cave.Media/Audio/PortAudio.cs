@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides access to the port audio api
+    /// Provides access to the port audio api.
     /// </summary>
     /// <seealso cref="AudioAPI" />
     public class PortAudio : AudioAPI
@@ -22,7 +22,7 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the preference value.</summary>
         /// <value>Constant value = +10.</value>
-        /// <remarks>Small values represent a higher priority</remarks>
+        /// <remarks>Small values represent a higher priority.</remarks>
         public override int Preference { get { return +10; } }
 
         /// <summary>Initializes a new instance of the <see cref="PortAudio"/> class.</summary>
@@ -31,13 +31,13 @@ namespace Cave.Media.Audio
             try
             {
                 PAErrorCode l_Error = PA.SafeNativeMethods.Pa_Initialize();
-                m_Initialized = (l_Error == PAErrorCode.NoError);
+                m_Initialized = l_Error == PAErrorCode.NoError;
                 m_CheckErrorCode(l_Error);
             }
             catch { }
         }
 
-        /// <summary>Obtains the available input devices</summary>
+        /// <summary>Obtains the available input devices.</summary>
         public override IAudioDevice[] InputDevices
         {
             get
@@ -47,22 +47,25 @@ namespace Cave.Media.Audio
                 for (int i = 0; i < deviceCount; i++)
                 {
                     PADeviceInfo l_DeviceInfo = PA.GetDeviceInfo(i);
-                    if (l_DeviceInfo.MaxInputChannels > 0) devices.Add(new PADevice(this, i));
+                    if (l_DeviceInfo.MaxInputChannels > 0)
+                    {
+                        devices.Add(new PADevice(this, i));
+                    }
                 }
                 return devices.ToArray();
             }
         }
 
-        /// <summary>Determines if the API is available</summary>
+        /// <summary>Determines if the API is available.</summary>
         public override bool IsAvailable
         {
             get
             {
-                return (m_Initialized);
+                return m_Initialized;
             }
         }
 
-        /// <summary>Obtains all available output devices</summary>
+        /// <summary>Obtains all available output devices.</summary>
         public override IAudioDevice[] OutputDevices
         {
             get
@@ -72,7 +75,10 @@ namespace Cave.Media.Audio
                 for (int i = 0; i < deviceCount; i++)
                 {
                     PADeviceInfo deviceInfo = PA.GetDeviceInfo(i);
-                    if (deviceInfo.MaxOutputChannels > 0) devices.Add(new PADevice(this, i));
+                    if (deviceInfo.MaxOutputChannels > 0)
+                    {
+                        devices.Add(new PADevice(this, i));
+                    }
                 }
                 return devices.ToArray();
             }
@@ -99,12 +105,16 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the version text.</summary>
         /// <returns></returns>
-        /// <exception cref="Exception">PortAudio not initialized!</exception>
+        /// <exception cref="Exception">PortAudio not initialized!.</exception>
         public string VersionText
         {
             get
             {
-                if (!m_Initialized) throw new Exception("PortAudio not initialized!");
+                if (!m_Initialized)
+                {
+                    throw new Exception("PortAudio not initialized!");
+                }
+
                 return PA.VersionText;
             }
         }

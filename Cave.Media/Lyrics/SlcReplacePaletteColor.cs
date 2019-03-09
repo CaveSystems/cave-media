@@ -2,7 +2,7 @@
 
 namespace Cave.Media.Lyrics
 {
-	internal class SlcReplacePaletteColor : SynchronizedLyricsCommand
+    internal class SlcReplacePaletteColor : SynchronizedLyricsCommand
     {
         public byte ColorIndex { get; private set; }
         public ARGB ColorValue { get; private set; }

@@ -104,25 +104,25 @@ namespace Cave.Media.Audio.MP3
 
         #endregion
 
-        /// <summary>The table number</summary>
+        /// <summary>The table number.</summary>
         readonly int TableNumber;
 
-        /// <summary>The max. x-index</summary>
+        /// <summary>The max. x-index.</summary>
         readonly int XLength;
 
-        /// <summary>The max. y-index</summary>
+        /// <summary>The max. y-index.</summary>
         readonly int YLength;
 
-        /// <summary>The number of linbits</summary>
+        /// <summary>The number of linbits.</summary>
         readonly int LinBitCount;
 
-        /// <summary>The max number to be stored in linbits</summary>
+        /// <summary>The max number to be stored in linbits.</summary>
         readonly int LinBitMax;
 
-        /// <summary>The decoder tree</summary>
+        /// <summary>The decoder tree.</summary>
         readonly int[][] Tree = null;
 
-        /// <summary>The length of the decoder tree </summary>
+        /// <summary>The length of the decoder tree. </summary>
         readonly int TreeLength;
 
         /// <summary>
@@ -137,7 +137,11 @@ namespace Cave.Media.Audio.MP3
         /// <param name="treeLength">Length of the decoder tree.</param>
         MP3AudioHuffman(int tableNumber, int x, int y, int linBitCount, int linBitMax, int[][] tree, int treeLength)
         {
-            if (tree == null) throw new ArgumentNullException("Tree");
+            if (tree == null)
+            {
+                throw new ArgumentNullException("Tree");
+            }
+
             TableNumber = tableNumber;
             XLength = x;
             YLength = y;
@@ -155,7 +159,7 @@ namespace Cave.Media.Audio.MP3
         /// <param name="v">The v.</param>
         /// <param name="w">The w.</param>
         /// <param name="br">The BitReserve.</param>
-        /// <returns>Returns true on success, false otherwise</returns>
+        /// <returns>Returns true on success, false otherwise.</returns>
         public bool Decode(int[] x, int[] y, int[] v, int[] w, MP3BitReserve br)
         {
             // array of all huffcodtable headers
@@ -188,12 +192,20 @@ namespace Cave.Media.Audio.MP3
                 // hget1bit() is called thousands of times, and so needs to be ultra fast. 
                 if (br.ReadBit())
                 {
-                    while (Tree[l_Point][1] >= MXOFF) l_Point += Tree[l_Point][1];
+                    while (Tree[l_Point][1] >= MXOFF)
+                    {
+                        l_Point += Tree[l_Point][1];
+                    }
+
                     l_Point += Tree[l_Point][1];
                 }
                 else
                 {
-                    while (Tree[l_Point][0] >= MXOFF) l_Point += Tree[l_Point][0];
+                    while (Tree[l_Point][0] >= MXOFF)
+                    {
+                        l_Point += Tree[l_Point][0];
+                    }
+
                     l_Point += Tree[l_Point][0];
                 }
                 l_Level = l_Level >> 1;
@@ -210,10 +222,37 @@ namespace Cave.Media.Audio.MP3
 
                 /* v, w, x and y are reversed in the bitstream. switch them around to make test bistream work. */
 
-                if (v[0] != 0) if (br.ReadBit()) v[0] = -v[0];
-                if (w[0] != 0) if (br.ReadBit()) w[0] = -w[0];
-                if (x[0] != 0) if (br.ReadBit()) x[0] = -x[0];
-                if (y[0] != 0) if (br.ReadBit()) y[0] = -y[0];
+                if (v[0] != 0)
+                {
+                    if (br.ReadBit())
+                    {
+                        v[0] = -v[0];
+                    }
+                }
+
+                if (w[0] != 0)
+                {
+                    if (br.ReadBit())
+                    {
+                        w[0] = -w[0];
+                    }
+                }
+
+                if (x[0] != 0)
+                {
+                    if (br.ReadBit())
+                    {
+                        x[0] = -x[0];
+                    }
+                }
+
+                if (y[0] != 0)
+                {
+                    if (br.ReadBit())
+                    {
+                        y[0] = -y[0];
+                    }
+                }
             }
             else
             {
@@ -221,11 +260,37 @@ namespace Cave.Media.Audio.MP3
                 // x and y are reversed in the test bitstream.
                 // Reverse x and y here to make test bitstream work.
 
-                if (LinBitCount != 0) if ((XLength - 1) == x[0]) x[0] += br.ReadBits(LinBitCount);
-                if (x[0] != 0) if (br.ReadBit()) x[0] = -x[0];
+                if (LinBitCount != 0)
+                {
+                    if ((XLength - 1) == x[0])
+                    {
+                        x[0] += br.ReadBits(LinBitCount);
+                    }
+                }
 
-                if (LinBitCount != 0) if ((YLength - 1) == y[0]) y[0] += br.ReadBits(LinBitCount);
-                if (y[0] != 0) if (br.ReadBit()) y[0] = -y[0];
+                if (x[0] != 0)
+                {
+                    if (br.ReadBit())
+                    {
+                        x[0] = -x[0];
+                    }
+                }
+
+                if (LinBitCount != 0)
+                {
+                    if ((YLength - 1) == y[0])
+                    {
+                        y[0] += br.ReadBits(LinBitCount);
+                    }
+                }
+
+                if (y[0] != 0)
+                {
+                    if (br.ReadBit())
+                    {
+                        y[0] = -y[0];
+                    }
+                }
             }
             return l_Success;
         }

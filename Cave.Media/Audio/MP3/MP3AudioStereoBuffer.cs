@@ -12,7 +12,7 @@ using System;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Audio data buffer for the MP3 decoder
+    /// Audio data buffer for the MP3 decoder.
     /// </summary>
     public sealed class MP3AudioStereoBuffer
     {

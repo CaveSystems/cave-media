@@ -17,7 +17,7 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <param name="flags">The flags.</param>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        /// <exception cref="NotSupportedException">Unsupported Header Version</exception>
+        /// <exception cref="NotSupportedException">Unsupported Header Version.</exception>
         public static ID3v2XSLTFrame Create(ID3v2Header header, ID3v2FrameFlags flags, byte[] data)
         {
             switch (header.Version)
@@ -42,7 +42,10 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2XSLTFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "XSLT") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "XSLT"));
+            if (frame.ID != "XSLT")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "XSLT"));
+            }
         }
     }
 }

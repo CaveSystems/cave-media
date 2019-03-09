@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides an abstract base class to implement audio apis
+    /// Provides an abstract base class to implement audio apis.
     /// </summary>
     public abstract class AudioAPI : IAudioAPI
     {
@@ -47,58 +47,48 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the preference value.</summary>
         /// <value>The preference.</value>
-        /// <remarks>Small values represent a higher priority</remarks>
+        /// <remarks>Small values represent a higher priority.</remarks>
         public abstract int Preference { get; }
 
         /// <summary>
-        /// Determines if the API is available
+        /// Determines if the API is available.
         /// </summary>
         public abstract bool IsAvailable { get; }
 
         /// <summary>
-        /// Obtains the default output device
+        /// Obtains the default output device.
         /// </summary>
-        /// <returns>Returns the default output device</returns>
+        /// <returns>Returns the default output device.</returns>
         public virtual IAudioDevice DefaultOutputDevice
         {
             get
             {
-                if (OutputDevices.Length == 0)
-                {
-                    return null;
-                }
-
-                return OutputDevices[0];
+                return OutputDevices.Length == 0 ? null : OutputDevices[0];
             }
         }
 
         /// <summary>
-        /// Obtains the default input device
+        /// Obtains the default input device.
         /// </summary>
-        /// <returns>Returns the default input device</returns>
+        /// <returns>Returns the default input device.</returns>
         public virtual IAudioDevice DefaultInputDevice
         {
             get
             {
-                if (InputDevices.Length == 0)
-                {
-                    return null;
-                }
-
-                return InputDevices[0];
+                return InputDevices.Length == 0 ? null : InputDevices[0];
             }
         }
 
         /// <summary>
-        /// Obtains all available output devices
+        /// Obtains all available output devices.
         /// </summary>
-        /// <returns>Returns all output devices</returns>
+        /// <returns>Returns all output devices.</returns>
         public abstract IAudioDevice[] OutputDevices { get; }
 
         /// <summary>
-        /// Obtains the available input devices
+        /// Obtains the available input devices.
         /// </summary>
-        /// <returns>Returns all input devices</returns>
+        /// <returns>Returns all input devices.</returns>
         public abstract IAudioDevice[] InputDevices { get; }
 
         #endregion

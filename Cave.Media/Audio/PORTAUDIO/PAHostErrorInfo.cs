@@ -11,18 +11,18 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Host Error Information structure
+    /// PortAudio Host Error Information structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct PAHostErrorInfo
     {
-        /// <summary>The host API type</summary>
+        /// <summary>The host API type.</summary>
         public PAHostApiTypeId HostApiType;
 
-        /// <summary>The error code</summary>
+        /// <summary>The error code.</summary>
         public PAErrorCode ErrorCode;
 
-        /// <summary>The error text</summary>
+        /// <summary>The error text.</summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string ErrorText;
 

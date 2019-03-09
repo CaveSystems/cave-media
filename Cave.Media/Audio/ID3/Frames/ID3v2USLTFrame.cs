@@ -6,7 +6,7 @@ namespace Cave.Media.Audio.ID3.Frames
     /// other vocal activities. The head includes an encoding descriptor and
     /// a content descriptor.
     /// </summary>
-    
+
     public sealed class ID3v2USLTFrame : ID3v2Frame
     {
         bool m_Parsed = false;
@@ -27,49 +27,64 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2USLTFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "USLT") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "USLT"));
+            if (frame.ID != "USLT")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "USLT"));
+            }
         }
 
         /// <summary>
-        /// Provides the lyrics language
+        /// Provides the lyrics language.
         /// </summary>
         public string Language
         {
             get
             {
-                if (!m_Parsed) Parse();
+                if (!m_Parsed)
+                {
+                    Parse();
+                }
+
                 return m_Language;
             }
         }
 
         /// <summary>
-        /// Provides the lyric descripto
+        /// Provides the lyric descripto.
         /// </summary>
         public string Descriptor
         {
             get
             {
-                if (!m_Parsed) Parse();
+                if (!m_Parsed)
+                {
+                    Parse();
+                }
+
                 return m_Descriptor;
             }
         }
 
         /// <summary>
-        /// Provides the full song text
+        /// Provides the full song text.
         /// </summary>
         public string[] Lines
         {
             get
             {
-                if (!m_Parsed) Parse();
+                if (!m_Parsed)
+                {
+                    Parse();
+                }
+
                 return (string[])m_Lines.Clone();
             }
         }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] LNG:"Descriptor"</returns>
+        /// <returns>ID[Length] LNG:"Descriptor".</returns>
         public override string ToString()
         {
             return base.ToString() + " " + Language + ":\"" + Descriptor + '"';

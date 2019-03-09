@@ -7,11 +7,11 @@ namespace Cave.Media.Audio.ID3
     /// This header is a result of a collective brainfuck. The only useful setting is the crc, that is ignored by most decoders.
     /// Attention: Some players may skip the whole tag if this header is used.
     /// </summary>
-    
+
     public class ID3v2ExtendedHeaderRestrictions
     {
         /// <summary>
-        /// Load ID3v2ExtendedHeaderRestrictions for ID3v2.4 byte flag
+        /// Load ID3v2ExtendedHeaderRestrictions for ID3v2.4 byte flag.
         /// </summary>
         /// <param name="value"></param>
         public static ID3v2ExtendedHeaderRestrictions FromID3v24(byte value)
@@ -33,29 +33,29 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Creates a new ID3v2ExtendedHeaderRestrictions instance
+        /// Creates a new ID3v2ExtendedHeaderRestrictions instance.
         /// </summary>
-        /// <param name="size">The ID3v2ExtendedHeaderSizeRestriction</param>
-        /// <param name="textEncoding">Tag encoding restriction</param>
-        /// <param name="textLength">Tag text length restriction</param>
-        /// <param name="imageEncoding">Tag image encoding restriction</param>
-        /// <param name="imageSize">Tag image size restriction</param>
+        /// <param name="size">The ID3v2ExtendedHeaderSizeRestriction.</param>
+        /// <param name="textEncoding">Tag encoding restriction.</param>
+        /// <param name="textLength">Tag text length restriction.</param>
+        /// <param name="imageEncoding">Tag image encoding restriction.</param>
+        /// <param name="imageSize">Tag image size restriction.</param>
         public ID3v2ExtendedHeaderRestrictions(ID3v2ExtendedHeaderSizeRestriction size, bool textEncoding, ID3v2ExtendedHeaderTextRestriction textLength, bool imageEncoding, ID3v2ImageSize imageSize)
         {
             switch (size)
             {
                 case ID3v2ExtendedHeaderSizeRestriction.Mega: Frames = 128; Size = 1024 * 1024; break;
                 case ID3v2ExtendedHeaderSizeRestriction.Big: Frames = 64; Size = 128 * 1024; break;
-                case  ID3v2ExtendedHeaderSizeRestriction.Small: Frames = 32; Size = 40 * 1024; break;
-                case  ID3v2ExtendedHeaderSizeRestriction.Tiny: Frames = 32; Size = 4 * 1024; break;
+                case ID3v2ExtendedHeaderSizeRestriction.Small: Frames = 32; Size = 40 * 1024; break;
+                case ID3v2ExtendedHeaderSizeRestriction.Tiny: Frames = 32; Size = 4 * 1024; break;
                 default: throw new InvalidDataException();
             }
             switch (textLength)
             {
                 case ID3v2ExtendedHeaderTextRestriction.Unlimited: TextLength = 0; break;
-                case  ID3v2ExtendedHeaderTextRestriction.Big: TextLength = 1024; break;
-                case  ID3v2ExtendedHeaderTextRestriction.Small: TextLength = 128; break;
-                case  ID3v2ExtendedHeaderTextRestriction.Tiny: TextLength = 30; break;
+                case ID3v2ExtendedHeaderTextRestriction.Big: TextLength = 1024; break;
+                case ID3v2ExtendedHeaderTextRestriction.Small: TextLength = 128; break;
+                case ID3v2ExtendedHeaderTextRestriction.Tiny: TextLength = 30; break;
                 default: throw new InvalidDataException();
             }
             TextEncoding = textEncoding;
@@ -67,7 +67,7 @@ namespace Cave.Media.Audio.ID3
         /// Maximum size restriction.
         /// <para>
         /// &lt;= 0: no restriction<br />
-        /// &gt; 0: Restricted to the specified number of bytes
+        /// &gt; 0: Restricted to the specified number of bytes.
         /// </para>
         /// </summary>
         public readonly int Size;
@@ -76,7 +76,7 @@ namespace Cave.Media.Audio.ID3
         /// Maximum frames restriction.
         /// <para>
         /// &lt;= 0: no restriction<br />
-        /// &gt; 0: Restricted to the specified number of frames
+        /// &gt; 0: Restricted to the specified number of frames.
         /// </para>
         /// </summary>
         public readonly int Frames;
@@ -90,10 +90,10 @@ namespace Cave.Media.Audio.ID3
         public readonly bool TextEncoding;
 
         /// <summary>
-        /// Maximum TextLength
+        /// Maximum TextLength.
         /// <para>
         /// &lt;= 0: no restriction<br />
-        /// &gt; 0: Restricted to the specified number of chars
+        /// &gt; 0: Restricted to the specified number of chars.
         /// </para>
         /// Note that nothing is said about how many bytes is used to
         /// represent those characters, since it is encoding dependent. If a
@@ -103,7 +103,7 @@ namespace Cave.Media.Audio.ID3
         public readonly int TextLength;
 
         /// <summary>
-        /// Image encoding restrictions
+        /// Image encoding restrictions.
         /// <para>
         /// 0: No restrictions<br />
         /// 1: Images are encoded only with PNG [PNG] or JPEG [JFIF].

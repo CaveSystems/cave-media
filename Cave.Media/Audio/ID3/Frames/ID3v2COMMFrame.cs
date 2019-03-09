@@ -33,7 +33,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the language (3 character code)
+        /// Obtains the language (3 character code).
         /// </summary>
         public string Language
         {
@@ -49,7 +49,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the description of the text this frame contains
+        /// Obtains the description of the text this frame contains.
         /// </summary>
         public string Description
         {
@@ -65,7 +65,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the text this frame contains
+        /// Obtains the text this frame contains.
         /// </summary>
         public string[] Lines
         {
@@ -81,9 +81,9 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "Text"</returns>
+        /// <returns>ID[Length] "Text".</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Description + '"';

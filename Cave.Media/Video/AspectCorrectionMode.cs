@@ -2,7 +2,7 @@
 namespace Cave.Media.Video
 {
     /// <summary>
-    /// Provides available aspect correction modes
+    /// Provides available aspect correction modes.
     /// </summary>
     [Flags]
     public enum AspectCorrectionMode

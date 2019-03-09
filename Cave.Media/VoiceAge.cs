@@ -18,6 +18,6 @@
         Adult,
 
         /// <summary>Indicates a senior voice.</summary>
-        Senior
+        Senior,
     }
 }

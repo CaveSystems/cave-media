@@ -3,7 +3,7 @@ using System;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides an abstract base class for (valid) mp3 meta frames
+    /// Provides an abstract base class for (valid) mp3 meta frames.
     /// </summary>
     public abstract class MP3MetaFrame : AudioFrame
     {
@@ -18,7 +18,7 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Tag is valid
+        /// Tag is valid.
         /// </summary>
         public override bool IsValid
         {
@@ -26,7 +26,7 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Duration of this tag is <see cref="TimeSpan.Zero"/>
+        /// Duration of this tag is <see cref="TimeSpan.Zero"/>.
         /// </summary>
         public override TimeSpan Duration
         {

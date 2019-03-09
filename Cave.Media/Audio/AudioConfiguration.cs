@@ -2,109 +2,88 @@ using System;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides a simple implementation of the <see cref="IAudioConfiguration"/> interface
+    /// Provides a simple implementation of the <see cref="IAudioConfiguration"/> interface.
     /// </summary>
     public class AudioConfiguration : IAudioConfiguration
     {
-        int m_SamplingRate;
-        AudioSampleFormat m_Format;
-        AudioChannelSetup m_ChannelSetup;
-        int m_BytesPerSample;
-        int m_BytesPerTick;
-
         /// <summary>
-        /// Creates a new AudioConfiguration instance
+        /// Initializes a new instance of the <see cref="AudioConfiguration"/> class.
         /// </summary>
-        /// <param name="samplingRate">The samplingrate to use</param>
-        /// <param name="format">The format to use</param>
-        /// <param name="channels">Number of channels</param>
+        /// <param name="samplingRate">The samplingrate to use.</param>
+        /// <param name="format">The format to use.</param>
+        /// <param name="channels">Number of channels.</param>
         public AudioConfiguration(int samplingRate, AudioSampleFormat format, int channels)
             : this(samplingRate, format, (AudioChannelSetup)channels)
         {
         }
 
         /// <summary>
-        /// Creates a new AudioConfiguration instance
+        /// Initializes a new instance of the <see cref="AudioConfiguration"/> class.
         /// </summary>
-        /// <param name="samplingRate">The samplingrate to use</param>
-        /// <param name="format">The format to use</param>
-        /// <param name="channelSetup">The channel configuration to use</param>
+        /// <param name="samplingRate">The samplingrate to use.</param>
+        /// <param name="format">The format to use.</param>
+        /// <param name="channelSetup">The channel configuration to use.</param>
         public AudioConfiguration(int samplingRate, AudioSampleFormat format, AudioChannelSetup channelSetup)
         {
-            m_SamplingRate = samplingRate;
-            m_Format = format;
-            m_ChannelSetup = channelSetup;
+            SamplingRate = samplingRate;
+            Format = format;
+            ChannelSetup = channelSetup;
 
-            switch (m_Format)
+            switch (Format)
             {
-                case AudioSampleFormat.Int8: m_BytesPerSample = 1; break;
-                case AudioSampleFormat.Int16: m_BytesPerSample = 2; break;
-                case AudioSampleFormat.Int24: m_BytesPerSample = 3; break;
+                case AudioSampleFormat.Int8: BytesPerSample = 1; break;
+                case AudioSampleFormat.Int16: BytesPerSample = 2; break;
+                case AudioSampleFormat.Int24: BytesPerSample = 3; break;
                 case AudioSampleFormat.Int32:
-                case AudioSampleFormat.Float: m_BytesPerSample = 4; break;
-                case AudioSampleFormat.Double: m_BytesPerSample = 8; break;
-                case AudioSampleFormat.Unknown: m_BytesPerSample = 0; break;
+                case AudioSampleFormat.Float: BytesPerSample = 4; break;
+                case AudioSampleFormat.Double: BytesPerSample = 8; break;
+                case AudioSampleFormat.Unknown: BytesPerSample = 0; break;
                 default: throw new NotImplementedException();
             }
 
-            m_BytesPerTick = m_BytesPerSample;
-            m_ChannelSetup = channelSetup;
-            m_BytesPerTick *= (int)m_ChannelSetup;
+            BytesPerTick = BytesPerSample;
+            ChannelSetup = channelSetup;
+            BytesPerTick *= (int)ChannelSetup;
         }
 
         #region IAudioConfiguration Member
 
         /// <summary>
-        /// Obtains the sampling rate
+        /// Obtains the sampling rate.
         /// </summary>
-        public int SamplingRate
-        {
-            get { return m_SamplingRate; }
-        }
+        public int SamplingRate { get; private set; }
 
         /// <summary>
-        /// Obtains the sample format
+        /// Obtains the sample format.
         /// </summary>
-        public AudioSampleFormat Format
-        {
-            get { return m_Format; }
-        }
+        public AudioSampleFormat Format { get; private set; }
 
         /// <summary>
-        /// Obtains the channel configuration
+        /// Obtains the channel configuration.
         /// </summary>
-        public AudioChannelSetup ChannelSetup
-        {
-            get { return m_ChannelSetup; }
-        }
+        public AudioChannelSetup ChannelSetup { get; private set; }
 
         /// <summary>
-        /// Obtains the number of channels
+        /// Obtains the number of channels.
         /// </summary>
         public int Channels
         {
-            get { return (int)m_ChannelSetup; }
+            get { return (int)ChannelSetup; }
         }
 
         /// <summary>
-        /// Obtains the bytes per sample (one channel)
+        /// Obtains the bytes per sample (one channel).
         /// </summary>
-        public int BytesPerSample
-        {
-            get { return m_BytesPerSample; }
-        }
+        public int BytesPerSample { get; private set; }
 
         /// <summary>
-        /// Obtains the bytes per tick (one sample on all channels)
+        /// Obtains the bytes per tick (one sample on all channels).
         /// </summary>
-        public int BytesPerTick
-        {
-            get { return m_BytesPerTick; }
-        }
+        public int BytesPerTick { get; private set; }
         #endregion
 
         /// <summary>
-        /// Provides a string describing the audio configuration
+        /// Provides a string describing the audio configuration.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -121,24 +100,24 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the hash code for the audio configuration
+        /// Obtains the hash code for the audio configuration.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return (m_BytesPerTick ^ m_SamplingRate);
+            return BytesPerTick ^ SamplingRate;
         }
 
         /// <summary>
-        /// Checks for equality with another IAudioConfiguration
+        /// Checks for equality with another IAudioConfiguration.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
         public bool Equals(IAudioConfiguration other)
         {
-            if (other == null) return false;
-            return
-                (other.SamplingRate == SamplingRate) &&
+            return other == null
+                ? false
+                : (other.SamplingRate == SamplingRate) &&
                 (other.Format == Format) &&
                 (other.Channels == Channels);
         }

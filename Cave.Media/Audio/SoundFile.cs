@@ -19,13 +19,17 @@ namespace Cave.Media.Audio
         /// <exception cref="NotSupportedException">
         /// Unsupported sample format!
         /// or
-        /// Unsupported AudioSampleFormat!
+        /// Unsupported AudioSampleFormat!.
         /// </exception>
         public static SoundFile Read(Stream stream)
         {
             var reader = new DataReader(stream, endian: EndianType.BigEndian);
             int header = reader.ReadInt32();
-            if (header != 0x2e736e64) throw new InvalidDataException();
+            if (header != 0x2e736e64)
+            {
+                throw new InvalidDataException();
+            }
+
             int dataOffset = reader.ReadInt32();
             int dataSize = reader.ReadInt32();
             int format = reader.ReadInt32();
@@ -44,13 +48,17 @@ namespace Cave.Media.Audio
             int channels = reader.ReadInt32();
             AudioConfiguration config = new AudioConfiguration(sampleRate, sampleFormat, channels);
             string comment = reader.ReadZeroTerminatedString(64 * 1024);
-            while (0 != (reader.BaseStream.Position % 8)) reader.ReadByte();
+            while (0 != (reader.BaseStream.Position % 8))
+            {
+                reader.ReadByte();
+            }
+
             int max = Math.Min(dataSize, (int)(reader.BaseStream.Length - reader.BaseStream.Position));
             byte[] data = reader.ReadBytes(max);
 
             if (BitConverter.IsLittleEndian)
             {
-                //invert data
+                // invert data
                 int bytes;
                 switch (config.Format)
                 {
@@ -123,7 +131,11 @@ namespace Cave.Media.Audio
         {
             audioOut.Write(Data);
             audioOut.Start();
-            while (audioOut.BytesBuffered > 0) Thread.Sleep(1);
+            while (audioOut.BytesBuffered > 0)
+            {
+                Thread.Sleep(1);
+            }
+
             audioOut.Close();
         }
 
@@ -143,7 +155,7 @@ namespace Cave.Media.Audio
         /// <exception cref="NotSupportedException">
         /// Unsupported AudioSampleFormat!
         /// or
-        /// Unsupported AudioSampleFormat!
+        /// Unsupported AudioSampleFormat!.
         /// </exception>
         public void Save(Stream stream)
         {
@@ -151,12 +163,15 @@ namespace Cave.Media.Audio
             if (Comment != null)
             {
                 comment.AddRange(Encoding.UTF8.GetBytes(Comment));
-                while (0 != (comment.Count % 8)) comment.Add(0);
+                while (0 != (comment.Count % 8))
+                {
+                    comment.Add(0);
+                }
             }
 
             DataWriter writer = new DataWriter(stream, endian: EndianType.BigEndian);
             writer.Write(0x2e736e64);
-            writer.Write(comment.Count + 6 * 4);
+            writer.Write(comment.Count + (6 * 4));
             writer.Write(Data.Length);
             switch (Config.Format)
             {
@@ -170,12 +185,15 @@ namespace Cave.Media.Audio
             }
             writer.Write(Config.SamplingRate);
             writer.Write(Config.Channels);
-            if (comment.Count > 0) writer.Write(comment.ToArray());
+            if (comment.Count > 0)
+            {
+                writer.Write(comment.ToArray());
+            }
 
             var data = Data;
             if (BitConverter.IsLittleEndian)
             {
-                //invert data
+                // invert data
                 int bytes;
                 switch (Config.Format)
                 {
@@ -187,7 +205,7 @@ namespace Cave.Media.Audio
                     case AudioSampleFormat.Double: bytes = 8; break;
                     default: throw new NotSupportedException("Unsupported AudioSampleFormat!");
                 }
-                if (bytes >1)
+                if (bytes > 1)
                 {
                     data = Endian.Swap(data, bytes);
                 }

@@ -7,19 +7,20 @@ namespace Cave.Media.Audio.ID3.Frames
     /// ID3v2: Synchronised tempo codes frame.<br />
     /// For a more accurate description of the tempo of a musical piece this frame might be used.
     /// </summary>
-    
+
     public sealed class ID3v2SYTCFrame : ID3v2Frame
     {
         ID3v2Event[] m_Events = null;
 
         #region Event class
+
         /// <summary>
         /// Synchronised tempo event containing the tempo descriptor and time stamp.
         /// </summary>
         sealed class Event : ID3v2Event
         {
             /// <summary>
-            /// Creates a new synchronised tempo event
+            /// Creates a new synchronised tempo event.
             /// </summary>
             /// <param name="type"></param>
             /// <param name="value"></param>
@@ -30,7 +31,7 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             /// <summary>
-            /// Creates a new synchronised tempo event
+            /// Creates a new synchronised tempo event.
             /// </summary>
             /// <param name="type"></param>
             /// <param name="value"></param>
@@ -47,20 +48,21 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             /// <summary>
-            /// Obtains the <see cref="EventType"/>
+            /// Obtains the <see cref="EventType"/>.
             /// </summary>
             public readonly EventType Type;
 
             /// <summary>
-            /// Beats per minute after this event occured
+            /// Beats per minute after this event occured.
             /// </summary>
             public int BeatsPerMinute { get { return (int)Type; } }
         }
         #endregion
 
         #region EventType enum
+
         /// <summary>
-        /// Synchronised tempo codes
+        /// Synchronised tempo codes.
         /// </summary>
         public enum EventType : ushort
         {
@@ -92,10 +94,18 @@ namespace Cave.Media.Audio.ID3.Frames
             while (i < m_Content.Length)
             {
                 ushort beat = m_Content[i++];
-                if (beat == 0xFF) beat += m_Content[i++];
+                if (beat == 0xFF)
+                {
+                    beat += m_Content[i++];
+                }
+
                 EventType type = (EventType)beat;
                 int value = 0;
-                for (int n = 0; n < 4; n++) value = (value << 8) | m_Content[i++];
+                for (int n = 0; n < 4; n++)
+                {
+                    value = (value << 8) | m_Content[i++];
+                }
+
                 l_Events.Add(new Event(type, value, isTimeStamp));
             }
         }
@@ -105,17 +115,24 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2SYTCFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "SYTC") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "SYTC"));
+            if (frame.ID != "SYTC")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "SYTC"));
+            }
         }
 
         /// <summary>
-        /// Obtains a list of all events
+        /// Obtains a list of all events.
         /// </summary>
         public ID3v2Event[] Events
         {
             get
             {
-                if (m_Events == null) Parse();
+                if (m_Events == null)
+                {
+                    Parse();
+                }
+
                 return (ID3v2Event[])m_Events.Clone();
             }
         }

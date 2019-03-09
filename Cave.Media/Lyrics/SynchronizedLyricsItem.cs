@@ -6,7 +6,7 @@ using Cave.IO;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Provides a synchronized lyrics item with timecode containing multiple commands
+    /// Provides a synchronized lyrics item with timecode containing multiple commands.
     /// </summary>
     public class SynchronizedLyricsItem
     {
@@ -34,7 +34,7 @@ namespace Cave.Media.Lyrics
         /// <value>The commands.</value>
         public ISynchronizedLyricsCommand[] Commands => (ISynchronizedLyricsCommand[])m_Commands.Clone();
 
-        /// <summary>The time code</summary>
+        /// <summary>The time code.</summary>
         public readonly TimeSpan TimeCode;
 
         /// <summary>Saves the specified previous time.</summary>
@@ -43,7 +43,7 @@ namespace Cave.Media.Lyrics
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public void Save(TimeSpan previousTime, DataWriter writer)
         {
-            //save time in milliseconds since last slc
+            // save time in milliseconds since last slc
             long lastMilliSecond = previousTime.Ticks / TimeSpan.TicksPerMillisecond;
             long myMilliSecond = TimeCode.Ticks / TimeSpan.TicksPerMillisecond;
             long diff = myMilliSecond - lastMilliSecond;
@@ -53,12 +53,14 @@ namespace Cave.Media.Lyrics
             }
 
             writer.Write7BitEncoded64(diff);
-            //save all commands
+
+            // save all commands
             foreach (SynchronizedLyricsCommand command in Commands)
             {
                 command.SaveTo(writer);
             }
-            //zero terminate
+
+            // zero terminate
             writer.Write((byte)0);
         }
 

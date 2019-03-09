@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides available header validation codes
+    /// Provides available header validation codes.
     /// </summary>
     public enum MP3AudioFrameHeadervalidation
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Cave.Media.Audio.ID3
 {
-    
+
     sealed class ID3v2DeUnsync
     {
         public static int Int32(byte[] data, int start)

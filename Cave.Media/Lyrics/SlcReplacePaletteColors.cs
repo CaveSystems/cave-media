@@ -2,7 +2,7 @@
 
 namespace Cave.Media.Lyrics
 {
-	internal class SlcReplacePaletteColors : SynchronizedLyricsCommand
+    internal class SlcReplacePaletteColors : SynchronizedLyricsCommand
     {
         public ARGB[] PaletteUpdate { get; private set; }
 
@@ -32,7 +32,10 @@ namespace Cave.Media.Lyrics
         {
             writer.Write(ColorIndex);
             writer.Write((byte)PaletteUpdate.Length);
-            foreach (ARGB value in PaletteUpdate) writer.Write(value.AsUInt32);
+            foreach (ARGB value in PaletteUpdate)
+            {
+                writer.Write(value.AsUInt32);
+            }
         }
     }
 }

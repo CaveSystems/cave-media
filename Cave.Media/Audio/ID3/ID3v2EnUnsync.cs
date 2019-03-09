@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cave.Media.Audio.ID3
 {
-    
+
     sealed class ID3v2EnUnsync
     {
         public static void Int32(int value, byte[] data, int start)
@@ -13,7 +13,10 @@ namespace Cave.Media.Audio.ID3
                 data[start + i] = (byte)value;
                 value >>= 7;
             }
-            if (value > 0) throw new Exception(string.Format("Invalid value!"));
+            if (value > 0)
+            {
+                throw new Exception(string.Format("Invalid value!"));
+            }
         }
 
         public static byte[] Buffer(byte[] data)

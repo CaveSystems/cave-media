@@ -33,7 +33,7 @@ using System.Runtime.ConstrainedExecution;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides an <see cref="IAudioDecoder" /> implementation for MPG123
+    /// Provides an <see cref="IAudioDecoder" /> implementation for MPG123.
     /// </summary>
     public sealed class Mpg123 : CriticalFinalizerObject, IAudioDecoder, IDisposable
     {
@@ -99,7 +99,7 @@ namespace Cave.Media.Audio
             {
                 if (!m_IsAvailable.HasValue)
                 {
-                    try { m_IsAvailable = (M123.SafeNativeMethods.mpg123_decoders().Length > 0); }
+                    try { m_IsAvailable = M123.SafeNativeMethods.mpg123_decoders().Length > 0; }
                     catch (Exception ex)
                     {
                         Trace.WriteLine("Error checking mpg123 library.\n" + ex);
@@ -111,7 +111,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the description for the lame encoder
+        /// Obtains the description for the lame encoder.
         /// </summary>
         public string Description
         {
@@ -124,7 +124,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the featurelist of the mpg123 decoder
+        /// Obtains the featurelist of the mpg123 decoder.
         /// </summary>
         public string Features
         {
@@ -139,7 +139,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Returns the mpeg 1,2,2.5 layer 3 mime types
+        /// Returns the mpeg 1,2,2.5 layer 3 mime types.
         /// </summary>
         public string[] MimeTypes
         {
@@ -159,7 +159,7 @@ namespace Cave.Media.Audio
         public string SourceName { get; set; }
 
         /// <summary>
-        /// Obtains the encoder name
+        /// Obtains the encoder name.
         /// </summary>
         public string Name
         {
@@ -170,61 +170,80 @@ namespace Cave.Media.Audio
         TimeSpan m_CurrentTimeStamp = TimeSpan.Zero;
         IFrameSource m_Source;
 
-        /// <summary>Starts the decoding process</summary>
+        /// <summary>Starts the decoding process.</summary>
         /// <param name="fileName">Name of the file.</param>
         public void BeginDecode(string fileName)
         {
             BeginDecode(new MP3Reader(fileName));
         }
 
-        /// <summary>Starts the decoding process</summary>
-        /// <param name="sourceStream">The source Stream providing the encoded data</param>
-        /// <exception cref="Exception">Source  + SourceName + : Decoding already started!</exception>
+        /// <summary>Starts the decoding process.</summary>
+        /// <param name="sourceStream">The source Stream providing the encoded data.</param>
+        /// <exception cref="Exception">Source  + SourceName + : Decoding already started!.</exception>
         public void BeginDecode(Stream sourceStream)
         {
             BeginDecode(new MP3Reader(sourceStream));
         }
 
-        /// <summary>Starts the decoding process</summary>
+        /// <summary>Starts the decoding process.</summary>
         /// <param name="source">The source.</param>
-        /// <exception cref="InvalidOperationException">Source: Decoding already started!</exception>
+        /// <exception cref="InvalidOperationException">Source: Decoding already started!.</exception>
         public void BeginDecode(IFrameSource source)
         {
-            if (m_Disposed) throw new ObjectDisposedException(LogSourceName);
-            if (m_Initialized) throw new InvalidOperationException(string.Format("Source {0}: Decoding already started!", SourceName));
-            if (SourceName != null) SourceName = source.Name;
+            if (m_Disposed)
+            {
+                throw new ObjectDisposedException(LogSourceName);
+            }
+
+            if (m_Initialized)
+            {
+                throw new InvalidOperationException(string.Format("Source {0}: Decoding already started!", SourceName));
+            }
+
+            if (SourceName != null)
+            {
+                SourceName = source.Name;
+            }
+
             m_Initialized = true;
             M123.Initialize();
 
             m_Source = source;
 
-            //open new decoder handle
+            // open new decoder handle
             M123.RESULT result;
             m_DecoderHandle = M123.SafeNativeMethods.mpg123_new(null, out result);
             M123.CheckResult(result);
-            //reset formats
+
+            // reset formats
             M123.CheckResult(M123.SafeNativeMethods.mpg123_format_none(m_DecoderHandle));
-            //allow all mp3 native samplerates
+
+            // allow all mp3 native samplerates
             M123.ENC mode = m_UseFloatingPoint ? M123.ENC.FLOAT_32 : M123.ENC.SIGNED_16;
             foreach (int sampleRate in M123.SafeNativeMethods.mpg123_rates())
             {
                 M123.CheckResult(M123.SafeNativeMethods.mpg123_format(m_DecoderHandle, new IntPtr(sampleRate), M123.CHANNELCOUNT.STEREO, mode));
             }
-            //open feed
+
+            // open feed
             result = M123.SafeNativeMethods.mpg123_open_feed(m_DecoderHandle);
             M123.CheckResult(result);
             m_DecodeFifoBuffer = new FifoBuffer();
         }
 
         /// <summary>
-        /// buffers a frame into mpg123
+        /// buffers a frame into mpg123.
         /// </summary>
         void BufferFrame()
         {
-            for (int i = 0; i < 1; )
+            for (int i = 0; i < 1;)
             {
                 AudioFrame frame = m_Source.GetNextFrame();
-                if (frame == null) break;
+                if (frame == null)
+                {
+                    break;
+                }
+
                 Decoding?.Invoke(this, new AudioFrameEventArgs(frame));
                 if (frame.IsAudio)
                 {
@@ -233,17 +252,25 @@ namespace Cave.Media.Audio
                 }
             }
         }
+
         /// <summary>
-        /// Decodes audio data
+        /// Decodes audio data.
         /// </summary>
-        /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available</returns>
+        /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available.</returns>
         public IAudioData Decode()
         {
-            if (m_Disposed) throw new ObjectDisposedException(LogSourceName);
+            if (m_Disposed)
+            {
+                throw new ObjectDisposedException(LogSourceName);
+            }
+
             BufferFrame();
-                        
-            //end of file ? -> yes exit
-            if (m_DecodeFifoBuffer.Length == 0) return null;
+
+            // end of file ? -> yes exit
+            if (m_DecodeFifoBuffer.Length == 0)
+            {
+                return null;
+            }
 
             FifoBuffer outBuffer = new FifoBuffer();
             bool l_Loop = true;
@@ -260,7 +287,11 @@ namespace Cave.Media.Audio
                             break;
                         }
                         BufferFrame();
-                        if (m_DecodeFifoBuffer.Length == 0) return null;
+                        if (m_DecodeFifoBuffer.Length == 0)
+                        {
+                            return null;
+                        }
+
                         break;
                     case M123.RESULT.NEW_FORMAT: UpdateFormat(); break;
                     default: M123.CheckResult(result); throw new InvalidOperationException();
@@ -275,10 +306,14 @@ namespace Cave.Media.Audio
             return null;
         }
 
-        /// <summary>Closes the underlying stream and calls Dispose</summary>
+        /// <summary>Closes the underlying stream and calls Dispose.</summary>
         public void Close()
         {
-            if (m_Disposed) throw new ObjectDisposedException(LogSourceName);
+            if (m_Disposed)
+            {
+                throw new ObjectDisposedException(LogSourceName);
+            }
+
             if (m_Initialized)
             {
                 M123.Deinitialize();
@@ -296,11 +331,15 @@ namespace Cave.Media.Audio
         #region IDisposable Member
 
         /// <summary>
-        /// Disposes this instance
+        /// Disposes this instance.
         /// </summary>
         public void Dispose()
         {
-            if (m_Disposed) return;
+            if (m_Disposed)
+            {
+                return;
+            }
+
             Close();
             m_Disposed = true;
             ReleaseHandle();

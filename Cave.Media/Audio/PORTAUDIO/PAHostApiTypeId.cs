@@ -8,7 +8,7 @@
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Host Api Type Identifier
+    /// PortAudio Host Api Type Identifier.
     /// </summary>
     internal enum PAHostApiTypeId : uint
     {
@@ -40,6 +40,6 @@ namespace Cave.Media.Audio.PORTAUDIO
         AL = 9,
 
         /// <summary>be os</summary>
-        BeOS = 10
+        BeOS = 10,
     }
 }

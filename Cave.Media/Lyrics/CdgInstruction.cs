@@ -2,7 +2,7 @@
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// CDG instructions
+    /// CDG instructions.
     /// </summary>
     public enum CdgInstruction
     {

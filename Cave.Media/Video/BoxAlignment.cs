@@ -2,7 +2,7 @@ using System;
 namespace Cave.Media.Video
 {
     /// <summary>
-    /// Provides available text alignments
+    /// Provides available text alignments.
     /// </summary>
     [Flags]
     public enum BoxAlignment

@@ -1,7 +1,7 @@
 namespace Cave.Media
 {
     /// <summary>
-    /// Implements the <see cref="IMediaStream"/> interface
+    /// Implements the <see cref="IMediaStream"/> interface.
     /// </summary>
     public class MediaStream : IMediaStream
     {
@@ -9,7 +9,7 @@ namespace Cave.Media
         int m_ID;
 
         /// <summary>
-        /// Creates a new instance
+        /// Creates a new instance.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="id"></param>
@@ -20,7 +20,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the type of the stream
+        /// Obtains the type of the stream.
         /// </summary>
         public MediaType Type
         {
@@ -28,7 +28,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the ID of the stream
+        /// Obtains the ID of the stream.
         /// </summary>
         public int ID
         {

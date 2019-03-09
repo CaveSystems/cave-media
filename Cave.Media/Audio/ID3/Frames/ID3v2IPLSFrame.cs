@@ -32,17 +32,24 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2IPLSFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "IPLS") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "IPLS"));
+            if (frame.ID != "IPLS")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "IPLS"));
+            }
         }
 
         /// <summary>
-        /// Obtains the full list of Involvements and Involvees
+        /// Obtains the full list of Involvements and Involvees.
         /// </summary>
         public ID3v2Contributor[] List
         {
             get
             {
-                if (m_List == null) Parse();
+                if (m_List == null)
+                {
+                    Parse();
+                }
+
                 return (ID3v2Contributor[])m_List.Clone();
             }
         }

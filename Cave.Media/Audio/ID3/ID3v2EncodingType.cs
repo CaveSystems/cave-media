@@ -1,7 +1,7 @@
 ﻿namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// ID3 v2 text encodings
+    /// ID3 v2 text encodings.
     /// </summary>
     public enum ID3v2EncodingType : byte
     {

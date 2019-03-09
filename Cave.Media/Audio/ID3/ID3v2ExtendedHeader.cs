@@ -22,12 +22,16 @@ namespace Cave.Media.Audio.ID3
         #region Constructor and Parent field
 
         /// <summary>
-        /// Creates a new empty instance
+        /// Creates a new empty instance.
         /// </summary>
         /// <param name="header"></param>
         public ID3v2ExtendedHeader(ID3v2Header header)
         {
-            if (header == null) throw new ArgumentNullException("Header");
+            if (header == null)
+            {
+                throw new ArgumentNullException("Header");
+            }
+
             m_Header = header;
         }
         #endregion
@@ -41,40 +45,67 @@ namespace Cave.Media.Audio.ID3
 
         bool ParseVersion3(DataFrameReader reader)
         {
-            if (!reader.EnsureBuffer(4)) return false;
-            //calc size
+            if (!reader.EnsureBuffer(4))
+            {
+                return false;
+            }
+
+            // calc size
             byte[] sizeBytes = reader.Read(0, 4);
             int size = 0;
-            for (int i = 0; i < 4; i++) size = ((size << 8) | sizeBytes[i]);
+            for (int i = 0; i < 4; i++)
+            {
+                size = (size << 8) | sizeBytes[i];
+            }
+
             size += 4;
-            //get data
-            if (!reader.EnsureBuffer(size)) return false;
+
+            // get data
+            if (!reader.EnsureBuffer(size))
+            {
+                return false;
+            }
+
             m_Data = reader.GetBuffer(size);
-            //get flags
+
+            // get flags
             m_Flags = ID3v2ExtendedHeaderFlags.FromID3v23(m_Data);
             return true;
         }
 
         bool ParseVersion4(DataFrameReader reader)
         {
-            if (!reader.EnsureBuffer(4)) return false;
-            //calc size
+            if (!reader.EnsureBuffer(4))
+            {
+                return false;
+            }
+
+            // calc size
             int size = ID3v2DeUnsync.Int32(reader.Read(0, 4), 0);
-            //get data
-            if (!reader.EnsureBuffer(size)) return false;
+
+            // get data
+            if (!reader.EnsureBuffer(size))
+            {
+                return false;
+            }
+
             m_Data = reader.GetBuffer(size);
-            //get flags
+
+            // get flags
             m_Flags = ID3v2ExtendedHeaderFlags.FromID3v24(m_Data);
             return true;
         }
 
         /// <summary>
-        /// Parses the specified buffer starting at index to load all data for this frame
+        /// Parses the specified buffer starting at index to load all data for this frame.
         /// </summary>
-        /// <param name="reader">FrameReader to read from</param>
+        /// <param name="reader">FrameReader to read from.</param>
         public override bool Parse(DataFrameReader reader)
         {
-            if (reader == null) throw new ArgumentNullException("Stream");
+            if (reader == null)
+            {
+                throw new ArgumentNullException("Stream");
+            }
 
             m_Flags = new ID3v2ExtendedHeaderFlags();
 
@@ -92,7 +123,7 @@ namespace Cave.Media.Audio.ID3
         #region public properties
 
         /// <summary>
-        /// Gets/sets the ID3v2 revision used
+        /// Gets/sets the ID3v2 revision used.
         /// </summary>
         public ID3v2ExtendedHeaderFlags Flags
         {
@@ -116,14 +147,14 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Returns false (extended header may vary in size)
+        /// Returns false (extended header may vary in size).
         /// </summary>
         public override bool IsFixedLength { get { return false; } }
 
         #endregion
 
         /// <summary>
-        /// TODO
+        /// TODO.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data
@@ -134,7 +165,7 @@ namespace Cave.Media.Audio.ID3
                 {
                     switch (m_Header.Version)
                     {
-                        //TODO: implement data creation
+                        // TODO: implement data creation
                         default: throw new NotSupportedException(string.Format("ID3v2.{0} is not supported!", m_Header.Version));
                     }
                 }

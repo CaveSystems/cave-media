@@ -3,7 +3,7 @@
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Provides command types for synchronized lyrics
+    /// Provides command types for synchronized lyrics.
     /// </summary>
     public enum SynchronizedLyricsCommandType
     {

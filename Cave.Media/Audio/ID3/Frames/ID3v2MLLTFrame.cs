@@ -7,7 +7,7 @@ namespace Cave.Media.Audio.ID3.Frames
     /// This Frame is absolute nonsense and therefore I will not implement it.
     /// If this should be implemented someday allow backward references (negative FrameCount and TimeStamp),
     /// much bigger values (e.g. I want to skip 2h = 7200000ms = 276923 Frames up to 775384400 bytes),
-    /// remove redundant data (time OR framecount)
+    /// remove redundant data (time OR framecount).
     /// </para>
     /// <para>
     /// Original description:<br />
@@ -21,19 +21,22 @@ namespace Cave.Media.Audio.ID3.Frames
     /// out bytes and milliseconds respectively.
     /// </para>
     /// </summary>
-    
+
     public sealed class ID3v2MLLTFrame : ID3v2Frame
     {
         internal ID3v2MLLTFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "MLLT") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "MLLT"));
+            if (frame.ID != "MLLT")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "MLLT"));
+            }
         }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "Not implemented"</returns>
+        /// <returns>ID[Length] "Not implemented".</returns>
         public override string ToString()
         {
             return base.ToString() + " \"Not implemented\"";
