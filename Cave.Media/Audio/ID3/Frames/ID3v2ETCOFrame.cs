@@ -6,22 +6,23 @@ namespace Cave.Media.Audio.ID3.Frames
     /// <summary>
     /// This frame allows synchronisation with key events in a song or sound.
     /// </summary>
-    
+
     public sealed class ID3v2ETCOFrame : ID3v2Frame
     {
         ID3v2Event[] m_Events = null;
 
         #region Event class
+
         /// <summary>
-        /// Provides a ETCO Frame event
+        /// Provides a ETCO Frame event.
         /// </summary>
         sealed class Event : ID3v2Event
         {
             /// <summary>
-            /// Creates a new event from a timestamp value
+            /// Creates a new event from a timestamp value.
             /// </summary>
-            /// <param name="type">The EventType</param>
-            /// <param name="value">The timestamp</param>
+            /// <param name="type">The EventType.</param>
+            /// <param name="value">The timestamp.</param>
             /// <returns></returns>
             public static Event FromTimeStamp(EventType type, long value)
             {
@@ -29,10 +30,10 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             /// <summary>
-            /// Creates a new event from a frame number value
+            /// Creates a new event from a frame number value.
             /// </summary>
-            /// <param name="type">The EventType</param>
-            /// <param name="value">The frame number</param>
+            /// <param name="type">The EventType.</param>
+            /// <param name="value">The frame number.</param>
             /// <returns></returns>
             public static Event FromFrameNumber(EventType type, long value)
             {
@@ -46,15 +47,16 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             /// <summary>
-            /// Obtains the <see cref="EventType"/>
+            /// Obtains the <see cref="EventType"/>.
             /// </summary>
             public readonly EventType Type;
         }
         #endregion
 
         #region EventType enum
+
         /// <summary>
-        /// Provides available event types
+        /// Provides available event types.
         /// </summary>
         public enum EventType : byte
         {
@@ -287,28 +289,39 @@ namespace Cave.Media.Audio.ID3.Frames
             {
                 EventType type = (EventType)m_Data[i++];
                 int value = 0;
-                for (int n = 0; n < 4; n++) value = (value << 8) | m_Content[i++];
+                for (int n = 0; n < 4; n++)
+                {
+                    value = (value << 8) | m_Content[i++];
+                }
+
                 events.Add(new Event(type, value, isTimeStamp));
             }
             m_Events = events.ToArray();
         }
-      
+
         #endregion
 
         internal ID3v2ETCOFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if (frame.ID != "ETCO") throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "ETCO"));
+            if (frame.ID != "ETCO")
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "ETCO"));
+            }
         }
 
         /// <summary>
-        /// Obtains a list of all events
+        /// Obtains a list of all events.
         /// </summary>
         public ID3v2Event[] Events
         {
             get
             {
-                if (m_Events == null) Parse();
+                if (m_Events == null)
+                {
+                    Parse();
+                }
+
                 return (Event[])m_Events.Clone();
             }
         }

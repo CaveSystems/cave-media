@@ -48,7 +48,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Loads ID3v2ExtendedHeaderFlags from the specified ID3v2.3 extended header
+        /// Loads ID3v2ExtendedHeaderFlags from the specified ID3v2.3 extended header.
         /// </summary>
         /// <param name="extendedHeader"></param>
         /// <returns></returns>
@@ -61,21 +61,22 @@ namespace Cave.Media.Audio.ID3
 
             int index = 10;
             int l_ExtFlags = (extendedHeader[4] << 8) | extendedHeader[5];
-            //crc present?
+
+            // crc present?
             if ((l_ExtFlags & 0x8000) != 0)
             {
-                byte[] CRC32 = new byte[4];
+                byte[] cRC32 = new byte[4];
                 for (int i = 0; i < 4; i++)
                 {
-                    CRC32[i] = extendedHeader[index++];
+                    cRC32[i] = extendedHeader[index++];
                 }
-                return new ID3v2ExtendedHeaderFlags(CRC32);
+                return new ID3v2ExtendedHeaderFlags(cRC32);
             }
             return new ID3v2ExtendedHeaderFlags();
         }
 
         /// <summary>
-        /// Loads ID3v2ExtendedHeaderFlags from the specified ID3v2.4 extended header
+        /// Loads ID3v2ExtendedHeaderFlags from the specified ID3v2.4 extended header.
         /// </summary>
         /// <param name="extendedHeader"></param>
         /// <returns></returns>
@@ -93,20 +94,20 @@ namespace Cave.Media.Audio.ID3
 
             int i = 6;
 
-            //flag 1000 0000
+            // flag 1000 0000
             if ((extendedHeader[5] & 0x80) != 0)
             {
                 SkipFlag(extendedHeader, ref i);
             }
 
-            //flag 0100 0000
+            // flag 0100 0000
             bool l_TagIsUpdate = (extendedHeader[5] & 0x40) != 0;
             if (l_TagIsUpdate)
             {
                 SkipFlag(extendedHeader, ref i);
             }
 
-            //flag 0010 0000
+            // flag 0010 0000
             byte[] cRC32;
             if ((extendedHeader[5] & 0x20) != 0)
             {
@@ -117,7 +118,7 @@ namespace Cave.Media.Audio.ID3
                 cRC32 = null;
             }
 
-            //flag 0001 0000
+            // flag 0001 0000
             ID3v2ExtendedHeaderRestrictions l_TagRestrictions;
             if ((extendedHeader[5] & 0x10) == 0)
             {
@@ -134,7 +135,7 @@ namespace Cave.Media.Audio.ID3
                 l_TagRestrictions = ID3v2ExtendedHeaderRestrictions.FromID3v24(bytes[0]);
             }
 
-            //read unknown flags (0000 xxxx)
+            // read unknown flags (0000 xxxx)
             for (int n = 0x08; n != 0; n = n >> 1)
             {
                 SkipFlag(extendedHeader, ref i);
@@ -148,26 +149,26 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Creates new empty ID3v2ExtendedHeaderFlags
+        /// Creates new empty ID3v2ExtendedHeaderFlags.
         /// </summary>
         public ID3v2ExtendedHeaderFlags()
         {
         }
 
         /// <summary>
-        /// Creates new ID3v2ExtendedHeaderFlags with the specified settings
+        /// Creates new ID3v2ExtendedHeaderFlags with the specified settings.
         /// </summary>
-        /// <param name="cRC32">The crc32 of all frames (tag without headers, padding and footer)</param>
+        /// <param name="cRC32">The crc32 of all frames (tag without headers, padding and footer).</param>
         public ID3v2ExtendedHeaderFlags(byte[] cRC32)
         {
             CRC32 = cRC32;
         }
 
         /// <summary>
-        /// Creates new ID3v2ExtendedHeaderFlags with the specified settings
+        /// Creates new ID3v2ExtendedHeaderFlags with the specified settings.
         /// </summary>
         /// <param name="tagIsUpdate"></param>
-        /// <param name="cRC32">The crc32 of all frames (tag without headers, padding and footer)</param>
+        /// <param name="cRC32">The crc32 of all frames (tag without headers, padding and footer).</param>
         /// <param name="tagRestrictions"></param>
         public ID3v2ExtendedHeaderFlags(bool tagIsUpdate, byte[] cRC32, ID3v2ExtendedHeaderRestrictions tagRestrictions)
         {
@@ -214,7 +215,7 @@ namespace Cave.Media.Audio.ID3
         /// ways than imposed by the ID3v2 specification. Note that the
         /// presence of these restrictions does not affect how the tag is
         /// decoded, merely how it was restricted before encoding. If this flag
-        /// is set the tag is restricted as follows:
+        /// is set the tag is restricted as follows:.
         /// </summary>
         public readonly ID3v2ExtendedHeaderRestrictions TagRestrictions;
     }

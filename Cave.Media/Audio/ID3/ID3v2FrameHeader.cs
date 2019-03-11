@@ -4,11 +4,12 @@ using System.IO;
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Provides a ID3v2 frame header structure
+    /// Provides a ID3v2 frame header structure.
     /// </summary>
     public class ID3v2FrameHeader
     {
         #region static functions        
+
         /// <summary>Gets the size of the header.</summary>
         /// <param name="header">The header.</param>
         /// <returns></returns>
@@ -48,7 +49,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="flags">The flags.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">Invalid identifier!</exception>
+        /// <exception cref="System.ArgumentException">Invalid identifier!.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion4(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
@@ -80,7 +81,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="flags">The flags.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">Invalid identifier!</exception>
+        /// <exception cref="System.ArgumentException">Invalid identifier!.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion3(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
@@ -111,7 +112,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="id">The identifier.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">Invalid identifier!</exception>
+        /// <exception cref="System.ArgumentException">Invalid identifier!.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion2(ID3v2Header header, string id, int contentSize)
         {
@@ -151,7 +152,7 @@ namespace Cave.Media.Audio.ID3
                 {
                     throw new InvalidDataException("ID3v2.4 Header with invalid non-unsynced size value found.");
                 }
-                size = ((size << 7) | data[i]);
+                size = (size << 7) | data[i];
             }
             ContentSize = size;
         }
@@ -165,7 +166,7 @@ namespace Cave.Media.Audio.ID3
             int size = 0;
             for (int i = 4; i < 8; i++)
             {
-                size = ((size << 8) | data[i]);
+                size = (size << 8) | data[i];
             }
 
             ContentSize = size;
@@ -179,7 +180,7 @@ namespace Cave.Media.Audio.ID3
             int size = 0;
             for (int i = 3; i < 6; i++)
             {
-                size = ((size << 8) | data[i]);
+                size = (size << 8) | data[i];
             }
 
             ContentSize = size;

@@ -10,7 +10,7 @@ using System;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Stream Callback Flags
+    /// PortAudio Stream Callback Flags.
     /// </summary>
     [Flags]
     internal enum PAStreamCallbackFlags : uint
@@ -28,6 +28,6 @@ namespace Cave.Media.Audio.PORTAUDIO
         OutputOverflow = 0x00000008,
 
         /// <summary>priming the output buffer</summary>
-        PrimingOutput = 0x00000010
+        PrimingOutput = 0x00000010,
     }
 }

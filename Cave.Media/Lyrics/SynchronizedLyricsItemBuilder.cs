@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Provides a synchronized lyrics item builder with timecode containing multiple commands
+    /// Provides a synchronized lyrics item builder with timecode containing multiple commands.
     /// </summary>
     public class SynchronizedLyricsItemBuilder
     {
-        /// <summary>The time code</summary>
+        /// <summary>The time code.</summary>
         public TimeSpan TimeCode { get; set; }
 
-        /// <summary>The commands</summary>
+        /// <summary>The commands.</summary>
         public readonly List<ISynchronizedLyricsCommand> Commands = new List<ISynchronizedLyricsCommand>();
 
         /// <summary>Converts to the synchronized lyrics item.</summary>

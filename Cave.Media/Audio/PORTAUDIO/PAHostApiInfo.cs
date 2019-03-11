@@ -12,26 +12,26 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Host Api Information structure
+    /// PortAudio Host Api Information structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct PAHostApiInfo
     {
-        /// <summary>The structure version</summary>
+        /// <summary>The structure version.</summary>
         public int StructVersion;
 
-        /// <summary>The PAHostApiTypeId</summary>
+        /// <summary>The PAHostApiTypeId.</summary>
         public PAHostApiTypeId Type;
 
         IntPtr m_NamePtr;
 
-        /// <summary>The device count</summary>
+        /// <summary>The device count.</summary>
         public int DeviceCount;
 
-        /// <summary>The default input device</summary>
+        /// <summary>The default input device.</summary>
         public int DefaultInputDevice;
 
-        /// <summary>The default output device</summary>
+        /// <summary>The default output device.</summary>
         public int DefaultOutputDevice;
 
         /// <summary>Gets the name UTF8.</summary>

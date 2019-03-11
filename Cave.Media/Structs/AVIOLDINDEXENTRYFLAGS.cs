@@ -3,7 +3,7 @@ using System;
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// Flags for <see cref="AVIOLDINDEXENTRY"/>s
+    /// Flags for <see cref="AVIOLDINDEXENTRY"/>s.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2217:DoNotMarkEnumsWithFlags")]
     [Flags]

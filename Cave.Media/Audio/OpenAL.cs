@@ -13,18 +13,18 @@ using System.Diagnostics;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides access to the open al api
+    /// Provides access to the open al api.
     /// </summary>
     /// <seealso cref="AudioAPI" />
     public sealed class OpenAL : AudioAPI
     {
         /// <summary>Gets the preference value.</summary>
         /// <value>Constant value = -10.</value>
-        /// <remarks>Small values represent a higher priority</remarks>
+        /// <remarks>Small values represent a higher priority.</remarks>
         public override int Preference { get { return -10; } }
 
-        /// <summary>Determines if the API is available</summary>
-        /// <exception cref="NotSupportedException">Invalid bit size!</exception>
+        /// <summary>Determines if the API is available.</summary>
+        /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         public override bool IsAvailable
         {
             get
@@ -38,20 +38,25 @@ namespace Cave.Media.Audio
                     }
                     catch (Exception ex)
                     {
-                        Trace.TraceError("Could not load any OpenAL implementation! {0}", ex);
+                        Trace.TraceError("Could not load any OpenAL implementation!");
+                        Trace.TraceError(ex.ToString());
                         return false;
                     }
                 }
             }
         }
 
-        /// <summary>Obtains the available input devices</summary>
+        /// <summary>Obtains the available input devices.</summary>
         /// <exception cref="NotImplementedException"></exception>
         public override IAudioDevice[] InputDevices
         {
             get
             {
-                if (!IsAvailable) return new IAudioDevice[0];
+                if (!IsAvailable)
+                {
+                    return new IAudioDevice[0];
+                }
+
                 lock (OAL.SyncRoot)
                 {
                     string[] devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
@@ -59,20 +64,27 @@ namespace Cave.Media.Audio
                     for (int i = 0; i < devices.Length; i++)
                     {
                         OALDevice device = new OALDevice(this, devices[i]);
-                        if (device.SupportsRecording) result.Add(device);
+                        if (device.SupportsRecording)
+                        {
+                            result.Add(device);
+                        }
                     }
                     return result.ToArray();
                 }
             }
         }
 
-        /// <summary>Obtains all available output devices</summary>
-        /// <exception cref="NotSupportedException">Invalid bit size!</exception>
+        /// <summary>Obtains all available output devices.</summary>
+        /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         public override IAudioDevice[] OutputDevices
         {
             get
             {
-                if (!IsAvailable) return new IAudioDevice[0];
+                if (!IsAvailable)
+                {
+                    return new IAudioDevice[0];
+                }
+
                 lock (OAL.SyncRoot)
                 {
                     string[] devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
@@ -80,7 +92,10 @@ namespace Cave.Media.Audio
                     for (int i = 0; i < devices.Length; i++)
                     {
                         OALDevice l_Device = new OALDevice(this, devices[i]);
-                        if (l_Device.SupportsPlayback) result.Add(l_Device);
+                        if (l_Device.SupportsPlayback)
+                        {
+                            result.Add(l_Device);
+                        }
                     }
                     return result.ToArray();
                 }

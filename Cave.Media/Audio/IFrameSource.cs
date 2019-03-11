@@ -1,7 +1,7 @@
 ﻿namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides a audio frame source
+    /// Provides a audio frame source.
     /// </summary>
     public interface IFrameSource
     {

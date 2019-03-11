@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides available output modes for mp3 audio decoders
+    /// Provides available output modes for mp3 audio decoders.
     /// </summary> 
     public enum MP3AudioOutputMode
     {
@@ -15,6 +15,6 @@ namespace Cave.Media.Audio.MP3
         Right = 2,
 
         /// <summary>Down mix to mono</summary>
-        DownMix = 3
-	}
+        DownMix = 3,
+    }
 }

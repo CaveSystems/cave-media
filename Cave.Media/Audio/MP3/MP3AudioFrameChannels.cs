@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides available mp3 audio frame channel configuration
+    /// Provides available mp3 audio frame channel configuration.
     /// </summary>
     public enum MP3AudioFrameChannels
     {

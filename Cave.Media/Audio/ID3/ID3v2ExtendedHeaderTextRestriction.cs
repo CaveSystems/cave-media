@@ -1,9 +1,9 @@
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Size and FrameCount restrictions
+    /// Size and FrameCount restrictions.
     /// </summary>
-    
+
     public enum ID3v2ExtendedHeaderTextRestriction
     {
         /// <summary>
@@ -24,6 +24,6 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// &lt;= 30 bytes
         /// </summary>
-        Tiny = 3
+        Tiny = 3,
     }
 }

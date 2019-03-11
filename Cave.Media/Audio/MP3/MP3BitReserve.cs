@@ -15,13 +15,13 @@ namespace Cave.Media.Audio.MP3
     /// </summary>
     public sealed class MP3BitReserve
     {
-        /// <summary>The current write position at the buffer</summary>
+        /// <summary>The current write position at the buffer.</summary>
         int m_WritePosition;
 
-        /// <summary>The current read position at the buffer</summary>
+        /// <summary>The current read position at the buffer.</summary>
         int m_ReadPosition;
 
-        /// <summary>The buffer</summary>
+        /// <summary>The buffer.</summary>
         byte[] m_Buffer;
 
         /// <summary>Gets the current read position.</summary>
@@ -32,17 +32,21 @@ namespace Cave.Media.Audio.MP3
         /// Initializes a new instance of the <see cref="MP3BitReserve"/> class.
         /// </summary>
         public MP3BitReserve()
-		{
+        {
             m_Buffer = new byte[4096 * 8];
-		}
+        }
 
         /// <summary>Initializes a new instance of the <see cref="MP3BitReserve"/> class.</summary>
         /// <param name="buffer">The byte buffer.</param>
         /// <param name="offset">The offset to start at.</param>
         public MP3BitReserve(byte[] buffer, int offset)
         {
-            if (offset < 0) throw new ArgumentOutOfRangeException();
-            m_Buffer = new byte[(buffer.Length - offset )* 8 ];
+            if (offset < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            m_Buffer = new byte[(buffer.Length - offset) * 8];
             for (int i = offset; i < buffer.Length; i++)
             {
                 WriteByte(buffer[i]);
@@ -57,36 +61,50 @@ namespace Cave.Media.Audio.MP3
             unchecked
             {
                 m_ReadPosition += count;
-                while (m_ReadPosition >= m_Buffer.Length) m_ReadPosition -= m_Buffer.Length;
+                while (m_ReadPosition >= m_Buffer.Length)
+                {
+                    m_ReadPosition -= m_Buffer.Length;
+                }
             }
         }
 
         /// <summary>Read a number bits from the bit stream.</summary>
-        /// <param name="count">the number of bits</param>
-        /// <returns>Returns an int containing all retrieved bits</returns>
+        /// <param name="count">the number of bits.</param>
+        /// <returns>Returns an int containing all retrieved bits.</returns>
         public int ReadBits(int count)
-		{
+        {
             unchecked
             {
                 int value = 0;
                 for (int i = 0; i < count; i++)
                 {
                     value <<= 1;
-                    if (m_Buffer[m_ReadPosition++] != 0) value |= 1;
-                    if (m_ReadPosition >= m_Buffer.Length) m_ReadPosition = 0;
+                    if (m_Buffer[m_ReadPosition++] != 0)
+                    {
+                        value |= 1;
+                    }
+
+                    if (m_ReadPosition >= m_Buffer.Length)
+                    {
+                        m_ReadPosition = 0;
+                    }
                 }
                 return value;
             }
-		}
+        }
 
         /// <summary>Returns next bit from reserve.</summary>
         /// <returns>Returns 0 if next bit is reset, or 1 if next bit is set.</returns>
         public bool ReadBit()
-		{
+        {
             unchecked
             {
                 byte result = m_Buffer[m_ReadPosition++];
-                if (m_ReadPosition >= m_Buffer.Length) m_ReadPosition = 0;
+                if (m_ReadPosition >= m_Buffer.Length)
+                {
+                    m_ReadPosition = 0;
+                }
+
                 return result != 0;
             }
         }
@@ -99,8 +117,15 @@ namespace Cave.Media.Audio.MP3
             while (count-- > 0)
             {
                 other.m_Buffer[other.m_WritePosition++] = m_Buffer[m_ReadPosition++];
-                if (m_ReadPosition >= m_Buffer.Length) m_ReadPosition = 0;
-                if (other.m_WritePosition >= other.m_Buffer.Length) other.m_WritePosition = 0;
+                if (m_ReadPosition >= m_Buffer.Length)
+                {
+                    m_ReadPosition = 0;
+                }
+
+                if (other.m_WritePosition >= other.m_Buffer.Length)
+                {
+                    other.m_WritePosition = 0;
+                }
             }
         }
 
@@ -118,18 +143,21 @@ namespace Cave.Media.Audio.MP3
                 m_Buffer[m_WritePosition++] = (byte)(b & 0x04);
                 m_Buffer[m_WritePosition++] = (byte)(b & 0x02);
                 m_Buffer[m_WritePosition++] = (byte)(b & 0x01);
-                if (m_WritePosition >= m_Buffer.Length) m_WritePosition = 0;
+                if (m_WritePosition >= m_Buffer.Length)
+                {
+                    m_WritePosition = 0;
+                }
             }
         }
 
         /// <summary>Rewind N bits in Stream.</summary>
         /// <param name="numberOfBits">The number of bits.</param>
         public void Rewind(int numberOfBits)
-		{
+        {
             unchecked
             {
                 m_ReadPosition -= numberOfBits;
             }
-		}
-	}
+        }
+    }
 }

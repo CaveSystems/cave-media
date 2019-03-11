@@ -10,7 +10,7 @@ using System;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Sample Format
+    /// PortAudio Sample Format.
     /// </summary>
     [Flags]
     internal enum PASampleFormat : uint

@@ -5,7 +5,7 @@ using System.IO;
 namespace Cave.Media.Codecs
 {
     /// <summary>
-    /// Provides an CCITT4 encoder
+    /// Provides an CCITT4 encoder.
     /// </summary>
     public sealed class CCITT4Encoder : CCITT4, IDisposable
     {
@@ -25,30 +25,34 @@ namespace Cave.Media.Codecs
             ushort[,] makeUpCodes, terminationCodes;
             if (m_State == 1)
             {
-                //white
+                // white
                 makeUpCodes = WhiteMakeUpCodes;
                 terminationCodes = WhiteTerminatingCodes;
             }
             else
             {
-                //black
+                // black
                 makeUpCodes = BlackMakeUpCodes;
                 terminationCodes = BlackTerminatingCodes;
             }
 
-            //write more then 63 pixels ?
+            // write more then 63 pixels ?
             if (count > 63)
             {
-                //yes, find makeup to use
+                // yes, find makeup to use
                 int l_MakeUpIndex = makeUpCodes.GetLength(0);
                 while (--l_MakeUpIndex > 0)
                 {
-                    if (makeUpCodes[l_MakeUpIndex, 2] <= count) break;
+                    if (makeUpCodes[l_MakeUpIndex, 2] <= count)
+                    {
+                        break;
+                    }
                 }
                 m_Writer.WriteBits(makeUpCodes[l_MakeUpIndex, 0], makeUpCodes[l_MakeUpIndex, 1]);
                 count -= makeUpCodes[l_MakeUpIndex, 2];
             }
-            //write termination
+
+            // write termination
             m_Writer.WriteBits(terminationCodes[count, 0], terminationCodes[count, 1]);
         }
 
@@ -63,7 +67,7 @@ namespace Cave.Media.Codecs
         }
 
         /// <summary>
-        /// Encodes a single pixel row
+        /// Encodes a single pixel row.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -72,28 +76,36 @@ namespace Cave.Media.Codecs
             BitStreamReader reader = new BitStreamReader(new MemoryStream(data));
             int counter = 0;
             Initialize();
-            //iterate until stream ends
+
+            // iterate until stream ends
             while (reader.Position < reader.Length)
             {
                 if (reader.ReadBit() != m_State)
                 {
-                    //write out counted pixels
+                    // write out counted pixels
                     WriteBits(counter);
-                    //found state change
+
+                    // found state change
                     m_State = 1 - m_State;
-                    //reset counter
+
+                    // reset counter
                     counter = 0;
                 }
                 counter++;
             }
-            //write the last data
-            if (counter > 0) WriteBits(counter);
-            //return
+
+            // write the last data
+            if (counter > 0)
+            {
+                WriteBits(counter);
+            }
+
+            // return
             return Complete();
         }
 
         /// <summary>
-        /// Disposes the buffer
+        /// Disposes the buffer.
         /// </summary>
         public void Dispose()
         {

@@ -5,7 +5,7 @@ namespace Cave.Media.Audio.ID3
     /// Flags for ID3v2.4 Frames<br />
     /// If an unknown flag is set in the first byte the frame may not be changed without the bit cleared.
     /// </summary>
-    
+
     [Flags]
     public enum ID3v2d4FrameFlags : ushort
     {

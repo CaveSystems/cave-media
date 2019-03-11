@@ -8,12 +8,12 @@ using System.IO;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Provides synchronized lyrics
+    /// Provides synchronized lyrics.
     /// </summary>
     /// <seealso cref="IEnumerable{SynchronizedLyricsItem}" />
     public class SynchronizedLyrics : IEnumerable<SynchronizedLyricsItem>
     {
-        /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified file</summary>
+        /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified file.</summary>
         /// <param name="fileName">Name of the file.</param>
         /// <returns></returns>
         public static SynchronizedLyrics FromFile(string fileName)
@@ -21,7 +21,7 @@ namespace Cave.Media.Lyrics
             return FromData(File.ReadAllBytes(fileName));
         }
 
-        /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified data</summary>
+        /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified data.</summary>
         /// <param name="data">The data.</param>
         /// <returns></returns>
         public static SynchronizedLyrics FromData(byte[] data)
@@ -29,7 +29,7 @@ namespace Cave.Media.Lyrics
             return FromStream(new MemoryStream(data));
         }
 
-        /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified stream</summary>
+        /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified stream.</summary>
         /// <param name="stream">The stream.</param>
         /// <returns></returns>
         public static SynchronizedLyrics FromStream(MemoryStream stream)
@@ -38,8 +38,16 @@ namespace Cave.Media.Lyrics
             long milliSecond = 0;
 
             DataReader reader = new DataReader(stream);
-            if (reader.ReadString(3) != "SLT") throw new InvalidDataException("Invalid format!");
-            if (reader.Read7BitEncodedUInt64() != 1) throw new InvalidDataException("Invalid version!");
+            if (reader.ReadString(3) != "SLT")
+            {
+                throw new InvalidDataException("Invalid format!");
+            }
+
+            if (reader.Read7BitEncodedUInt64() != 1)
+            {
+                throw new InvalidDataException("Invalid version!");
+            }
+
             while (reader.Available > 0)
             {
                 long milliSecondDistance = reader.Read7BitEncodedInt64();
@@ -50,7 +58,11 @@ namespace Cave.Media.Lyrics
                 while (true)
                 {
                     ISynchronizedLyricsCommand command = SynchronizedLyricsCommand.Parse(reader);
-                    if (command == null) break;
+                    if (command == null)
+                    {
+                        break;
+                    }
+
                     item.Commands.Add(command);
                 }
                 items.Add(item.ToSynchronizedLyricsItem());
@@ -62,7 +74,7 @@ namespace Cave.Media.Lyrics
         int m_CurrentPosition;
 
         /// <summary>Initializes a new instance of the <see cref="SynchronizedLyrics"/> class.</summary>
-        /// <remarks>This constructor consumes the reference to the list not copying the items!</remarks>
+        /// <remarks>This constructor consumes the reference to the list not copying the items!.</remarks>
         /// <param name="items">The items.</param>
         internal SynchronizedLyrics(List<SynchronizedLyricsItem> items)
         {
@@ -79,9 +91,12 @@ namespace Cave.Media.Lyrics
         {
             get
             {
-                if (m_CurrentPosition == 0) return TimeSpan.Zero;
-                if (m_CurrentPosition >= m_Items.Count) return TimeSpan.MaxValue;
-                return m_Items[m_CurrentPosition - 1].TimeCode;
+                if (m_CurrentPosition == 0)
+                {
+                    return TimeSpan.Zero;
+                }
+
+                return m_CurrentPosition >= m_Items.Count ? TimeSpan.MaxValue : m_Items[m_CurrentPosition - 1].TimeCode;
             }
         }
 
@@ -137,14 +152,19 @@ namespace Cave.Media.Lyrics
             for (; m_CurrentPosition < m_Items.Count; m_CurrentPosition++)
             {
                 SynchronizedLyricsItem item = m_Items[m_CurrentPosition];
-                if (item.TimeCode > timeCode) break;
+                if (item.TimeCode > timeCode)
+                {
+                    break;
+                }
+
                 try
                 {
                     backBuffer.Play(item);
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError("Error playing synchronized lyrics item {0} {1} {2}", m_CurrentPosition, item, ex);
+                    Trace.TraceError("Error playing synchronized lyrics item {0} {1}", m_CurrentPosition, item);
+                    Trace.TraceError(ex.ToString());
                 }
             }
         }

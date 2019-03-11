@@ -3,7 +3,7 @@
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// CDG data packet
+    /// CDG data packet.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 24)]
     public struct CdgPacket
@@ -15,15 +15,15 @@ namespace Cave.Media.Lyrics
 
         byte InstructionCode;
 
-        /// <summary>Unused</summary>
+        /// <summary>Unused.</summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public byte[] ParityQ;
 
-        /// <summary>The data</summary>
+        /// <summary>The data.</summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public byte[] Data;
 
-        /// <summary>Unused</summary>
+        /// <summary>Unused.</summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public byte[] ParityP;
 
@@ -33,7 +33,7 @@ namespace Cave.Media.Lyrics
         /// </value>
         public bool IsCdgPacket
         {
-            get { return ((Command & CDG_COMMAND_MASK) == CDG_COMMAND_VALUE); }
+            get { return (Command & CDG_COMMAND_MASK) == CDG_COMMAND_VALUE; }
         }
 
         /// <summary>Gets the instruction.</summary>
@@ -42,11 +42,7 @@ namespace Cave.Media.Lyrics
         {
             get
             {
-                if (IsCdgPacket)
-                {
-                    return (CdgInstruction)(InstructionCode & CDG_COMMAND_MASK);
-                }
-                return CdgInstruction.Unknown;
+                return IsCdgPacket ? (CdgInstruction)(InstructionCode & CDG_COMMAND_MASK) : CdgInstruction.Unknown;
             }
         }
     }

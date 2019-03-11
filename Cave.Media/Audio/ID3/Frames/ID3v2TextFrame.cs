@@ -22,7 +22,8 @@ namespace Cave.Media.Audio.ID3.Frames
         public static ID3v2TextFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string id, string text)
         {
             ID3v2EncodingType encoding = ID3v2Encoding.Select(header, text);
-            //header, encoding[1], name+0
+
+            // header, encoding[1], name+0
             byte[] textBytes = ID3v2Encoding.GetBytes(encoding, text, true);
             int contentSize = 1 + textBytes.Length;
             ID3v2FrameHeader frameHeader = ID3v2FrameHeader.Create(header, id, flags, contentSize);
@@ -54,18 +55,18 @@ namespace Cave.Media.Audio.ID3.Frames
             ParseData();
         }
 
-        /// <summary>The encoding of this frame</summary>
+        /// <summary>The encoding of this frame.</summary>
         public ID3v2EncodingType EncodingType { get; private set; }
 
         /// <summary>
-        /// Obtains the text this frame contains
+        /// Obtains the text this frame contains.
         /// </summary>
         public string Text { get; private set; }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "Text"</returns>
+        /// <returns>ID[Length] "Text".</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Text + '"';

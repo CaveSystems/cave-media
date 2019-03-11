@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides the available mp3 audio frame versions
+    /// Provides the available mp3 audio frame versions.
     /// </summary>
     public enum MP3AudioFrameVersion
     {

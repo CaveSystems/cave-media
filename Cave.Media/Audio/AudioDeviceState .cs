@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides audio device states
+    /// Provides audio device states.
     /// </summary>
     public enum AudioDeviceState
     {

@@ -14,14 +14,14 @@ using System.Security;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// Provides direct access to the portaudio functions
+    /// Provides direct access to the portaudio functions.
     /// </summary>
     internal static class PA
     {
         const string NATIVE_LIBRARY = "portaudio";
         const CallingConvention CALLING_CONVENTION = CallingConvention.Cdecl;
 
-        /// <summary>The global portaudio synchronize root</summary>
+        /// <summary>The global portaudio synchronize root.</summary>
         public static readonly object SyncRoot = new object();
 
         /// <summary>

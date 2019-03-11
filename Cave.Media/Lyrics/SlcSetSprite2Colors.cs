@@ -4,7 +4,7 @@ using System;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Synchronized lyrics command for 2 color (indexed) sprites
+    /// Synchronized lyrics command for 2 color (indexed) sprites.
     /// </summary>
     /// <seealso cref="SynchronizedLyricsCommand" />
     public class SlcSetSprite2Colors : SynchronizedLyricsCommand
@@ -47,17 +47,21 @@ namespace Cave.Media.Lyrics
         /// <param name="color1">The color1.</param>
         /// <param name="data">The data.</param>
         /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="Exception">Data length invalid!</exception>
+        /// <exception cref="Exception">Data length invalid!.</exception>
         public SlcSetSprite2Colors(SynchronizedLyricsCommandType type, int w, int h, int x, int y, byte color0, byte color1, byte[] data)
             : base(type)
         {
-            switch(type)
+            switch (type)
             {
                 case SynchronizedLyricsCommandType.SetSprite2Colors:
                 case SynchronizedLyricsCommandType.SetSprite2ColorsXOR: break;
                 default: throw new NotSupportedException();
             }
-            if (data.Length != (w + 7) / 8 * h) throw new Exception("Data length invalid!");
+            if (data.Length != (w + 7) / 8 * h)
+            {
+                throw new Exception("Data length invalid!");
+            }
+
             Width = w;
             Height = h;
             X = x;

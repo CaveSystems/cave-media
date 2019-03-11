@@ -26,7 +26,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the Owner identifier for this frame
+        /// Obtains the Owner identifier for this frame.
         /// </summary>
         public string Owner
         {
@@ -42,7 +42,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the private bytes this frame contains
+        /// Obtains the private bytes this frame contains.
         /// </summary>
         public byte[] PrivateBytes
         {
@@ -58,14 +58,14 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the private bytes this frame contains as hexadecimal string
+        /// Obtains the private bytes this frame contains as hexadecimal string.
         /// </summary>
         public string HexPrivateBytes => StringExtensions.ToHexString(PrivateBytes);
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "Owner"</returns>
+        /// <returns>ID[Length] "Owner".</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Owner + '"';

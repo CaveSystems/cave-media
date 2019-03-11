@@ -19,7 +19,7 @@ void main(void)
 {
     //calculate scale, then multiply with rotation matrix
     vec3 newPos = vec3(shaderVertexPosition.xy, 0) * angleVec(shaderRotation) * vec3(shaderScale.xy, 0);
-	//add translation and set
+    //add translation and set
     gl_Position = gl_ProjectionMatrix * vec4(newPos + shaderTranslation, 1);
     TextureCoordinates = shaderTextureCoordinates;
 }

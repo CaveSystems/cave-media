@@ -5,7 +5,7 @@ using System.IO;
 namespace Cave.Media.Codecs
 {
     /// <summary>
-    /// Provides an CCITT4 decoder
+    /// Provides an CCITT4 decoder.
     /// </summary>
     public sealed class CCITT4Decoder : CCITT4
     {
@@ -21,7 +21,7 @@ namespace Cave.Media.Codecs
         }
 
         /// <summary>
-        /// Decodes a single pixel row
+        /// Decodes a single pixel row.
         /// </summary>
         public byte[] DecodeRow(byte[] data)
         {
@@ -30,11 +30,15 @@ namespace Cave.Media.Codecs
             BitStreamWriter writer = new BitStreamWriter(new MemoryStream());
             while (reader.Position < reader.Length)
             {
-                //read a bit
+                // read a bit
                 m_CurrentValue = (m_CurrentValue << 1) | reader.ReadBit();
                 m_CurrentBitLength++;
-                if (m_CurrentBitLength > 13) throw new FormatException();
-                //did we get a EndOfLine code ?
+                if (m_CurrentBitLength > 13)
+                {
+                    throw new FormatException();
+                }
+
+                // did we get a EndOfLine code ?
                 if ((m_CurrentBitLength == EOL[1]) && (m_CurrentValue == EOL[0]))
                 {
                     m_Reset(0);
@@ -42,7 +46,7 @@ namespace Cave.Media.Codecs
                 }
                 if (m_State == 0)
                 {
-                    //white makeup search
+                    // white makeup search
                     for (int i = 0; i < WhiteMakeUpCodes.GetLength(0); i++)
                     {
                         if ((WhiteMakeUpCodes[i, 1] == m_CurrentBitLength) &&
@@ -53,11 +57,14 @@ namespace Cave.Media.Codecs
                             break;
                         }
                     }
-                    if (m_State != 0) continue;
+                    if (m_State != 0)
+                    {
+                        continue;
+                    }
                 }
                 if ((int)m_State <= 1)
                 {
-                    //white termination search
+                    // white termination search
                     for (int i = 0; i < WhiteTerminatingCodes.GetLength(0); i++)
                     {
                         if ((WhiteTerminatingCodes[i, 1] == m_CurrentBitLength) &&
@@ -68,11 +75,14 @@ namespace Cave.Media.Codecs
                             break;
                         }
                     }
-                    if ((int)m_State != 1) continue;
+                    if ((int)m_State != 1)
+                    {
+                        continue;
+                    }
                 }
                 if ((int)m_State == 2)
                 {
-                    //black makeup search
+                    // black makeup search
                     for (int i = 0; i < BlackMakeUpCodes.GetLength(0); i++)
                     {
                         if ((BlackMakeUpCodes[i, 1] == m_CurrentBitLength) &&
@@ -83,11 +93,14 @@ namespace Cave.Media.Codecs
                             break;
                         }
                     }
-                    if ((int)m_State != 2) continue;
+                    if ((int)m_State != 2)
+                    {
+                        continue;
+                    }
                 }
                 if ((int)m_State >= 2)
                 {
-                    //black termination search
+                    // black termination search
                     for (int i = 0; i < BlackTerminatingCodes.GetLength(0); i++)
                     {
                         if ((BlackTerminatingCodes[i, 1] == m_CurrentBitLength) &&
@@ -98,7 +111,10 @@ namespace Cave.Media.Codecs
                             break;
                         }
                     }
-                    if ((int)m_State != 3) continue;
+                    if ((int)m_State != 3)
+                    {
+                        continue;
+                    }
                 }
             }
             return ((MemoryStream)writer.BaseStream).ToArray();

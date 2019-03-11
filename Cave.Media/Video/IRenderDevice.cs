@@ -1,13 +1,13 @@
 ﻿namespace Cave.Media.Video
 {
     /// <summary>
-    /// Renderer device interface
+    /// Renderer device interface.
     /// </summary>
     public interface IRenderDevice
     {
         /// <summary>
-        /// Name of the device
+        /// Name of the device.
         /// </summary>
         string Name { get; }
-	}
+    }
 }

@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using Cave.IO;
 
 namespace Cave.Media.OpenGL
 {
@@ -23,18 +22,18 @@ namespace Cave.Media.OpenGL
         /// not found.</exception>
         public static void ConfigureNativesDirectory(string nativeDirectory)
         {
-			if (Directory.Exists(nativeDirectory))
-			{
-				Environment.SetEnvironmentVariable("Path", Environment.GetEnvironmentVariable("Path") + ";" + Path.GetFullPath(nativeDirectory) + ";");
-			}
-			else
-			{
-				throw new DirectoryNotFoundException(nativeDirectory);
-			}
+            if (Directory.Exists(nativeDirectory))
+            {
+                Environment.SetEnvironmentVariable("Path", Environment.GetEnvironmentVariable("Path") + ";" + Path.GetFullPath(nativeDirectory) + ";");
+            }
+            else
+            {
+                throw new DirectoryNotFoundException(nativeDirectory);
+            }
         }
 
         /// <summary>
-        /// GLFW_DONT_CARE
+        /// GLFW_DONT_CARE.
         /// </summary>
         public readonly static int DontCare = -1;
 
@@ -71,7 +70,10 @@ namespace Cave.Media.OpenGL
         {
             int len = 0;
             while (Marshal.ReadByte(ptr, len) != 0)
+            {
                 ++len;
+            }
+
             byte[] buffer = new byte[len];
             Marshal.Copy(ptr, buffer, 0, buffer.Length);
             return Encoding.UTF8.GetString(buffer);

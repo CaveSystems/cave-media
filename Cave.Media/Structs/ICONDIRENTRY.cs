@@ -5,24 +5,28 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// ICONDIRENTRY structure
+    /// ICONDIRENTRY structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
     public struct ICONDIRENTRY
     {
         /// <summary>
-        /// Obtains the size of the structure
+        /// Obtains the size of the structure.
         /// </summary>
         public const int StructureSize = 16;
 
         /// <summary>
-        /// Reads the ICONDIRENTRY from the specified stream
+        /// Reads the ICONDIRENTRY from the specified stream.
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
         public static ICONDIRENTRY FromStream(Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+
             byte[] buffer = new byte[16];
             if (16 != stream.Read(buffer, 0, 16))
             {
@@ -68,17 +72,17 @@ namespace Cave.Media.Structs
         public short ValueB;
 
         /// <summary>
-        /// Specifies the size of the image's data in bytes
+        /// Specifies the size of the image's data in bytes.
         /// </summary>
         public int Size;
 
         /// <summary>
-        /// Specifies the offset of BMP or PNG data from the beginning of the ICO/CUR file
+        /// Specifies the offset of BMP or PNG data from the beginning of the ICO/CUR file.
         /// </summary>
         public int Offset;
 
         /// <summary>
-        /// "ICON[&lt;Bytes&gt;] (&lt;Width&gt;x&lt;Height&gt;)
+        /// "ICON[&lt;Bytes&gt;] (&lt;Width&gt;x&lt;Height&gt;).
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -87,7 +91,7 @@ namespace Cave.Media.Structs
         }
 
         /// <summary>
-        /// Obtains the structure as byte array
+        /// Obtains the structure as byte array.
         /// </summary>
         /// <returns></returns>
         public byte[] ToArray()
@@ -101,12 +105,16 @@ namespace Cave.Media.Structs
         }
 
         /// <summary>
-        /// Saves the structure to a stream
+        /// Saves the structure to a stream.
         /// </summary>
         /// <param name="stream"></param>
         public void SaveTo(Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+
             stream.Write(ToArray(), 0, 16);
         }
     }

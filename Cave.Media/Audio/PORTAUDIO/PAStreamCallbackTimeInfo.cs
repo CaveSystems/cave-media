@@ -11,18 +11,18 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Stream Callback Time Information
+    /// PortAudio Stream Callback Time Information.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct PAStreamCallbackTimeInfo
     {
-        /// <summary>The current time since start (s)</summary>
+        /// <summary>The current time since start (s).</summary>
         public double CurrentTime;
 
-        /// <summary>The input buffer adc time (s)</summary>
+        /// <summary>The input buffer adc time (s).</summary>
         public double InputBufferAdcTime;
 
-        /// <summary>The output buffer dac time (s)</summary>
+        /// <summary>The output buffer dac time (s).</summary>
         public double OutputBufferDacTime;
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>

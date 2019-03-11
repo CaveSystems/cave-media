@@ -4,7 +4,7 @@ using Cave.IO;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Synchronized Lyrics Command 
+    /// Synchronized Lyrics Command. 
     /// </summary>
     /// <seealso cref="SynchronizedLyricsCommand" />
     public class SlcScreenScroll : SynchronizedLyricsCommand
@@ -23,7 +23,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Initializes a new instance of the <see cref="SlcScreenScroll"/> class.</summary>
         /// <param name="reader">The reader.</param>
-        public SlcScreenScroll(DataReader reader) 
+        public SlcScreenScroll(DataReader reader)
             : base(SynchronizedLyricsCommandType.ScreenScroll)
         {
             ColorIndex = reader.ReadByte();

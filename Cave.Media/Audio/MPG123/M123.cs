@@ -33,20 +33,21 @@ using System.Threading;
 namespace Cave.Media.Audio.MPG123
 {
     /// <summary>
-    /// Provides direct access to the mpg123 functions
+    /// Provides direct access to the mpg123 functions.
     /// </summary>
     public sealed class M123
     {
-        /// <summary>The native library name (windows mpg123.dll, linux libmpg123.so, macos libmpg123.dylib</summary>
+        /// <summary>The native library name (windows mpg123.dll, linux libmpg123.so, macos libmpg123.dylib.</summary>
         const string NATIVE_LIBRARY = "mpg123";
 
-		static int initializationCounter;
+        static int initializationCounter;
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
         public string LogSourceName { get { return "MPG123"; } }
 
         #region enums
+
         /// <summary>
         /// An enum over all sample types possibly known to mpg123. The values are designed as bit flags to allow bitmasking for encoding families.<br />
         /// Note that (your build of) libmpg123 does not necessarily support all these. Usually, you can expect the 8bit encodings and signed 16 bit.
@@ -96,12 +97,12 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// signed 16 bit
             /// </summary>
-            SIGNED_16 = (DEFAULT_16 | SIGNED | 0x10),
+            SIGNED_16 = DEFAULT_16 | SIGNED | 0x10,
 
             /// <summary>
             /// unsigned 16 bit
             /// </summary>
-            UNSIGNED_16 = (DEFAULT_16 | 0x20),
+            UNSIGNED_16 = DEFAULT_16 | 0x20,
 
             /// <summary>
             /// unsigned 8 bit
@@ -111,7 +112,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// signed 8 bit
             /// </summary>
-            SIGNED_8 = (SIGNED | 0x02),
+            SIGNED_8 = SIGNED | 0x02,
 
             /// <summary>
             /// ulaw 8 bit
@@ -156,10 +157,10 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Any encoding on the list.
             /// </summary>
-            ANY = (
+            ANY = 
                 SIGNED_16 | UNSIGNED_16 | UNSIGNED_8 | SIGNED_8 | ULAW_8 | ALAW_8 |
                 SIGNED_32 | UNSIGNED_32 | SIGNED_24 | UNSIGNED_24 | FLOAT_32 | FLOAT_64
-            )
+            ,
         }
 
         /// <summary>
@@ -235,7 +236,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Reader with timeout (network).
             /// </summary>
-            TIMEOUT_READ
+            TIMEOUT_READ,
         }
 
         /// <summary>
@@ -354,7 +355,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Allow automatic internal resampling of any kind (default on if supported). Especially when going lowlevel with replacing output buffer, you might want to unset this flag. Setting MPG123_DOWNSAMPLE or MPG123_FORCE_RATE will override this.
             /// </summary>
-            AUTO_RESAMPLE = 0x8000
+            AUTO_RESAMPLE = 0x8000,
         }
 
         /// <summary>
@@ -455,7 +456,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Minimal size of one internal feeder buffer, again, the default value is subject to change. (integer)
             /// </summary>
-            FEEDBUFFER
+            FEEDBUFFER,
         }
 
         /// <summary>
@@ -701,11 +702,11 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Some integer overflow.
             /// </summary>
-            INT_OVERFLOW
+            INT_OVERFLOW,
         }
 
         /// <summary>
-        /// RVA choices
+        /// RVA choices.
         /// </summary>
         public enum RVA
         {
@@ -727,6 +728,7 @@ namespace Cave.Media.Audio.MPG123
         #endregion
 
         #region classes
+
         /// <summary>
         /// mpg123 advanced parameter API:
         /// <para>
@@ -744,12 +746,12 @@ namespace Cave.Media.Audio.MPG123
             IntPtr m_Handle;
 
             /// <summary>
-            /// Obtains the handle
+            /// Obtains the handle.
             /// </summary>
             public IntPtr Handle { get { return m_Handle; } }
 
             /// <summary>
-            /// Creates new empty MPG123_PARS
+            /// Creates new empty MPG123_PARS.
             /// </summary>
             public M123_PARS()
             {
@@ -768,7 +770,7 @@ namespace Cave.Media.Audio.MPG123
             }
 
             /// <summary>
-            /// Creates new MPG123_PARS with the specified handle
+            /// Creates new MPG123_PARS with the specified handle.
             /// </summary>
             /// <param name="handle"></param>
             public M123_PARS(IntPtr handle)
@@ -777,7 +779,7 @@ namespace Cave.Media.Audio.MPG123
             }
 
             /// <summary>
-            /// Obtains whether the handle is valid or not
+            /// Obtains whether the handle is valid or not.
             /// </summary>
             public bool Valid
             {
@@ -799,7 +801,7 @@ namespace Cave.Media.Audio.MPG123
         #endregion
 
         /// <summary>
-        /// Obtains the MPG123_ENC value for the specified IAudioConfiguration
+        /// Obtains the MPG123_ENC value for the specified IAudioConfiguration.
         /// </summary>
         /// <param name="config">The audio configuration.</param>
         /// <returns></returns>
@@ -818,7 +820,7 @@ namespace Cave.Media.Audio.MPG123
         }
 
         /// <summary>
-        /// Obtains the MPG123_CHANNELCOUNT value for the specified IAudioConfiguration
+        /// Obtains the MPG123_CHANNELCOUNT value for the specified IAudioConfiguration.
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
@@ -843,36 +845,41 @@ namespace Cave.Media.Audio.MPG123
             }
         }
 
-		/// <summary>
-		/// Initialized the mpg123 library (you have to call Deinitialize for each call to this function)
-		/// </summary>
-		public static void Initialize()
-		{
-			if (Interlocked.Increment(ref initializationCounter) > 1) return;
-			List<Exception> errors = new List<Exception>();
-			//Initialize
-			try
-			{
-				CheckResult(SafeNativeMethods.mpg123_init());
-				return;
-			}
-			catch (Exception ex)
-			{
-				Interlocked.Decrement(ref initializationCounter);
-                Trace.WriteLine("Library initialization exception.\n" + ex);
-				throw;
-			}
-		}
+        /// <summary>
+        /// Initialized the mpg123 library (you have to call Deinitialize for each call to this function).
+        /// </summary>
+        public static void Initialize()
+        {
+            if (Interlocked.Increment(ref initializationCounter) > 1)
+            {
+                return;
+            }
 
-		/// <summary>Deinitializes mpg123 library if the InitializeCount reaches 0.</summary>
-		/// <exception cref="InvalidOperationException"></exception>
-		public static void Deinitialize()
-		{
-			if (Interlocked.Decrement(ref initializationCounter) <= 0)
-			{
-				SafeNativeMethods.mpg123_exit();
-			}
-		}
+            List<Exception> errors = new List<Exception>();
+
+            // Initialize
+            try
+            {
+                CheckResult(SafeNativeMethods.mpg123_init());
+                return;
+            }
+            catch (Exception ex)
+            {
+                Interlocked.Decrement(ref initializationCounter);
+                Trace.WriteLine("Library initialization exception.\n" + ex);
+                throw;
+            }
+        }
+
+        /// <summary>Deinitializes mpg123 library if the InitializeCount reaches 0.</summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static void Deinitialize()
+        {
+            if (Interlocked.Decrement(ref initializationCounter) <= 0)
+            {
+                SafeNativeMethods.mpg123_exit();
+            }
+        }
 
         [SuppressUnmanagedCodeSecurity]
         internal static class SafeNativeMethods
@@ -886,7 +893,11 @@ namespace Cave.Media.Audio.MPG123
                 while (item != IntPtr.Zero)
                 {
                     string str = Marshal.PtrToStringAnsi(item);
-                    if (!string.IsNullOrEmpty(str)) result.Add(str);
+                    if (!string.IsNullOrEmpty(str))
+                    {
+                        result.Add(str);
+                    }
+
                     item = Marshal.ReadIntPtr(pointer, index);
                     index += IntPtr.Size;
                 }
@@ -906,7 +917,7 @@ namespace Cave.Media.Audio.MPG123
                         array[count++] = value;
                     }
                 }
-                else //if (IntPtr.Size == 8)
+                else // if (IntPtr.Size == 8)
                 {
                     while (count < array.Length)
                     {
@@ -918,6 +929,7 @@ namespace Cave.Media.Audio.MPG123
             }
 
             #region mpg123 library and handle setup
+
             /// <summary>
             /// Function to initialise the mpg123 library. This function is not thread-safe. Call it exactly once per process, before any other (possibly threaded) work with the library.
             /// </summary>
@@ -934,8 +946,8 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Create a handle with optional choice of decoder (named by a string, see mpg123_decoders() or mpg123_supported_decoders()). and optional retrieval of an error code to feed to mpg123_plain_strerror(). Optional means: Any of or both the parameters may be NULL.
             /// </summary>
-            /// <param name="decoderName">Decoder name (optional)</param>
-            /// <param name="error">Result</param>
+            /// <param name="decoderName">Decoder name (optional).</param>
+            /// <param name="error">Result.</param>
             /// <returns>Returns a non-NULL pointer when successful. </returns>
             [DllImport(NATIVE_LIBRARY, CharSet = CharSet.Ansi, ThrowOnUnmappableChar = true, BestFitMapping = false, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr mpg123_new([MarshalAs(UnmanagedType.LPStr)]string decoderName, out RESULT error);
@@ -980,6 +992,7 @@ namespace Cave.Media.Audio.MPG123
             #endregion
 
             #region mpg123 error handling
+
             /// <summary>
             /// Return a string describing that error errcode means.
             /// </summary>
@@ -1014,7 +1027,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Returns an array of generally available decoder names (plain 8bit ASCII).
             /// </summary>
-            /// <returns>Returns a list of available decoders</returns>
+            /// <returns>Returns a list of available decoders.</returns>
             public static string[] mpg123_decoders()
             {
                 return m_DecodeStringArray(m_mpg123_decoders());
@@ -1026,14 +1039,14 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Return a NULL-terminated array of the decoders supported by the CPU (plain 8bit ASCII).
             /// </summary>
-            /// <returns>Returns a list of supported decoders</returns>
+            /// <returns>Returns a list of supported decoders.</returns>
             public static string[] mpg123_supported_decoders()
             {
                 return m_DecodeStringArray(m_mpg123_supported_decoders());
             }
 
             /// <summary>
-            /// Set the chosen decoder to 'decoder_name'
+            /// Set the chosen decoder to 'decoder_name'.
             /// </summary>
             /// <param name="handle"></param>
             /// <param name="decoderName"></param>
@@ -1076,7 +1089,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// An array of supported audio encodings. An audio encoding is one of the fully qualified members of mpg123_enc_enum (MPG123_ENC_SIGNED_16, not MPG123_SIGNED).
             /// </summary>
-            /// <returns>Returns a list of all available encodings</returns>
+            /// <returns>Returns a list of all available encodings.</returns>
             public static ENC[] mpg123_encodings()
             {
                 IntPtr list;
@@ -1101,7 +1114,7 @@ namespace Cave.Media.Audio.MPG123
             public static extern int mpg123_encsize(ENC encoding);
 
             /// <summary>
-            /// Configure a mpg123 handle to accept no output format at all, use before specifying supported formats with mpg123_format
+            /// Configure a mpg123 handle to accept no output format at all, use before specifying supported formats with mpg123_format.
             /// </summary>
             /// <param name="handle"></param>
             /// <returns></returns>
@@ -1117,9 +1130,9 @@ namespace Cave.Media.Audio.MPG123
             public static extern RESULT mpg123_format_all(IntPtr handle);
 
             /// <summary>
-            /// Set the audio format support of a mpg123_handle in detail:
+            /// Set the audio format support of a mpg123_handle in detail:.
             /// </summary>
-            /// <param name="handle">Audio decoder handle </param>
+            /// <param name="handle">Audio decoder handle. </param>
             /// <param name="sampleRate">The sample rate value (in Hertz). </param>
             /// <param name="channels">A combination of MPG123_STEREO and MPG123_MONO. </param>
             /// <param name="encodings">A combination of accepted encodings for rate and channels, p.ex MPG123_ENC_SIGNED16 | MPG123_ENC_ULAW_8 (or 0 for no support). Please note that some encodings may not be supported in the library build and thus will be ignored here. </param>
@@ -1141,7 +1154,7 @@ namespace Cave.Media.Audio.MPG123
             static extern RESULT m_mpg123_getformat(IntPtr handle, out IntPtr sampleRate, out IntPtr channels, out IntPtr encoding);
 
             /// <summary>
-            /// Get the current output format
+            /// Get the current output format.
             /// </summary>
             /// <param name="handle"></param>
             /// <returns></returns>
@@ -1152,7 +1165,10 @@ namespace Cave.Media.Audio.MPG123
                 IntPtr encoding;
 
                 RESULT result = m_mpg123_getformat(handle, out sampleRate, out channelConfig, out encoding);
-                if (result != RESULT.OK) throw new Exception(mpg123_plain_strerror(result));
+                if (result != RESULT.OK)
+                {
+                    throw new Exception(mpg123_plain_strerror(result));
+                }
 
                 AudioSampleFormat format;
                 switch ((ENC)encoding.ToInt32())
@@ -1273,20 +1289,22 @@ namespace Cave.Media.Audio.MPG123
             /// You can actually always decide if you want those specialized functions in separate steps or one call this one here.
             /// </summary>
             /// <param name="handle"></param>
-            /// <param name="input">Input buffer (buffer where decoded data will be stored)</param>
-            /// <param name="output">Output buffer (buffer to be decoded)</param>
-            /// <param name="bufferSize">The output buffer size</param>
+            /// <param name="input">Input buffer (buffer where decoded data will be stored).</param>
+            /// <param name="output">Output buffer (buffer to be decoded).</param>
+            /// <param name="bufferSize">The output buffer size.</param>
             /// <returns></returns>
             public static RESULT mpg123_decode(IntPtr handle, FifoBuffer input, FifoBuffer output, int bufferSize)
             {
-                //get input buffer
+                // get input buffer
                 int inSize = input.Length;
                 IntPtr inMemory = Marshal.AllocHGlobal(inSize);
                 input.Dequeue(inSize, inMemory);
-                //prepare output buffer
+
+                // prepare output buffer
                 IntPtr outMemory = Marshal.AllocHGlobal(bufferSize);
                 IntPtr done;
-                //decode
+
+                // decode
                 RESULT result = m_mpg123_decode(handle, inMemory, new IntPtr(inSize), outMemory, new IntPtr(bufferSize), out done);
                 if (result == RESULT.ERR)
                 {
@@ -1308,7 +1326,8 @@ namespace Cave.Media.Audio.MPG123
                         output.Enqueue(outMemory, doneCount);
                     }
                 }
-                //free buffers
+
+                // free buffers
                 Marshal.FreeHGlobal(outMemory);
                 Marshal.FreeHGlobal(inMemory);
                 return result;
@@ -1322,7 +1341,7 @@ namespace Cave.Media.Audio.MPG123
             static extern IntPtr m_mpg123_safe_buffer();
 
             /// <summary>
-            /// Get the safe output buffer size for all cases (when you want to replace the internal buffer)
+            /// Get the safe output buffer size for all cases (when you want to replace the internal buffer).
             /// </summary>
             /// <returns></returns>
             public static int mpg123_safe_buffer()
@@ -1346,7 +1365,11 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_parnew(M123_PARS preset, [MarshalAs(UnmanagedType.LPStr)]string decoder, out IntPtr handle)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 IntPtr result;
                 handle = m_mpg123_parnew(ref l_PresetHandle, decoder, out result);
@@ -1357,7 +1380,7 @@ namespace Cave.Media.Audio.MPG123
             static extern IntPtr m_mpg123_new_pars(out IntPtr error);
 
             /// <summary>
-            /// Allocate memory for and return a new MPG123_PARS
+            /// Allocate memory for and return a new MPG123_PARS.
             /// </summary>
             /// <param name="preset"></param>
             /// <returns></returns>
@@ -1381,12 +1404,16 @@ namespace Cave.Media.Audio.MPG123
             static extern void m_mpg123_delete_pars(ref IntPtr preset);
 
             /// <summary>
-            /// Delete and free up memory used by a MPG123_PARS data structure
+            /// Delete and free up memory used by a MPG123_PARS data structure.
             /// </summary>
             /// <param name="preset"></param>
             public static void mpg123_delete_pars(M123_PARS preset)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 m_mpg123_delete_pars(ref l_PresetHandle);
                 preset.Disposed();
@@ -1396,13 +1423,17 @@ namespace Cave.Media.Audio.MPG123
             static extern RESULT m_mpg123_fmt_none(ref IntPtr preset);
 
             /// <summary>
-            /// Configure mpg123 parameters to accept no output format at all, use before specifying supported formats with mpg123_format
+            /// Configure mpg123 parameters to accept no output format at all, use before specifying supported formats with mpg123_format.
             /// </summary>
             /// <param name="preset"></param>
             /// <returns></returns>
             public static RESULT mpg123_fmt_none(M123_PARS preset)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 return m_mpg123_fmt_none(ref l_PresetHandle);
             }
@@ -1411,13 +1442,17 @@ namespace Cave.Media.Audio.MPG123
             static extern RESULT m_mpg123_fmt_all(ref IntPtr preset);
 
             /// <summary>
-            /// Configure mpg123 parameters to accept no output format at all, use before specifying supported formats with mpg123_format
+            /// Configure mpg123 parameters to accept no output format at all, use before specifying supported formats with mpg123_format.
             /// </summary>
             /// <param name="preset"></param>
             /// <returns></returns>
             public static RESULT mpg123_fmt_all(M123_PARS preset)
             {
-                if (!preset.Valid) throw new ArgumentException(string.Format("Preset invalid!"));
+                if (!preset.Valid)
+                {
+                    throw new ArgumentException(string.Format("Preset invalid!"));
+                }
+
                 IntPtr l_PresetHandle = preset.Handle;
                 return m_mpg123_fmt_all(ref l_PresetHandle);
             }
@@ -1426,7 +1461,7 @@ namespace Cave.Media.Audio.MPG123
             static extern RESULT m_mpg123_fmt(ref IntPtr preset, IntPtr sampleRate, CHANNELCOUNT channelConfig, ENC encodings);
 
             /// <summary>
-            /// Set the audio format support of a mpg123_pars in detail
+            /// Set the audio format support of a mpg123_pars in detail.
             /// </summary>
             /// <param name="preset"></param>
             /// <param name="config"></param>
@@ -1454,7 +1489,7 @@ namespace Cave.Media.Audio.MPG123
                 ENC l_Encoding = GetEncoding(config);
                 CHANNELCOUNT availableChannelConfig = m_mpg123_fmt_support(ref l_PresetHandle, new IntPtr(config.SamplingRate), l_Encoding);
                 CHANNELCOUNT channelConfig = GetChannelConfig(config);
-                return ((availableChannelConfig & channelConfig) == channelConfig);
+                return (availableChannelConfig & channelConfig) == channelConfig;
             }
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_par", CallingConvention = CallingConvention.Cdecl)]

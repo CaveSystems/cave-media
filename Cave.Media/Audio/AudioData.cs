@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides a data buffer with audio specific informations (<see cref="IAudioConfiguration"/>
+    /// Provides a data buffer with audio specific informations (<see cref="IAudioConfiguration"/>.
     /// </summary>
 
     public class AudioData : AudioConfiguration, IAudioData
@@ -19,38 +19,62 @@ namespace Cave.Media.Audio
         float? m_Peak;
 
         /// <summary>Initializes a new instance of the <see cref="AudioData" /> class.</summary>
-        /// <param name="samplingRate">SamplingRate</param>
-        /// <param name="channelSetup">Audio channel setup</param>
+        /// <param name="samplingRate">SamplingRate.</param>
+        /// <param name="channelSetup">Audio channel setup.</param>
         /// <param name="samples">The samples.</param>
         /// <param name="sampleCount">The sample count.</param>
-        /// <exception cref="ArgumentNullException">Buffer</exception>
+        /// <exception cref="ArgumentNullException">Buffer.</exception>
         /// <exception cref="Exception"></exception>
-        /// <exception cref="ArgumentOutOfRangeException">ChannelSetup</exception>
+        /// <exception cref="ArgumentOutOfRangeException">ChannelSetup.</exception>
         public AudioData(int samplingRate, AudioChannelSetup channelSetup, float[] samples, int sampleCount)
             : base(samplingRate, AudioSampleFormat.Float, channelSetup)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
-            if ((sampleCount > samples.Length) || ((sampleCount % BytesPerTick) != 0)) throw new Exception(string.Format("Buffer length invalid!"));
-            if (channelSetup == AudioChannelSetup.None) throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
+            if (samples == null)
+            {
+                throw new ArgumentNullException("samples");
+            }
+
+            if ((sampleCount > samples.Length) || ((sampleCount % BytesPerTick) != 0))
+            {
+                throw new Exception(string.Format("Buffer length invalid!"));
+            }
+
+            if (channelSetup == AudioChannelSetup.None)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
+            }
+
             m_SampleCount = sampleCount;
             m_Data = new byte[BytesPerSample * sampleCount];
             Buffer.BlockCopy(samples, 0, m_Data, 0, sampleCount * 4);
         }
 
         /// <summary>Initializes a new instance of the <see cref="AudioData"/> class.</summary>
-        /// <param name="samplingRate">SamplingRate</param>
-        /// <param name="format">AudioSampleFormat</param>
-        /// <param name="channelSetup">Audio channel setup</param>
-        /// <param name="startTime">start time of the audio data</param>
-        /// <param name="streamIndex">stream index</param>
-        /// <param name="channelNumber">channel</param>
-        /// <param name="buffer">buffer containing the sample data</param>
+        /// <param name="samplingRate">SamplingRate.</param>
+        /// <param name="format">AudioSampleFormat.</param>
+        /// <param name="channelSetup">Audio channel setup.</param>
+        /// <param name="startTime">start time of the audio data.</param>
+        /// <param name="streamIndex">stream index.</param>
+        /// <param name="channelNumber">channel.</param>
+        /// <param name="buffer">buffer containing the sample data.</param>
         public AudioData(int samplingRate, AudioSampleFormat format, AudioChannelSetup channelSetup, TimeSpan startTime, int streamIndex, int channelNumber, byte[] buffer)
             : base(samplingRate, format, channelSetup)
         {
-            if (buffer == null) throw new ArgumentNullException("Buffer");
-            if ((BytesPerTick != 0) && ((buffer.Length % BytesPerTick) != 0)) throw new Exception(string.Format("Buffer length invalid!"));
-            if (channelSetup == AudioChannelSetup.None) throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("Buffer");
+            }
+
+            if ((BytesPerTick != 0) && ((buffer.Length % BytesPerTick) != 0))
+            {
+                throw new Exception(string.Format("Buffer length invalid!"));
+            }
+
+            if (channelSetup == AudioChannelSetup.None)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
+            }
+
             m_StreamIndex = streamIndex;
             m_Data = buffer;
             m_StartTime = startTime;
@@ -59,21 +83,33 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Creates a new AudioData instance
+        /// Creates a new AudioData instance.
         /// </summary>
-        /// <param name="samplingRate">SamplingRate</param>
-        /// <param name="format">AudioSampleFormat</param>
-        /// <param name="channels">Audio channel count</param>
-        /// <param name="startTime">start time of the audio data</param>
-        /// <param name="streamIndex">stream index</param>
-        /// <param name="channelNumber">channel number</param>
-        /// <param name="buffer">buffer containing the sample data</param>
+        /// <param name="samplingRate">SamplingRate.</param>
+        /// <param name="format">AudioSampleFormat.</param>
+        /// <param name="channels">Audio channel count.</param>
+        /// <param name="startTime">start time of the audio data.</param>
+        /// <param name="streamIndex">stream index.</param>
+        /// <param name="channelNumber">channel number.</param>
+        /// <param name="buffer">buffer containing the sample data.</param>
         public AudioData(int samplingRate, AudioSampleFormat format, int channels, TimeSpan startTime, int streamIndex, int channelNumber, byte[] buffer)
             : base(samplingRate, format, channels)
         {
-            if (buffer == null) throw new ArgumentNullException("Buffer");
-            if ((BytesPerTick != 0) && ((buffer.Length % BytesPerTick) != 0)) throw new Exception(string.Format("Buffer length invalid!"));
-            if (channels <= 0) throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("Buffer");
+            }
+
+            if ((BytesPerTick != 0) && ((buffer.Length % BytesPerTick) != 0))
+            {
+                throw new Exception(string.Format("Buffer length invalid!"));
+            }
+
+            if (channels <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
+            }
+
             m_StreamIndex = streamIndex;
             m_Data = buffer;
             m_StartTime = startTime;
@@ -261,7 +297,7 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the peak for this buffer.</summary>
         /// <value>The peak value (always positive, 0..1).</value>
-        /// <exception cref="NotImplementedException">AudioSampleFormat.Int24</exception>
+        /// <exception cref="NotImplementedException">AudioSampleFormat.Int24.</exception>
         public float Peak
         {
             get
@@ -291,8 +327,8 @@ namespace Cave.Media.Audio
         {
             switch (Format)
             {
-                case AudioSampleFormat.Int16: return NormalizeInt16(factor); 
-                case AudioSampleFormat.Float: return NormalizeFloat(factor); 
+                case AudioSampleFormat.Int16: return NormalizeInt16(factor);
+                case AudioSampleFormat.Float: return NormalizeFloat(factor);
                 default: throw new NotImplementedException();
             }
         }
@@ -338,7 +374,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Channel number (&lt;0 = invalid or unknown index)
+        /// Channel number (&lt;0 = invalid or unknown index).
         /// </summary>
         public int ChannelNumber
         {
@@ -346,7 +382,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the start time
+        /// Obtains the start time.
         /// </summary>
         public TimeSpan StartTime
         {
@@ -357,14 +393,15 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the duration
+        /// Obtains the duration.
         /// </summary>
         public TimeSpan Duration
         {
             get
             {
-                if (m_Data.LongLength == 0) return TimeSpan.Zero;
-                return new TimeSpan(((m_Data.LongLength / BytesPerTick) * TimeSpan.TicksPerSecond) / SamplingRate);
+                return m_Data.LongLength == 0
+                    ? TimeSpan.Zero
+                    : new TimeSpan(m_Data.LongLength / BytesPerTick * TimeSpan.TicksPerSecond / SamplingRate);
             }
         }
 
@@ -373,14 +410,17 @@ namespace Cave.Media.Audio
         [MethodImpl(256)]
         short ToInt16(float f)
         {
-            if (f > 32767) return 32767;
-            if (f < -32767) return -32767;
-            return (short)f;
+            if (f > 32767)
+            {
+                return 32767;
+            }
+
+            return f < -32767 ? (short)-32767 : (short)f;
         }
 
         /// <summary>Converts the <see cref="AudioData"/> to <see cref="AudioSampleFormat.Int16"/>.</summary>
-        /// <returns>Returns a new <see cref="AudioData"/> instance</returns>
-        /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}</exception>
+        /// <returns>Returns a new <see cref="AudioData"/> instance.</returns>
+        /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         public unsafe IAudioData ConvertToInt16()
         {
             byte[] result = new byte[m_Data.Length / BytesPerSample * 2];
@@ -390,50 +430,50 @@ namespace Cave.Media.Audio
                 switch (Format)
                 {
                     case AudioSampleFormat.Double:
+                    {
+                        double* pIn = (double*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            double* pIn = (double*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = ToInt16((float)(pIn[i] * 32767.0));
-                            }
-                            break;
+                            pOut[i] = ToInt16((float)(pIn[i] * 32767.0));
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Float:
+                    {
+                        float* pIn = (float*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            float* pIn = (float*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = ToInt16(pIn[i] * 32767.0f);
-                            }
-                            break;
+                            pOut[i] = ToInt16(pIn[i] * 32767.0f);
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int64:
+                    {
+                        long* pIn = (long*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            long* pIn = (long*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = ToInt16(pIn[i] / 9223372036854775808.0f);
-                            }
-                            break;
+                            pOut[i] = ToInt16(pIn[i] / 9223372036854775808.0f);
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int32:
+                    {
+                        int* pIn = (int*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            int* pIn = (int*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = ToInt16(pIn[i] / 2147483648.0f);
-                            }
-                            break;
+                            pOut[i] = ToInt16(pIn[i] / 2147483648.0f);
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int8:
+                    {
+                        short* pIn = (short*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            short* pIn = (short*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = ToInt16(pIn[i] * 128.0f);
-                            }
-                            break;
+                            pOut[i] = ToInt16(pIn[i] * 128.0f);
                         }
+                        break;
+                    }
                     default: throw new NotImplementedException(string.Format("Function is not implemented for AudioSampleFormat {0}", Format));
                 }
             }
@@ -441,8 +481,8 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>Converts the <see cref="AudioData"/> to <see cref="AudioSampleFormat.Float"/>.</summary>
-        /// <returns>Returns a new <see cref="AudioData"/> instance</returns>
-        /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}</exception>
+        /// <returns>Returns a new <see cref="AudioData"/> instance.</returns>
+        /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         public unsafe IAudioData ConvertToFloat()
         {
             byte[] result = new byte[m_Data.Length / BytesPerSample * 4];
@@ -452,50 +492,50 @@ namespace Cave.Media.Audio
                 switch (Format)
                 {
                     case AudioSampleFormat.Double:
+                    {
+                        double* pIn = (double*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            double* pIn = (double*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = (float)pIn[i];
-                            }
-                            break;
+                            pOut[i] = (float)pIn[i];
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int64:
+                    {
+                        long* pIn = (long*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            long* pIn = (long*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = pIn[i] / 9223372036854775808f;
-                            }
-                            break;
+                            pOut[i] = pIn[i] / 9223372036854775808f;
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int32:
+                    {
+                        int* pIn = (int*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            int* pIn = (int*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = pIn[i] / 2147483648f;
-                            }
-                            break;
+                            pOut[i] = pIn[i] / 2147483648f;
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int16:
+                    {
+                        int* pIn = (int*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            int* pIn = (int*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = pIn[i] / 32768f;
-                            }
-                            break;
+                            pOut[i] = pIn[i] / 32768f;
                         }
+                        break;
+                    }
                     case AudioSampleFormat.Int8:
+                    {
+                        short* pIn = (short*)ptrIn;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            short* pIn = (short*)ptrIn;
-                            for (int i = 0; i < SampleCount; i++)
-                            {
-                                pOut[i] = pIn[i] / 256f;
-                            }
-                            break;
+                            pOut[i] = pIn[i] / 256f;
                         }
+                        break;
+                    }
                     default: throw new NotImplementedException(string.Format("Function is not implemented for AudioSampleFormat {0}", Format));
                 }
             }
@@ -513,77 +553,125 @@ namespace Cave.Media.Audio
                 switch (Format)
                 {
                     case AudioSampleFormat.Double:
+                    {
+                        double* p = (double*)ptr;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            double* p = (double*)ptr;
-                            for (int i = 0; i < SampleCount; i++)
+                            double d = *p * volume;
+                            if (d > 1)
                             {
-                                double d = *p * volume;
-                                if (d > 1) d = 1; else if (d < -1) d = -1;
-                                *p = d;
-                                p++;
+                                d = 1;
                             }
+                            else if (d < -1)
+                            {
+                                d = -1;
+                            }
+
+                            *p = d;
+                            p++;
                         }
-                        break;
+                    }
+                    break;
                     case AudioSampleFormat.Float:
+                    {
+                        float* p = (float*)ptr;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            float* p = (float*)ptr;
-                            for (int i = 0; i < SampleCount; i++)
+                            float f = *p * volume;
+                            if (f > 1)
                             {
-                                float f = *p * volume;
-                                if (f > 1) f = 1; else if (f < -1) f = -1;
-                                *p = *p * volume;
-                                p++;
+                                f = 1;
                             }
+                            else if (f < -1)
+                            {
+                                f = -1;
+                            }
+
+                            *p = *p * volume;
+                            p++;
                         }
-                        break;
+                    }
+                    break;
                     case AudioSampleFormat.Int64:
+                    {
+                        long* p = (long*)ptr;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            long* p = (long*)ptr;
-                            for (int i = 0; i < SampleCount; i++)
+                            float f = *p * volume;
+                            if (f > Int64.MaxValue)
                             {
-                                float f = (*p * volume);
-                                if (f > Int64.MaxValue) f = Int64.MaxValue; else if (f < Int64.MinValue) f = Int64.MinValue;
-                                * p = (long)f;
-                                p++;
+                                f = Int64.MaxValue;
                             }
+                            else if (f < Int64.MinValue)
+                            {
+                                f = Int64.MinValue;
+                            }
+
+                            *p = (long)f;
+                            p++;
                         }
-                        break;
+                    }
+                    break;
                     case AudioSampleFormat.Int32:
+                    {
+                        int* p = (int*)ptr;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            int* p = (int*)ptr;
-                            for (int i = 0; i < SampleCount; i++)
+                            float f = *p * volume;
+                            if (f > Int32.MaxValue)
                             {
-                                float f = (*p * volume);
-                                if (f > Int32.MaxValue) f = Int32.MaxValue; else if (f < Int32.MinValue) f = Int32.MinValue;
-                                *p = (int)f;
-                                p++;
+                                f = Int32.MaxValue;
                             }
+                            else if (f < Int32.MinValue)
+                            {
+                                f = Int32.MinValue;
+                            }
+
+                            *p = (int)f;
+                            p++;
                         }
-                        break;
+                    }
+                    break;
                     case AudioSampleFormat.Int16:
+                    {
+                        short* p = (short*)ptr;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            short* p = (short*)ptr;
-                            for (int i = 0; i < SampleCount; i++)
+                            float f = *p * volume;
+                            if (f > Int16.MaxValue)
                             {
-                                float f = (*p * volume);
-                                if (f > Int16.MaxValue) f = Int16.MaxValue; else if (f < Int16.MinValue) f = Int16.MinValue;
-                                *p = (short)f;
-                                p++;
+                                f = Int16.MaxValue;
                             }
+                            else if (f < Int16.MinValue)
+                            {
+                                f = Int16.MinValue;
+                            }
+
+                            *p = (short)f;
+                            p++;
                         }
-                        break;
+                    }
+                    break;
                     case AudioSampleFormat.Int8:
+                    {
+                        sbyte* p = (sbyte*)ptr;
+                        for (int i = 0; i < SampleCount; i++)
                         {
-                            sbyte* p = (sbyte*)ptr;
-                            for (int i = 0; i < SampleCount; i++)
+                            float f = *p * volume;
+                            if (f > SByte.MaxValue)
                             {
-                                float f = (*p * volume);
-                                if (f > SByte.MaxValue) f = SByte.MaxValue; else if (f < SByte.MinValue) f = SByte.MinValue;
-                                *p = (sbyte)f;
-                                p++;
+                                f = SByte.MaxValue;
                             }
+                            else if (f < SByte.MinValue)
+                            {
+                                f = SByte.MinValue;
+                            }
+
+                            *p = (sbyte)f;
+                            p++;
                         }
-                        break;
+                    }
+                    break;
                     default: throw new NotImplementedException(string.Format("Function is not implemented for AudioSampleFormat {0}", Format));
                 }
 
@@ -599,12 +687,11 @@ namespace Cave.Media.Audio
         public override bool Equals(object obj)
         {
             IAudioData other = obj as IAudioData;
-            if (other == null) return false;
-            return Equals(other) && DefaultComparer.Equals(other.Data, Data);
+            return other == null ? false : Equals(other) && DefaultComparer.Equals(other.Data, Data);
         }
 
         /// <summary>
-        /// Obtains the hash code of the buffer
+        /// Obtains the hash code of the buffer.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

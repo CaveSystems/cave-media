@@ -6,7 +6,7 @@ using Cave.IO;
 namespace Cave.Media.Audio.ID3.Frames
 {
     /// <summary>
-    /// TXXX : extended name value text frames
+    /// TXXX : extended name value text frames.
     /// </summary>
     public sealed class ID3v2TXXXFrame : ID3v2Frame
     {
@@ -20,7 +20,8 @@ namespace Cave.Media.Audio.ID3.Frames
         public static ID3v2TXXXFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string name, string value)
         {
             ID3v2EncodingType encoding = ID3v2Encoding.Select(header, name + value);
-            //header, encoding[1], name+0, value+0
+
+            // header, encoding[1], name+0, value+0
             byte[] nameBytes = ID3v2Encoding.GetBytes(encoding, name, true);
             byte[] valueBytes = ID3v2Encoding.GetBytes(encoding, value, true);
             int contentSize = nameBytes.Length + valueBytes.Length + 1;
@@ -64,23 +65,23 @@ namespace Cave.Media.Audio.ID3.Frames
             Value = value;
         }
 
-        /// <summary>The encoding of this frame</summary>
+        /// <summary>The encoding of this frame.</summary>
         public ID3v2EncodingType EncodingType { get; private set; }
 
         /// <summary>
-        /// Obtains the name of this frame
+        /// Obtains the name of this frame.
         /// </summary>
         public string Name { get; private set; }
 
         /// <summary>
-        /// Obtains the value of this frame
+        /// Obtains the value of this frame.
         /// </summary>
         public string Value { get; private set; }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "<see cref="Name"/>":"<see cref="Value"/>"</returns>
+        /// <returns>ID[Length] "<see cref="Name"/>":"<see cref="Value"/>".</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Name + "\":\"" + Value + '"';

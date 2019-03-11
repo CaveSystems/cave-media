@@ -21,19 +21,19 @@ namespace Cave.Media.Audio.MP3
         /// <summary>Gets the name of the source currently beeing decoded. This is used for error messages.</summary>
         public override string SourceName { get; set; }
 
-        /// <summary>Obtains the description of the decoder</summary>
+        /// <summary>Obtains the description of the decoder.</summary>
         public override string Description
         {
             get
             {
-                return 
-                    "Full managed Mpeg Layer 3 Audio Decoder based on the source of libmpg123 and JLayer\n"+
-                    "This decoder uses float calculations for the whole decoding process.\n"+
+                return
+                    "Full managed Mpeg Layer 3 Audio Decoder based on the source of libmpg123 and JLayer\n" +
+                    "This decoder uses float calculations for the whole decoding process.\n" +
                     "On arm devices or machines lacking decent vfp support this might be slow!";
             }
         }
 
-        /// <summary>Obtains the features list</summary>
+        /// <summary>Obtains the features list.</summary>
         public override string Features
         {
             get
@@ -42,7 +42,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        /// <summary>Obtains the mime types the decoder is able to handle</summary>
+        /// <summary>Obtains the mime types the decoder is able to handle.</summary>
         public override string[] MimeTypes
         {
             get
@@ -51,7 +51,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        /// <summary>Obtains the decoder name</summary>
+        /// <summary>Obtains the decoder name.</summary>
         public override string Name { get { return "MP3AudioDecoder"; } }
 
         /// <summary>Gets the name of the log source.</summary>
@@ -86,8 +86,13 @@ namespace Cave.Media.Audio.MP3
             while (l_MP3Frame == null)
             {
                 AudioFrame frame = m_Source.GetNextFrame();
-                //eof ?
-                if (frame == null) return null;
+
+                // eof ?
+                if (frame == null)
+                {
+                    return null;
+                }
+
                 OnDecoding(frame);
                 l_MP3Frame = frame as MP3AudioFrame;
             }
@@ -100,7 +105,11 @@ namespace Cave.Media.Audio.MP3
         /// </summary>
         bool DecodeFrame(MP3AudioFrame frame)
         {
-            if (frame == null) return false;
+            if (frame == null)
+            {
+                return false;
+            }
+
             try
             {
                 m_OutputBuffer.Clear();
@@ -122,37 +131,50 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Begins the decoding process.</summary>
         /// <param name="source">The source.</param>
-        /// <exception cref="NotSupportedException">Only Layer 3 Audio is supported!</exception>
-        /// <exception cref="Exception">Decoding already started!</exception>
+        /// <exception cref="NotSupportedException">Only Layer 3 Audio is supported!.</exception>
+        /// <exception cref="Exception">Decoding already started!.</exception>
         public override void BeginDecode(IFrameSource source)
         {
-            if (m_FrameDecoder != null) Close();
+            if (m_FrameDecoder != null)
+            {
+                Close();
+            }
+
             SourceName = source.Name;
             m_Source = source;
-            //get first audio frame
+
+            // get first audio frame
             MP3AudioFrame l_MP3Frame = ReadNextAudioFrame();
-            if (l_MP3Frame.Header.Layer != MP3AudioFrameLayer.Layer3) throw new NotSupportedException("Source " + SourceName + ": Only Layer 3 Audio is supported!");
-            //prepare decoder
+            if (l_MP3Frame.Header.Layer != MP3AudioFrameLayer.Layer3)
+            {
+                throw new NotSupportedException("Source " + SourceName + ": Only Layer 3 Audio is supported!");
+            }
+
+            // prepare decoder
             m_OutputChannels = l_MP3Frame.Header.ChannelCount;
             float[] isEqualizerFactors = m_Equalizer.GetFactors();
             m_Filter1 = new MP3AudioSynthesisFilter(0, 32000.0f, isEqualizerFactors);
-            if (m_OutputChannels == 2) m_Filter2 = new MP3AudioSynthesisFilter(1, 32000.0f, isEqualizerFactors);
+            if (m_OutputChannels == 2)
+            {
+                m_Filter2 = new MP3AudioSynthesisFilter(1, 32000.0f, isEqualizerFactors);
+            }
+
             m_SamplingRate = l_MP3Frame.Header.SamplingRate;
             m_OutputBuffer = new MP3AudioStereoBuffer(m_SamplingRate);
             m_FrameDecoder = new MP3AudioLayerIIIDecoder(l_MP3Frame.Header, m_Filter1, m_Filter2, m_OutputBuffer, (int)MP3AudioOutputMode.Both);
-            
+
             DecodeFrame(l_MP3Frame);
         }
 
-        /// <summary>Closes this instance and the underlying stream</summary>
+        /// <summary>Closes this instance and the underlying stream.</summary>
         public override void Close()
         {
             m_FrameDecoder = null;
             m_Source.Close();
         }
 
-        /// <summary>Decodes audio data</summary>
-        /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available</returns>
+        /// <summary>Decodes audio data.</summary>
+        /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available.</returns>
         public override IAudioData Decode()
         {
             if (m_OutputBuffer.SampleCount == 0)
@@ -160,8 +182,15 @@ namespace Cave.Media.Audio.MP3
                 while (true)
                 {
                     AudioFrame l_Frame = ReadNextAudioFrame();
-                    if (l_Frame == null) return null;
-                    if (DecodeFrame(l_Frame as MP3AudioFrame) && (m_OutputBuffer.SampleCount > 0)) break;
+                    if (l_Frame == null)
+                    {
+                        return null;
+                    }
+
+                    if (DecodeFrame(l_Frame as MP3AudioFrame) && (m_OutputBuffer.SampleCount > 0))
+                    {
+                        break;
+                    }
                 }
             }
 

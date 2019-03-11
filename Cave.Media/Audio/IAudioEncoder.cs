@@ -3,55 +3,55 @@ using System.IO;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides an interface for audio encoder implementations
+    /// Provides an interface for audio encoder implementations.
     /// </summary>
-    
+
     public interface IAudioEncoder
     {
         /// <summary>
-        /// Obtains the encoder name
+        /// Obtains the encoder name.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Obtains the description of the encoder
+        /// Obtains the description of the encoder.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Obtains the features list
+        /// Obtains the features list.
         /// </summary>
         string Features { get; }
 
         /// <summary>
-        /// Obtains the mime types the encoder is able to produce
+        /// Obtains the mime types the encoder is able to produce.
         /// </summary>
         string[] MimeTypes { get; }
 
         /// <summary>
-        /// Obtains the available <see cref="IAudioConfiguration"/>s
+        /// Obtains the available <see cref="IAudioConfiguration"/>s.
         /// </summary>
         /// <returns></returns>
         IAudioConfiguration[] GetAvailableConfigurations();
 
         /// <summary>
-        /// Obtains the available <see cref="IAudioEncoderQuality"/>s
+        /// Obtains the available <see cref="IAudioEncoderQuality"/>s.
         /// </summary>
         /// <returns></returns>
         IAudioEncoderQuality[] GetAvailableQualitySettings();
 
         /// <summary>
-        /// Starts the decoding process with the specified configuration and quality
+        /// Starts the decoding process with the specified configuration and quality.
         /// </summary>
-        /// <param name="configuration">The audio configuration to use</param>
-        /// <param name="quality">The quality setting to use</param>
-        /// <param name="targetStream">The Stream to write the encoded data to</param>
+        /// <param name="configuration">The audio configuration to use.</param>
+        /// <param name="quality">The quality setting to use.</param>
+        /// <param name="targetStream">The Stream to write the encoded data to.</param>
         void BeginEncode(IAudioConfiguration configuration, IAudioEncoderQuality quality, Stream targetStream);
 
         /// <summary>
-        /// Encodes a byte[] buffer
+        /// Encodes a byte[] buffer.
         /// </summary>
-        /// <param name="data">The byte[] buffer to encode</param>
+        /// <param name="data">The byte[] buffer to encode.</param>
         void Encode(byte[] data);
 
         /// <summary>

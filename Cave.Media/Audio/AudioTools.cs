@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides generic audio tools
+    /// Provides generic audio tools.
     /// </summary>
     public static class AudioTools
     {

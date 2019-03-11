@@ -1,7 +1,7 @@
 ﻿namespace Cave.Media
 {
     /// <summary>
-    /// Provides available genders
+    /// Provides available genders.
     /// </summary>
     public enum VoiceGender
     {

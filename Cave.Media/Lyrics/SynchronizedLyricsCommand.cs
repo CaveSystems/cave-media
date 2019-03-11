@@ -20,8 +20,8 @@ namespace Cave.Media.Lyrics
             switch (type)
             {
                 case SynchronizedLyricsCommandType.None: return null;
-                case SynchronizedLyricsCommandType.ClearScreen: return new SlcWithColorIndex(type, reader); 
-                case SynchronizedLyricsCommandType.SetSprite2Colors: return new SlcSetSprite2Colors(type, reader); 
+                case SynchronizedLyricsCommandType.ClearScreen: return new SlcWithColorIndex(type, reader);
+                case SynchronizedLyricsCommandType.SetSprite2Colors: return new SlcSetSprite2Colors(type, reader);
                 case SynchronizedLyricsCommandType.SetSprite2ColorsXOR: return new SlcSetSprite2Colors(type, reader);
                 case SynchronizedLyricsCommandType.SetTransparentColor: return new SlcWithColorIndex(type, reader);
                 case SynchronizedLyricsCommandType.ReplacePaletteColor: return new SlcReplacePaletteColor(reader);
