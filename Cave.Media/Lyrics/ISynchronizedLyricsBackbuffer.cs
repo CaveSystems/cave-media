@@ -25,7 +25,7 @@ namespace Cave.Media.Lyrics
 #endif
 
 #if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
         /// <summary>Gets the current backbuffer.</summary>
         /// <value>The backbuffer.</value>
         /// <remarks>

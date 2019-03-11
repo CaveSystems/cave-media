@@ -217,7 +217,7 @@ namespace Cave.Media.Lyrics
         public void Invalidate()
         {
             Updated = true;
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
+#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
             skBitmap?.Dispose();
             skBitmap = null;
 #elif NET20 || NET35 || NET40 || !SKIA
@@ -225,7 +225,7 @@ namespace Cave.Media.Lyrics
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
             bitmap?.Dispose();
             bitmap = null;
 #elif NETSTANDARD20
@@ -263,7 +263,7 @@ namespace Cave.Media.Lyrics
             return data;
         }
 
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
+#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
         SkiaSharp.SKBitmap skBitmap;
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Cave.Media.Lyrics
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
         Bitmap bitmap;
 
         /// <summary>
