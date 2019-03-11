@@ -38,7 +38,7 @@ namespace Cave.Media.Audio
                     }
                     catch (Exception ex)
                     {
-                        Trace.TraceError("Could not load any OpenAL implementation!");
+                        Trace.TraceError("Could not load any OpenAL implementation! {0}", ex);
                         return false;
                     }
                 }

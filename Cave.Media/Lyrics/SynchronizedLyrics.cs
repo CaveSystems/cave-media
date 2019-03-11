@@ -111,7 +111,7 @@ namespace Cave.Media.Lyrics
             writer.Write("SLT");
             writer.Write7BitEncoded32(1);
             TimeSpan timeCode = TimeSpan.Zero;
-            foreach(SynchronizedLyricsItem item in m_Items)
+            foreach (SynchronizedLyricsItem item in m_Items)
             {
                 item.Save(timeCode, writer);
                 timeCode = item.TimeCode;
@@ -144,7 +144,7 @@ namespace Cave.Media.Lyrics
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError("Error playing synchronized lyrics item {0} {1}", m_CurrentPosition, item);
+                    Trace.TraceError("Error playing synchronized lyrics item {0} {1} {2}", m_CurrentPosition, item, ex);
                 }
             }
         }

@@ -316,7 +316,7 @@ namespace Cave.Media.Audio.MP3
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError(string.Format("Error while decoding {0} in stream {1}", searchResult.Match, m_Reader));
+                    Trace.TraceError(string.Format("Error while decoding {0} in stream {1}. {2}", searchResult.Match, m_Reader, ex));
                     //invalid frame or decoder error, move ahead
                     int count = (searchResult.Index < 0) ? 1 : searchResult.Index + 1;
                     InvalidData(m_Reader.GetBuffer(count));

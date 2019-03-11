@@ -13,14 +13,14 @@ namespace Cave.Media
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct ARGB : IComparable, IComparable<int>, IComparable<ARGB>
     {
-		#region static
-		#region static operators
-		/// <summary>
-		/// Converts an ARGB structure to a color structure
-		/// </summary>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public static implicit operator Color(ARGB value)
+        #region static
+        #region static operators
+        /// <summary>
+        /// Converts an ARGB structure to a color structure
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static implicit operator Color(ARGB value)
         {
             return Color.FromArgb(value.AsInt32);
         }
@@ -85,14 +85,14 @@ namespace Cave.Media
         /// <returns></returns>
         public static ARGB operator +(ARGB v1, ARGB v2)
         {
-			ARGB result = new ARGB
-			{
-				Alpha = (byte)Math.Min(255, v1.Alpha + v2.Alpha),
-				Red = (byte)Math.Min(255, v1.Red + v2.Red),
-				Green = (byte)Math.Min(255, v1.Green + v2.Green),
-				Blue = (byte)Math.Min(255, v1.Blue + v2.Blue)
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                Alpha = (byte)Math.Min(255, v1.Alpha + v2.Alpha),
+                Red = (byte)Math.Min(255, v1.Red + v2.Red),
+                Green = (byte)Math.Min(255, v1.Green + v2.Green),
+                Blue = (byte)Math.Min(255, v1.Blue + v2.Blue)
+            };
+            return result;
         }
 
         /// <summary>
@@ -103,14 +103,14 @@ namespace Cave.Media
         /// <returns></returns>
         public static ARGB operator -(ARGB v1, ARGB v2)
         {
-			ARGB result = new ARGB
-			{
-				Alpha = (byte)Math.Max(0, v1.Alpha - v2.Alpha),
-				Red = (byte)Math.Max(0, v1.Red - v2.Red),
-				Green = (byte)Math.Max(0, v1.Green - v2.Green),
-				Blue = (byte)Math.Max(0, v1.Blue - v2.Blue)
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                Alpha = (byte)Math.Max(0, v1.Alpha - v2.Alpha),
+                Red = (byte)Math.Max(0, v1.Red - v2.Red),
+                Green = (byte)Math.Max(0, v1.Green - v2.Green),
+                Blue = (byte)Math.Max(0, v1.Blue - v2.Blue)
+            };
+            return result;
         }
 
         /// <summary>Implements the operator x &lt; y.</summary>
@@ -221,11 +221,11 @@ namespace Cave.Media
                     const float _1_3 = 1f / 3f;
                     const float _60 = (3.141593f * 2f) / 6f;
 
-					ARGB result = new ARGB
-					{
-						Alpha = 255
-					};
-					if (hue < _1_3)
+                    ARGB result = new ARGB
+                    {
+                        Alpha = 255
+                    };
+                    if (hue < _1_3)
                     {
                         float rad = hue * (3.141593f * 2f);
                         float r = _1_3 * (1 + ((float)Math.Cos(rad) / (float)Math.Cos(_60 - rad)));
@@ -271,26 +271,26 @@ namespace Cave.Media
             int b = 0;
             int g = 0;
             int v = index;
-            while(v > 0)
+            while (v > 0)
             {
                 r = (r << 1) | (v & 1); v >>= 1;
                 g = (g << 1) | (v & 1); v >>= 1;
                 b = (b << 1) | (v & 1); v >>= 1;
             }
-			while (true)
-			{
-				if (r > steps) { g += r % steps; }
-				if (g > steps) { b += g % steps; }
-				if (b > steps) { r += b % steps; } else { break; }
-			}
-			ARGB result = new ARGB
-			{
-				Alpha = 0xFF,
-				RedFloat = (r % steps) / (3f * steps) + 0.667f,
-				GreenFloat = (g % steps) / (3f * steps) + 0.667f,
-				BlueFloat = (b % steps) / (3f * steps) + 0.667f
-			};
-			return result;
+            while (true)
+            {
+                if (r > steps) { g += r % steps; }
+                if (g > steps) { b += g % steps; }
+                if (b > steps) { r += b % steps; } else { break; }
+            }
+            ARGB result = new ARGB
+            {
+                Alpha = 0xFF,
+                RedFloat = (r % steps) / (3f * steps) + 0.667f,
+                GreenFloat = (g % steps) / (3f * steps) + 0.667f,
+                BlueFloat = (b % steps) / (3f * steps) + 0.667f
+            };
+            return result;
         }
 
         /// <summary>
@@ -314,19 +314,19 @@ namespace Cave.Media
             }
             while (true)
             {
-				if (r > steps) { g += r % steps; }
-				if (g > steps) { b += g % steps; }
-				if (b > steps) { r += b % steps; }
-				else { break; }
+                if (r > steps) { g += r % steps; }
+                if (g > steps) { b += g % steps; }
+                if (b > steps) { r += b % steps; }
+                else { break; }
             }
-			ARGB result = new ARGB
-			{
-				Alpha = 0xFF,
-				RedFloat = (r % steps) / (3f * steps),
-				GreenFloat = (g % steps) / (3f * steps),
-				BlueFloat = (b % steps) / (3f * steps)
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                Alpha = 0xFF,
+                RedFloat = (r % steps) / (3f * steps),
+                GreenFloat = (g % steps) / (3f * steps),
+                BlueFloat = (b % steps) / (3f * steps)
+            };
+            return result;
         }
 
         /// <summary>Mixes the specified colors.</summary>
@@ -357,12 +357,12 @@ namespace Cave.Media
         /// </summary>
         public unsafe static ARGB FromPointer(void* value)
         {
-			if (value == null) { throw new ArgumentNullException("Value"); }
-			ARGB result = new ARGB
-			{
-				AsUInt32 = *((uint*)value)
-			};
-			return result;
+            if (value == null) { throw new ArgumentNullException("Value"); }
+            ARGB result = new ARGB
+            {
+                AsUInt32 = *((uint*)value)
+            };
+            return result;
         }
 
         /// <summary>
@@ -370,11 +370,11 @@ namespace Cave.Media
         /// </summary>
         public static ARGB FromValue(uint value)
         {
-			ARGB result = new ARGB
-			{
-				AsUInt32 = value
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                AsUInt32 = value
+            };
+            return result;
         }
 
         /// <summary>
@@ -382,11 +382,11 @@ namespace Cave.Media
         /// </summary>
         public static ARGB FromValue(int value)
         {
-			ARGB result = new ARGB
-			{
-				AsInt32 = value
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                AsInt32 = value
+            };
+            return result;
         }
 
         /// <summary>
@@ -394,11 +394,11 @@ namespace Cave.Media
         /// </summary>
         public static ARGB FromColor(Color color)
         {
-			ARGB result = new ARGB
-			{
-				AsInt32 = color.ToArgb()
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                AsInt32 = color.ToArgb()
+            };
+            return result;
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace Cave.Media
         /// </summary>
         public static ARGB FromString(string text)
         {
-			if (text == null) { throw new ArgumentNullException("String"); }
+            if (text == null) { throw new ArgumentNullException("String"); }
             ARGB result = new ARGB();
             if (text.StartsWith("#"))
             {
@@ -457,14 +457,14 @@ namespace Cave.Media
         /// </summary>
         public static ARGB FromColor(byte red, byte green, byte blue)
         {
-			ARGB result = new ARGB
-			{
-				Alpha = 255,
-				Red = red,
-				Green = green,
-				Blue = blue
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                Alpha = 255,
+                Red = red,
+                Green = green,
+                Blue = blue
+            };
+            return result;
         }
 
         /// <summary>
@@ -472,14 +472,14 @@ namespace Cave.Media
         /// </summary>
         public static ARGB FromColor(byte alpha, byte red, byte green, byte blue)
         {
-			ARGB result = new ARGB
-			{
-				Alpha = alpha,
-				Red = red,
-				Green = green,
-				Blue = blue
-			};
-			return result;
+            ARGB result = new ARGB
+            {
+                Alpha = alpha,
+                Red = red,
+                Green = green,
+                Blue = blue
+            };
+            return result;
         }
 
         /// <summary>
@@ -504,7 +504,7 @@ namespace Cave.Media
                 //yellow..red:      1 red, 1..0 green
                 case 3: return FromColor(255, (byte)(255 - col), 0);
                 //red..white:       1 red, 0..1 green+blue
-                case 4: 
+                case 4:
                 default: return FromColor(255, col, col);
             }
         }
@@ -528,12 +528,12 @@ namespace Cave.Media
             byte q = (byte)(intensity * (1 - f * saturation));
             byte t = (byte)(intensity * (1 - (1 - f) * saturation));
 
-			if (hi == 0) { return FromColor(255, v, t, p); }
-			else if (hi == 1) { return FromColor(255, q, v, p); }
-			else if (hi == 2) { return FromColor(255, p, v, t); }
-			else if (hi == 3) { return FromColor(255, p, q, v); }
-			else if (hi == 4) { return FromColor(255, t, p, v); }
-			else { return FromColor(255, v, p, q); }
+            if (hi == 0) { return FromColor(255, v, t, p); }
+            else if (hi == 1) { return FromColor(255, q, v, p); }
+            else if (hi == 2) { return FromColor(255, p, v, t); }
+            else if (hi == 3) { return FromColor(255, p, q, v); }
+            else if (hi == 4) { return FromColor(255, t, p, v); }
+            else { return FromColor(255, v, p, q); }
         }
 
         #endregion
@@ -602,38 +602,38 @@ namespace Cave.Media
         [FieldOffset(2)]
         public short LoShort;
 
-		#endregion
+        #endregion
 
-		#region struct properties
+        #region struct properties
 
-		/// <summary>
-		/// Gets the color at the hue color table.
-		/// </summary>
-		public HueColor HueColor
-		{
-			get
-			{
-				ToHSL(out float hue, out float saturation, out float luminance);
-				if (luminance == 0) { return HueColor.Dark; }
-				if (saturation < 0.1f)
-				{
-					//gray
-					if (luminance < 0.5f) { return HueColor.Dark; }
-					else { return HueColor.Light; }
-				}
-				if (luminance > 0.9f) { return HueColor.Light; }
-				//Hue 0..1 = 0..360° -> -30°..30° = index 1
-				//index = (Hue * 360 - 30) / 60 + 1
-				int col = 1 + (int)((hue * 360 + 30) / 60);
-				if (col == 0) { col = 1; }
-				else if (col > 6) { col = 1; }
-				return (HueColor)col;
-			}
-		}
+        /// <summary>
+        /// Gets the color at the hue color table.
+        /// </summary>
+        public HueColor HueColor
+        {
+            get
+            {
+                ToHSL(out float hue, out float saturation, out float luminance);
+                if (luminance == 0) { return HueColor.Dark; }
+                if (saturation < 0.1f)
+                {
+                    //gray
+                    if (luminance < 0.5f) { return HueColor.Dark; }
+                    else { return HueColor.Light; }
+                }
+                if (luminance > 0.9f) { return HueColor.Light; }
+                //Hue 0..1 = 0..360° -> -30°..30° = index 1
+                //index = (Hue * 360 - 30) / 60 + 1
+                int col = 1 + (int)((hue * 360 + 30) / 60);
+                if (col == 0) { col = 1; }
+                else if (col > 6) { col = 1; }
+                return (HueColor)col;
+            }
+        }
 
-		/// <summary>Gets a value indicating whether the color looks gray.</summary>
-		/// <value><c>true</c> if this instance looks gray; otherwise, <c>false</c>.</value>
-		public bool IsGray
+        /// <summary>Gets a value indicating whether the color looks gray.</summary>
+        /// <value><c>true</c> if this instance looks gray; otherwise, <c>false</c>.</value>
+        public bool IsGray
         {
             get
             {
@@ -651,7 +651,7 @@ namespace Cave.Media
         {
             get
             {
-				if (IsGray) { return false; }
+                if (IsGray) { return false; }
                 return ((Red > Blue + 25) && (Red > Green + 25));
             }
         }
@@ -663,7 +663,7 @@ namespace Cave.Media
         {
             get
             {
-				if (IsGray) { return false; }
+                if (IsGray) { return false; }
                 return ((Blue > Red + 25) && (Blue > Green + 25));
             }
         }
@@ -675,7 +675,7 @@ namespace Cave.Media
         {
             get
             {
-				if (IsGray) { return false; }
+                if (IsGray) { return false; }
                 return ((Green > Blue + 25) && (Green > Red + 25));
             }
         }
@@ -891,119 +891,119 @@ namespace Cave.Media
             }
         }
 
-		#endregion
+        #endregion
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Get hue, saturation and value for this color.
-		/// </summary>
-		/// <param name="hue">Hue (0..1)</param>
-		/// <param name="saturation">Saturation (0..1)</param>
-		/// <param name="value">Value (0..1)</param>
-		public void ToHSV(out float hue, out float saturation, out float value)
+        /// <summary>
+        /// Get hue, saturation and value for this color.
+        /// </summary>
+        /// <param name="hue">Hue (0..1)</param>
+        /// <param name="saturation">Saturation (0..1)</param>
+        /// <param name="value">Value (0..1)</param>
+        public void ToHSV(out float hue, out float saturation, out float value)
         {
             float r = RedFloat;
             float g = GreenFloat;
             float b = BlueFloat;
 
-			var rgb = new float[] { r, g, b };
+            var rgb = new float[] { r, g, b };
 
-			var min = rgb.Min();
-			var max = rgb.Max();
-			var deltaMax = max - min;
-			value = deltaMax;
+            var min = rgb.Min();
+            var max = rgb.Max();
+            var deltaMax = max - min;
+            value = deltaMax;
 
-			if (deltaMax == 0)
-			{
-				hue = 0;
-				saturation = 0;
-			}
-			else
-			{
-				saturation = deltaMax / max;
+            if (deltaMax == 0)
+            {
+                hue = 0;
+                saturation = 0;
+            }
+            else
+            {
+                saturation = deltaMax / max;
 
-				var deltaR = (((max - r) / 6) + (deltaMax / 2)) / deltaMax;
-				var deltaG = (((max - g) / 6) + (deltaMax / 2)) / deltaMax;
-				var deltaB = (((max - b) / 6) + (deltaMax / 2)) / deltaMax;
+                var deltaR = (((max - r) / 6) + (deltaMax / 2)) / deltaMax;
+                var deltaG = (((max - g) / 6) + (deltaMax / 2)) / deltaMax;
+                var deltaB = (((max - b) / 6) + (deltaMax / 2)) / deltaMax;
 
-				if (r == max)
-				{
-					hue = deltaB - deltaG;
-				}
-				else if (g == max)
-				{
-					hue = (1 / 3) + deltaR - deltaB;
-				}
-				else if (b == max)
-				{
-					hue = (2 / 3) + deltaG - deltaR;
-				}
-				else
-				{
-					throw new Exception("Calculation error!");
-				}
+                if (r == max)
+                {
+                    hue = deltaB - deltaG;
+                }
+                else if (g == max)
+                {
+                    hue = (1 / 3) + deltaR - deltaB;
+                }
+                else if (b == max)
+                {
+                    hue = (2 / 3) + deltaG - deltaR;
+                }
+                else
+                {
+                    throw new Exception("Calculation error!");
+                }
 
-				if (hue < 0)
-				{
-					hue += 1;
-				}
+                if (hue < 0)
+                {
+                    hue += 1;
+                }
 
-				if (hue > 1)
-				{
-					hue -= 1;
-				}
-			}
+                if (hue > 1)
+                {
+                    hue -= 1;
+                }
+            }
         }
 
-		/// <summary>
-		/// Get hue, saturation and luminance for this color.
-		/// </summary>
-		/// <param name="hue">Hue (0..1)</param>
-		/// <param name="saturation">Saturation (0..1)</param>
-		/// <param name="luminance">Luminance (0..1)</param>
-		public void ToHSL(out float hue, out float saturation, out float luminance)
-		{
-			float r = RedFloat;
-			float g = GreenFloat;
-			float b = BlueFloat;
+        /// <summary>
+        /// Get hue, saturation and luminance for this color.
+        /// </summary>
+        /// <param name="hue">Hue (0..1)</param>
+        /// <param name="saturation">Saturation (0..1)</param>
+        /// <param name="luminance">Luminance (0..1)</param>
+        public void ToHSL(out float hue, out float saturation, out float luminance)
+        {
+            float r = RedFloat;
+            float g = GreenFloat;
+            float b = BlueFloat;
 
-			var rgb = new float[] { r, g, b };
+            var rgb = new float[] { r, g, b };
 
-			var min = rgb.Min();
-			var max = rgb.Max();
-			var deltaMax = max - min;
+            var min = rgb.Min();
+            var max = rgb.Max();
+            var deltaMax = max - min;
 
-			luminance = (max + min) / 2;
+            luminance = (max + min) / 2;
 
-			if (deltaMax == 0)
-			{
-				hue = 0;
-				saturation = 0;
-			}
-			else
-			{
-				if (luminance < 0.5) { saturation = deltaMax / (max + min); }
-				else { saturation = deltaMax / (2 - max - min); }
+            if (deltaMax == 0)
+            {
+                hue = 0;
+                saturation = 0;
+            }
+            else
+            {
+                if (luminance < 0.5) { saturation = deltaMax / (max + min); }
+                else { saturation = deltaMax / (2 - max - min); }
 
-				var deltaR = (((max - r) / 6) + (deltaMax / 2)) / deltaMax;
-				var deltaG = (((max - g) / 6) + (deltaMax / 2)) / deltaMax;
-				var deltaB = (((max - b) / 6) + (deltaMax / 2)) / deltaMax;
+                var deltaR = (((max - r) / 6) + (deltaMax / 2)) / deltaMax;
+                var deltaG = (((max - g) / 6) + (deltaMax / 2)) / deltaMax;
+                var deltaB = (((max - b) / 6) + (deltaMax / 2)) / deltaMax;
 
-				if (r == max) { hue = deltaB - deltaG; }
-				else if (g == max) { hue = (1 / 3) + deltaR - deltaB; }
-				else if (b == max) { hue = (2 / 3) + deltaG - deltaR; }
-				else { throw new Exception("Calculation error!"); }
+                if (r == max) { hue = deltaB - deltaG; }
+                else if (g == max) { hue = (1 / 3) + deltaR - deltaB; }
+                else if (b == max) { hue = (2 / 3) + deltaG - deltaR; }
+                else { throw new Exception("Calculation error!"); }
 
-				if (hue < 0) { hue += 1; }
-				if (hue > 1) { hue -= 1; }
-			}
-		}
+                if (hue < 0) { hue += 1; }
+                if (hue > 1) { hue -= 1; }
+            }
+        }
 
-		/// <summary>Gets the RGB distance.</summary>
-		/// <param name="other">The other.</param>
-		/// <returns></returns>
-		public float GetDistance(ARGB other)
+        /// <summary>Gets the RGB distance.</summary>
+        /// <param name="other">The other.</param>
+        /// <returns></returns>
+        public float GetDistance(ARGB other)
         {
             float r = (Red - other.Red) / 255f;
             float g = (Green - other.Green) / 255f;
@@ -1054,11 +1054,11 @@ namespace Cave.Media
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-			if (obj is ARGB other)
-			{
-				return other.AsUInt32 == AsUInt32;
-			}
-			return false;
+            if (obj is ARGB other)
+            {
+                return other.AsUInt32 == AsUInt32;
+            }
+            return false;
         }
 
         /// <summary>

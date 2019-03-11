@@ -2,10 +2,10 @@
 
 namespace Cave.Media.Lyrics
 {
-	/// <summary>
-	/// Provides a backbuffer for synchronized lyrics display
-	/// </summary>
-	public interface ISynchronizedLyricsBackbuffer
+    /// <summary>
+    /// Provides a backbuffer for synchronized lyrics display
+    /// </summary>
+    public interface ISynchronizedLyricsBackbuffer
     {
         /// <summary>Gets or sets the global alpha value (0 = transparent, 255 = opaque).</summary>
         /// <value>The alpha.</value>
@@ -25,21 +25,21 @@ namespace Cave.Media.Lyrics
 #endif
 
 #if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET471
-		/// <summary>Gets the current backbuffer.</summary>
-		/// <value>The backbuffer.</value>
-		/// <remarks>
-		/// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
-		/// Do not save references to this across play calls!
-		/// </remarks>
-		System.Drawing.Bitmap ToBitmap();
+#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
+        /// <summary>Gets the current backbuffer.</summary>
+        /// <value>The backbuffer.</value>
+        /// <remarks>
+        /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
+        /// Do not save references to this across play calls!
+        /// </remarks>
+        System.Drawing.Bitmap ToBitmap();
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
-		/// <summary>Gets the size of the screen.</summary>
-		/// <value>The size of the screen.</value>
-		Size ScreenSize { get; }
+        /// <summary>Gets the size of the screen.</summary>
+        /// <value>The size of the screen.</value>
+        Size ScreenSize { get; }
 
         /// <summary>Gets or sets a value indicating whether [to use transparent color override].</summary>
         /// <value>

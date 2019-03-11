@@ -7,7 +7,7 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Provides an ID3v2 tag reader for mp3 files
     /// </summary>
-    
+
     public class ID3v2Reader
     {
         ID3v2ReaderState m_State = ID3v2ReaderState.ReadHeader;
@@ -117,25 +117,25 @@ namespace Cave.Media.Audio.ID3
                 switch (m_Header.Version)
                 {
                     case 2:
-                        {
-                            long read = m_BodyBytes - m_Reader.BufferStartPosition;
-                            data = m_Reader.GetBuffer((int)read);
-                            m_State = ID3v2ReaderState.ReadEnd;
-                            frame = null;
-                            break;
-                        }
+                    {
+                        long read = m_BodyBytes - m_Reader.BufferStartPosition;
+                        data = m_Reader.GetBuffer((int)read);
+                        m_State = ID3v2ReaderState.ReadEnd;
+                        frame = null;
+                        break;
+                    }
                     case 3:
                     case 4:
-                        {
-                            //null frame, used by some encoders to implement padding, this is not allowed if footer present
-                            if ((m_Header.Flags & ID3v2HeaderFlags.Footer) != 0) throw new InvalidDataException(string.Format("Invalid padding frames inside of tag with footer!"));
-                            //load padding bytes
-                            long read = m_BodyBytes - m_Reader.BufferStartPosition;
-                            data = m_Reader.GetBuffer((int)read);
-                            m_State = ID3v2ReaderState.ReadEnd;
-                            frame = null;
-                        }
-                        break;
+                    {
+                        //null frame, used by some encoders to implement padding, this is not allowed if footer present
+                        if ((m_Header.Flags & ID3v2HeaderFlags.Footer) != 0) throw new InvalidDataException(string.Format("Invalid padding frames inside of tag with footer!"));
+                        //load padding bytes
+                        long read = m_BodyBytes - m_Reader.BufferStartPosition;
+                        data = m_Reader.GetBuffer((int)read);
+                        m_State = ID3v2ReaderState.ReadEnd;
+                        frame = null;
+                    }
+                    break;
                     default: return false;
                 }
                 for (int i = 0; i < data.Length; i++)
@@ -155,7 +155,7 @@ namespace Cave.Media.Audio.ID3
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Error parsing id3 frame.");
+                Trace.TraceError("Error parsing id3 frame. {0}", ex);
                 return false;
             }
             return true;
