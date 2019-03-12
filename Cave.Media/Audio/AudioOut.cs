@@ -13,11 +13,12 @@ namespace Cave.Media.Audio
         AudioDeviceState m_State = AudioDeviceState.Stopped;
 
         #region constructor
+
         /// <summary>
-        /// Creates a new audio stream for the specified device
+        /// Creates a new audio stream for the specified device.
         /// </summary>
-        /// <param name="device">The device to use</param>
-        /// <param name="configuration">The configuration to use</param>
+        /// <param name="device">The device to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         protected internal AudioOut(IAudioDevice device, IAudioConfiguration configuration)
         {
             if (device == null)
@@ -38,6 +39,7 @@ namespace Cave.Media.Audio
         #region abstract class
 
         #region protected abstract functions
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
@@ -45,35 +47,36 @@ namespace Cave.Media.Audio
         protected abstract void Dispose(bool disposing);
 
         /// <summary>
-        /// Begins playing 
+        /// Begins playing. 
         /// </summary>
         protected abstract void StartPlayback();
 
         /// <summary>
-        /// Stops playing
+        /// Stops playing.
         /// </summary>
         protected abstract void StopPlayback();
 
         #endregion
 
         #region public abstract properties
+
         /// <summary>
-        /// Obtains the latency of the queue
+        /// Obtains the latency of the queue.
         /// </summary>
         public abstract TimeSpan Latency { get; }
 
         /// <summary>
-        /// Obtains the number of bytes passed since starting this queue
+        /// Obtains the number of bytes passed since starting this queue.
         /// </summary>
         public abstract long BytesPassed { get; }
 
         /// <summary>
-        /// Obtains the bytes buffered (bytes to play until queue gets empty)
+        /// Obtains the bytes buffered (bytes to play until queue gets empty).
         /// </summary>
         public abstract long BytesBuffered { get; }
 
         /// <summary>
-        /// Obtains whether the IAudioQueue supports 3D positioning or not
+        /// Obtains whether the IAudioQueue supports 3D positioning or not.
         /// </summary>
         public abstract bool Supports3D { get; }
         #endregion
@@ -98,7 +101,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Starts the device with the specified output configuration
+        /// Starts the device with the specified output configuration.
         /// </summary>
         public void Start()
         {
@@ -115,7 +118,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Stops all streams connected to this device and closes the device
+        /// Stops all streams connected to this device and closes the device.
         /// </summary>
         public void Stop()
         {
@@ -134,7 +137,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Closes the stream and releases both managed and unmanaged resources
+        /// Closes the stream and releases both managed and unmanaged resources.
         /// </summary>
         public virtual void Close()
         {
@@ -180,7 +183,7 @@ namespace Cave.Media.Audio
         public abstract float Volume { get; set; }
 
         /// <summary>
-        /// sets / gets the 3d position of the sound source
+        /// sets / gets the 3d position of the sound source.
         /// </summary>
         public abstract Vector3 Position3D { get; set; }
 
@@ -195,22 +198,22 @@ namespace Cave.Media.Audio
         public IAudioDevice Device { get { return m_Device; } }
 
         /// <summary>
-        /// Obtains the time passed since starting this queue
+        /// Obtains the time passed since starting this queue.
         /// </summary>
         public long TicksPassed { get { return BytesPassed / m_Configuration.BytesPerTick; } }
 
         /// <summary>
-        /// Obtains the current state of the device
+        /// Obtains the current state of the device.
         /// </summary>
         public AudioDeviceState State { get { return m_State; } }
 
         /// <summary>
-        /// Obtains the time buffered (time to play until queue gets empty)
+        /// Obtains the time buffered (time to play until queue gets empty).
         /// </summary>
         public TimeSpan TimeBuffered { get { return TimeSpan.FromSeconds((double)BytesBuffered / (m_Configuration.BytesPerTick * m_Configuration.SamplingRate)); } }
 
         /// <summary>
-        /// Obtains the time passed since starting this queue
+        /// Obtains the time passed since starting this queue.
         /// </summary>
         public TimeSpan TimePassed { get { return TimeSpan.FromSeconds(TicksPassed / (double)m_Configuration.SamplingRate); } }
 

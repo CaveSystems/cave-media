@@ -9,7 +9,7 @@ using Cave.Media.Lyrics;
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Provides a builder for basic id3v2 tags
+    /// Provides a builder for basic id3v2 tags.
     /// </summary>
     public class ID3v2Builder
     {
@@ -35,7 +35,8 @@ namespace Cave.Media.Audio.ID3
                 buffer.Enqueue(frame.RawData);
             }
             int bodySize = buffer.Length;
-            //no one likes footers so we won't write them
+
+            // no one likes footers so we won't write them
             ID3v2Header header = new ID3v2Header(Header.Version, Header.Revision, flags, bodySize);
             buffer.Prepend(header.Data);
             return buffer.ToArray();
@@ -46,9 +47,9 @@ namespace Cave.Media.Audio.ID3
         public ID3v2Header Header => m_Header;
 
         /// <summary>
-        /// Obtains the text of the first T* (not TXXX) frame with the specified ID
+        /// Obtains the text of the first T* (not TXXX) frame with the specified ID.
         /// </summary>
-        /// <param name="frameID">ID of the frame</param>
+        /// <param name="frameID">ID of the frame.</param>
         /// <returns></returns>
         string GetTextFrameText(string frameID)
         {
@@ -82,7 +83,8 @@ namespace Cave.Media.Audio.ID3
                     continue;
                 }
 
-                if (f is T) { frame = (T)f; return true; }
+                if (f is T) { frame = (T)f;
+                    return true; }
             }
             frame = default(T);
             return false;
@@ -192,7 +194,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>Replaces all text frame with the given ID with a single new one with the given value.</summary>
         /// <param name="id">The identifier.</param>
         /// <param name="value">The value.</param>
-        /// <exception cref="System.ArgumentException">Invalid id!</exception>
+        /// <exception cref="System.ArgumentException">Invalid id!.</exception>
         public void ReplaceTextFrame(string id, string value)
         {
             if (!id.StartsWith("T") || id == "TXXX")
@@ -239,12 +241,9 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                if (TryGetTXXXFrame("albummood", out ID3v2TXXXFrame mood))
-                {
-                    return mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                }
-
-                return new string[0];
+                return TryGetTXXXFrame("albummood", out ID3v2TXXXFrame mood)
+                    ? mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                    : (new string[0]);
             }
             set
             {
@@ -260,7 +259,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the content types (genres)
+        /// Obtains the content types (genres).
         /// </summary>
         public string[] ContentTypes
         {
@@ -307,18 +306,13 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// AcoustID.org Id
+        /// AcoustID.org Id.
         /// </summary>
         public BinaryGuid AcousticGuid
         {
             get
             {
-                if (TryGetTXXXFrame("Acoustid Id", out ID3v2TXXXFrame acoustid))
-                {
-                    return new Guid(acoustid.Value);
-                }
-
-                return null;
+                return TryGetTXXXFrame("Acoustid Id", out ID3v2TXXXFrame acoustid) ? (BinaryGuid)new Guid(acoustid.Value) : null;
             }
             set
             {
@@ -334,11 +328,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                if (TryGetTXXXFrame("MusicBrainz Artist Id", out ID3v2TXXXFrame frame))
-                {
-                    return new Guid(frame.Value.Split(';', ',', '/', ' ')[0]);
-                }
-                return null;
+                return TryGetTXXXFrame("MusicBrainz Artist Id", out ID3v2TXXXFrame frame) ? (BinaryGuid)new Guid(frame.Value.Split(';', ',', '/', ' ')[0]) : null;
             }
             set
             {
@@ -354,12 +344,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                if (TryGetTXXXFrame("MusicBrainz Album Id", out ID3v2TXXXFrame frame))
-                {
-                    return new Guid(frame.Value);
-                }
-
-                return null;
+                return TryGetTXXXFrame("MusicBrainz Album Id", out ID3v2TXXXFrame frame) ? (BinaryGuid)new Guid(frame.Value) : null;
             }
             set
             {
@@ -375,12 +360,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                if (TryGetTXXXFrame("MusicBrainz Release Group Id", out ID3v2TXXXFrame frame))
-                {
-                    return new Guid(frame.Value);
-                }
-
-                return null;
+                return TryGetTXXXFrame("MusicBrainz Release Group Id", out ID3v2TXXXFrame frame) ? (BinaryGuid)new Guid(frame.Value) : null;
             }
             set
             {
@@ -426,7 +406,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the date
+        /// Obtains the date.
         /// </summary>
         public DateTime Date
         {
@@ -448,11 +428,11 @@ namespace Cave.Media.Audio.ID3
                 int hour = 0;
                 int min = 0;
                 {
-                    string HHmm = GetTextFrameText("TIME");
-                    if ((HHmm != null) && (HHmm.Length == 4))
+                    string hHmm = GetTextFrameText("TIME");
+                    if ((hHmm != null) && (hHmm.Length == 4))
                     {
-                        int.TryParse(HHmm.Substring(0, 2), out hour);
-                        int.TryParse(HHmm.Substring(2), out min);
+                        int.TryParse(hHmm.Substring(0, 2), out hour);
+                        int.TryParse(hHmm.Substring(2), out min);
                     }
                 }
 
@@ -488,7 +468,7 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>
         /// The 'Content group description' frame is used if the sound belongs to a larger category of sounds/music. For example, classical music is often sorted in different musical sections (e.g. "Piano Concerto", "Weather - Hurricane").
-        /// or the series name at audio books
+        /// or the series name at audio books.
         /// </summary>
         public string Group
         {
@@ -642,11 +622,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                if (TryGetFrame("XSLT", out ID3v2XSLTFrame frame))
-                {
-                    return SynchronizedLyrics.FromData(frame.Content);
-                }
-                return null;
+                return TryGetFrame("XSLT", out ID3v2XSLTFrame frame) ? SynchronizedLyrics.FromData(frame.Content) : null;
             }
             set
             {
@@ -739,7 +715,7 @@ namespace Cave.Media.Audio.ID3
                 Group = tag.Group;
             }
 
-            //if ((tag.ContentTypes.Length > 0) && (ContentTypes.Length == 0)) ContentTypes = tag.ContentTypes;
+            // if ((tag.ContentTypes.Length > 0) && (ContentTypes.Length == 0)) ContentTypes = tag.ContentTypes;
             if ((tag.Moods.Length > 0) && (Moods.Length == 0))
             {
                 Moods = tag.Moods;
@@ -782,7 +758,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Returns the full tag as string
+        /// Returns the full tag as string.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

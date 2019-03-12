@@ -72,8 +72,8 @@ namespace Cave.Media.Lyrics
             for (int i = 0; i < 8; i++)
             {
                 byte r = (byte)((packet.Data[i * 2] & 0x3C) << 2);
-                byte g = (byte)(((packet.Data[i * 2] & 0x03) << 6) | (packet.Data[i * 2 + 1] & 0x30));
-                byte b = (byte)((packet.Data[i * 2 + 1] & 0x0F) << 4);
+                byte g = (byte)(((packet.Data[i * 2] & 0x03) << 6) | (packet.Data[(i * 2) + 1] & 0x30));
+                byte b = (byte)((packet.Data[(i * 2) + 1] & 0x0F) << 4);
                 palette[i] = ARGB.FromColor(r, g, b);
             }
             sl.Commands.Add(new SlcReplacePaletteColors((byte)offset, palette));
@@ -150,7 +150,7 @@ namespace Cave.Media.Lyrics
 
         void ParseMemoryPreset(SynchronizedLyricsItemBuilder sl, CdgPacket packet)
         {
-            int repeat = (packet.Data[1] & 0x0F);
+            int repeat = packet.Data[1] & 0x0F;
             if (repeat == 0)
             {
                 sl.Commands.Add(new SlcWithColorIndex(SynchronizedLyricsCommandType.ClearScreen, (byte)(packet.Data[0] & 0x0F)));
@@ -180,7 +180,8 @@ namespace Cave.Media.Lyrics
             {
                 throw new ObjectDisposedException(nameof(CdgReader));
             }
-            //can we check the position in the stream ? yes -> can we read another packet ? no -> exit
+
+            // can we check the position in the stream ? yes -> can we read another packet ? no -> exit
             if (m_Reader.BaseStream.CanSeek && m_Reader.Available < 24)
             {
                 packet = default(CdgPacket);

@@ -8,7 +8,7 @@
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Stream Callback Result
+    /// PortAudio Stream Callback Result.
     /// </summary>
     internal enum PAStreamCallbackResult : uint
     {
@@ -19,6 +19,6 @@ namespace Cave.Media.Audio.PORTAUDIO
         Complete = 1,
 
         /// <summary>abort</summary>
-        Abort = 2
+        Abort = 2,
     }
 }

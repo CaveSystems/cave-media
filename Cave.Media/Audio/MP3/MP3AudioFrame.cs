@@ -4,7 +4,7 @@ using System.IO;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides a mp3 audio frame (containing encoded mp3 audio data)
+    /// Provides a mp3 audio frame (containing encoded mp3 audio data).
     /// </summary>
     public sealed class MP3AudioFrame : AudioFrame
     {
@@ -35,14 +35,14 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Creates a new empty frame
+        /// Creates a new empty frame.
         /// </summary>
         public MP3AudioFrame()
         {
         }
 
         /// <summary>
-        /// Creates a new empty frame
+        /// Creates a new empty frame.
         /// </summary>
         public MP3AudioFrame(byte[] data)
         {
@@ -61,9 +61,9 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Parses the specified stream to load all fields for this instance
+        /// Parses the specified stream to load all fields for this instance.
         /// </summary>
-        /// <param name="reader">FrameReader to read from</param>
+        /// <param name="reader">FrameReader to read from.</param>
         public override bool Parse(DataFrameReader reader)
         {
             if (reader == null)
@@ -96,7 +96,7 @@ namespace Cave.Media.Audio.MP3
 
             m_Data = reader.Read(0, dataLength);
 
-            //check next header
+            // check next header
             if (reader.EnsureBuffer(dataLength + 4))
             {
                 byte[] nextHeaderBuffer = reader.Read(dataLength, 4);
@@ -105,17 +105,17 @@ namespace Cave.Media.Audio.MP3
                 {
                     if ((nextHeaderBuffer[0] == 'I') && (nextHeaderBuffer[1] == 'D') && (nextHeaderBuffer[2] == '3'))
                     {
-                        //ID3 v2 tag incoming
+                        // ID3 v2 tag incoming
                     }
                     else if ((nextHeaderBuffer[0] == 'T') && (nextHeaderBuffer[1] == 'A') && (nextHeaderBuffer[2] == 'G'))
                     {
-                        //ID3 v1 tag incoming
+                        // ID3 v1 tag incoming
                     }
                     else
                     {
-                        //next header is invalid, check if the padding bit is set incorrectly
-                        //there is a high pobability that the padding bit is invalid if
-                        //the framestart is not directly after our buffer but one byte late
+                        // next header is invalid, check if the padding bit is set incorrectly
+                        // there is a high pobability that the padding bit is invalid if
+                        // the framestart is not directly after our buffer but one byte late
                         int newStart = dataLength + (m_Header.Padding ? -1 : 1);
                         nextHeaderBuffer = reader.Read(newStart, 4);
                         next = new MP3AudioFrameHeader(nextHeaderBuffer);
@@ -123,12 +123,12 @@ namespace Cave.Media.Audio.MP3
                         {
                             if (!m_Header.Padding)
                             {
-                                //frame has a padding byte but the header padding bit is not set
+                                // frame has a padding byte but the header padding bit is not set
                                 m_Data = reader.Read(0, newStart);
                             }
                             else
                             {
-                                //frame has no padding byte but the header padding bit is set
+                                // frame has no padding byte but the header padding bit is set
                                 m_Data = reader.Read(0, newStart);
                             }
                             m_InvalidPaddingCorrected = true;
@@ -144,7 +144,7 @@ namespace Cave.Media.Audio.MP3
         TimeSpan m_Duration = TimeSpan.Zero;
 
         /// <summary>
-        /// Obtains the duration of the audio frame
+        /// Obtains the duration of the audio frame.
         /// </summary>
         public override TimeSpan Duration
         {
@@ -159,38 +159,38 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Returns true
+        /// Returns true.
         /// </summary>
         public override bool IsAudio => true;
 
         /// <summary>
-        /// Returns true
+        /// Returns true.
         /// </summary>
         public override bool IsValid => true;
 
         /// <summary>
-        /// Obtains whether the padding bit at the header was corrected during Parse()
+        /// Obtains whether the padding bit at the header was corrected during Parse().
         /// </summary>
         public bool InvalidPaddingCorrected => m_InvalidPaddingCorrected;
 
         /// <summary>
-        /// Obtains the <see cref="MP3AudioFrameHeader"/>
+        /// Obtains the <see cref="MP3AudioFrameHeader"/>.
         /// </summary>
         public MP3AudioFrameHeader Header => m_Header;
 
         /// <summary>
-        /// Obtains an array with the data for this instance
+        /// Obtains an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data => (byte[])m_Data.Clone();
 
         /// <summary>
-        /// Length of the frame in bytes
+        /// Length of the frame in bytes.
         /// </summary>
         public override int Length => m_Data.Length;
 
         /// <summary>
-        /// Returns false (mp3 audio frames may differ in size depending on layer, bitrate and samplerate)
+        /// Returns false (mp3 audio frames may differ in size depending on layer, bitrate and samplerate).
         /// </summary>
         public override bool IsFixedLength => false;
 

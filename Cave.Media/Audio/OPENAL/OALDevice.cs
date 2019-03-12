@@ -12,7 +12,7 @@ using System.Runtime.ConstrainedExecution;
 namespace Cave.Media.Audio.OPENAL
 {
     /// <summary>
-    /// Implements <see cref="IAudioDevice"/> for open al devices
+    /// Implements <see cref="IAudioDevice"/> for open al devices.
     /// </summary>
     /// <seealso cref="IAudioDevice" />
     /// <seealso cref="IDisposable" />
@@ -40,11 +40,23 @@ namespace Cave.Media.Audio.OPENAL
         {
             lock (OAL.SyncRoot)
             {
-                if (Handle != IntPtr.Zero) throw new InvalidOperationException();
+                if (Handle != IntPtr.Zero)
+                {
+                    throw new InvalidOperationException();
+                }
+
                 Handle = OAL.SafeNativeMethods.alcOpenDevice(Name);
-                if (Handle == IntPtr.Zero) throw new Exception("Device " + Name + " not found!");
+                if (Handle == IntPtr.Zero)
+                {
+                    throw new Exception("Device " + Name + " not found!");
+                }
+
                 Context = OAL.SafeNativeMethods.alcCreateContext(Handle, IntPtr.Zero);
-                if (Context == IntPtr.Zero) throw new Exception("Device context of device " + Name + " could not be created!");
+                if (Context == IntPtr.Zero)
+                {
+                    throw new Exception("Device context of device " + Name + " could not be created!");
+                }
+
                 OAL.SafeNativeMethods.alcMakeContextCurrent(Context);
                 OAL.SafeNativeMethods.alListener3f(OAL.AL_POSITION, 0, 0, 0);
                 OAL.SafeNativeMethods.CheckError();
@@ -58,7 +70,10 @@ namespace Cave.Media.Audio.OPENAL
         /// <summary>Finalizes an instance of the <see cref="OALDevice"/> class.</summary>
         ~OALDevice()
         {
-            if (Handle != IntPtr.Zero) FreeHandles();
+            if (Handle != IntPtr.Zero)
+            {
+                FreeHandles();
+            }
         }
 
         /// <summary>Initializes a new instance of the <see cref="OALDevice" /> class.</summary>
@@ -67,26 +82,41 @@ namespace Cave.Media.Audio.OPENAL
         /// <exception cref="ArgumentNullException">
         /// API
         /// or
-        /// Name
+        /// Name.
         /// </exception>
-        /// <exception cref="ArgumentException">DeviceName</exception>
+        /// <exception cref="ArgumentException">DeviceName.</exception>
         internal OALDevice(IAudioAPI api, string name)
         {
-            if (api == null) throw new ArgumentNullException("API");
-            if (name == null) throw new ArgumentNullException("Name");
+            if (api == null)
+            {
+                throw new ArgumentNullException("API");
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException("Name");
+            }
+
             API = api;
             Name = name;
             string[] l_Devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
-            if (Array.IndexOf(l_Devices, name) < 0) throw new ArgumentException(string.Format("Device Name {0} not found!", name), "DeviceName");
+            if (Array.IndexOf(l_Devices, name) < 0)
+            {
+                throw new ArgumentException(string.Format("Device Name {0} not found!", name), "DeviceName");
+            }
         }
 
-        /// <summary>Obtains the devices capabilities</summary>
-        /// <exception cref="ObjectDisposedException">OpenALOutputDevice</exception>
+        /// <summary>Obtains the devices capabilities.</summary>
+        /// <exception cref="ObjectDisposedException">OpenALOutputDevice.</exception>
         public IAudioDeviceCapabilities Capabilities
         {
             get
             {
-                if (Handle == IntPtr.Zero) throw new ObjectDisposedException("OpenALOutputDevice");
+                if (Handle == IntPtr.Zero)
+                {
+                    throw new ObjectDisposedException("OpenALOutputDevice");
+                }
+
                 List<AudioConfiguration> configs = new List<AudioConfiguration>();
                 foreach (int sampleRate in new int[] { 8000, 11025, 16000, 22050, 32000, 44100, 48000, 64000, 96000 })
                 {
@@ -102,10 +132,10 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Retrieves the device name</summary>
+        /// <summary>Retrieves the device name.</summary>
         public string Name { get; private set; }
 
-        /// <summary>Obtains whether the device supports playback or not</summary>
+        /// <summary>Obtains whether the device supports playback or not.</summary>
         public bool SupportsPlayback
         {
             get
@@ -123,7 +153,7 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains whether the device supports recording or not</summary>
+        /// <summary>Obtains whether the device supports recording or not.</summary>
         public bool SupportsRecording
         {
             get
@@ -141,13 +171,17 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains a new audio out stream</summary>
-        /// <param name="configuration">Audio configuration to use</param>
+        /// <summary>Obtains a new audio out stream.</summary>
+        /// <param name="configuration">Audio configuration to use.</param>
         /// <returns></returns>
-        /// <exception cref="ObjectDisposedException">OpenALOutputDevice</exception>
+        /// <exception cref="ObjectDisposedException">OpenALOutputDevice.</exception>
         public AudioOut CreateAudioOut(IAudioConfiguration configuration)
         {
-            if (Handle == IntPtr.Zero) OpenHandles();
+            if (Handle == IntPtr.Zero)
+            {
+                OpenHandles();
+            }
+
             return new OALOut(this, configuration);
         }
 

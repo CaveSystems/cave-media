@@ -6,7 +6,7 @@
     public interface IRenderDevice
     {
         /// <summary>
-        /// Gets name of the device.
+        /// Gets the name of the device.
         /// </summary>
         string Name { get; }
     }

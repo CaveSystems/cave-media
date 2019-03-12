@@ -3,12 +3,12 @@ using Cave.IO;
 namespace Cave.Media.Codecs
 {
     /// <summary>
-    /// Provides CCITT4 tables
+    /// Provides CCITT4 tables.
     /// </summary>
     public class CCITT4
     {
         /// <summary>
-        /// Provides white pixel termination codes
+        /// Provides white pixel termination codes.
         /// </summary>
         public readonly ushort[,] WhiteTerminatingCodes = new ushort[,]
         {
@@ -82,7 +82,7 @@ namespace Cave.Media.Codecs
         };
 
         /// <summary>
-        /// Provides black pixel termination codes
+        /// Provides black pixel termination codes.
         /// </summary>
         public readonly ushort[,] BlackTerminatingCodes = new ushort[,]
         {
@@ -156,7 +156,7 @@ namespace Cave.Media.Codecs
         };
 
         /// <summary>
-        /// Provides white makeup codes
+        /// Provides white makeup codes.
         /// </summary>
         public readonly ushort[,] WhiteMakeUpCodes = new ushort[,]
         {
@@ -190,7 +190,7 @@ namespace Cave.Media.Codecs
         };
 
         /// <summary>
-        /// Provides black makeup codes
+        /// Provides black makeup codes.
         /// </summary>
         public readonly ushort[,] BlackMakeUpCodes = new ushort[,]
         {
@@ -224,7 +224,7 @@ namespace Cave.Media.Codecs
         };
 
         /// <summary>
-        /// Provides additional make up codes only used by adobe tiff encoders
+        /// Provides additional make up codes only used by adobe tiff encoders.
         /// </summary>
         public readonly ushort[,] AdditionalMakeUpCodes = new ushort[,]
         {
@@ -244,8 +244,8 @@ namespace Cave.Media.Codecs
         };
 
         /// <summary>
-        /// Provides the end of line code
+        /// Provides the end of line code.
         /// </summary>
-        public readonly ushort[] EOL = new ushort[] { Bits.ToUInt16(000000000001), 12 };       //000000000001     12    EOL
+        public readonly ushort[] EOL = new ushort[] { Bits.ToUInt16(000000000001), 12 };       // 000000000001     12    EOL
     }
 }

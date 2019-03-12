@@ -3,7 +3,7 @@
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides platform independant 32 bit argb bitmap image manipulation
+    /// Provides platform independant 32 bit argb bitmap image manipulation.
     /// </summary>
     public interface IBitmap32Loader
     {
@@ -17,23 +17,23 @@ namespace Cave.Media
         Bitmap32 Create(byte[] data);
 
         /// <summary>
-        /// Creates a new bitmap instance
+        /// Creates a new bitmap instance.
         /// </summary>
         Bitmap32 Create(int width, int height);
 
         /// <summary>
-        /// Creates a new bitmap instance
+        /// Creates a new bitmap instance.
         /// </summary>
         Bitmap32 Create(ARGBImageData data);
 
         /// <summary>
-        /// Creates a new bitmap instance
+        /// Creates a new bitmap instance.
         /// </summary>
-        /// <param name="fontName">Name of the font</param>
-        /// <param name="fontSize">Size in points</param>
-        /// <param name="foreColor">ForeColor</param>
-        /// <param name="backColor">BackColor</param>
-        /// <param name="text">text to draw</param>
+        /// <param name="fontName">Name of the font.</param>
+        /// <param name="fontSize">Size in points.</param>
+        /// <param name="foreColor">ForeColor.</param>
+        /// <param name="backColor">BackColor.</param>
+        /// <param name="text">text to draw.</param>
         Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text);
     }
 }

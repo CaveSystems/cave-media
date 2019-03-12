@@ -2,7 +2,7 @@ using System;
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Provides ID3 header flags
+    /// Provides ID3 header flags.
     /// </summary>
     [Flags]
     public enum ID3v2HeaderFlags : byte

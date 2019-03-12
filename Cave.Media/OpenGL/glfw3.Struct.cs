@@ -33,12 +33,7 @@ namespace Cave.Media.OpenGL
             /// </returns>
             public override bool Equals(object obj)
             {
-                if (obj is Cursor)
-                {
-                    return Equals((Cursor)obj);
-                }
-
-                return false;
+                return obj is Cursor ? Equals((Cursor)obj) : false;
             }
 
             /// <summary>Determines whether the specified <see cref="System.Object" />, is equal to this instance.</summary>
@@ -205,12 +200,7 @@ namespace Cave.Media.OpenGL
             /// </returns>
             public override bool Equals(object obj)
             {
-                if (obj is Monitor)
-                {
-                    return Equals((Monitor)obj);
-                }
-
-                return false;
+                return obj is Monitor ? Equals((Monitor)obj) : false;
             }
 
             /// <summary>Determines whether the specified <see cref="Monitor" />, is equal to this instance.</summary>
@@ -293,12 +283,7 @@ namespace Cave.Media.OpenGL
             /// </returns>
             public override bool Equals(object obj)
             {
-                if (obj is VideoMode)
-                {
-                    return Equals((VideoMode)obj);
-                }
-
-                return false;
+                return obj is VideoMode ? Equals((VideoMode)obj) : false;
             }
 
             /// <summary>Determines whether the specified <see cref="VideoMode" />, is equal to this instance.</summary>
@@ -339,12 +324,12 @@ namespace Cave.Media.OpenGL
                 unchecked
                 {
                     int hash = 17;
-                    hash = hash * 23 + Width.GetHashCode();
-                    hash = hash * 23 + Height.GetHashCode();
-                    hash = hash * 23 + RedBits.GetHashCode();
-                    hash = hash * 23 + GreenBits.GetHashCode();
-                    hash = hash * 23 + BlueBits.GetHashCode();
-                    hash = hash * 23 + RefreshRate.GetHashCode();
+                    hash = (hash * 23) + Width.GetHashCode();
+                    hash = (hash * 23) + Height.GetHashCode();
+                    hash = (hash * 23) + RedBits.GetHashCode();
+                    hash = (hash * 23) + GreenBits.GetHashCode();
+                    hash = (hash * 23) + BlueBits.GetHashCode();
+                    hash = (hash * 23) + RefreshRate.GetHashCode();
                     return hash;
                 }
             }
@@ -393,12 +378,7 @@ namespace Cave.Media.OpenGL
             /// </returns>
             public override bool Equals(object obj)
             {
-                if (obj is Window)
-                {
-                    return Equals((Window)obj);
-                }
-
-                return false;
+                return obj is Window ? Equals((Window)obj) : false;
             }
 
             /// <summary>Determines whether the specified <see cref="Window" />, is equal to this instance.</summary>

@@ -1,7 +1,7 @@
 ﻿namespace Cave.Media
 {
     /// <summary>
-    /// Provides the hue color table
+    /// Provides the hue color table.
     /// </summary>
     public enum HueColor
     {

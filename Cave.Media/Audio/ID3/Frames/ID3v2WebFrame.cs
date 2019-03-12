@@ -6,7 +6,7 @@ namespace Cave.Media.Audio.ID3.Frames
     /// information, price information or plain ordinary news can be added to
     /// the tag.
     /// </summary>
-    
+
     public class ID3v2WebFrame : ID3v2Frame
     {
         string m_Address;
@@ -19,25 +19,32 @@ namespace Cave.Media.Audio.ID3.Frames
         internal ID3v2WebFrame(ID3v2Frame frame)
             : base(frame)
         {
-            if ((frame.ID[0] != 'W') || (frame.ID == "WXXX")) throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "W*"));
+            if ((frame.ID[0] != 'W') || (frame.ID == "WXXX"))
+            {
+                throw new FormatException(string.Format("Cannot typecast frame {0} to {1}!", frame.ID, "W*"));
+            }
         }
 
         /// <summary>
-        /// Obtains the URL / address this frame contains
+        /// Obtains the URL / address this frame contains.
         /// </summary>
         public string Address
         {
             get
             {
-                if (m_Address == null) Parse();
+                if (m_Address == null)
+                {
+                    Parse();
+                }
+
                 return m_Address;
             }
         }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] "URL"</returns>
+        /// <returns>ID[Length] "URL".</returns>
         public override string ToString()
         {
             return base.ToString() + " \"" + Address + '"';

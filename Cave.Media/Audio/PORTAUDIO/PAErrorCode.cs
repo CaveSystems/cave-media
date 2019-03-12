@@ -8,7 +8,7 @@
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio error codes
+    /// PortAudio error codes.
     /// </summary>
     internal enum PAErrorCode : int
     {
@@ -97,6 +97,6 @@ namespace Cave.Media.Audio.PORTAUDIO
         CanNotWriteToAnInputOnlyStream,
 
         /// <summary>incompatible stream host API</summary>
-        IncompatibleStreamHostApi
+        IncompatibleStreamHostApi,
     }
 }

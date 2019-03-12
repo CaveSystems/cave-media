@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides avaiable mp3 audio layers
+    /// Provides avaiable mp3 audio layers.
     /// </summary>
     public enum MP3AudioFrameLayer
     {

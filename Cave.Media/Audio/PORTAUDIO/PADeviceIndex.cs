@@ -8,7 +8,7 @@
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio device index
+    /// PortAudio device index.
     /// </summary>
     internal enum PADeviceIndex : int
     {
@@ -18,6 +18,6 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <summary>
         /// Use Host Api Specific Device Specification
         /// </summary>
-        UseHostApiSpecificDeviceSpecification = -2
+        UseHostApiSpecificDeviceSpecification = -2,
     }
 }

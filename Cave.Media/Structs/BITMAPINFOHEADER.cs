@@ -43,7 +43,7 @@ namespace Cave.Media.Structs
         public short BitCount;
 
         /// <summary>
-        /// The <see cref="BITMAPCOMPRESSION"/> used
+        /// The <see cref="BITMAPCOMPRESSION"/> used.
         /// </summary>
         public BITMAPCOMPRESSION Compression;
 
@@ -58,7 +58,7 @@ namespace Cave.Media.Structs
         public int XPelsPerMeter;
 
         /// <summary>
-        /// Specifies the vertical resolution, in pixels per meter, of the target device for the bitmap
+        /// Specifies the vertical resolution, in pixels per meter, of the target device for the bitmap.
         /// </summary>
         public int YPelsPerMeter;
 

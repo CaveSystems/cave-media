@@ -5,7 +5,7 @@ using System.IO;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides platform independant 32 bit argb bitmap image manipulation
+    /// Provides platform independant 32 bit argb bitmap image manipulation.
     /// </summary>
     public interface IBitmap32 : IDisposable
     {
@@ -67,20 +67,20 @@ namespace Cave.Media
         void Save(string filename, int quality = 100);
 
         /// <summary>
-        /// Resizes the image
+        /// Resizes the image.
         /// </summary>
-        /// <param name="width">new width</param>
-        /// <param name="height">new height</param>
-        /// <param name="flags">flags</param>
-        Bitmap32 Resize(int width, int height, ResizeMode flags = 0);
+        /// <param name="width">new width.</param>
+        /// <param name="height">new height.</param>
+        /// <param name="flags">flags.</param>
+        Bitmap32 Resize(int width, int height, ResizeFlags flags = 0);
 
         /// <summary>Detects the most common colors.</summary>
         /// <param name="max">The maximum number of colors to retrieve.</param>
-        /// <returns>Returns an array of <see cref="ARGB"/> values</returns>
+        /// <returns>Returns an array of <see cref="ARGB"/> values.</returns>
         IList<ARGB> DetectColors(int max);
 
         /// <summary>
-        /// Clear the image with the specified color
+        /// Clear the image with the specified color.
         /// </summary>
         /// <param name="color"></param>
         void Clear(ARGB color);

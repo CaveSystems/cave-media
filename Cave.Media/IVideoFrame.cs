@@ -15,12 +15,12 @@ namespace Cave.Media
         int StreamIndex { get; }
 
         /// <summary>
-        /// The argb data of the frame
+        /// The argb data of the frame.
         /// </summary>
         ARGBImageData Image { get; }
 
         /// <summary>
-        /// Obtains the display time
+        /// Obtains the display time.
         /// </summary>
         TimeSpan DisplayTime { get; }
     }

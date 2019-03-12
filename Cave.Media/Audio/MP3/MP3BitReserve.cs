@@ -15,13 +15,13 @@ namespace Cave.Media.Audio.MP3
     /// </summary>
     public sealed class MP3BitReserve
     {
-        /// <summary>The current write position at the buffer</summary>
+        /// <summary>The current write position at the buffer.</summary>
         int m_WritePosition;
 
-        /// <summary>The current read position at the buffer</summary>
+        /// <summary>The current read position at the buffer.</summary>
         int m_ReadPosition;
 
-        /// <summary>The buffer</summary>
+        /// <summary>The buffer.</summary>
         byte[] m_Buffer;
 
         /// <summary>Gets the current read position.</summary>
@@ -69,8 +69,8 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>Read a number bits from the bit stream.</summary>
-        /// <param name="count">the number of bits</param>
-        /// <returns>Returns an int containing all retrieved bits</returns>
+        /// <param name="count">the number of bits.</param>
+        /// <returns>Returns an int containing all retrieved bits.</returns>
         public int ReadBits(int count)
         {
             unchecked

@@ -3,14 +3,14 @@ using System;
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Provides an ID3v2 frame implementation
+    /// Provides an ID3v2 frame implementation.
     /// </summary>
     public class ID3v2Frame
     {
         /// <summary>The full data (including header, may be compressed, encrypted, unsynced, ...)</summary>
         protected byte[] m_Data;
 
-        /// <summary>The (decrypted, decoded, deunsynced, uncompressed, ...) content</summary>
+        /// <summary>The (decrypted, decoded, deunsynced, uncompressed, ...) content.</summary>
         protected byte[] m_Content;
 
         /// <summary>Gets the frame header.</summary>
@@ -19,7 +19,7 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Initializes a new instance of the <see cref="ID3v2Frame"/> class.</summary>
         /// <param name="frame">The frame.</param>
-        /// <exception cref="ArgumentNullException">Frame</exception>
+        /// <exception cref="ArgumentNullException">Frame.</exception>
         public ID3v2Frame(ID3v2Frame frame)
         {
             if (frame == null)
@@ -35,7 +35,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>Initializes a new instance of the <see cref="ID3v2Frame" /> class.</summary>
         /// <param name="header">The header.</param>
         /// <param name="reader">The reader.</param>
-        /// <exception cref="ArgumentNullException">Header</exception>
+        /// <exception cref="ArgumentNullException">Header.</exception>
         /// <exception cref="NotSupportedException"></exception>
         public ID3v2Frame(ID3v2Header header, DataFrameReader reader)
         {
@@ -45,7 +45,8 @@ namespace Cave.Media.Audio.ID3
             }
 
             m_Header = new ID3v2FrameHeader(header, reader);
-            //prepare content (has to be decoded, decrypted, decompressed, ...
+
+            // prepare content (has to be decoded, decrypted, decompressed, ...
             m_Content = reader.Read(m_Header.HeaderSize, m_Header.ContentSize);
 
             switch (header.Version)
@@ -56,7 +57,7 @@ namespace Cave.Media.Audio.ID3
                 default: throw new NotSupportedException(string.Format("ID3v2.{0} is not supported!", header.Version));
             }
 
-            //copy raw data and remove from reader
+            // copy raw data and remove from reader
             m_Data = reader.GetBuffer(m_Header.HeaderSize + m_Header.ContentSize);
         }
 
@@ -77,21 +78,22 @@ namespace Cave.Media.Audio.ID3
         }
 
         #region parser functions
+
         /// <summary>
-        /// Provides decompression
+        /// Provides decompression.
         /// </summary>
-        /// <param name="data">The data to be decompressed</param>
-        /// <returns>Retruns decompressed data</returns>
+        /// <param name="data">The data to be decompressed.</param>
+        /// <returns>Retruns decompressed data.</returns>
         protected byte[] Decompress(byte[] data)
         {
             throw new NotSupportedException("ID3v2 Compressed Data is not jet supported!");
         }
 
         /// <summary>
-        /// Provides decryption
+        /// Provides decryption.
         /// </summary>
-        /// <param name="data">The data to be decompressed</param>
-        /// <returns>Retruns decrypted data</returns>
+        /// <param name="data">The data to be decompressed.</param>
+        /// <returns>Retruns decrypted data.</returns>
         protected byte[] Decrypt(byte[] data)
         {
             throw new NotSupportedException("ID3v2 Encrypted Data is not jet supported!");
@@ -114,12 +116,12 @@ namespace Cave.Media.Audio.ID3
         /// Parses the specified buffer starting at index to load all data for this frame
         /// This function will throw exceptions on parser errors.
         /// </summary>
-        /// <param name="reader">FrameReader to read from</param>
+        /// <param name="reader">FrameReader to read from.</param>
         void ParseVersion4(DataFrameReader reader)
         {
             if ((m_Header.TagHeader.Flags & ID3v2HeaderFlags.Unsynchronisation) == 0)
             {
-                //no full unsync done, check if we have to unsync now
+                // no full unsync done, check if we have to unsync now
                 if (m_Header.Flags.Unsynchronisation)
                 {
                     m_Content = ID3v2DeUnsync.Buffer(m_Content);
@@ -167,16 +169,16 @@ namespace Cave.Media.Audio.ID3
         #endregion
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Obtains a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length]</returns>
+        /// <returns>ID[Length].</returns>
         public override string ToString()
         {
             return m_Header.ToString();
         }
 
         /// <summary>
-        /// Obtains the hashcode for this instance
+        /// Obtains the hashcode for this instance.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

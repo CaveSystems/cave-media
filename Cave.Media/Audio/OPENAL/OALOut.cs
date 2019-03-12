@@ -5,23 +5,26 @@
 */
 #endregion
 
+using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Cave.Media.Audio.OPENAL
 {
     /// <summary>
-    /// Provides an audio out stream implementation for the open al api
+    /// Provides an audio out stream implementation for the open al api.
     /// </summary>
     /// <seealso cref="AudioOut" />
-    public sealed class OALOut: AudioOut
+    public sealed class OALOut : AudioOut
     {
-        //int m_BufferSize;
+        // int m_BufferSize;
         long m_BytesQueued;
         long m_BytesPassed;
         int m_Source;
-        /// <summary>The buffers (id, length)</summary>
+
+        /// <summary>The buffers (id, length).</summary>
         Dictionary<int, IAudioData> m_Buffers = new Dictionary<int, IAudioData>();
         OALDevice m_Device;
         bool m_Playing;
@@ -85,10 +88,7 @@ namespace Cave.Media.Audio.OPENAL
                         m_BufferUnderflowCount++;
                     }
                 }
-                else
-                {
-                    break;
-                }
+                else break;
             }
             if (state != OAL.AL_PLAYING)
             {
@@ -105,16 +105,14 @@ namespace Cave.Media.Audio.OPENAL
             {
                 OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
                 OAL.SafeNativeMethods.CheckError();
-                //if not playing restart
+
+                // if not playing restart
                 if (state != OAL.AL_STOPPED)
                 {
                     OAL.SafeNativeMethods.alSourceStop(m_Source);
                     OAL.SafeNativeMethods.CheckError();
                 }
-                else
-                {
-                    break;
-                }
+                else break;
             }
             if (state != OAL.AL_STOPPED)
             {
@@ -128,7 +126,7 @@ namespace Cave.Media.Audio.OPENAL
         internal OALOut(OALDevice dev, IAudioConfiguration configuration)
             : base(dev, configuration)
         {
-            //m_BufferSize = configuration.BytesPerTick * Math.Max(1, configuration.SamplingRate / OAL.BuffersPerSecond);
+            // m_BufferSize = configuration.BytesPerTick * Math.Max(1, configuration.SamplingRate / OAL.BuffersPerSecond);
             m_Device = dev;
             lock (OAL.SyncRoot)
             {
@@ -143,8 +141,8 @@ namespace Cave.Media.Audio.OPENAL
 
         #region protected overrides
 
-        /// <summary>Begins playing</summary>
-        /// <exception cref="NotSupportedException">Invalid bit size!</exception>
+        /// <summary>Begins playing.</summary>
+        /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         protected override void StartPlayback()
         {
             lock (OAL.SyncRoot)
@@ -161,8 +159,8 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Stops playing</summary>
-        /// <exception cref="NotSupportedException">Invalid bit size!</exception>
+        /// <summary>Stops playing.</summary>
+        /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         protected override void StopPlayback()
         {
             lock (OAL.SyncRoot)
@@ -179,7 +177,7 @@ namespace Cave.Media.Audio.OPENAL
 
         /// <summary>Releases unmanaged resources.</summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        /// <exception cref="NotSupportedException">Invalid bit size!</exception>
+        /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         protected override void Dispose(bool disposing)
         {
             lock (OAL.SyncRoot)
@@ -214,6 +212,7 @@ namespace Cave.Media.Audio.OPENAL
         #endregion
 
         #region public overrides                
+
         /// <summary>Gets or sets the pitch.</summary>
         /// <value>The pitch.</value>
         public override float Pitch
@@ -240,8 +239,8 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Sets the 3d position of the sound source</summary>
-        /// <exception cref="NotSupportedException">Invalid bit size!</exception>
+        /// <summary>Sets the 3d position of the sound source.</summary>
+        /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         public override Vector3 Position3D
         {
             get
@@ -268,7 +267,7 @@ namespace Cave.Media.Audio.OPENAL
 
         /// <summary>Sets the volume.</summary>
         /// <param name="value">The volume in range [0..x].</param>
-        /// <exception cref="ArgumentOutOfRangeException">volume</exception>
+        /// <exception cref="ArgumentOutOfRangeException">volume.</exception>
         public override float Volume
         {
             get
@@ -298,7 +297,7 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains the number of bytes passed since starting this queue</summary>
+        /// <summary>Obtains the number of bytes passed since starting this queue.</summary>
         public override long BytesPassed
         {
             get
@@ -313,7 +312,7 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains the bytes buffered (bytes to play until queue gets empty)</summary>
+        /// <summary>Obtains the bytes buffered (bytes to play until queue gets empty).</summary>
         public override long BytesBuffered
         {
             get
@@ -332,7 +331,7 @@ namespace Cave.Media.Audio.OPENAL
         /// <value>The buffer underflow count.</value>
         public override long BufferUnderflowCount => m_BufferUnderflowCount;
 
-        /// <summary>Obtains the latency of the queue</summary>
+        /// <summary>Obtains the latency of the queue.</summary>
         public override TimeSpan Latency
         {
             get
@@ -341,19 +340,19 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains whether the IAudioQueue supports 3D positioning or not (only supported on mono streams)</summary>
+        /// <summary>Obtains whether the IAudioQueue supports 3D positioning or not (only supported on mono streams).</summary>
         public override bool Supports3D
         {
             get
             {
-                return (Configuration.Channels == 1);
+                return Configuration.Channels == 1;
             }
         }
 
         /// <summary>Writes a buffer to the device.</summary>
         /// <param name="audioData">The buffer.</param>
-        /// <exception cref="ArgumentException">AudioConfiguration does not match!</exception>
-        /// <exception cref="ObjectDisposedException">OpenAL AudioOut</exception>
+        /// <exception cref="ArgumentException">AudioConfiguration does not match!.</exception>
+        /// <exception cref="ObjectDisposedException">OpenAL AudioOut.</exception>
         public override void Write(IAudioData audioData)
         {
             if (!Configuration.Equals(audioData))

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides direct 32bit image data access
+    /// Provides direct 32bit image data access.
     /// </summary>
     public class ARGBImageData
     {
@@ -36,22 +36,22 @@ namespace Cave.Media
 #endif
 
         /// <summary>
-        /// Obtains the data of the image
+        /// Gets the data of the image.
         /// </summary>
         public int[] Data { get; }
 
         /// <summary>
-        /// Obtains the stride (bytes per line) of the image
+        /// Gets the stride (bytes per line) of the image.
         /// </summary>
         public int Stride { get; }
 
         /// <summary>
-        /// Obtains the height of the image
+        /// Gets the height of the image.
         /// </summary>
         public int Height { get; }
 
         /// <summary>
-        /// Obtains the width of the image
+        /// Obtains the width of the image.
         /// </summary>
         public int Width { get; }
 
@@ -112,7 +112,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the raw data (stride * width)
+        /// Obtains the raw data (stride * width).
         /// </summary>
         public byte[] Raw
         {
@@ -125,7 +125,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Calculates an index for the specified x- and y-position
+        /// Calculates an index for the specified x- and y-position.
         /// </summary>
         public int PositionToIndex(int x, int y)
         {
@@ -140,10 +140,10 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Reduces the the colors of the image to the specified color count
+        /// Reduces the the colors of the image to the specified color count.
         /// </summary>
-        /// <param name="colorCount">Number of colors to keep</param>
-        /// <returns>Returns the resulting color palette</returns>
+        /// <param name="colorCount">Number of colors to keep.</param>
+        /// <returns>Returns the resulting color palette.</returns>
         public ARGB[] GetColors(uint colorCount)
         {
             List<ColorCounter> colorCounters = new List<ColorCounter>();
@@ -183,7 +183,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Strech the bitmap without interpolation
+        /// Strech the bitmap without interpolation.
         /// </summary>
         public ARGBImageData StretchSimple(int width, int height)
         {
@@ -200,7 +200,7 @@ namespace Cave.Media
             ARGBImageData result = new ARGBImageData(width, height);
             int targetIndex = 0;
             int moveX = (Width << 10) / width;
-            int moveY = (Height << 10) / height - 1;
+            int moveY = ((Height << 10) / height) - 1;
 
             int tY = 0;
             for (int y = 0; y < height; y++)
@@ -218,7 +218,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Tile the bitmap
+        /// Tile the bitmap.
         /// </summary>
         public ARGBImageData TileSimple(int width, int height)
         {
@@ -251,7 +251,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Tiles the outer border of the image and centers it
+        /// Tiles the outer border of the image and centers it.
         /// </summary>
         public ARGBImageData CenterTile(int width, int height)
         {
@@ -265,10 +265,10 @@ namespace Cave.Media
                 width = Width;
             }
 
-            bool l_TileY = (height != Height);
-            bool l_TileX = (width != Width);
+            bool l_TileY = height != Height;
+            bool l_TileX = width != Width;
 
-            //only tile one direction at the moment ! maybe later...
+            // only tile one direction at the moment ! maybe later...
             if (l_TileX && l_TileY)
             {
                 throw new NotSupportedException();
@@ -281,14 +281,15 @@ namespace Cave.Media
             {
                 int heightCenterBottom = (height + Height) / 2;
 
-                //fill top
+                // fill top
                 int sourceIndex = PositionToIndex(0, 0);
                 for (int y = heightCenterTop; y >= 0; y--)
                 {
                     int targetIndex = result.PositionToIndex(0, y);
                     Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
                 }
-                //fill bottom
+
+                // fill bottom
                 sourceIndex = PositionToIndex(0, Height - 1);
                 for (int y = heightCenterBottom; y < height; y++)
                 {
@@ -302,7 +303,7 @@ namespace Cave.Media
             {
                 int widthCenterRight = (width + Width) / 2;
 
-                //fill left
+                // fill left
                 for (int y = 0; y < Height; y++)
                 {
                     int sourceIndex = PositionToIndex(0, y);
@@ -311,7 +312,8 @@ namespace Cave.Media
                         int targetIndex = result.PositionToIndex(x, y);
                         result.Data[targetIndex] = Data[sourceIndex];
                     }
-                    //fill right
+
+                    // fill right
                     sourceIndex = PositionToIndex(0, Height - 1);
                     for (int x = widthCenterRight; x < width; x++)
                     {
@@ -321,7 +323,7 @@ namespace Cave.Media
                 }
             }
 
-            //copy center
+            // copy center
             for (int y = 0; y < Height; y++)
             {
                 int sourceIndex = PositionToIndex(0, y);
@@ -333,7 +335,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Clears the bitmap with a specific color
+        /// Clears the bitmap with a specific color.
         /// </summary>
         public void Clear(ARGB color)
         {
@@ -341,7 +343,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Clears the bitmap with a specific value
+        /// Clears the bitmap with a specific value.
         /// </summary>
         public void Clear(uint value)
         {
@@ -349,7 +351,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Clears the bitmap with a specific value
+        /// Clears the bitmap with a specific value.
         /// </summary>
         public void Clear(int value)
         {
@@ -361,7 +363,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Retrieves a ARGB struct for the specified index
+        /// Retrieves a ARGB struct for the specified index.
         /// </summary>
         public ARGB this[int index]
         {
@@ -376,7 +378,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Retrieves a ARGB struct for the specified index
+        /// Retrieves a ARGB struct for the specified index.
         /// </summary>
         public ARGB this[int X, int Y]
         {
@@ -404,27 +406,15 @@ namespace Cave.Media
         /// </summary>
         public void CopyTo32BitBitmapData(System.Drawing.Imaging.BitmapData imgData)
         {
-            if (imgData.Width != Width)
-            {
-                throw new ArgumentException(string.Format("Width is not compatible!"));
-            }
-
-            if (imgData.Height != Height)
-            {
-                throw new ArgumentException(string.Format("Height is not compatible!"));
-            }
-
-            if (imgData.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-            {
-                throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
-            }
-
+            if (imgData.Width != Width) throw new ArgumentException(string.Format("Width is not compatible!"));
+            if (imgData.Height != Height) throw new ArgumentException(string.Format("Height is not compatible!"));
+            if (imgData.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb) throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
             if (imgData.Stride != Stride)
             {
                 Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", Stride, imgData.Stride));
                 IntPtr start = imgData.Scan0;
                 int index = 0;
-                for (int y = 0; y < Height; y++)
+                for(int y = 0; y < Height; y++)
                 {
                     Marshal.Copy(Data, index, start, Data.Length);
                     index += Stride;

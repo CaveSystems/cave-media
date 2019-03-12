@@ -3,7 +3,7 @@ using System;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// provides a generic wrapper for audio devices
+    /// provides a generic wrapper for audio devices.
     /// </summary>
     public abstract class AudioDevice : IAudioDevice
     {
@@ -15,19 +15,27 @@ namespace Cave.Media.Audio
         /// <value>The audio API.</value>
         public IAudioAPI API { get; }
 
-        /// <summary>Creates a new AudioDevice instance with the specified name and capabilities</summary>
+        /// <summary>Creates a new AudioDevice instance with the specified name and capabilities.</summary>
         /// <param name="api">The API.</param>
-        /// <param name="name">The Name of the device</param>
-        /// <param name="capabilities">The capabilities of the device</param>
+        /// <param name="name">The Name of the device.</param>
+        /// <param name="capabilities">The capabilities of the device.</param>
         /// <exception cref="ArgumentNullException">
         /// API
         /// or
-        /// Name
+        /// Name.
         /// </exception>
         protected AudioDevice(IAudioAPI api, string name, IAudioDeviceCapabilities capabilities)
         {
-            if (api == null) throw new ArgumentNullException("API");
-            if (name == null) throw new ArgumentNullException("Name");
+            if (api == null)
+            {
+                throw new ArgumentNullException("API");
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException("Name");
+            }
+
             API = api;
             m_Name = name;
             m_Capabilities = capabilities;
@@ -36,7 +44,7 @@ namespace Cave.Media.Audio
         #region IAudioDevice Member
 
         /// <summary>
-        /// Obtains the devices capabilities
+        /// Obtains the devices capabilities.
         /// </summary>
         public IAudioDeviceCapabilities Capabilities
         {
@@ -44,7 +52,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Retrieves the device name
+        /// Retrieves the device name.
         /// </summary>
         public string Name
         {
@@ -52,20 +60,20 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains whether the device supports playback or not
+        /// Obtains whether the device supports playback or not.
         /// </summary>
         public abstract bool SupportsPlayback { get; }
 
         /// <summary>
-        /// Obtains whether the device supports recording or not
+        /// Obtains whether the device supports recording or not.
         /// </summary>
         public abstract bool SupportsRecording { get; }
 
         /// <summary>
-        /// Obtains a new audio queue (sound target/source)
+        /// Obtains a new audio queue (sound target/source).
         /// </summary>
-        /// <param name="configuration">The desired AudioConfiguration</param>
-        /// <returns>Returns an IAudioQueue or IAudioQueue3D</returns>
+        /// <param name="configuration">The desired AudioConfiguration.</param>
+        /// <returns>Returns an IAudioQueue or IAudioQueue3D.</returns>
         public abstract AudioOut CreateAudioOut(IAudioConfiguration configuration);
 
         /// <summary>
@@ -76,7 +84,7 @@ namespace Cave.Media.Audio
         #endregion
 
         /// <summary>
-        /// Obtains the name of the device
+        /// Obtains the name of the device.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -85,19 +93,18 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Checks against another instance for equality
+        /// Checks against another instance for equality.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public override bool Equals(object obj)
         {
             IAudioDevice other = obj as IAudioDevice;
-            if (other == null) return false;
-            return Equals(other.Name, m_Name);
+            return other == null ? false : Equals(other.Name, m_Name);
         }
 
         /// <summary>
-        /// Obtains the hashcode based on the name and configuration
+        /// Obtains the hashcode based on the name and configuration.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

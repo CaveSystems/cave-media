@@ -33,7 +33,7 @@ namespace Cave.Media.OpenGL
         }
 
         /// <summary>
-        /// GLFW_DONT_CARE
+        /// GLFW_DONT_CARE.
         /// </summary>
         public static readonly int DontCare = -1;
 

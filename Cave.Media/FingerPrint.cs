@@ -14,7 +14,7 @@ namespace Cave.Media
         /// Creates a 32x32 fingerprint for the specified bitmap.
         /// </summary>
         /// <param name="bitmap">The bitmap.</param>
-        /// <returns>Returns a fingerprint with 6 bits per pixel (32 px = 6144 bit = 768 byte = 1024 base32 chars)</returns>
+        /// <returns>Returns a fingerprint with 6 bits per pixel (32 px = 6144 bit = 768 byte = 1024 base32 chars).</returns>
         public static FingerPrint Create(IBitmap32 bitmap)
         {
             using (Bitmap32 thumb = bitmap.Resize(32, 32, ResizeMode.TouchFromInside))
@@ -22,7 +22,7 @@ namespace Cave.Media
                 ARGBImageData data = thumb.Data;
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    //calculate fingerprint and distance matrix
+                    // calculate fingerprint and distance matrix
                     BitStreamWriter writer = new BitStreamWriter(ms);
                     float[] distanceMatrix = new float[16];
                     {
@@ -52,13 +52,15 @@ namespace Cave.Media
                             }
                         }
                     }
-                    //normalize matrix
+
+                    // normalize matrix
                     float maxDistance = distanceMatrix.Max();
                     for (int i = 0; i < distanceMatrix.Length; i++)
                     {
                         distanceMatrix[i] /= maxDistance;
                     }
-                    //calculate blocks
+
+                    // calculate blocks
                     uint[] blocks = new uint[4];
                     int[] index = new int[] { 0, 2, 8, 10 };
                     for (int i = 0; i < 4; i++)
@@ -92,7 +94,7 @@ namespace Cave.Media
         public int PixelSize { get; }
 
         /// <summary>
-        /// Gets the 4 bits blocks (1 bits per 4x4 pin)
+        /// Gets the 4 bits blocks (1 bits per 4x4 pin).
         /// </summary>
         public uint[] Blocks => blocks;
 
@@ -112,7 +114,7 @@ namespace Cave.Media
             PixelSize = pixelSize;
             this.blocks = blocks;
             this.data = data;
-            if (data.Length != (pixelSize * pixelSize * 6 + 7) / 8)
+            if (data.Length != ((pixelSize * pixelSize * 6) + 7) / 8)
             {
                 throw new ArgumentOutOfRangeException("data.Length", "Data length is out of range!");
             }
@@ -161,12 +163,7 @@ namespace Cave.Media
         public override bool Equals(object obj)
         {
             FingerPrint other = obj as FingerPrint;
-            if (other == null)
-            {
-                return false;
-            }
-
-            return ToString().Equals(other.ToString());
+            return other == null ? false : ToString().Equals(other.ToString());
         }
 
         /// <summary>

@@ -5,21 +5,21 @@ using System.Text;
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Provides available ID3v2 encodings
+    /// Provides available ID3v2 encodings.
     /// </summary>
 
     public sealed class ID3v2Encoding
     {
         /// <summary>
-        /// Obtains the default encoding
+        /// Obtains the default encoding.
         /// </summary>
         public static Encoding ISO88591 => Encoding.GetEncoding("ISO-8859-1");
 
         /// <summary>
-        /// Obtains a specific encoding
+        /// Obtains a specific encoding.
         /// </summary>
-        /// <param name="encoding">The ID3v2 encoding number</param>
-        /// <returns>The dotnet encoding instance</returns>
+        /// <param name="encoding">The ID3v2 encoding number.</param>
+        /// <returns>The dotnet encoding instance.</returns>
         public static Encoding Get(ID3v2EncodingType encoding)
         {
             switch (encoding)
@@ -62,7 +62,7 @@ namespace Cave.Media.Audio.ID3
         public static bool CanUseISO(string value)
         {
             Encoding enc = Encoding.GetEncoding("ISO-8859-1");
-            return (value == enc.GetString(enc.GetBytes(value)));
+            return value == enc.GetString(enc.GetBytes(value));
         }
 
         /// <summary>Gets the bytes.</summary>
@@ -81,10 +81,10 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains whether 8 bit char index search (true) shall be used or 16 bit (false)
+        /// Obtains whether 8 bit char index search (true) shall be used or 16 bit (false).
         /// </summary>
-        /// <param name="encoding">The ID3v2 encoding number</param>
-        /// <returns>Returns true if 8 bit char index search may be used</returns>
+        /// <param name="encoding">The ID3v2 encoding number.</param>
+        /// <returns>Returns true if 8 bit char index search may be used.</returns>
         public static bool Is8Bit(ID3v2EncodingType encoding)
         {
             switch (encoding)
@@ -101,7 +101,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Finds the first null char at a 16bit charset
+        /// Finds the first null char at a 16bit charset.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="start"></param>
@@ -127,13 +127,13 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Parses a string from the specified data and returns the length in bytes
+        /// Parses a string from the specified data and returns the length in bytes.
         /// </summary>
-        /// <param name="encoding">The ID3v2 encoding number</param>
-        /// <param name="data">The bytes to parse</param>
-        /// <param name="index">The start index to begin at</param>
-        /// <param name="text">The string output</param>
-        /// <returns>Returns the number of bytes parsed</returns>
+        /// <param name="encoding">The ID3v2 encoding number.</param>
+        /// <param name="data">The bytes to parse.</param>
+        /// <param name="index">The start index to begin at.</param>
+        /// <param name="text">The string output.</param>
+        /// <returns>Returns the number of bytes parsed.</returns>
         public static int Parse(ID3v2EncodingType encoding, byte[] data, int index, out string text)
         {
             if (data == null)
@@ -174,7 +174,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Parses an 8 bit character string from the specified data
+        /// Parses an 8 bit character string from the specified data.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="index"></param>
@@ -191,7 +191,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Parses an 16 bit character string from the specified data
+        /// Parses an 16 bit character string from the specified data.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="index"></param>

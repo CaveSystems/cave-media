@@ -8,7 +8,7 @@ using System.IO;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>
-    /// Provides a reader for mp3 audio files
+    /// Provides a reader for mp3 audio files.
     /// </summary>
     public sealed class MP3Reader : IFrameSource
     {
@@ -33,7 +33,11 @@ namespace Cave.Media.Audio.MP3
             while (true)
             {
                 AudioFrame frame = reader.GetNextFrame();
-                if (frame == null) break;
+                if (frame == null)
+                {
+                    break;
+                }
+
                 frames.Add(frame);
             }
             reader.Close();
@@ -45,8 +49,9 @@ namespace Cave.Media.Audio.MP3
         public string LogSourceName { get { return "MP3Reader"; } }
 
         #region Buffer search and frame header detection
+
         /// <summary>
-        /// used to communicate the found header
+        /// used to communicate the found header.
         /// </summary>
         enum MatchType
         {
@@ -56,7 +61,7 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Search class to detect valid headers at the mp3 file
+        /// Search class to detect valid headers at the mp3 file.
         /// </summary>
         class Search : IDataFrameSearch
         {
@@ -83,14 +88,16 @@ namespace Cave.Media.Audio.MP3
                     m_Length = 1;
                     return true;
                 }
-                //mp3 data start
+
+                // mp3 data start
                 if ((m_CurrentValue & 0xFFE0) == 0xFFE0)
                 {
                     m_Match = MatchType.MP3Frame;
                     m_Length = 2;
                     return true;
                 }
-                //id3v2 start
+
+                // id3v2 start
                 if ((m_CurrentValue & 0xFFFFFF) == 0x494433)
                 {
                     m_Match = MatchType.ID3Frame;
@@ -124,9 +131,9 @@ namespace Cave.Media.Audio.MP3
         public string Name { get; set; }
 
         /// <summary>
-        /// Creates a new MP3Reader for the specified file
+        /// Creates a new MP3Reader for the specified file.
         /// </summary>
-        /// <param name="fileName">The file to load</param>
+        /// <param name="fileName">The file to load.</param>
         public MP3Reader(string fileName)
             : this(ResistantFileStream.OpenSequentialRead(fileName))
         {
@@ -134,16 +141,16 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Creates a new MP3Reader for the specified stream
+        /// Creates a new MP3Reader for the specified stream.
         /// </summary>
-        /// <param name="stream">The stream to load</param>
+        /// <param name="stream">The stream to load.</param>
         public MP3Reader(Stream stream)
         {
             Name = stream.ToString();
             long endOfStream = 0;
             if (stream.CanSeek && (stream.Position == 0) && (stream.Length > 128))
             {
-                //try loading ID3v1 first
+                // try loading ID3v1 first
                 try
                 {
                     stream.Seek(-128, SeekOrigin.End);
@@ -162,12 +169,16 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Add invalid data (since we need to check garbage for a mp3 resync we may need to combine multiple invalid chunks)
+        /// Add invalid data (since we need to check garbage for a mp3 resync we may need to combine multiple invalid chunks).
         /// </summary>
-        /// <param name="buffer">The buffer to add to invalid data frame</param>
+        /// <param name="buffer">The buffer to add to invalid data frame.</param>
         void InvalidData(byte[] buffer)
         {
-            if (buffer.Length == 0) return;
+            if (buffer.Length == 0)
+            {
+                return;
+            }
+
             if (m_InvalidFrame == null)
             {
                 m_InvalidFrame = new MP3InvalidFrame();
@@ -176,46 +187,56 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// uses the <see cref="Search"/> class to find the next id3 / mp3 frame start at the buffer
+        /// uses the <see cref="Search"/> class to find the next id3 / mp3 frame start at the buffer.
         /// </summary>
-        /// <returns>Returns the search result</returns>
+        /// <returns>Returns the search result.</returns>
         Search FindFrame()
         {
-            //initialize the search and run it at the buffer
+            // initialize the search and run it at the buffer
             Search search = new Search();
             while (true)
             {
-                //fill the buffer
+                // fill the buffer
                 if (!m_Reader.EnsureBuffer(1024) && (m_Reader.Available < 4))
                 {
-                    if (m_Reader.Available == 0) return null;
-                    //end of stream
+                    if (m_Reader.Available == 0)
+                    {
+                        return null;
+                    }
+
+                    // end of stream
                     byte[] buffer = m_Reader.GetBuffer(m_Reader.Available);
                     InvalidData(buffer);
                     return null;
                 }
-                //run the search
+
+                // run the search
                 {
-                    if (m_Reader.Contains(search)) return search;
-                    //nothing found, enqueue invalid data...
+                    if (m_Reader.Contains(search))
+                    {
+                        return search;
+                    }
+
+                    // nothing found, enqueue invalid data...
                     byte[] buffer = m_Reader.GetBuffer(m_Reader.Available - 2);
                     InvalidData(buffer);
-                    //.. and start new search
+
+                    // .. and start new search
                     search = new Search();
                 }
             }
         }
 
         /// <summary>
-        /// Obtains the next frame
+        /// Obtains the next frame.
         /// </summary>
-        /// <returns>Returns the next frame or null (at end of stream)</returns>
+        /// <returns>Returns the next frame or null (at end of stream).</returns>
         public AudioFrame GetNextFrame()
         {
             while (true)
             {
                 #region return buffered frames first (if any)
-                //got a decoded frame at the cache ?
+                // got a decoded frame at the cache ?
                 if (m_BufferedFrame != null)
                 {
                     AudioFrame result;
@@ -234,51 +255,57 @@ namespace Cave.Media.Audio.MP3
                 #endregion
 
                 #region search next frame start
-                //search the next interesting position
+
+                // search the next interesting position
                 Search searchResult = FindFrame();
                 if (searchResult == null)
                 {
                     #region end of stream cleanup
-                    //invalid data at end of stream ?
+                    // invalid data at end of stream ?
                     if (m_Reader.Available > 0)
                     {
-                        //yes buffer
+                        // yes buffer
                         InvalidData(m_Reader.GetBuffer());
                     }
-                    //got an invalid frame ?
+
+                    // got an invalid frame ?
                     if (m_InvalidFrame != null)
                     {
-                        //return invalid frame
+                        // return invalid frame
                         AudioFrame result = m_InvalidFrame;
                         m_InvalidFrame = null;
                         return result;
                     }
-                    //got an id3v1 ?
+
+                    // got an id3v1 ?
                     if (m_ID3v1 != null)
                     {
-                        //return id3v1
+                        // return id3v1
                         AudioFrame result = m_ID3v1;
                         m_ID3v1 = null;
                         return result;
                     }
-                    //everything done, return null
+
+                    // everything done, return null
                     return null;
                     #endregion
                 }
                 #endregion
 
                 #region check search result
-                //got garbage at the beginning?
+
+                // got garbage at the beginning?
                 if (searchResult.Index > 0)
                 {
-                    //yes, invalid data
+                    // yes, invalid data
                     InvalidData(m_Reader.GetBuffer(searchResult.Index));
                     continue;
                 }
                 #endregion
 
                 #region decode frame
-                //try to decode frame
+
+                // try to decode frame
                 try
                 {
                     bool valid = false;
@@ -302,15 +329,16 @@ namespace Cave.Media.Audio.MP3
 
                         default: throw new NotImplementedException(string.Format("Unknown frame type {0}", searchResult.Match));
                     }
-                    //parsed successfully?
+
+                    // parsed successfully?
                     if (valid)
                     {
-                        //yes, cache frame
+                        // yes, cache frame
                         m_BufferedFrame = frame;
                     }
                     else
                     {
-                        //no invalidate
+                        // no invalidate
                         InvalidData(m_Reader.GetBuffer(1));
                     }
                 }
@@ -318,7 +346,8 @@ namespace Cave.Media.Audio.MP3
                 {
                     Trace.TraceError(string.Format("Error while decoding {0} in stream {1}", searchResult.Match, m_Reader));
                     Trace.TraceError(ex.ToString());
-                    //invalid frame or decoder error, move ahead
+
+                    // invalid frame or decoder error, move ahead
                     int count = (searchResult.Index < 0) ? 1 : searchResult.Index + 1;
                     InvalidData(m_Reader.GetBuffer(count));
                 }
@@ -327,7 +356,7 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Closes the reader and the underlying stream
+        /// Closes the reader and the underlying stream.
         /// </summary>
         public void Close()
         {

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 namespace Cave.Media
 {
     /// <summary>
-    /// Allows to create MediaPacket objects
+    /// Allows to create MediaPacket objects.
     /// </summary>
     public class MediaPacketBuilder
     {
         /// <summary>
-        /// Video Frames of the packet
+        /// Video Frames of the packet.
         /// </summary>
         readonly List<IVideoFrame> m_Frames = new List<IVideoFrame>();
 
         /// <summary>
-        /// Audio Data of the packet
+        /// Audio Data of the packet.
         /// </summary>
         readonly List<IAudioData> m_AudioData = new List<IAudioData>();
 
@@ -32,9 +32,9 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a MediaPacket
+        /// Obtains a MediaPacket.
         /// </summary>
-        /// <returns>Returns a MediaPacket</returns>
+        /// <returns>Returns a MediaPacket.</returns>
         public IMediaPacket ToPacket()
         {
             return new MediaPacket(m_AudioData.ToArray(), m_Frames.ToArray());

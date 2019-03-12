@@ -5,7 +5,7 @@ using System.IO;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides a reader for binary data with buffering (allows scrollback in case of an error)
+    /// Provides a reader for binary data with buffering (allows scrollback in case of an error).
     /// </summary>
     public sealed class DataFrameReader
     {
@@ -47,9 +47,9 @@ namespace Cave.Media
         public object Source { get; set; }
 
         /// <summary>
-        /// Fills the buffer with the specified number of bytes
+        /// Fills the buffer with the specified number of bytes.
         /// </summary>
-        /// <param name="size">Size to buffer</param>
+        /// <param name="size">Size to buffer.</param>
         public int FillBuffer(int size)
         {
             if (m_Stream == null)
@@ -121,9 +121,9 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Ensures that the buffer contains at least the specified number of bytes
+        /// Ensures that the buffer contains at least the specified number of bytes.
         /// </summary>
-        /// <param name="lenght">The minimum length available for reading</param>
+        /// <param name="lenght">The minimum length available for reading.</param>
         public bool EnsureBuffer(int lenght)
         {
             int l_Needed = lenght - Available;
@@ -132,11 +132,11 @@ namespace Cave.Media
                 FillBuffer(l_Needed);
             }
 
-            return (Available >= lenght);
+            return Available >= lenght;
         }
 
         /// <summary>
-        /// Searches at the buffer for a (frame start) match using the specified <see cref="IDataFrameSearch"/>
+        /// Searches at the buffer for a (frame start) match using the specified <see cref="IDataFrameSearch"/>.
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
@@ -176,8 +176,8 @@ namespace Cave.Media
         /// <summary>
         /// Reads a byte buffer from the reader. <see cref="EnsureBuffer"/> is called to check the available buffer size first.
         /// </summary>
-        /// <param name="index">Index to start reading at</param>
-        /// <param name="count">Length of the buffer to read</param>
+        /// <param name="index">Index to start reading at.</param>
+        /// <param name="count">Length of the buffer to read.</param>
         /// <returns></returns>
         public byte[] Read(int index, int count)
         {
@@ -223,7 +223,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Removes the first bytes
+        /// Removes the first bytes.
         /// </summary>
         /// <param name="count"></param>
         public void Remove(int count)
@@ -241,7 +241,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains buffered data beginning at index 0 and removes it
+        /// Obtains buffered data beginning at index 0 and removes it.
         /// </summary>
         /// <returns></returns>
         public byte[] GetBuffer(int count)
@@ -257,30 +257,25 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the number of bytes currently available for reading
+        /// Obtains the number of bytes currently available for reading.
         /// </summary>
         public int Available => m_BufferLength - m_ReadBufferPosition;
 
         /// <summary>
-        /// Obtains all currently buffered data and removes it
+        /// Obtains all currently buffered data and removes it.
         /// </summary>
         /// <returns></returns>
         public byte[] GetBuffer()
         {
             int size = Available;
-            if (size == 0)
-            {
-                return new byte[0];
-            }
-
-            return GetBuffer(size);
+            return size == 0 ? (new byte[0]) : GetBuffer(size);
         }
 
         /// <summary>
-        /// Creates a new <see cref="DataFrameReader"/> for the specified stream
+        /// Creates a new <see cref="DataFrameReader"/> for the specified stream.
         /// </summary>
-        /// <param name="stream">Stream to read from</param>
-        /// <param name="endOfStream">End of stream position (if known, -1 otherwise)</param>
+        /// <param name="stream">Stream to read from.</param>
+        /// <param name="endOfStream">End of stream position (if known, -1 otherwise).</param>
         public DataFrameReader(Stream stream, long endOfStream)
         {
             m_EndOfStream = endOfStream;
@@ -289,7 +284,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Creates a new <see cref="DataFrameReader"/> for the specified buffer
+        /// Creates a new <see cref="DataFrameReader"/> for the specified buffer.
         /// </summary>
         /// <param name="buffer"></param>
         public DataFrameReader(byte[] buffer)
@@ -302,37 +297,32 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the current start position (at the stream) of the buffer
+        /// Obtains the current start position (at the stream) of the buffer.
         /// </summary>
         public long BufferStartPosition => m_BufferEndPosition - m_BufferLength + m_ReadBufferPosition;
 
         /// <summary>
-        /// Obtains the current end position (at the stream) of the buffer
+        /// Obtains the current end position (at the stream) of the buffer.
         /// </summary>
         public long BufferEndPosition => m_BufferEndPosition;
 
         /// <summary>
-        /// Obtains the current buffer length
+        /// Obtains the current buffer length.
         /// </summary>
         public int BufferLength => m_BufferLength;
 
         /// <summary>
-        /// Returns "DataFrameReader &lt;Source&gt;"
+        /// Returns "DataFrameReader &lt;Source&gt;".
         /// </summary>
-        /// <returns>Returns "DataFrameReader &lt;Source&gt;"</returns>
+        /// <returns>Returns "DataFrameReader &lt;Source&gt;".</returns>
         public override string ToString()
         {
             object source = Source;
-            if (source != null)
-            {
-                return string.Format("DataFrameReader <{0}>", source);
-            }
-
-            return "DataFrameReader";
+            return source != null ? string.Format("DataFrameReader <{0}>", source) : "DataFrameReader";
         }
 
         /// <summary>
-        /// Closes the <see cref="DataFrameReader"/> and the underlying stream
+        /// Closes the <see cref="DataFrameReader"/> and the underlying stream.
         /// </summary>
         public void Close()
         {

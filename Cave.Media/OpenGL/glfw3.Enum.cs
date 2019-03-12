@@ -11,7 +11,7 @@ namespace Cave.Media.OpenGL
         {
             None = 0,
             OpenGL = 0x00030001,
-            OpenGLES = 0x00030002
+            OpenGLES = 0x00030002,
         }
 
         /// <summary>
@@ -22,14 +22,14 @@ namespace Cave.Media.OpenGL
         public enum ConnectionEvent
         {
             Connected = 0x00040001,
-            Disconnected = 0x00040002
+            Disconnected = 0x00040002,
         }
 
         /// <seealso cref="Hint.ContextCreationApi"/>
         public enum ContextApi
         {
             Native = 0x00036001,
-            EGL = 0x00036002
+            EGL = 0x00036002,
         }
 
         /// <seealso cref="Hint.ContextReleaseBehavior"/>
@@ -37,7 +37,7 @@ namespace Cave.Media.OpenGL
         {
             Any = 0,
             Flush = 0x00035001,
-            None = 0x00035002
+            None = 0x00035002,
         }
 
         /// <seealso cref="Hint.ContextRobustness"/>
@@ -45,7 +45,7 @@ namespace Cave.Media.OpenGL
         {
             None = 0,
             NoResetNotification = 0x00031001,
-            LoseContextOnReset = 0x00031002
+            LoseContextOnReset = 0x00031002,
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Cave.Media.OpenGL
             /// Hides and grabs the cursor, providing virtual and unlimited cursor movement. This is
             /// useful for implementing for example 3D camera controls.
             /// </summary>
-            Disabled = 0x00034003
+            Disabled = 0x00034003,
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Cave.Media.OpenGL
             /// <summary>
             /// The vertical resize arrow shape.
             /// </summary>
-            ResizeY = 0x00036006
+            ResizeY = 0x00036006,
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Cave.Media.OpenGL
             /// A window that does not have an OpenGL or OpenGL ES context was passed to a function
             /// that requires it to have one.
             /// </summary>
-            NoWindowContext = 0x0001000A
+            NoWindowContext = 0x0001000A,
         }
 
         /// <summary>
@@ -447,7 +447,7 @@ namespace Cave.Media.OpenGL
             /// <para><b>Wayland, Mir:</b> The EGL API is the native context creation API, so this
             /// hint will have no effect.</para>
             /// </remarks>
-            ContextCreationApi = 0x0002200b
+            ContextCreationApi = 0x0002200b,
         }
 
         /// <summary>
@@ -458,7 +458,7 @@ namespace Cave.Media.OpenGL
         {
             Cursor = 0x00033001,
             StickyKeys = 0x00033002,
-            StickyMouseButton = 0x00033003
+            StickyMouseButton = 0x00033003,
         }
 
         /// <summary>
@@ -479,7 +479,7 @@ namespace Cave.Media.OpenGL
             /// <summary>
             /// The key was held down until it repeated.
             /// </summary>
-            Repeat = 2
+            Repeat = 2,
         }
 
         /// <summary>
@@ -503,7 +503,7 @@ namespace Cave.Media.OpenGL
             Joystick14 = 13,
             Joystick15 = 14,
             Joystick16 = 15,
-            JoystickLast = Joystick16
+            JoystickLast = Joystick16,
         }
 
         /// <summary>
@@ -638,7 +638,7 @@ namespace Cave.Media.OpenGL
             RightControl = 345,
             RightAlt = 346,
             RightSuper = 347,
-            Menu = 348
+            Menu = 348,
         }
 
         /// <summary>
@@ -665,7 +665,7 @@ namespace Cave.Media.OpenGL
             /// <summary>
             /// If this bit is set one or more Super keys were held down.
             /// </summary>
-            Super = 0x0008
+            Super = 0x0008,
         }
 
         /// <summary>
@@ -684,7 +684,7 @@ namespace Cave.Media.OpenGL
             ButtonLast = Button8,
             ButtonLeft = Button1,
             ButtonRight = Button2,
-            ButtonMiddle = Button3
+            ButtonMiddle = Button3,
         }
 
         /// <seealso cref="Hint.OpenglProfile"/>
@@ -692,7 +692,7 @@ namespace Cave.Media.OpenGL
         {
             Any = 0,
             Core = 0x00032001,
-            Compat = 0x00032002
+            Compat = 0x00032002,
         }
 
         public enum WindowAttrib
@@ -739,7 +739,7 @@ namespace Cave.Media.OpenGL
             /// Indicates whether the specified window is floating, also called topmost or
             /// always-on-top. This is controlled by the <see cref="Hint"/> with the same name.
             /// </summary>
-            Floating = 0x00020007
+            Floating = 0x00020007,
         }
     }
 }

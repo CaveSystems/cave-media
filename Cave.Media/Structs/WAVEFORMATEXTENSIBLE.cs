@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// extends <see cref="WAVEFORMATEX"/>
+    /// extends <see cref="WAVEFORMATEX"/>.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct WAVEFORMATEXTENSIBLE
@@ -46,17 +46,17 @@ namespace Cave.Media.Structs
         public short Size;
 
         /// <summary>
-        /// <see cref="WAVEFORMATEXTENSIBLESAMPLES"/>
+        /// <see cref="WAVEFORMATEXTENSIBLESAMPLES"/>.
         /// </summary>
         public WAVEFORMATEXTENSIBLESAMPLES Samples;
 
         /// <summary>
-        /// Channels present at the stream
+        /// Channels present at the stream.
         /// </summary>
         public uint ChannelMask;
 
         /// <summary>
-        /// <see cref="Guid"/> of sub format
+        /// <see cref="Guid"/> of sub format.
         /// </summary>
         public Guid SubFormat;
     }

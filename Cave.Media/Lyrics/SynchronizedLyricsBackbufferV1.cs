@@ -35,7 +35,7 @@ namespace Cave.Media.Lyrics
         /// <c>true</c> if [transparent color override]; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
-        /// Transparent color override replaces all background colors with the value specified by <see cref="TransparentColorValue" />
+        /// Transparent color override replaces all background colors with the value specified by <see cref="TransparentColorValue" />.
         /// </remarks>
         public bool TransparentColorOverride { get; set; }
 
@@ -99,7 +99,7 @@ namespace Cave.Media.Lyrics
 
             if (targetOffset > 0)
             {
-                //target offset > 0 : need to move from last to first pixel
+                // target offset > 0 : need to move from last to first pixel
                 for (int target = BufferSize - 1; target >= 0; target--)
                 {
                     int source = target - targetOffset;
@@ -115,7 +115,7 @@ namespace Cave.Media.Lyrics
             }
             else
             {
-                //target offset < 0 : need to move from first to last pixel
+                // target offset < 0 : need to move from first to last pixel
                 for (int target = 0; target < BufferSize; target++)
                 {
                     int source = target - targetOffset;
@@ -152,18 +152,19 @@ namespace Cave.Media.Lyrics
         {
             byte[] colors = new byte[] { cmd.Color0, cmd.Color1 };
 
-            int bufferOffset = cmd.X + cmd.Y * BufferWidth;
+            int bufferOffset = cmd.X + (cmd.Y * BufferWidth);
             int b = 0;
             for (int y = 0; y < cmd.Height; y++)
             {
-                //start at highest bit
+                // start at highest bit
                 int shift = cmd.Width % 8;
                 byte current = cmd.BitArray[b];
 
                 for (int x = 0; x < cmd.Width; x++)
                 {
-                    if (--shift < 0) { shift = 7; b++; }
-                    int color = ((current >> shift) & 1);
+                    if (--shift < 0) { shift = 7;
+                        b++; }
+                    int color = (current >> shift) & 1;
                     switch (cmd.Type)
                     {
                         case SynchronizedLyricsCommandType.SetSprite2Colors: m_Buffer[bufferOffset + x] = colors[color]; break;
@@ -216,15 +217,15 @@ namespace Cave.Media.Lyrics
         public void Invalidate()
         {
             Updated = true;
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
-			skBitmap?.Dispose();
+#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
+            skBitmap?.Dispose();
             skBitmap = null;
 #elif NET20 || NET35 || NET40 || !SKIA
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
             bitmap?.Dispose();
             bitmap = null;
 #elif NETSTANDARD20
@@ -262,8 +263,8 @@ namespace Cave.Media.Lyrics
             return data;
         }
 
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
-		SkiaSharp.SKBitmap skBitmap;
+#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
+        SkiaSharp.SKBitmap skBitmap;
 
         /// <summary>
         /// Copies the image to the specified bitmapdata instance
@@ -281,7 +282,7 @@ namespace Cave.Media.Lyrics
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
         Bitmap bitmap;
 
         /// <summary>

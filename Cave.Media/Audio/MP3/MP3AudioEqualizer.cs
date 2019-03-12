@@ -39,12 +39,7 @@ namespace Cave.Media.Audio.MP3
                 return 1.0f;
             }
 
-            if (eq < -1.0f)
-            {
-                return -1.0f;
-            }
-
-            return eq;
+            return eq < -1.0f ? -1.0f : eq;
         }
 
         /// <summary>Creates a new Equalizer instance.</summary>
@@ -75,7 +70,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        /// <summary> Sets all bands to 0.0
+        /// <summary> Sets all bands to 0.0.
         /// </summary>
         public void Reset()
         {
@@ -111,12 +106,7 @@ namespace Cave.Media.Audio.MP3
         public float GetFactor(int band)
         {
             float value = m_Values[band];
-            if (value == BAND_NOT_PRESENT)
-            {
-                return 0.0f;
-            }
-
-            return (float)Math.Pow(2.0, value);
+            return value == BAND_NOT_PRESENT ? 0.0f : (float)Math.Pow(2.0, value);
         }
 
         /// <summary>

@@ -1,9 +1,9 @@
 namespace Cave.Media.Audio.ID3
 {
     /// <summary>
-    /// Provides the available ID3v2Reader states
+    /// Provides the available ID3v2Reader states.
     /// </summary>
-    
+
     public enum ID3v2ReaderState
     {
         /// <summary>

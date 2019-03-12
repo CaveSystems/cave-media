@@ -4,7 +4,7 @@ using Cave.IO;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Synchronized Lyrics Command with color index
+    /// Synchronized Lyrics Command with color index.
     /// </summary>
     /// <seealso cref="SynchronizedLyricsCommand" />
     public class SlcWithColorIndex : SynchronizedLyricsCommand
@@ -28,7 +28,7 @@ namespace Cave.Media.Lyrics
         public SlcWithColorIndex(SynchronizedLyricsCommandType type, byte colorIndex)
             : base(type)
         {
-            switch(type)
+            switch (type)
             {
                 case SynchronizedLyricsCommandType.SetTransparentColor:
                 case SynchronizedLyricsCommandType.ClearScreen: break;

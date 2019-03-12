@@ -32,22 +32,22 @@ namespace Cave.Media.Audio.ID3.Frames
     /// This frame contains a picture directly related to the audio file.
     /// Image format is the MIME type and subtype [MIME] for the image.
     /// </summary>
-    public sealed class ID3v2APICFrame: ID3v2Frame
+    public sealed class ID3v2APICFrame : ID3v2Frame
     {
 #if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
-		/// <summary>
-		/// Creates a new header.
-		/// </summary>
-		/// <param name="header">The tag header.</param>
-		/// <param name="flags">The flags.</param>
-		/// <param name="description">The description.</param>
-		/// <param name="type">The type.</param>
-		/// <param name="image">The image.</param>
-		/// <param name="imageFormat">The image format.</param>
-		/// <param name="quality">The quality.</param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentOutOfRangeException"></exception>
-		public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, 
+        /// <summary>
+        /// Creates a new header.
+        /// </summary>
+        /// <param name="header">The tag header.</param>
+        /// <param name="flags">The flags.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="imageFormat">The image format.</param>
+        /// <param name="quality">The quality.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, 
             SkiaSharp.SKImage image, SkiaSharp.SKEncodedImageFormat imageFormat = SkiaSharp.SKEncodedImageFormat.Jpeg, int quality = 99)
         {
             var data = image.Encode(imageFormat, quality);
@@ -77,7 +77,8 @@ namespace Cave.Media.Audio.ID3.Frames
         public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, string mimeType, byte[] imageData)
         {
             ID3v2EncodingType encoding = ID3v2Encoding.Select(header, description + mimeType);
-            //header, encoding[1], mimeType+0, pitureType[1], description+0, data
+
+            // header, encoding[1], mimeType+0, pitureType[1], description+0, data
             byte[] descriptionBytes = ID3v2Encoding.GetBytes(encoding, description, true);
             byte[] mimeTypeBytes = ID3v2Encoding.GetBytes(encoding, mimeType, true);
             int contentSize = descriptionBytes.Length + mimeTypeBytes.Length + 1 + 1 + imageData.Length;
@@ -127,7 +128,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the mime type of the picture
+        /// Gets the mime type of the picture.
         /// </summary>
         public string MimeType
         {
@@ -143,7 +144,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the type of the picture
+        /// Gets the type of the picture.
         /// </summary>
         public ID3v2PictureType PictureType
         {
@@ -159,7 +160,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the description
+        /// Gets the description.
         /// </summary>
         public string Description
         {
@@ -175,7 +176,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the image data
+        /// Gets the image data.
         /// </summary>
         public byte[] ImageData
         {
@@ -191,9 +192,9 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a string describing this frame
+        /// Gets a string describing this frame.
         /// </summary>
-        /// <returns>ID[Length] MimeType "Description"</returns>
+        /// <returns>ID[Length] MimeType "Description".</returns>
         public override string ToString()
         {
             return base.ToString() + " " + MimeType + " \"" + Description + '"';

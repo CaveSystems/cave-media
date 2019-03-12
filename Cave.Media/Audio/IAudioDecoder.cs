@@ -4,7 +4,7 @@ using System.IO;
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides an interface for audio decoder implementations
+    /// Provides an interface for audio decoder implementations.
     /// </summary>
     public interface IAudioDecoder
     {
@@ -12,7 +12,7 @@ namespace Cave.Media.Audio
         event EventHandler<AudioFrameEventArgs> Decoding;
 
         /// <summary>
-        /// Obtains the decoder name
+        /// Obtains the decoder name.
         /// </summary>
         string Name { get; }
 
@@ -20,17 +20,17 @@ namespace Cave.Media.Audio
         string SourceName { get; set; }
 
         /// <summary>
-        /// Obtains the description of the decoder
+        /// Obtains the description of the decoder.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Obtains the features list
+        /// Obtains the features list.
         /// </summary>
         string Features { get; }
 
         /// <summary>
-        /// Obtains the mime types the decoder is able to handle
+        /// Obtains the mime types the decoder is able to handle.
         /// </summary>
         string[] MimeTypes { get; }
 
@@ -43,23 +43,23 @@ namespace Cave.Media.Audio
         /// <param name="fileName">Name of the file.</param>
         void BeginDecode(string fileName);
 
-        /// <summary>Starts the decoding process</summary>
-        /// <param name="sourceStream">The source Stream providing the encoded data</param>
+        /// <summary>Starts the decoding process.</summary>
+        /// <param name="sourceStream">The source Stream providing the encoded data.</param>
         void BeginDecode(Stream sourceStream);
 
-        /// <summary>Starts the decoding process</summary>
+        /// <summary>Starts the decoding process.</summary>
         /// <param name="source">The source.</param>
-        /// <exception cref="InvalidOperationException">Source: Decoding already started!</exception>
+        /// <exception cref="InvalidOperationException">Source: Decoding already started!.</exception>
         void BeginDecode(IFrameSource source);
-        
+
         /// <summary>
-        /// Decodes audio data
+        /// Decodes audio data.
         /// </summary>
-        /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available</returns>
+        /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available.</returns>
         IAudioData Decode();
 
         /// <summary>
-        /// Closes the underlying stream and calls Dispose
+        /// Closes the underlying stream and calls Dispose.
         /// </summary>
         void Close();
     }

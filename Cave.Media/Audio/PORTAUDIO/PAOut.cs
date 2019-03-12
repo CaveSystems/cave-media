@@ -5,18 +5,18 @@
 */
 #endregion
 
+using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Cave.IO;
 
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// port audio - audio out implementation
+    /// port audio - audio out implementation.
     /// </summary>
     /// <seealso cref="AudioOut" />
-    internal class PAOut: AudioOut
+    internal class PAOut : AudioOut
     {
         public readonly int BufferSize;
 
@@ -29,7 +29,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         PA.StreamCallbackDelegate m_CallbackDelegate;
         IntPtr m_StreamHandle;
         FifoBuffer m_StreamData = new FifoBuffer();
-        //Task m_Task;
+
+        // Task m_Task;
         bool m_Exit = true;
         long m_BytesPassed;
         long m_BytesQueued;
@@ -41,7 +42,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             int byteCount = (int)frameCount * Configuration.BytesPerTick;
             lock (m_SyncRoot)
             {
-                //fill output buffer
+                // fill output buffer
                 while (m_StreamData.Length < byteCount)
                 {
                     if (m_Buffers.Count > 0)
@@ -63,12 +64,7 @@ namespace Cave.Media.Audio.PORTAUDIO
                 m_StreamData.Dequeue(byteCount, output);
                 m_BytesPassed += m_InProgressBytes;
                 m_InProgressBytes = byteCount;
-                if (m_Exit)
-                {
-                    return PAStreamCallbackResult.Complete;
-                }
-
-                return PAStreamCallbackResult.Continue;
+                return m_Exit ? PAStreamCallbackResult.Complete : PAStreamCallbackResult.Continue;
             }
         }
         #endregion
@@ -80,8 +76,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         }
 
         /// <summary>Initializes a new instance of the <see cref="PAOut"/> class.</summary>
-        /// <param name="dev">The device to use</param>
-        /// <param name="configuration">The configuration to use</param>
+        /// <param name="dev">The device to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <exception cref="NotSupportedException">
         /// </exception>
         /// <exception cref="Exception"></exception>
@@ -118,10 +114,11 @@ namespace Cave.Media.Audio.PORTAUDIO
         #endregion
 
         #region protected overrides        
-        /// <summary>Begins playing</summary>
+
+        /// <summary>Begins playing.</summary>
         /// <exception cref="Exception">
         /// Already started!
-        /// or
+        /// or.
         /// </exception>
         protected override void StartPlayback()
         {
@@ -138,10 +135,10 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Stops playing</summary>
+        /// <summary>Stops playing.</summary>
         /// <exception cref="Exception">
         /// Already stopped!
-        /// or
+        /// or.
         /// </exception>
         protected override void StopPlayback()
         {
@@ -194,7 +191,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains the number of bytes passed since starting this queue</summary>
+        /// <summary>Obtains the number of bytes passed since starting this queue.</summary>
         public override long BytesPassed
         {
             get
@@ -206,7 +203,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains the bytes buffered (bytes to play until queue gets empty)</summary>
+        /// <summary>Obtains the bytes buffered (bytes to play until queue gets empty).</summary>
         public override long BytesBuffered
         {
             get
@@ -218,7 +215,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains the latency of the queue</summary>
+        /// <summary>Obtains the latency of the queue.</summary>
         public override TimeSpan Latency
         {
             get
@@ -227,7 +224,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains whether the IAudioQueue supports 3D positioning or not</summary>
+        /// <summary>Obtains whether the IAudioQueue supports 3D positioning or not.</summary>
         public override bool Supports3D
         {
             get
@@ -247,7 +244,7 @@ namespace Cave.Media.Audio.PORTAUDIO
         [Obsolete("NOT SUPPORTED")]
         public override float Pitch { get; set; }
 
-        /// <summary>sets / gets the 3d position of the sound source</summary>
+        /// <summary>sets / gets the 3d position of the sound source.</summary>
         [Obsolete("NOT SUPPORTED")]
         public override Vector3 Position3D { get; set; }
 

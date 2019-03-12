@@ -1,7 +1,7 @@
 namespace Cave.Media.Audio
 {
     /// <summary>
-    /// Provides device types
+    /// Provides device types.
     /// </summary>
     public enum AudioDeviceType : byte
     {

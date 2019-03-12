@@ -2,7 +2,7 @@ using System;
 
 namespace Cave.Media
 {
-    /// <summary>Provides default media types</summary>
+    /// <summary>Provides default media types.</summary>
     [Flags]
     public enum MediaType : int
     {

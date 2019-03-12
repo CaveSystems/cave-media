@@ -2,7 +2,7 @@
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// Compression formats for DIBs
+    /// Compression formats for DIBs.
     /// </summary>
     public enum BITMAPCOMPRESSION : int
     {

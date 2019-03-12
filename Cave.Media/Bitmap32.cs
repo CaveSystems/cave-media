@@ -6,7 +6,7 @@ using System.Linq;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides platform independent 32 bit argb bitmap functions
+    /// Provides platform independent 32 bit argb bitmap functions.
     /// </summary>
     public class Bitmap32 : IDisposable, IBitmap32
     {
@@ -68,7 +68,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Creates an empty instance
+        /// Creates an empty instance.
         /// </summary>
         protected Bitmap32() { }
 
@@ -80,8 +80,8 @@ namespace Cave.Media
         }
 
         /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
-        /// <param name="width">Width in pixel</param>
-        /// <param name="height">Height in pixel</param>
+        /// <param name="width">Width in pixel.</param>
+        /// <param name="height">Height in pixel.</param>
         public Bitmap32(int width, int height)
         {
             if (Loader == null)
@@ -149,9 +149,9 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Clear the image with the specified color
+        /// Clear the image with the specified color.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">The color.</param>
         public virtual void Clear(ARGB color)
         {
             bitmap.Clear(color);
@@ -161,19 +161,19 @@ namespace Cave.Media
         /// <remarks>This should be overloaded to speed up the resize.</remarks>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        /// <param name="mode">The resize modes.</param>
+        /// <param name="flags">The flags.</param>
         /// <returns></returns>
-        public virtual Bitmap32 Resize(int width, int height, ResizeMode mode = 0)
+        public virtual Bitmap32 Resize(int width, int height, ResizeMode flags = 0)
         {
             var result = new Bitmap32(width, height);
             float w = width;
             float h = height;
-            if (mode != ResizeMode.None)
+            if (flags.HasFlag(ResizeFlags.KeepAspect))
             {
                 float fw = w / (float)Width;
                 float fh = h / (float)Height;
                 float f;
-                if (mode.HasFlag(ResizeMode.TouchFromInside))
+                if (flags.HasFlag(ResizeFlags.TouchFromInsize))
                 {
                     f = Math.Min(fw, fh);
                 }
@@ -193,7 +193,7 @@ namespace Cave.Media
         /// <summary>Saves the image to the specified stream.</summary>
         /// <param name="fileName">Name of the file.</param>
         /// <param name="quality">The quality.</param>
-        /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!</exception>
+        /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!.</exception>
         public virtual void Save(string fileName, int quality = 100)
         {
             bitmap.Save(fileName, quality);
@@ -212,7 +212,7 @@ namespace Cave.Media
         public virtual int Height => bitmap.Height;
 
         /// <summary>
-        /// Disposes the image
+        /// Disposes the image.
         /// </summary>
         public virtual void Dispose()
         {
@@ -222,12 +222,12 @@ namespace Cave.Media
 
         /// <summary>Detects the most common colors.</summary>
         /// <param name="max">The maximum number of colors to retrieve.</param>
-        /// <returns>Returns an array of <see cref="T:Cave.Media.ARGB" /> values</returns>
+        /// <returns>Returns an array of <see cref="T:Cave.Media.ARGB" /> values.</returns>
         public IList<ARGB> DetectColors(int max)
         {
             if ((Width + Height) / 2 > max)
             {
-                using (var bmp = Resize(max, max, ResizeMode.None))
+                using (var bmp = Resize(max, max, ResizeFlags.KeepAspect))
                 {
                     return bmp.DetectColors(max);
                 }

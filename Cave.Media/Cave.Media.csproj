@@ -1,28 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net35;net45</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <TargetFrameworks>netstandard2.0;net20;net35;net45;net46;net47</TargetFrameworks>
     <Authors>Andreas Rohleder</Authors>
     <Company>CaveSystems GmbH, Andreas Rohleder</Company>
-    <Product>CaveSystems Media Library</Product>
-    <Copyright>(c) 2003-2019 Andreas Rohleder</Copyright>
-    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Cave.Media.snk</AssemblyOriginatorKeyFile>
-    <Version>1.0.2</Version>
+    <Copyright>(c) 2003-$([System.DateTime]::UtcNow.Year) Andreas Rohleder</Copyright>
     <PackageIconUrl>https://www.cavesystems.de/favicon.ico</PackageIconUrl>
-    <PackageTags>CaveSystems Media</PackageTags>
-    <Description>CaveSystems Media Bibliothek</Description>
+    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <FileVersion>$([System.DateTime]::UtcNow.Year).$([System.DateTime]::UtcNow.ToString("MMdd")).$([System.DateTime]::UtcNow.ToString("HHmm")).$([System.DateTime]::UtcNow.ToString("ssfff"))</FileVersion>
+    <LangVersion>latest</LangVersion>
+    <!--project-->
+    <RootNamespace>Cave.Media</RootNamespace>
+    <AssemblyOriginatorKeyFile>Cave.Media.snk</AssemblyOriginatorKeyFile>
+    <Product>CaveSystems Media Library</Product>
+    <PackageTags>CaveSystems Media Audio Video OpenGL OpenAL PortAudio</PackageTags>
+    <Description>CaveSystems Media Bibliothek.</Description>
     <PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/CaveSystems/cave-tcpserver</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CaveSystems/cave-media</RepositoryUrl>
+    <!--settings-->
     <PackageReleaseNotes />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>true</SignAssembly>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>2019.303.1741.1</FileVersion>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <NeutralLanguage />
     <DelaySign>false</DelaySign>
     <DebugType>portable</DebugType>
@@ -33,7 +34,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Deterministic>true</Deterministic>
-    <DeterministicSourcePaths>false</DeterministicSourcePaths>
+    <DeterministicSourcePaths>false</DeterministicSourcePaths>  
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
   </PropertyGroup>
@@ -43,9 +44,6 @@
   <PropertyGroup>
     <DefineConstants Condition=" !$(DefineConstants.Contains(';NET')) ">$(DefineConstants);NET$(TargetFramework.ToUpper().Replace("_", "").Replace(".", "").Replace("NET", ""))</DefineConstants>
     <DefineConstants Condition=" $(DefineConstants.Contains(';NET')) ">$(DefineConstants.Remove($(DefineConstants.LastIndexOf(";NET"))));NET$(TargetFramework.ToUpper().Replace("_", "").Replace(".", "").Replace("NET", ""))</DefineConstants>
-    <NeutralLanguage />
-    <RootNamespace>Cave.Media</RootNamespace>
-    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net471'">
     <Reference Include="System" />
@@ -56,11 +54,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Cave.Media.dll.config" />
-    <None Remove="stylecop.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
+    <None Remove="Cave.Media.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cave.Media.dll.config">
@@ -69,21 +63,16 @@
       <Link>Cave.Media.dll.config</Link>
     </Content>
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net20' OR '$(TargetFramework)'=='net35'">
+    <PackageReference Include="Cave.Backports" Version="1.0.5" />
+  </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.0" />
-    <PackageReference Include="Cave.BaseX" Version="1.0.0" />
-    <PackageReference Include="Cave.Collections" Version="1.0.1" />
-    <PackageReference Include="Cave.Extensions" Version="1.0.4" />
-    <PackageReference Include="Cave.IO" Version="1.0.2" />
-    <PackageReference Include="Cave.Platform" Version="1.0.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.2" />
+    <PackageReference Include="Cave.BaseX" Version="1.0.1" />
+    <PackageReference Include="Cave.Collections" Version="1.0.2" />
+    <PackageReference Include="Cave.Extensions" Version="1.0.5" />
+    <PackageReference Include="Cave.IO" Version="1.0.5" />
+    <PackageReference Include="Cave.Platform" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

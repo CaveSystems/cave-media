@@ -8,10 +8,10 @@ namespace Cave.Media.Structs
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct TIMECODEDATA
     {
-        /// <summary>The time code</summary>
+        /// <summary>The time code.</summary>
         TIMECODE time;
 
-        /// <summary>The SMPTE flags</summary>
+        /// <summary>The SMPTE flags.</summary>
         public SMPTEFLAGS SMPTEflags;
 
         /// <summary></summary>

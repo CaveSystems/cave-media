@@ -3,7 +3,7 @@
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Provides a backbuffer for synchronized lyrics display
+    /// Provides a backbuffer for synchronized lyrics display.
     /// </summary>
     public interface ISynchronizedLyricsBackbuffer
     {
@@ -13,19 +13,19 @@ namespace Cave.Media.Lyrics
 
 #if NET20 || NET35 || NET40 || !SKIA
 #elif SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
-		/// <summary>Gets the current backbuffer.</summary>
-		/// <value>The backbuffer.</value>
-		/// <remarks>
-		/// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
-		/// Do not save references to this across play calls!
-		/// </remarks>
-		SkiaSharp.SKBitmap ToSKBitmap();
+        /// <summary>Gets the current backbuffer.</summary>
+        /// <value>The backbuffer.</value>
+        /// <remarks>
+        /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
+        /// Do not save references to this across play calls!
+        /// </remarks>
+        SkiaSharp.SKBitmap ToSKBitmap();
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
 
 #if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
         /// <summary>Gets the current backbuffer.</summary>
         /// <value>The backbuffer.</value>
         /// <remarks>
@@ -46,7 +46,7 @@ namespace Cave.Media.Lyrics
         /// <c>true</c> if [transparent color override]; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
-        /// Transparent color override replaces all background colors with the value specified by <see cref="TransparentColorValue" />
+        /// Transparent color override replaces all background colors with the value specified by <see cref="TransparentColorValue" />.
         /// </remarks>
         bool TransparentColorOverride { get; set; }
 

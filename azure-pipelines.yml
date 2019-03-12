@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- refs/tags/*
 
 pool:
   vmImage: 'VS2017-Win2016'
@@ -15,13 +16,57 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: set
+  displayName: Show Variables
+
+- task: PowerShell@2
+  displayName: Set git variables
+  env:
+    BUILD_BUILDNUMBER: $(Build.BuildNumber)
+  inputs:
+    targetType: inline
+    script: |
+      $var = "$(git tag -l --points-at HEAD)".Trim()
+      $incRev = $false
+      if ($var -eq '')
+      {
+        $semver = "ci-$env:BUILD_BUILDNUMBER".Replace('.', '-')
+        Write-Host "$("##vso[task.setvariable variable=VersionSuffix]")$semver"
+        Write-Host "VersionSuffix: '$semver'"
+        $incRev = $true
+      }
+      else
+      {
+        Write-Host "VersionSuffix: ''"
+      }
+      $ver = [Version]"1.0.0"
+      $var = "$(git rev-list --tags --max-count=1)".Trim()
+      if ($var -ne '')
+      {
+        $var = $(git describe --tags $var).Trim()
+        if ($var -ne '')
+        {
+          $ver = [Version]$var
+          if ($incRev -eq $true)
+          {
+            $ver = [Version]"$($ver.Major).$($ver.Minor).$($ver.Build+1)"
+          }
+        }
+      }
+      Write-Host "$("##vso[task.setvariable variable=VersionPrefix]")$ver"
+      Write-Host "VersionPrefix: '$ver'"
+
 - task: NuGetToolInstaller@0
+  inputs:
+    versionSpec: '>=4.9.0'
 
 - task: NuGetCommand@2
+  displayName: Restore nuget packages
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: Build solution
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
@@ -31,3 +76,16 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    testAssemblyVer2: '**\bin\Release\**\Test.exe'
+
+- task: NuGetCommand@2
+  displayName: Push to nuget (release)
+  #condition: ne(variables['GIT_TAG'], '')
+  inputs:
+    command: push
+    packagesToPush: '$(Build.SourcesDirectory)/**/bin/Release/*.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: 'nuget-default'
+    versioningScheme: byEnvVar
+    versionEnvVar: GIT_TAG
+    includeSymbols: true

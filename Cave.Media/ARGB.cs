@@ -218,10 +218,10 @@ namespace Cave.Media
             {
                 unchecked
                 {
-                    float hue = (DefaultRNG.UInt32 % 36000) / 36000f;
+                    float hue = DefaultRNG.UInt32 % 36000 / 36000f;
 
                     const float _1_3 = 1f / 3f;
-                    const float _60 = (3.141593f * 2f) / 6f;
+                    const float _60 = 3.141593f * 2f / 6f;
 
                     ARGB result = new ARGB
                     {
@@ -531,7 +531,7 @@ namespace Cave.Media
 
             // scale to the 5 color ramps
             heat = heat * 5;
-            byte col = (byte)((heat % 1f) * 255f);
+            byte col = (byte)(heat % 1f * 255f);
             switch ((int)heat)
             {
                 // black..blue:      0..1 blue
@@ -754,7 +754,7 @@ namespace Cave.Media
         /// <param name="items">if true sets the bit, else unsets the bit.</param>
         public void SetBit(int bitIndex, bool items)
         {
-            uint mask = 1U << bitIndex;
+            uint mask = (uint)1 << bitIndex;
             if (items)
             {
                 AsUInt32 |= mask;
@@ -1136,11 +1136,7 @@ namespace Cave.Media
         /// <returns>compare value.</returns>
         public int CompareTo(object other)
         {
-            if (other is ARGB)
-            {
-                return CompareTo((ARGB)other);
-            }
-            return -1;
+            return other is ARGB ? CompareTo((ARGB)other) : -1;
         }
 
         #endregion

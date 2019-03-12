@@ -13,7 +13,7 @@ namespace Cave.Media.Audio.ID3
     /// audio data. The footer is a copy of the header, but with a different
     /// identifier.
     /// </summary>
-    
+
     public class ID3v2Footer : MP3MetaFrame
     {
         #region private fields and implementation
@@ -32,15 +32,27 @@ namespace Cave.Media.Audio.ID3
                     throw new InvalidDataException(string.Format("Invalid ID3v2.{0} tag!", m_Version));
 
                 case 2:
-                    if ((b & 0x3F) != 0) throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                    if ((b & 0x3F) != 0)
+                    {
+                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                    }
+
                     break;
 
                 case 3:
-                    if ((b & 0x1F) != 0) throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                    if ((b & 0x1F) != 0)
+                    {
+                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                    }
+
                     break;
 
                 case 4:
-                    if ((b & 0x0F) != 0) throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                    if ((b & 0x0F) != 0)
+                    {
+                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                    }
+
                     break;
             }
             return (ID3v2HeaderFlags)b;
@@ -48,12 +60,17 @@ namespace Cave.Media.Audio.ID3
         #endregion
 
         #region parser functions
+
         /// <summary>
-        /// Internally parses the current data and loads all fields
+        /// Internally parses the current data and loads all fields.
         /// </summary>
         protected void ParseData()
         {
-            if ((m_Data[0] != (byte)'3') || (m_Data[1] != (byte)'D') || (m_Data[2] != (byte)'I')) throw new InvalidDataException(string.Format("Missing ID3 identifier!"));
+            if ((m_Data[0] != (byte)'3') || (m_Data[1] != (byte)'D') || (m_Data[2] != (byte)'I'))
+            {
+                throw new InvalidDataException(string.Format("Missing ID3 identifier!"));
+            }
+
             m_Version = m_Data[3];
             m_Revision = m_Data[4];
             m_Flags = CheckFlags(m_Data[5]);
@@ -64,11 +81,19 @@ namespace Cave.Media.Audio.ID3
         /// Parses the specified buffer starting at index to load all data for this frame
         /// This function will throw exceptions on parser errors.
         /// </summary>
-        /// <param name="reader">FrameReader to read from</param>
+        /// <param name="reader">FrameReader to read from.</param>
         public override bool Parse(DataFrameReader reader)
         {
-            if (reader == null) throw new ArgumentNullException("Reader");
-            if (!reader.EnsureBuffer(10)) return false;
+            if (reader == null)
+            {
+                throw new ArgumentNullException("Reader");
+            }
+
+            if (!reader.EnsureBuffer(10))
+            {
+                return false;
+            }
+
             m_Data = reader.Read(0, 10);
             ParseData();
             reader.Remove(10);
@@ -77,31 +102,35 @@ namespace Cave.Media.Audio.ID3
         #endregion
 
         #region public properties
+
         /// <summary>
-        /// Gets/sets the ID3v2 (major) version used
+        /// Gets/sets the ID3v2 (major) version used.
         /// </summary>
         public byte Version
         {
             get { return m_Version; }
-            set { m_Version = value; m_Data = null; }
+            set { m_Version = value;
+                m_Data = null; }
         }
 
         /// <summary>
-        /// Gets/sets the ID3v2 revision used
+        /// Gets/sets the ID3v2 revision used.
         /// </summary>
         public byte Revision
         {
             get { return m_Revision; }
-            set { m_Revision = value; m_Data = null; }
+            set { m_Revision = value;
+                m_Data = null; }
         }
 
         /// <summary>
-        /// Gets/sets the ID3v2 revision used
+        /// Gets/sets the ID3v2 revision used.
         /// </summary>
         public ID3v2HeaderFlags Flags
         {
             get { return m_Flags; }
-            set { m_Flags = value; m_Data = null; }
+            set { m_Flags = value;
+                m_Data = null; }
         }
 
         /// <summary>
@@ -114,17 +143,18 @@ namespace Cave.Media.Audio.ID3
         public int BodySize
         {
             get { return m_BodySize; }
-            set { m_BodySize = value; m_Data = null; }
+            set { m_BodySize = value;
+                m_Data = null; }
         }
         #endregion
 
         /// <summary>
-        /// returns 10
+        /// returns 10.
         /// </summary>
         public override int Length { get { return 10; } }
 
         /// <summary>
-        /// Obtains an array with the data for this instance
+        /// Obtains an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data
@@ -161,7 +191,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Returns true
+        /// Returns true.
         /// </summary>
         public override bool IsFixedLength { get { return true; } }
     }

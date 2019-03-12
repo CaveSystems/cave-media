@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// port audio - audio device implementation
+    /// port audio - audio device implementation.
     /// </summary>
     /// <seealso cref="AudioDevice" />
     internal class PADevice : AudioDevice
@@ -21,7 +21,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         {
             PADeviceInfo l_DeviceInfo = PA.GetDeviceInfo(devIndex);
             PAHostApiInfo l_HostApiInfo = PA.GetHostApiInfo(l_DeviceInfo.HostApi);
-            //by default use utf-8, but mme uses ansi
+
+            // by default use utf-8, but mme uses ansi
             switch (l_HostApiInfo.Type)
             {
                 case PAHostApiTypeId.MME: return "PortAudio " + l_HostApiInfo.NameUtf8 + ": " + l_DeviceInfo.NameAnsi;
@@ -46,7 +47,7 @@ namespace Cave.Media.Audio.PORTAUDIO
         }
         #endregion
 
-        /// <summary>The device index</summary>
+        /// <summary>The device index.</summary>
         public readonly int DeviceIndex;
 
         /// <summary>Initializes a new instance of the <see cref="PADevice" /> class.</summary>
@@ -57,29 +58,29 @@ namespace Cave.Media.Audio.PORTAUDIO
             DeviceIndex = devIndex;
         }
 
-        /// <summary>Obtains whether the device supports playback or not</summary>
+        /// <summary>Obtains whether the device supports playback or not.</summary>
         public override bool SupportsPlayback
         {
             get
             {
                 PADeviceInfo l_DeviceInfo = PA.GetDeviceInfo(DeviceIndex);
-                return (l_DeviceInfo.MaxOutputChannels > 0);
+                return l_DeviceInfo.MaxOutputChannels > 0;
             }
         }
 
-        /// <summary>Obtains whether the device supports recording or not</summary>
+        /// <summary>Obtains whether the device supports recording or not.</summary>
         public override bool SupportsRecording
         {
             get
             {
                 PADeviceInfo l_DeviceInfo = PA.GetDeviceInfo(DeviceIndex);
-                return (l_DeviceInfo.MaxInputChannels > 0);
+                return l_DeviceInfo.MaxInputChannels > 0;
             }
         }
 
-        /// <summary>Obtains a new audio queue (sound target/source)</summary>
-        /// <param name="configuration">The desired AudioConfiguration</param>
-        /// <returns>Returns an IAudioQueue or IAudioQueue3D</returns>
+        /// <summary>Obtains a new audio queue (sound target/source).</summary>
+        /// <param name="configuration">The desired AudioConfiguration.</param>
+        /// <returns>Returns an IAudioQueue or IAudioQueue3D.</returns>
         public override AudioOut CreateAudioOut(IAudioConfiguration configuration)
         {
             return new PAOut(this, configuration);

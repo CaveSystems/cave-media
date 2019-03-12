@@ -156,7 +156,8 @@ namespace Cave.Media.OpenGL
         {
             int xx, yy;
             glfwGetMonitorPos(monitor.Ptr, &xx, &yy);
-            xpos = xx; ypos = yy;
+            xpos = xx;
+            ypos = yy;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -182,7 +183,8 @@ namespace Cave.Media.OpenGL
         {
             int ww, hh;
             glfwGetMonitorPhysicalSize(monitor.Ptr, &ww, &hh);
-            widthMM = ww; heightMM = hh;
+            widthMM = ww;
+            heightMM = hh;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -285,7 +287,7 @@ namespace Cave.Media.OpenGL
             {
                 Red = new ushort[internalRamp->Size],
                 Green = new ushort[internalRamp->Size],
-                Blue = new ushort[internalRamp->Size]
+                Blue = new ushort[internalRamp->Size],
             };
 
             for (uint i = 0; i < ramp.Size; i++)
@@ -321,7 +323,7 @@ namespace Cave.Media.OpenGL
                     Red = rampRed,
                     Blue = rampBlue,
                     Green = rampGreen,
-                    Size = ramp.Size
+                    Size = ramp.Size,
                 };
 
                 glfwSetGammaRamp(monitor.Ptr, internalRamp);
@@ -457,7 +459,7 @@ namespace Cave.Media.OpenGL
         /// <a href="https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html">
         /// High Resolution Guidelines for OS X</a> in the Mac Developer Library.</para>
         /// <para><strong>X11:</strong> Some window managers will not respect the placement of
-        /// initially hidden windows</para>
+        /// initially hidden windows.</para>
         /// <para><strong>X11:</strong> Due to the asynchronous nature of X11, it may take a moment
         /// for a window to reach its requested state.This means you may not be able to query the
         /// final size, position or other attributes directly after window creation.</para>
@@ -572,7 +574,7 @@ namespace Cave.Media.OpenGL
                 {
                     Width = images[i].Width,
                     Height = images[i].Width,
-                    Pixels = Marshal.AllocHGlobal(size)
+                    Pixels = Marshal.AllocHGlobal(size),
                 };
 
                 Marshal.Copy(images[i].Pixels, 0, imgs[i].Pixels, Math.Min(size, images[i].Pixels.Length));
@@ -609,7 +611,8 @@ namespace Cave.Media.OpenGL
         {
             int xx, yy;
             glfwGetWindowPos(window.Ptr, &xx, &yy);
-            xpos = xx; ypos = yy;
+            xpos = xx;
+            ypos = yy;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -646,7 +649,8 @@ namespace Cave.Media.OpenGL
         {
             int w, h;
             glfwGetWindowSize(window.Ptr, &w, &h);
-            width = w; height = h;
+            width = w;
+            height = h;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -736,7 +740,8 @@ namespace Cave.Media.OpenGL
         {
             int w, h;
             glfwGetFramebufferSize(window.Ptr, &w, &h);
-            width = w; height = h;
+            width = w;
+            height = h;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -764,7 +769,10 @@ namespace Cave.Media.OpenGL
         {
             int l, t, r, b;
             glfwGetWindowFrameSize(window.Ptr, &l, &t, &r, &b);
-            left = l; top = t; right = r; bottom = b;
+            left = l;
+            top = t;
+            right = r;
+            bottom = b;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -1284,7 +1292,8 @@ namespace Cave.Media.OpenGL
         {
             double xx, yy;
             glfwGetCursorPos(window.Ptr, &xx, &yy);
-            xpos = xx; ypos = yy;
+            xpos = xx;
+            ypos = yy;
         }
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -1339,7 +1348,7 @@ namespace Cave.Media.OpenGL
             {
                 Width = image.Width,
                 Height = image.Width,
-                Pixels = Marshal.AllocHGlobal(size)
+                Pixels = Marshal.AllocHGlobal(size),
             };
 
             Marshal.Copy(image.Pixels, 0, img.Pixels, Math.Min(size, image.Pixels.Length));
@@ -1687,7 +1696,7 @@ namespace Cave.Media.OpenGL
         /// <summary>
         /// This function returns the frequency, in Hz, of the raw timer.
         /// </summary>
-        /// <returns>The frequency of the timer, in Hz, or zero if an error occurred</returns>
+        /// <returns>The frequency of the timer, in Hz, or zero if an error occurred.</returns>
         /// <seealso cref="GetTimerValue"/>
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTimerFrequency"), SuppressUnmanagedCodeSecurity]
         public static extern ulong GetTimerFrequency();
@@ -1819,6 +1828,6 @@ namespace Cave.Media.OpenGL
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetWin32Window(IntPtr window);
 
-        //TODO X11
+        // TODO X11
     }
 }

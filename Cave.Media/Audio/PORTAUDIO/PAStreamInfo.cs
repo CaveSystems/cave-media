@@ -11,21 +11,21 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Stream Information
+    /// PortAudio Stream Information.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct PAStreamInfo
     {
-        /// <summary>The structure version</summary>
+        /// <summary>The structure version.</summary>
         public int StructVersion;
 
-        /// <summary>The input latency (s)</summary>
+        /// <summary>The input latency (s).</summary>
         public double InputLatency;
 
-        /// <summary>The output latency (s)</summary>
+        /// <summary>The output latency (s).</summary>
         public double OutputLatency;
 
-        /// <summary>The sample rate (Hz)</summary>
+        /// <summary>The sample rate (Hz).</summary>
         public double SampleRate;
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>

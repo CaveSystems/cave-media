@@ -4,7 +4,7 @@ using System;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides an interface for audio data
+    /// Provides an interface for audio data.
     /// </summary>
     public interface IAudioData : IAudioConfiguration
     {
@@ -15,7 +15,7 @@ namespace Cave.Media
         int StreamIndex { get; }
 
         /// <summary>
-        /// Channel number (&lt;0 = invalid or unknown index)
+        /// Channel number (&lt;0 = invalid or unknown index).
         /// </summary>
         int ChannelNumber { get; }
 
@@ -31,12 +31,12 @@ namespace Cave.Media
         int Length { get; }
 
         /// <summary>
-        /// Obtains the start time
+        /// Obtains the start time.
         /// </summary>
         TimeSpan StartTime { get; }
 
         /// <summary>
-        /// Obtains the duration
+        /// Obtains the duration.
         /// </summary>
         TimeSpan Duration { get; }
 
@@ -57,9 +57,9 @@ namespace Cave.Media
         IAudioData Normalize(float factor);
 
         /// <summary>Converts the <see cref="AudioData"/> to <see cref="AudioSampleFormat.Int16"/>.</summary>
-        /// <remarks>This is currently only available for <see cref="AudioSampleFormat.Float"/> and <see cref="AudioSampleFormat.Double"/></remarks>
-        /// <returns>Returns a new <see cref="AudioData"/> instance</returns>
-        /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}</exception>
+        /// <remarks>This is currently only available for <see cref="AudioSampleFormat.Float"/> and <see cref="AudioSampleFormat.Double"/>.</remarks>
+        /// <returns>Returns a new <see cref="AudioData"/> instance.</returns>
+        /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         IAudioData ConvertToInt16();
 
         /// <summary>Changes the volume.</summary>

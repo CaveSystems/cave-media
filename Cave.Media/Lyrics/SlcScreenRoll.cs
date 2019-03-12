@@ -4,7 +4,7 @@ using Cave.IO;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Synchronized Lyrics Command 
+    /// Synchronized Lyrics Command. 
     /// </summary>
     /// <seealso cref="SynchronizedLyricsCommand" />
     public class SlcScreenRoll : SynchronizedLyricsCommand
@@ -19,7 +19,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Initializes a new instance of the <see cref="SlcScreenRoll"/> class.</summary>
         /// <param name="reader">The reader.</param>
-        public SlcScreenRoll(DataReader reader) 
+        public SlcScreenRoll(DataReader reader)
             : base(SynchronizedLyricsCommandType.ScreenRoll)
         {
             Horizontal = reader.ReadInt8();

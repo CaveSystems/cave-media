@@ -10,7 +10,7 @@ using System;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// Port Audio Stream Flags
+    /// Port Audio Stream Flags.
     /// </summary>
     [Flags]
     internal enum PAStreamFlags : uint
@@ -31,6 +31,6 @@ namespace Cave.Media.Audio.PORTAUDIO
         PrimeOutputBuffersUsingStreamCallback = 0x00000008,
 
         /// <summary>The platform specific flags mask</summary>
-        PlatformSpecificFlags = 0xFFFF0000
+        PlatformSpecificFlags = 0xFFFF0000,
     }
 }

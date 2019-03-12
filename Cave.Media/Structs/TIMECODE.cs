@@ -3,18 +3,18 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// Timecode structure
+    /// Timecode structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct TIMECODE
     {
         /// <summary>
-        /// Framerate Frames/s
+        /// Framerate Frames/s.
         /// </summary>
         public short FrameRate;
 
         /// <summary>
-        /// fractional frame. full scale is always 0x10000
+        /// fractional frame. full scale is always 0x10000.
         /// </summary>
         public short FrameFract;
 

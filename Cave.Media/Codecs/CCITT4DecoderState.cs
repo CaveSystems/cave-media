@@ -1,7 +1,7 @@
 namespace Cave.Media.Codecs
 {
     /// <summary>
-    /// Provides decoder states
+    /// Provides decoder states.
     /// </summary>
     public enum CCITT4DecoderState
     {

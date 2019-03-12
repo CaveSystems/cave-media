@@ -12,38 +12,38 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Audio.PORTAUDIO
 {
     /// <summary>
-    /// PortAudio Device Information
+    /// PortAudio Device Information.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct PADeviceInfo
     {
-        /// <summary>The structure version</summary>
+        /// <summary>The structure version.</summary>
         public int StructVersion;
 
         IntPtr m_NamePtr;
 
-        /// <summary>The host API</summary>
+        /// <summary>The host API.</summary>
         public int HostApi;
 
-        /// <summary>The maximum input channels</summary>
+        /// <summary>The maximum input channels.</summary>
         public int MaxInputChannels;
 
-        /// <summary>The maximum output channels</summary>
+        /// <summary>The maximum output channels.</summary>
         public int MaxOutputChannels;
 
-        /// <summary>The default low input latency (s)</summary>
+        /// <summary>The default low input latency (s).</summary>
         public double DefaultLowInputLatency;
 
-        /// <summary>The default low output latency (s)</summary>
+        /// <summary>The default low output latency (s).</summary>
         public double DefaultLowOutputLatency;
 
-        /// <summary>The default high input latency (s)</summary>
+        /// <summary>The default high input latency (s).</summary>
         public double DefaultHighInputLatency;
 
-        /// <summary>The default high output latency (s)</summary>
+        /// <summary>The default high output latency (s).</summary>
         public double DefaultHighOutputLatency;
 
-        /// <summary>The default sample rate (HZ)</summary>
+        /// <summary>The default sample rate (HZ).</summary>
         public double DefaultSampleRate;
 
         /// <summary>Gets the name UTF8.</summary>
