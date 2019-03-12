@@ -71,8 +71,8 @@ namespace Cave.Media
         /// </summary>
         /// <param name="width">new width.</param>
         /// <param name="height">new height.</param>
-        /// <param name="flags">flags.</param>
-        Bitmap32 Resize(int width, int height, ResizeFlags flags = 0);
+        /// <param name="mode">the resize mode.</param>
+        Bitmap32 Resize(int width, int height, ResizeMode mode = 0);
 
         /// <summary>Detects the most common colors.</summary>
         /// <param name="max">The maximum number of colors to retrieve.</param>

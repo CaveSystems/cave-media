@@ -161,19 +161,19 @@ namespace Cave.Media
         /// <remarks>This should be overloaded to speed up the resize.</remarks>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        /// <param name="flags">The flags.</param>
+        /// <param name="mode">The resize mode.</param>
         /// <returns></returns>
-        public virtual Bitmap32 Resize(int width, int height, ResizeMode flags = 0)
+        public virtual Bitmap32 Resize(int width, int height, ResizeMode mode = 0)
         {
             var result = new Bitmap32(width, height);
             float w = width;
             float h = height;
-            if (flags.HasFlag(ResizeFlags.KeepAspect))
+            if (mode != ResizeMode.None)
             {
                 float fw = w / (float)Width;
                 float fh = h / (float)Height;
                 float f;
-                if (flags.HasFlag(ResizeFlags.TouchFromInsize))
+                if (mode.HasFlag(ResizeMode.TouchFromInside))
                 {
                     f = Math.Min(fw, fh);
                 }
@@ -227,7 +227,7 @@ namespace Cave.Media
         {
             if ((Width + Height) / 2 > max)
             {
-                using (var bmp = Resize(max, max, ResizeFlags.KeepAspect))
+                using (var bmp = Resize(max, max, ResizeMode.None))
                 {
                     return bmp.DetectColors(max);
                 }
