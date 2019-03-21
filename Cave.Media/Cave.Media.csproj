@@ -70,8 +70,9 @@
     <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.2" />
     <PackageReference Include="Cave.BaseX" Version="1.0.1" />
     <PackageReference Include="Cave.Collections" Version="1.0.2" />
-    <PackageReference Include="Cave.Extensions" Version="1.0.6" />
+    <PackageReference Include="Cave.Extensions" Version="1.0.7" />
     <PackageReference Include="Cave.IO" Version="1.0.5" />
+    <PackageReference Include="Cave.Net" Version="1.0.7" />
     <PackageReference Include="Cave.Platform" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
