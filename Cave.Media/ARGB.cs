@@ -553,15 +553,15 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Calculates a color from hue [0..360], saturation [0..1] and intensity [0..1].
+        /// Calculates a color from hue [0..1], saturation [0..1] and intensity [0..1].
         /// </summary>
-        /// <param name="hue">hue (0..360).</param>
+        /// <param name="hue">hue (0..1).</param>
         /// <param name="saturation">saturation (0..1).</param>
         /// <param name="intensity">intensity (0..1).</param>
         /// <returns>Returns a new ARGB struct.</returns>
         public static ARGB FromHSI(float hue, float saturation, float intensity)
         {
-            float f = hue / 60f;
+            float f = hue * 6f;
             int hi = (int)f % 6;
             f = f % 1;
 
