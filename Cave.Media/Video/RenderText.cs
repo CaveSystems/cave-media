@@ -131,14 +131,16 @@ namespace Cave.Media.Video
 
             Trace.TraceInformation("Update text font:{0} size:{1} fg:{2} bg:{3} text:{4}", FontName, FontSize, ForeColor, BackColor, Text);
             var bitmap = Bitmap32.Create(FontName, FontSize, ForeColor, BackColor, Text);
-            if ((bitmap.Width > maxWidth) || (bitmap.Height > maxHeight))
+            if ((maxWidth > 0) && (maxHeight > 0))
             {
-                var b = new Bitmap32(Math.Min(bitmap.Width, maxWidth), Math.Min(bitmap.Height, maxHeight));
-                b.Draw(bitmap, 0, 0);
-                bitmap.Dispose();
-                bitmap = b;
+                if ((bitmap.Width > maxWidth) || (bitmap.Height > maxHeight))
+                {
+                    var b = new Bitmap32(Math.Min(bitmap.Width, maxWidth), Math.Min(bitmap.Height, maxHeight));
+                    b.Draw(bitmap, 0, 0);
+                    bitmap.Dispose();
+                    bitmap = b;
+                }
             }
-
             Sprite.LoadTexture(bitmap);
             Sprite.Scale = Sprite.ScaleFromSize(bitmap.Width, bitmap.Height);
         }
