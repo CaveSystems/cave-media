@@ -11,7 +11,7 @@ using Cave.IO;
 namespace Cave.Media
 {
     /// <summary>
-    /// Gdi 32 bit argb bitmap functions
+    /// Gdi 32 bit argb bitmap functions.
     /// </summary>
     public class GdiBitmap32 : Bitmap32
     {
@@ -32,14 +32,14 @@ namespace Cave.Media
             throw new ArgumentException(string.Format("Could not find an image encoder for format {0}", format));
         }
 
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="data"></param>
         public GdiBitmap32(ARGBImageData data)
             : this(data.ToGdiBitmap())
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="bitmap"></param>
         public GdiBitmap32(Bitmap bitmap)
         {
@@ -57,14 +57,14 @@ namespace Cave.Media
             graphics.SmoothingMode = SmoothingMode.HighQuality;
         }
 
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="bitmap"></param>
         public GdiBitmap32(IBitmap32 bitmap)
             : this(GdiBitmap32Extensions.ToGdiBitmap(bitmap))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="width">Width in pixel</param>
         /// <param name="height">Height in pixel</param>
         public GdiBitmap32(int width, int height)
@@ -73,7 +73,7 @@ namespace Cave.Media
             graphics.Clear(Color.Transparent);
         }
 
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="image"></param>
         public GdiBitmap32(Image image)
             : this(GdiBitmap32Extensions.ToGdiBitmap(image))
@@ -142,7 +142,7 @@ namespace Cave.Media
                 graphics.TranslateTransform(mx, my);
                 if (translation.Value.Rotation != 0)
                 {
-                    graphics.RotateTransform(translation.Value.Rotation);
+                    graphics.RotateTransform(translation.Value.Rotation / (float)Math.PI * 180f);
                 }
                 if (translation.Value.FlipVertically || translation.Value.FlipHorizontally)
                 {
@@ -161,7 +161,6 @@ namespace Cave.Media
         /// <param name="stream">The stream.</param>
         /// <param name="type">The type.</param>
         /// <param name="quality">The quality.</param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100)
         {
             switch (type)
@@ -176,7 +175,6 @@ namespace Cave.Media
         /// <param name="stream">The stream.</param>
         /// <param name="format">The format.</param>
         /// <param name="quality">The quality.</param>
-        /// <exception cref="NotImplementedException"></exception>
         protected internal void Save(Stream stream, ImageFormat format, int quality)
         {
             ImageCodecInfo encoder = GetEncoder(format);
@@ -190,8 +188,10 @@ namespace Cave.Media
         /// </summary>
         public override void Dispose()
         {
-            graphics?.Dispose(); graphics = null;
-            bitmap?.Dispose(); bitmap = null;
+            graphics?.Dispose();
+            graphics = null;
+            bitmap?.Dispose();
+            bitmap = null;
         }
 
         /// <summary>Gets the data.</summary>
@@ -227,7 +227,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Clear the image with the specified color
+        /// Clear the image with the specified color.
         /// </summary>
         /// <param name="color"></param>
         public override void Clear(ARGB color)
