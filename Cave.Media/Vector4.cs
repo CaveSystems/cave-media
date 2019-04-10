@@ -59,7 +59,7 @@ namespace Cave.Media
         /// <param name="w">w value.</param>
         public static Vector4 Create(float x, float y, float z, float w)
         {
-            Vector4 l_Vector = new Vector4
+            var l_Vector = new Vector4
             {
                 X = x,
                 Y = y,
@@ -86,7 +86,7 @@ namespace Cave.Media
                 throw new ArgumentException(string.Format("Number of values do not match!"));
             }
 
-            Vector4 l_Vector = new Vector4
+            var l_Vector = new Vector4
             {
                 X = values[0],
                 Y = values[1],
@@ -127,133 +127,133 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Vector4"/> instances for equality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator ==(Vector4 A, Vector4 B)
+        public static bool operator ==(Vector4 first, Vector4 second)
         {
-            return Equals(null, A) ? Equals(null, B) : A.Equals(B);
+            return Equals(null, first) ? Equals(null, second) : first.Equals(second);
         }
 
         /// <summary>
         /// Checks two <see cref="Vector4"/> instances for inequality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator !=(Vector4 A, Vector4 B)
+        public static bool operator !=(Vector4 first, Vector4 second)
         {
-            return Equals(null, A) ? !Equals(null, B) : !A.Equals(B);
+            return Equals(null, first) ? !Equals(null, second) : !first.Equals(second);
         }
 
         /// <summary>
         /// provides addition.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 operator +(Vector4 A, Vector4 B)
+        public static Vector4 operator +(Vector4 first, Vector4 second)
         {
-            return Create(A.X + B.X, A.Y + B.Y, A.Z + B.Z, A.W + B.W);
+            return Create(first.X + second.X, first.Y + second.Y, first.Z + second.Z, first.W + second.W);
         }
 
         /// <summary>
         /// provides addition.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Add(Vector4 A, Vector4 B)
+        public static Vector4 Add(Vector4 first, Vector4 second)
         {
-            return Create(A.X + B.X, A.Y + B.Y, A.Z + B.Z, A.W + B.W);
+            return Create(first.X + second.X, first.Y + second.Y, first.Z + second.Z, first.W + second.W);
         }
 
         /// <summary>
         /// provides subtraction.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 operator -(Vector4 A, Vector4 B)
+        public static Vector4 operator -(Vector4 first, Vector4 second)
         {
-            return Create(A.X - B.X, A.Y - B.Y, A.Z - B.Z, A.W - B.W);
+            return Create(first.X - second.X, first.Y - second.Y, first.Z - second.Z, first.W - second.W);
         }
 
         /// <summary>
         /// provides subtraction.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Subtract(Vector4 A, Vector4 B)
+        public static Vector4 Subtract(Vector4 first, Vector4 second)
         {
-            return Create(A.X - B.X, A.Y - B.Y, A.Z - B.Z, A.W - B.W);
+            return Create(first.X - second.X, first.Y - second.Y, first.Z - second.Z, first.W - second.W);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 operator *(Vector4 A, float B)
+        public static Vector4 operator *(Vector4 first, float second)
         {
-            return Create(A.X * B, A.Y * B, A.Z * B, A.W * B);
+            return Create(first.X * second, first.Y * second, first.Z * second, first.W * second);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Muliply(Vector4 A, float B)
+        public static Vector4 Muliply(Vector4 first, float second)
         {
-            return Create(A.X * B, A.Y * B, A.Z * B, A.W * B);
+            return Create(first.X * second, first.Y * second, first.Z * second, first.W * second);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static float operator *(Vector4 A, Vector4 B)
+        public static float operator *(Vector4 first, Vector4 second)
         {
-            return (A.X * B.X) + (A.Y * B.Y) + (A.Z * B.Z) + (A.W * B.W);
+            return (first.X * second.X) + (first.Y * second.Y) + (first.Z * second.Z) + (first.W * second.W);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static float Mulitly(Vector4 A, Vector4 B)
+        public static float Mulitly(Vector4 first, Vector4 second)
         {
-            return (A.X * B.X) + (A.Y * B.Y) + (A.Z * B.Z) + (A.W * B.W);
+            return (first.X * second.X) + (first.Y * second.Y) + (first.Z * second.Z) + (first.W * second.W);
         }
 
         /// <summary>
         /// provides division.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 operator /(Vector4 A, float B)
+        public static Vector4 operator /(Vector4 first, float second)
         {
-            return Create(A.X / B, A.Y / B, A.Z / B, A.W / B);
+            return Create(first.X / second, first.Y / second, first.Z / second, first.W / second);
         }
 
         /// <summary>
         /// provides division.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Divide(Vector4 A, float B)
+        public static Vector4 Divide(Vector4 first, float second)
         {
-            return Create(A.X / B, A.Y / B, A.Z / B, A.W / B);
+            return Create(first.X / second, first.Y / second, first.Z / second, first.W / second);
         }
         #endregion
 
@@ -326,7 +326,7 @@ namespace Cave.Media
                 return false;
             }
 
-            Vector3 other = ((Vector4)obj).ToVector3();
+            var other = ((Vector4)obj).ToVector3();
             return ToVector3().Equals(other);
         }
 

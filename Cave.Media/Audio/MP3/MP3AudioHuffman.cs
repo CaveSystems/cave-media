@@ -12,7 +12,7 @@ using System;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>Huffman decoder for MPEG Audio.
-    /// Adapted from the ISO MPEG Audio Subgroup Software Simulation Group's public c source for its MPEG audio decoder. 
+    /// Adapted from the ISO MPEG Audio Subgroup Software Simulation Group's public c source for its MPEG audio decoder.
     /// Miscellaneous changes by Jeff Tsay(ctsay @pasteur.eecs.berkeley.edu).
     /// </summary>
     sealed class MP3AudioHuffman
@@ -20,7 +20,7 @@ namespace Cave.Media.Audio.MP3
         const int MXOFF = 250;
         const int TableCount = 34;
 
-        #region static part 
+        #region static part
         internal readonly static MP3AudioHuffman[] Tables;
 
         static MP3AudioHuffman()
@@ -165,7 +165,6 @@ namespace Cave.Media.Audio.MP3
             // array of all huffcodtable headers
             // 0..31 Huffman code table 0..31
             // 32,33 count1-tables
-
             int l_Level = 1 << ((4 * 8) - 1);
             int l_Point = 0;
             bool l_Success = false;
@@ -189,7 +188,7 @@ namespace Cave.Media.Audio.MP3
                     break;
                 }
 
-                // hget1bit() is called thousands of times, and so needs to be ultra fast. 
+                // hget1bit() is called thousands of times, and so needs to be ultra fast.
                 if (br.ReadBit())
                 {
                     while (Tree[l_Point][1] >= MXOFF)
@@ -259,7 +258,6 @@ namespace Cave.Media.Audio.MP3
                 // Process sign and escape encodings for dual tables.
                 // x and y are reversed in the test bitstream.
                 // Reverse x and y here to make test bitstream work.
-
                 if (LinBitCount != 0)
                 {
                     if ((XLength - 1) == x[0])

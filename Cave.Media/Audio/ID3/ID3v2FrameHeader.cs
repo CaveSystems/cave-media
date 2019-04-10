@@ -8,12 +8,12 @@ namespace Cave.Media.Audio.ID3
     /// </summary>
     public class ID3v2FrameHeader
     {
-        #region static functions        
+        #region static functions
 
         /// <summary>Gets the size of the header.</summary>
         /// <param name="header">The header.</param>
         /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
         public static int GetHeaderSize(ID3v2Header header)
         {
             switch (header.Version)
@@ -31,7 +31,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="flags">The flags.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
         public static ID3v2FrameHeader Create(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
             switch (header.Version)
@@ -49,8 +49,8 @@ namespace Cave.Media.Audio.ID3
         /// <param name="flags">The flags.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">Invalid identifier!.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException">Invalid identifier!.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion4(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
             if (id.Length != 4)
@@ -81,8 +81,8 @@ namespace Cave.Media.Audio.ID3
         /// <param name="flags">The flags.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">Invalid identifier!.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException">Invalid identifier!.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion3(ID3v2Header header, string id, ID3v2FrameFlags flags, int contentSize)
         {
             if (id.Length != 4)
@@ -112,8 +112,8 @@ namespace Cave.Media.Audio.ID3
         /// <param name="id">The identifier.</param>
         /// <param name="contentSize">Size of the frame content.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">Invalid identifier!.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException">Invalid identifier!.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static ID3v2FrameHeader CreateVersion2(ID3v2Header header, string id, int contentSize)
         {
             if (id.Length != 3)
@@ -143,7 +143,7 @@ namespace Cave.Media.Audio.ID3
         {
             HeaderSize = 10;
             ID = ASCII.GetCleanString(data, 0, 4);
-            ID3v2d4FrameFlags flags = (ID3v2d4FrameFlags)((data[8] << 8) | data[9]);
+            var flags = (ID3v2d4FrameFlags)((data[8] << 8) | data[9]);
             Flags = ID3v2FrameFlags.FromID3v2d4(flags);
             int size = 0;
             for (int i = 4; i < 8; i++)
@@ -161,7 +161,7 @@ namespace Cave.Media.Audio.ID3
         {
             HeaderSize = 10;
             ID = ASCII.GetString(data, 0, 4);
-            ID3v2d3FrameFlags flags = (ID3v2d3FrameFlags)((data[8] << 8) | data[9]);
+            var flags = (ID3v2d3FrameFlags)((data[8] << 8) | data[9]);
             Flags = ID3v2FrameFlags.FromID3v2d3(flags);
             int size = 0;
             for (int i = 4; i < 8; i++)
@@ -244,8 +244,8 @@ namespace Cave.Media.Audio.ID3
             }
         }
 
-        /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return $"ID3v2.{TagHeader.Version}Frame {ID} [{ContentSize}]";

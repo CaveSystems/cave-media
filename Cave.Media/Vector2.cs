@@ -55,7 +55,7 @@ namespace Cave.Media
         /// <param name="y">y value.</param>
         public static Vector2 Create(float x, float y)
         {
-            Vector2 result = new Vector2
+            var result = new Vector2
             {
                 X = x,
                 Y = y,
@@ -80,7 +80,7 @@ namespace Cave.Media
                 throw new ArgumentException(string.Format("Number of values do not match!"));
             }
 
-            Vector2 result = new Vector2
+            var result = new Vector2
             {
                 X = values[0],
                 Y = values[1],
@@ -291,7 +291,7 @@ namespace Cave.Media
                 return false;
             }
 
-            Vector2 other = (Vector2)obj;
+            var other = (Vector2)obj;
             return (other.X == X) && (other.Y == Y);
         }
 

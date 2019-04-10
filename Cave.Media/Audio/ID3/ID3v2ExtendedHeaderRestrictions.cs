@@ -17,9 +17,9 @@ namespace Cave.Media.Audio.ID3
         public static ID3v2ExtendedHeaderRestrictions FromID3v24(byte value)
         {
             ID3v2ImageSize l_ImageSize;
-            ID3v2ExtendedHeaderSizeRestriction size = (ID3v2ExtendedHeaderSizeRestriction)(value >> 6);
+            var size = (ID3v2ExtendedHeaderSizeRestriction)(value >> 6);
             bool textEncoding = (value & 0x20) != 0;
-            ID3v2ExtendedHeaderTextRestriction textLength = (ID3v2ExtendedHeaderTextRestriction)((value >> 3) & 0x03);
+            var textLength = (ID3v2ExtendedHeaderTextRestriction)((value >> 3) & 0x03);
             bool l_ImageEncoding = (value & 0x4) != 0;
             switch (value & 0x03)
             {

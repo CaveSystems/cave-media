@@ -26,14 +26,14 @@ namespace Cave.Media.Audio.OPENAL
         public static readonly object SyncRoot = new object();
 
         /// <summary>
-        /// The number buffers per second to use when writing to the device. 
+        /// The number buffers per second to use when writing to the device.
         /// Higher numbers increase cpu usage but increase the accuracy, too and decrease the device latency.
         /// It is recommended not to use more than 100 buffers per second. (May result in cracks and clicks at the output.)
         /// </summary>
         public static int BuffersPerSecond = 10;
 
         #region OpenAL AL* Constants
-#pragma warning disable 1591
+#pragma warning disable 1591, SA1310
         public const int AL_INVALID = -1;
         public const int AL_NONE = 0;
         public const int AL_FALSE = 0;
@@ -239,7 +239,7 @@ namespace Cave.Media.Audio.OPENAL
         public const int AL_BANDPASS_GAIN = 0x0001;
         public const int AL_BANDPASS_GAINLF = 0x0002;
         public const int AL_BANDPASS_GAINHF = 0x0003;
-#pragma warning restore 1591
+#pragma warning restore 1591, SA1310
         #endregion
 
         #region OpenAL ALC* Constants
@@ -312,382 +312,550 @@ namespace Cave.Media.Audio.OPENAL
         {
             #region OpenAL AL* Functions
 #pragma warning disable 1591
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBufferData(int buffer, int format, [In] byte[] data, int size, int frequency);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBufferData(int buffer, int format, [In] IntPtr data, int size, int frequency);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBufferf(int bid, int param, float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBuffer3f(int bid, int param, float value1, float value2, float value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBufferfv(int bid, int param, out float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBufferi(int bid, int param, int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBuffer3i(int bid, int param, int value1, int value2, int value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alBufferiv(int bid, int param, out int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteBuffers(int number, [In] ref int buffer);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteBuffers(int number, [In] int[] buffers);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteBuffers(int number, [In] IntPtr buffers);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteSources(int number, [In] ref int sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteSources(int number, [In] int[] sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteSources(int number, [In] IntPtr sources);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDisable(int capability);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDistanceModel(int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDopplerFactor(float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDopplerVelocity(float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSpeedOfSound(float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alEnable(int capability);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGenBuffers(int number, out int buffer);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGenBuffers(int number, [Out] int[] buffers);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGenBuffers(int number, [Out] IntPtr buffers);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGenSources(int number, out int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGenSources(int number, [Out] int[] sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGenSources(int number, [Out] IntPtr sources);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGetBoolean(int state);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBooleanv(int state, out int output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBooleanv(int state, [Out] int[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBooleanv(int state, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferf(int buffer, int attribute, out int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferf(int buffer, int attribute, [Out] int[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferf(int buffer, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBuffer3f(int buffer, int attribute, out float value1, out float value2, out float value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferfv(int buffer, int attribute, out float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferfv(int buffer, int attribute, [Out] float[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferfv(int buffer, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferi(int buffer, int attribute, out int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferi(int buffer, int attribute, [Out] int[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferi(int buffer, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBuffer3i(int buffer, int attribute, out int value1, out int value2, out int value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferiv(int buffer, int attribute, out int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferiv(int buffer, int attribute, [Out] int[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetBufferiv(int buffer, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern double alGetDouble(int state);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetDoublev(int state, out double output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetDoublev(int state, [Out] double[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetDoublev(int state, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGetEnumValue(string enumName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGetError();
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern float alGetFloat(int state);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetFloatv(int state, out float output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetFloatv(int state, [Out] float[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetFloatv(int state, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGetInteger(int state);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetIntegerv(int state, out int output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetIntegerv(int state, [Out] int[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetIntegerv(int state, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListener3f(int attribute, out float output1, out float output2, out float output3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListener3f(int attribute, [Out] float[] output1, [Out] float[] output2, [Out] float[] output3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListener3f(int attribute, [Out] IntPtr output1, [Out] IntPtr output2, [Out] IntPtr output3);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListenerf(int attribute, out float output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListenerf(int attribute, [Out] float[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListenerf(int attribute, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListenerfv(int attribute, out float output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListenerfv(int attribute, [Out] float[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListenerfv(int attribute, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListeneri(int attribute, out int output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListeneri(int attribute, [Out] int[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListeneri(int attribute, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListener3i(int attribute, out int output1, out int output2, out int output3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListeneriv(int attribute, out int output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListeneriv(int attribute, [Out] int[] output);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetListeneriv(int attribute, [Out] IntPtr output);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alGetProcAddress(string functionName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSource3f(int source, int attribute, out float value1, out float value2, out float value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSource3f(int source, int attribute, [Out] float[] value1, [Out] float[] value2, [Out] float[] value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSource3f(int source, int attribute, [Out] IntPtr value1, [Out] IntPtr value2, [Out] IntPtr value3);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcef(int source, int attribute, out float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcef(int source, int attribute, [Out] float[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcef(int source, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcefv(int source, int attribute, out float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcefv(int source, int attribute, [Out] float[] values);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcefv(int source, int attribute, [Out] IntPtr values);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcei(int source, int attribute, out int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcei(int source, int attribute, [Out] int[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourcei(int source, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSource3i(int source, int attribute, out int value1, out int value2, out int value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourceiv(int source, int attribute, out int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourceiv(int source, int attribute, [Out] int[] val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alGetSourceiv(int source, int attribute, [Out] IntPtr val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             private static extern IntPtr alGetString(int state);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alHint(int target, int mode);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alIsBuffer(int buffer);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alIsEnabled(int capability);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alIsExtensionPresent(string extensionName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alIsSource(int id);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListener3f(int attribute, float value1, float value2, float value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListenerf(int attribute, float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListenerfv(int attribute, [In] ref float values);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListenerfv(int attribute, [In] float[] values);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListenerfv(int attribute, [In] IntPtr values);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListeneri(int attribute, int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListener3i(int attribute, int value1, int value2, int value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alListeneriv(int attribute, [In] ref int values);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alQueuei(int source, int attribute, int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSource3f(int source, int attribute, float value1, float value2, float value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcef(int source, int attribute, float val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcefv(int source, int attribute, [In] ref float values);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcefv(int source, int attribute, [In] float[] values);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcefv(int source, int attribute, [In] IntPtr values);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcei(int source, int attribute, int val);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSource3i(int source, int attribute, int value1, int value2, int value3);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePause(int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePausev(int number, [In] ref int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePausev(int number, [In] int[] sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePausev(int number, [In] IntPtr sources);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePlay(int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePlayv(int number, [In] ref int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePlayv(int number, [In] int[] sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourcePlayv(int number, [In] IntPtr sources);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceQueueBuffers(int source, int number, [In] ref int buffer);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceQueueBuffers(int source, int number, [In] int[] buffers);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceQueueBuffers(int source, int number, [In] IntPtr buffers);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceRewind(int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceRewindv(int number, [In] ref int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceRewindv(int number, [In] int[] sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceRewindv(int number, [In] IntPtr sources);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceStop(int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceStopv(int number, [In] ref int source);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceStopv(int number, [In] int[] sources);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceStopv(int number, [In] IntPtr sources);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceUnqueueBuffers(int source, int number, [In] ref int buffer);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceUnqueueBuffers(int source, int number, [In] int[] buffers);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alSourceUnqueueBuffers(int source, int number, [In] IntPtr buffers);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGenEnvironmentIASIG(int number, out int environments);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGenEnvironmentIASIG(int number, [Out] int[] environments);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alGenEnvironmentIASIG(int number, [Out] IntPtr environments);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteEnvironmentIASIG(int number, [In] ref int environments);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteEnvironmentIASIG(int number, [In] int[] environments);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alDeleteEnvironmentIASIG(int number, [In] IntPtr environments);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alIsEnvironmentIASIG(int environment);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alEnvironmentiIASIG(int environmentId, int attribute, int val);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alEnvironmentfIASIG(int environmentId, int attribute, int val);
 #pragma warning restore 1591
             #endregion
 
             #region OpenAL ALC* Functions
 #pragma warning disable 1591
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcCloseDevice([In] IntPtr device);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcCreateContext([In] IntPtr device, [In] ref int attribute);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcCreateContext([In] IntPtr device, [In] int[] attribute);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcCreateContext([In] IntPtr device, [In] IntPtr attribute);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcDestroyContext([In] IntPtr context);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcGetContextsDevice([In] IntPtr context);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcGetCurrentContext();
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alcGetEnumValue([In] IntPtr device, string enumName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alcGetError([In] IntPtr device);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcGetIntegerv([In] IntPtr device, int attribute, int size, out int data);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcGetIntegerv([In] IntPtr device, int attribute, int size, [Out] int[] data);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcGetIntegerv([In] IntPtr device, int attribute, int size, [Out] IntPtr data);
 
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcGetProcAddress([In] IntPtr device, string functionName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             private static extern IntPtr alcGetString([In] IntPtr device, int attribute);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alcIsExtensionPresent([In] IntPtr device, string extensionName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alcMakeContextCurrent([In] IntPtr context);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION, CharSet = CharSet.Ansi)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcOpenDevice(byte[] deviceName);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcProcessContext([In] IntPtr context);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcSuspendContext([In] IntPtr context);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern IntPtr alcCaptureOpenDevice(byte[] devicename, int frequency, int format, int buffersize);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern int alcCaptureCloseDevice([In] IntPtr device);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcCaptureStart([In] IntPtr device);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcCaptureStop([In] IntPtr device);
-            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION), SuppressUnmanagedCodeSecurity]
+            [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
+            [SuppressUnmanagedCodeSecurity]
             public static extern void alcCaptureSamples([In] IntPtr device, [In] IntPtr buffer, int samples);
 #pragma warning restore 1591
             #endregion

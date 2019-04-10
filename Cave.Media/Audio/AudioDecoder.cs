@@ -16,7 +16,7 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides a abstract base class for audio decoder implementations.
     /// </summary>
-    /// <seealso cref="Cave.Media.Audio.IAudioDecoder" />
+    /// <seealso cref="IAudioDecoder" />
     public abstract class AudioDecoder : IAudioDecoder
     {
         /// <summary>Called when [decoding a frame].</summary>

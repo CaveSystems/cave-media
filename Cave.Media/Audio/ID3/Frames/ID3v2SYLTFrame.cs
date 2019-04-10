@@ -114,7 +114,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             // encoding
-            ID3v2EncodingType encoding = (ID3v2EncodingType)m_Content[0];
+            var encoding = (ID3v2EncodingType)m_Content[0];
 
             // language
             m_Language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
@@ -139,7 +139,7 @@ namespace Cave.Media.Audio.ID3.Frames
             start += ID3v2Encoding.Parse(encoding, m_Content, start, out m_Descriptor);
 
             // read events
-            List<Event> l_Events = new List<Event>();
+            var l_Events = new List<Event>();
             while (start < m_Content.Length)
             {
                 string text;

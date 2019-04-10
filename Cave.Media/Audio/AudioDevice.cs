@@ -99,7 +99,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            IAudioDevice other = obj as IAudioDevice;
+            var other = obj as IAudioDevice;
             return other == null ? false : Equals(other.Name, m_Name);
         }
 

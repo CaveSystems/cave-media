@@ -16,7 +16,7 @@ namespace Cave.Media.Lyrics
         /// <exception cref="NotImplementedException"></exception>
         public static ISynchronizedLyricsCommand Parse(DataReader reader)
         {
-            SynchronizedLyricsCommandType type = (SynchronizedLyricsCommandType)reader.Read7BitEncodedInt64();
+            var type = (SynchronizedLyricsCommandType)reader.Read7BitEncodedInt64();
             switch (type)
             {
                 case SynchronizedLyricsCommandType.None: return null;
@@ -41,8 +41,8 @@ namespace Cave.Media.Lyrics
         /// <param name="type">The type.</param>
         protected SynchronizedLyricsCommand(SynchronizedLyricsCommandType type) { Type = type; }
 
-        /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return Type.ToString();

@@ -86,7 +86,7 @@ namespace Cave.Media
         /// <returns>sum of the colors.</returns>
         public static ARGB operator +(ARGB v1, ARGB v2)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = (byte)Math.Min(255, v1.Alpha + v2.Alpha),
                 Red = (byte)Math.Min(255, v1.Red + v2.Red),
@@ -104,7 +104,7 @@ namespace Cave.Media
         /// <returns>difference of the colors.</returns>
         public static ARGB operator -(ARGB v1, ARGB v2)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = (byte)Math.Max(0, v1.Alpha - v2.Alpha),
                 Red = (byte)Math.Max(0, v1.Red - v2.Red),
@@ -223,7 +223,7 @@ namespace Cave.Media
                     const float _1_3 = 1f / 3f;
                     const float _60 = 3.141593f * 2f / 6f;
 
-                    ARGB result = new ARGB
+                    var result = new ARGB
                     {
                         Alpha = 255,
                     };
@@ -292,7 +292,7 @@ namespace Cave.Media
                 if (g > steps) { b += g % steps; }
                 if (b > steps) { r += b % steps; } else { break; }
             }
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = 0xFF,
                 RedFloat = ((r % steps) / (3f * steps)) + 0.667f,
@@ -331,7 +331,7 @@ namespace Cave.Media
                 if (b > steps) { r += b % steps; }
                 else { break; }
             }
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = 0xFF,
                 RedFloat = (r % steps) / (3f * steps),
@@ -374,7 +374,7 @@ namespace Cave.Media
         public static unsafe ARGB FromPointer(void* value)
         {
             if (value == null) { throw new ArgumentNullException("Value"); }
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 AsUInt32 = *((uint*)value),
             };
@@ -388,7 +388,7 @@ namespace Cave.Media
         /// <returns>new argb color.</returns>
         public static ARGB FromValue(uint value)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 AsUInt32 = value,
             };
@@ -402,7 +402,7 @@ namespace Cave.Media
         /// <returns>new argb color.</returns>
         public static ARGB FromValue(int value)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 AsInt32 = value,
             };
@@ -416,7 +416,7 @@ namespace Cave.Media
         /// <returns>new argb color.</returns>
         public static ARGB FromColor(Color color)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 AsInt32 = color.ToArgb(),
             };
@@ -433,7 +433,7 @@ namespace Cave.Media
         public static ARGB FromString(string text)
         {
             if (text == null) { throw new ArgumentNullException("String"); }
-            ARGB result = default(ARGB);
+            var result = default(ARGB);
             if (text.StartsWith("#"))
             {
                 result.AsUInt32 = Convert.ToUInt32(text.Substring(1), 16);
@@ -468,7 +468,7 @@ namespace Cave.Media
         /// <returns>new argb color.</returns>
         public static ARGB FromGrayScale(byte gray)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = 255,
                 Red = gray,
@@ -487,7 +487,7 @@ namespace Cave.Media
         /// <returns>new argb color.</returns>
         public static ARGB FromColor(byte red, byte green, byte blue)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = 255,
                 Red = red,
@@ -507,7 +507,7 @@ namespace Cave.Media
         /// <returns>new argb color struct.</returns>
         public static ARGB FromColor(byte alpha, byte red, byte green, byte blue)
         {
-            ARGB result = new ARGB
+            var result = new ARGB
             {
                 Alpha = alpha,
                 Red = red,

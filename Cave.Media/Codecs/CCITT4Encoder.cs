@@ -73,7 +73,7 @@ namespace Cave.Media.Codecs
         /// <returns></returns>
         public byte[] EncodeRow(byte[] data)
         {
-            BitStreamReader reader = new BitStreamReader(new MemoryStream(data));
+            var reader = new BitStreamReader(new MemoryStream(data));
             int counter = 0;
             Initialize();
 

@@ -146,9 +146,9 @@ namespace Cave.Media
         /// <returns>Returns the resulting color palette.</returns>
         public ARGB[] GetColors(uint colorCount)
         {
-            List<ColorCounter> colorCounters = new List<ColorCounter>();
+            var colorCounters = new List<ColorCounter>();
             {
-                Dictionary<int, ColorCounter> colorDict = new Dictionary<int, ColorCounter>();
+                var colorDict = new Dictionary<int, ColorCounter>();
                 for (int i = 0; i < Data.Length; i++)
                 {
                     int color = Data[i];
@@ -197,7 +197,7 @@ namespace Cave.Media
                 width = Width;
             }
 
-            ARGBImageData result = new ARGBImageData(width, height);
+            var result = new ARGBImageData(width, height);
             int targetIndex = 0;
             int moveX = (Width << 10) / width;
             int moveY = ((Height << 10) / height) - 1;
@@ -232,7 +232,7 @@ namespace Cave.Media
                 width = Width;
             }
 
-            ARGBImageData result = new ARGBImageData(width, height);
+            var result = new ARGBImageData(width, height);
             int w = Width;
             int h = Height;
 
@@ -274,7 +274,7 @@ namespace Cave.Media
                 throw new NotSupportedException();
             }
 
-            ARGBImageData result = new ARGBImageData(width, height);
+            var result = new ARGBImageData(width, height);
 
             int heightCenterTop = (height - Height) / 2;
             if (l_TileY)
@@ -414,7 +414,7 @@ namespace Cave.Media
                 Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", Stride, imgData.Stride));
                 IntPtr start = imgData.Scan0;
                 int index = 0;
-                for(int y = 0; y < Height; y++)
+                for (int y = 0; y < Height; y++)
                 {
                     Marshal.Copy(Data, index, start, Data.Length);
                     index += Stride;
@@ -442,7 +442,7 @@ namespace Cave.Media
         /// </summary>
         public System.Drawing.Bitmap ToGdiBitmap()
         {
-            System.Drawing.Bitmap result = new System.Drawing.Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var result = new System.Drawing.Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             CopyToBitmap(result);
             return result;
         }

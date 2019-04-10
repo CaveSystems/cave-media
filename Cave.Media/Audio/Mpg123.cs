@@ -272,7 +272,7 @@ namespace Cave.Media.Audio
                 return null;
             }
 
-            FifoBuffer outBuffer = new FifoBuffer();
+            var outBuffer = new FifoBuffer();
             bool l_Loop = true;
             while (l_Loop)
             {
@@ -299,7 +299,7 @@ namespace Cave.Media.Audio
             }
             if (outBuffer.Length > 0)
             {
-                AudioData resultData = new AudioData(m_CurrentConfig.SamplingRate, m_CurrentConfig.Format, m_CurrentConfig.ChannelSetup, m_CurrentTimeStamp, 0, -1, outBuffer.ToArray());
+                var resultData = new AudioData(m_CurrentConfig.SamplingRate, m_CurrentConfig.Format, m_CurrentConfig.ChannelSetup, m_CurrentTimeStamp, 0, -1, outBuffer.ToArray());
                 m_CurrentTimeStamp += resultData.Duration;
                 return resultData;
             }

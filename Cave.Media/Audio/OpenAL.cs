@@ -60,10 +60,10 @@ namespace Cave.Media.Audio
                 lock (OAL.SyncRoot)
                 {
                     string[] devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
-                    List<IAudioDevice> result = new List<IAudioDevice>(devices.Length);
+                    var result = new List<IAudioDevice>(devices.Length);
                     for (int i = 0; i < devices.Length; i++)
                     {
-                        OALDevice device = new OALDevice(this, devices[i]);
+                        var device = new OALDevice(this, devices[i]);
                         if (device.SupportsRecording)
                         {
                             result.Add(device);
@@ -88,10 +88,10 @@ namespace Cave.Media.Audio
                 lock (OAL.SyncRoot)
                 {
                     string[] devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
-                    List<IAudioDevice> result = new List<IAudioDevice>(devices.Length);
+                    var result = new List<IAudioDevice>(devices.Length);
                     for (int i = 0; i < devices.Length; i++)
                     {
-                        OALDevice l_Device = new OALDevice(this, devices[i]);
+                        var l_Device = new OALDevice(this, devices[i]);
                         if (l_Device.SupportsPlayback)
                         {
                             result.Add(l_Device);

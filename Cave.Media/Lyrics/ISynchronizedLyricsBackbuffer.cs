@@ -32,7 +32,7 @@ namespace Cave.Media.Lyrics
         /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
         /// Do not save references to this across play calls!
         /// </remarks>
-        System.Drawing.Bitmap ToBitmap();
+        Bitmap ToBitmap();
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif

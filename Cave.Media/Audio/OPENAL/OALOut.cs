@@ -211,7 +211,7 @@ namespace Cave.Media.Audio.OPENAL
         }
         #endregion
 
-        #region public overrides                
+        #region public overrides
 
         /// <summary>Gets or sets the pitch.</summary>
         /// <value>The pitch.</value>

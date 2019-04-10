@@ -686,7 +686,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            IAudioData other = obj as IAudioData;
+            var other = obj as IAudioData;
             return other == null ? false : Equals(other) && DefaultComparer.Equals(other.Data, Data);
         }
 

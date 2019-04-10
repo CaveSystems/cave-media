@@ -22,7 +22,8 @@ namespace Cave.Media.OpenGL
         /// to the <c>Contents/Resources</c> subdirectory of the application's bundle, if present.
         /// </remarks>
         /// <seealso cref="Terminate"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwInit"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwInit")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool Init();
 
@@ -39,7 +40,8 @@ namespace Cave.Media.OpenGL
         /// This function may be called before <see cref="Init"/>.
         /// </remarks>
         /// <seealso cref="Init"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwTerminate"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwTerminate")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void Terminate();
 
         /// <summary>
@@ -54,7 +56,8 @@ namespace Cave.Media.OpenGL
         /// This function may be called before <see cref="Init"/>.
         /// </remarks>
         /// <seealso cref="GetVersionString"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetVersion"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetVersion")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void GetVersion(out int major, out int minor, out int rev);
 
         /// <summary>
@@ -73,7 +76,8 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="GetVersion(out int, out int, out int)"/>
         public static unsafe string GetVersionString() => FromUTF8(glfwGetVersionString());
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetVersionString();
 
         /// <summary>
@@ -95,7 +99,8 @@ namespace Cave.Media.OpenGL
         /// </remarks>
         public static void SetErrorCallback(ErrorFunc callback) => glfwSetErrorCallback(Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetErrorCallback(IntPtr callback);
 
         /// <summary>
@@ -128,7 +133,8 @@ namespace Cave.Media.OpenGL
             return monitors;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe IntPtr glfwGetMonitors(int* count);
 
         /// <summary>
@@ -141,7 +147,8 @@ namespace Cave.Media.OpenGL
         /// The primary monitor is always first in the array returned by <see cref="GetMonitors"/>.
         /// </remarks>
         /// <seealso cref="GetMonitors"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetPrimaryMonitor"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetPrimaryMonitor")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Struct)]
         public static extern Monitor GetPrimaryMonitor();
 
@@ -160,7 +167,8 @@ namespace Cave.Media.OpenGL
             ypos = yy;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetMonitorPos(IntPtr monitor, int* xpos, int* ypos);
 
         /// <summary>
@@ -187,7 +195,8 @@ namespace Cave.Media.OpenGL
             heightMM = hh;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetMonitorPhysicalSize(IntPtr monitor, int* widthMM, int* heightMM);
 
         /// <summary>
@@ -200,7 +209,8 @@ namespace Cave.Media.OpenGL
         /// occurred.</returns>
         public static unsafe string GetMonitorName(Monitor monitor) => FromUTF8(glfwGetMonitorName(monitor.Ptr));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetMonitorName(IntPtr monitor);
 
         /// <summary>
@@ -211,7 +221,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetMonitorCallback(MonitorFunc callback) => glfwSetMonitorCallback(Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetMonitorCallback(IntPtr callback);
 
         /// <summary>
@@ -242,7 +253,8 @@ namespace Cave.Media.OpenGL
             return result;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe VideoMode* glfwGetVideoModes(IntPtr monitor, int* count);
 
         /// <summary>
@@ -259,7 +271,8 @@ namespace Cave.Media.OpenGL
             return (VideoMode)Marshal.PtrToStructure(ptr, typeof(VideoMode));
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetVideoMode(IntPtr monitor);
 
         /// <summary>
@@ -271,7 +284,8 @@ namespace Cave.Media.OpenGL
         /// <param name="gamma">The desired exponent.</param>
         public static void SetGamma(Monitor monitor, float gamma) => glfwSetGamma(monitor.Ptr, gamma);
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwSetGamma(IntPtr monitor, float gamma);
 
         /// <summary>
@@ -300,7 +314,8 @@ namespace Cave.Media.OpenGL
             return ramp;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe InternalGammaRamp* glfwGetGammaRamp(IntPtr monitor);
 
         /// <summary>
@@ -330,7 +345,8 @@ namespace Cave.Media.OpenGL
             }
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwSetGammaRamp(IntPtr monitor, InternalGammaRamp ramp);
 
         /// <summary>
@@ -339,7 +355,8 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="WindowHint(Hint, bool)"/>
         /// <seealso cref="WindowHint(Hint, Enum)"/>
         /// <seealso cref="WindowHint(Hint, int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwDefaultWindowHints"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwDefaultWindowHints")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void DefaultWindowHints();
 
         /// <summary>
@@ -392,7 +409,8 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="DefaultWindowHints"/>
         public static void WindowHint(Hint hint, Enum value) => glfwWindowHint((int)hint, Convert.ToInt32(value));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwWindowHint(int target, int hint);
 
         /// <summary>
@@ -471,10 +489,10 @@ namespace Cave.Media.OpenGL
                 height,
                 ToUTF8(title),
                 monitor.HasValue ? monitor.Value.Ptr : IntPtr.Zero,
-                share.HasValue ? share.Value.Ptr : IntPtr.Zero
-               );
+                share.HasValue ? share.Value.Ptr : IntPtr.Zero);
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Struct)]
         static extern Window glfwCreateWindow(int width, int height, IntPtr title, IntPtr monitor, IntPtr share);
 
@@ -486,7 +504,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="window">The window to destroy.</param>
         /// <seealso cref="CreateWindow"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwDestroyWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwDestroyWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void DestroyWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -494,7 +513,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="window">The window to query.</param>
         /// <returns>The value of the close flag.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwWindowShouldClose"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwWindowShouldClose")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WindowShouldClose([MarshalAs(UnmanagedType.Struct)] Window window);
 
@@ -505,7 +525,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="window">The window whose flag to change.</param>
         /// <param name="value">The new value.</param>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowShouldClose"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowShouldClose")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowShouldClose([MarshalAs(UnmanagedType.Struct)] Window window, [MarshalAs(UnmanagedType.Bool)] bool value);
 
         /// <summary>
@@ -519,7 +540,8 @@ namespace Cave.Media.OpenGL
         /// </remarks>
         public static void SetWindowTitle(Window window, string title) => glfwSetWindowTitle(window.Ptr, ToUTF8(title));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwSetWindowTitle(IntPtr window, IntPtr title);
 
         /// <summary>
@@ -594,7 +616,8 @@ namespace Cave.Media.OpenGL
             }
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwSetWindowIcon(IntPtr window, int count, IntPtr images);
 
         /// <summary>
@@ -615,7 +638,8 @@ namespace Cave.Media.OpenGL
             ypos = yy;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetWindowPos(IntPtr window, int* xpos, int* ypos);
 
         /// <summary>
@@ -631,7 +655,8 @@ namespace Cave.Media.OpenGL
         /// <param name="xpos">The x-coordinate of the upper-left corner of the client area.</param>
         /// <param name="ypos">The y-coordinate of the upper-left corner of the client area.</param>
         /// <seealso cref="GetWindowPos(Window, out int, out int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowPos"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowPos")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowPos([MarshalAs(UnmanagedType.Struct)] Window window, int xpos, int ypos);
 
         /// <summary>
@@ -653,7 +678,8 @@ namespace Cave.Media.OpenGL
             height = h;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetWindowSize(IntPtr window, int* width, int* height);
 
         /// <summary>
@@ -678,7 +704,8 @@ namespace Cave.Media.OpenGL
         /// If you set size limits and an aspect ratio that conflict, the results are undefined.
         /// </remarks>
         /// <seealso cref="SetWindowAspectRatio(Window, int, int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowSizeLimits"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowSizeLimits")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowSizeLimits([MarshalAs(UnmanagedType.Struct)] Window window, int minwidth, int minheight, int maxwidth, int maxheight);
 
         /// <summary>
@@ -702,7 +729,8 @@ namespace Cave.Media.OpenGL
         /// If you set size limits and an aspect ratio that conflict, the results are undefined.
         /// </remarks>
         /// <seealso cref="SetWindowSizeLimits(Window, int, int, int, int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowAspectRatio"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowAspectRatio")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowAspectRatio([MarshalAs(UnmanagedType.Struct)] Window window, int numer, int denom);
 
         /// <summary>
@@ -724,7 +752,8 @@ namespace Cave.Media.OpenGL
         /// area.</param>
         /// <seealso cref="GetWindowSize(Window, out int, out int)"/>
         /// <seealso cref="SetWindowMonitor(Window, Monitor, int, int, int, int, int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowSize"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowSize")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowSize([MarshalAs(UnmanagedType.Struct)] Window window, int width, int height);
 
         /// <summary>
@@ -744,7 +773,8 @@ namespace Cave.Media.OpenGL
             height = h;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetFramebufferSize(IntPtr window, int* width, int* height);
 
         /// <summary>
@@ -775,7 +805,8 @@ namespace Cave.Media.OpenGL
             bottom = b;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetWindowFrameSize(IntPtr window, int* left, int* top, int* right, int* bottom);
 
         /// <summary>
@@ -787,7 +818,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window to iconify.</param>
         /// <seealso cref="RestoreWindow(Window)"/>
         /// <seealso cref="MaximizeWindow(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwIconifyWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwIconifyWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void IconifyWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -800,7 +832,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window to restore.</param>
         /// <seealso cref="IconifyWindow(Window)"/>
         /// <seealso cref="MaximizeWindow(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwRestoreWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwRestoreWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void RestoreWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -812,7 +845,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window to maximize.</param>
         /// <seealso cref="IconifyWindow(Window)"/>
         /// <seealso cref="RestoreWindow(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwMaximizeWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwMaximizeWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void MaximizeWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -821,7 +855,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="window">The window to make visible.</param>
         /// <seealso cref="HideWindow(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwShowWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwShowWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void ShowWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -830,7 +865,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="window">The window to hide.</param>
         /// <seealso cref="ShowWindow(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwHideWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwHideWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void HideWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -843,7 +879,8 @@ namespace Cave.Media.OpenGL
         /// disruptive.</para>
         /// </summary>
         /// <param name="window">The window to give input focus.</param>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwFocusWindow"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwFocusWindow")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void FocusWindow([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -860,7 +897,8 @@ namespace Cave.Media.OpenGL
             return new Monitor(ptr);
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetWindowMonitor(IntPtr window);
 
         /// <summary>
@@ -893,7 +931,8 @@ namespace Cave.Media.OpenGL
         /// <see cref="DontCare"/>.</param>
         /// <seealso cref="GetWindowMonitor(Window)"/>
         /// <seealso cref="SetWindowSize(Window, int, int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowMonitor"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowMonitor")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowMonitor([MarshalAs(UnmanagedType.Struct)] Window window, [MarshalAs(UnmanagedType.Struct)] Monitor monitor, int xpos, int ypos, int width, int height, int refreshRate);
 
         /// <summary>
@@ -908,7 +947,8 @@ namespace Cave.Media.OpenGL
         /// </remarks>
         public static bool GetWindowAttrib(Window window, WindowAttrib attrib) => glfwGetWindowAttrib(window.Ptr, Convert.ToInt32(attrib)) != 0;
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern int glfwGetWindowAttrib(IntPtr window, int attrib);
 
         /// <summary>
@@ -918,7 +958,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window whose pointer to set.</param>
         /// <param name="ptr">The new value.</param>
         /// <seealso cref="GetWindowUserPointer(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowUserPointer"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetWindowUserPointer")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetWindowUserPointer([MarshalAs(UnmanagedType.Struct)] Window window, IntPtr ptr);
 
         /// <summary>
@@ -928,7 +969,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window whose pointer to return.</param>
         /// <returns>The user-defined pointer of the specified window.</returns>
         /// <seealso cref="SetWindowUserPointer(Window, IntPtr)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetWindowUserPointer"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetWindowUserPointer")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern IntPtr GetWindowUserPointer([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -941,7 +983,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetWindowPosCallback(Window window, WindowPosFunc callback) => glfwSetWindowPosCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetWindowPosCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -954,7 +997,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetWindowSizeCallback(Window window, WindowSizeFunc callback) => glfwSetWindowSizeCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetWindowSizeCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -974,7 +1018,8 @@ namespace Cave.Media.OpenGL
         /// </remarks>
         public static void SetWindowCloseCallback(Window window, WindowCloseFunc callback) => glfwSetWindowCloseCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetWindowCloseCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -990,7 +1035,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetWindowRefreshCallback(Window window, WindowRefreshFunc callback) => glfwSetWindowRefreshCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetWindowRefreshCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1006,7 +1052,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetWindowFocusCallback(Window window, WindowFocusFunc callback) => glfwSetWindowFocusCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetWindowFocusCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1018,7 +1065,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetWindowIconifyCallback(Window window, WindowIconifyFunc callback) => glfwSetWindowIconifyCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetWindowIconifyCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1030,7 +1078,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetFramebufferSizeCallback(Window window, FramebufferSizeFunc callback) => glfwSetFramebufferSizeCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetFramebufferSizeCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1048,7 +1097,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <seealso cref="WaitEvents"/>
         /// <seealso cref="WaitEventsTimeout(double)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwPollEvents"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwPollEvents")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void PollEvents();
 
         /// <summary>
@@ -1072,7 +1122,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <seealso cref="PollEvents"/>
         /// <seealso cref="WaitEventsTimeout(double)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwWaitEvents"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwWaitEvents")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void WaitEvents();
 
         /// <summary>
@@ -1098,7 +1149,8 @@ namespace Cave.Media.OpenGL
         /// <param name="timeout">The maximum amount of time, in seconds, to wait.</param>
         /// <seealso cref="PollEvents"/>
         /// <seealso cref="WaitEvents"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwWaitEventsTimeout"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwWaitEventsTimeout")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void WaitEventsTimeout(double timeout);
 
         /// <summary>
@@ -1109,7 +1161,8 @@ namespace Cave.Media.OpenGL
         /// threads in applications that do not create windows, use your threading library of
         /// choice.</para>
         /// </summary>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwPostEmptyEvent"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwPostEmptyEvent")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void PostEmptyEvent();
 
         /// <summary>
@@ -1120,7 +1173,8 @@ namespace Cave.Media.OpenGL
         /// <returns>The value of an input option for the specified window.</returns>
         public static int GetInputMode(Window window, InputMode mode) => glfwGetInputMode(window.Ptr, Convert.ToInt32(mode));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern int glfwGetInputMode(IntPtr window, int mode);
 
         /// <summary>
@@ -1189,7 +1243,8 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="GetInputMode(Window, InputMode)"/>
         public static void SetInputMode(Window window, InputMode mode, bool value) => glfwSetInputMode(window.Ptr, Convert.ToInt32(mode), value ? 1 : 0);
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwSetInputMode(IntPtr window, int mode, int value);
 
         /// <summary>
@@ -1230,7 +1285,8 @@ namespace Cave.Media.OpenGL
         /// <returns>The localized name of the key, or <c>null</c>.</returns>
         public static unsafe string GetKeyName(KeyCode key, int scancode) => Marshal.PtrToStringAnsi(glfwGetKeyName(Convert.ToInt32(key), scancode));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetKeyName(int key, int scancode);
 
         /// <summary>
@@ -1253,7 +1309,8 @@ namespace Cave.Media.OpenGL
         /// key for this function.</param>
         /// <returns>One of <see cref="InputState.Press"/> or
         /// <see cref="InputState.Release"/>.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetKey"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetKey")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetKey([MarshalAs(UnmanagedType.Struct)] Window window, int key);
 
@@ -1268,7 +1325,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The desired window.</param>
         /// <param name="button">The desired mouse button.</param>
         /// <returns><c>true</c> if the button was pressed, <c>false</c> otherwise.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetMouseButton"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetMouseButton")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetMouseButton([MarshalAs(UnmanagedType.Struct)] Window window, MouseButton button);
 
@@ -1296,7 +1354,8 @@ namespace Cave.Media.OpenGL
             ypos = yy;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe void glfwGetCursorPos(IntPtr window, double* xpos, double* ypos);
 
         /// <summary>
@@ -1319,7 +1378,8 @@ namespace Cave.Media.OpenGL
         /// <param name="ypos"> The desired y-coordinate, relative to the top edge of the client
         /// area.</param>
         /// <seealso cref="GetCursorPos(Window, out double, out double)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetCursorPos"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetCursorPos")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetCursorPos([MarshalAs(UnmanagedType.Struct)] Window window, double xpos, double ypos);
 
         /// <summary>
@@ -1361,7 +1421,8 @@ namespace Cave.Media.OpenGL
             return new Cursor(ptr);
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwCreateCursor(IntPtr image, int xhot, int yhot);
 
         /// <summary>
@@ -1370,7 +1431,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="cursor">One of the standard shapes.</param>
         /// <returns>A new cursor ready to use.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwCreateStandardCursor"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwCreateStandardCursor")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Struct)]
         public static extern Cursor CreateStandardCursor(CursorType cursor);
 
@@ -1381,7 +1443,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="cursor">The cursor object to destroy.</param>
         /// <seealso cref="CreateCursor(Image, int, int)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwDestroyCursor"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwDestroyCursor")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void DestroyCursor([MarshalAs(UnmanagedType.Struct)] Cursor cursor);
 
         /// <summary>
@@ -1393,7 +1456,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="window">The window to set the cursor for.</param>
         /// <param name="cursor">The cursor to set.</param>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetCursor"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetCursor")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetCursor([MarshalAs(UnmanagedType.Struct)] Window window, [MarshalAs(UnmanagedType.Struct)] Cursor cursor);
 
         /// <summary>
@@ -1419,7 +1483,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetKeyCallback(Window window, KeyFunc callback) => glfwSetKeyCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetKeyCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1442,7 +1507,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetCharCallback(Window window, CharFunc callback) => glfwSetCharCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetCharCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1462,7 +1528,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetCharModsCallback(Window window, CharModsFunc callback) => glfwSetCharModsCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetCharModsCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1479,7 +1546,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetMouseButtonCallback(Window window, MouseButtonFunc callback) => glfwSetMouseButtonCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetMouseButtonCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1492,7 +1560,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetCursorPosCallback(Window window, CursorPosFunc callback) => glfwSetCursorPosCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetCursorPosCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1504,7 +1573,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetCursorEnterCallback(Window window, CursorEnterFunc callback) => glfwSetCursorEnterCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetCursorEnterCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1519,7 +1589,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetScrollCallback(Window window, CursorPosFunc callback) => glfwSetScrollCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetScrollCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1531,7 +1602,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetDropCallback(Window window, DropFunc callback) => glfwSetDropCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetDropCallback(IntPtr window, IntPtr callback);
 
         /// <summary>
@@ -1539,7 +1611,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <param name="joy">The joystick to query.</param>
         /// <returns><c>true</c> if the joystick is present, or <c>false</c> otherwise.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwJoystickPresent"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwJoystickPresent")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool JoystickPresent(Joystick joy);
 
@@ -1568,7 +1641,8 @@ namespace Cave.Media.OpenGL
             return axes;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe IntPtr glfwGetJoystickAxes(int joy, int* count);
 
         /// <summary>
@@ -1602,7 +1676,8 @@ namespace Cave.Media.OpenGL
             return buttons;
         }
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe IntPtr glfwGetJoystickButtons(int joy, int* count);
 
         /// <summary>
@@ -1617,7 +1692,8 @@ namespace Cave.Media.OpenGL
         /// present.</returns>
         public static string GetJoystickName(Joystick joy) => FromUTF8(glfwGetJoystickName((int)joy));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe IntPtr glfwGetJoystickName(int joy);
 
         /// <summary>
@@ -1629,7 +1705,8 @@ namespace Cave.Media.OpenGL
         /// callback.</param>
         public static void SetJoystickCallback(JoystickFunc callback) => glfwSetJoystickCallback(Marshal.GetFunctionPointerForDelegate(callback));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwSetJoystickCallback(IntPtr callback);
 
         /// <summary>
@@ -1640,7 +1717,8 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="GetClipboardString(Window)"/>
         public static void SetClipboardString(Window window, string value) => glfwSetClipboardString(window.Ptr, ToUTF8(value));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern void glfwSetClipboardString(IntPtr window, IntPtr value);
 
         /// <summary>
@@ -1655,7 +1733,8 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="SetClipboardString(Window, string)"/>
         public static string GetClipboardString(Window window) => FromUTF8(glfwGetClipboardString(window.Ptr));
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern unsafe IntPtr glfwGetClipboardString(IntPtr window);
 
         /// <summary>
@@ -1667,7 +1746,8 @@ namespace Cave.Media.OpenGL
         /// supported platform.</para>
         /// </summary>
         /// <returns>The current value, in seconds, or zero if an error occurred.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTime"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTime")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern double GetTime();
 
         /// <summary>
@@ -1681,7 +1761,8 @@ namespace Cave.Media.OpenGL
         /// to implementations storing nanoseconds in 64 bits. The limit may be increased in the
         /// future.
         /// </remarks>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetTime"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSetTime")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SetTime(double time);
 
         /// <summary>
@@ -1690,7 +1771,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <returns>The value of the timer, or zero if an error occurred.</returns>
         /// <seealso cref="GetTimerFrequency"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTimerValue"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTimerValue")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern ulong GetTimerValue();
 
         /// <summary>
@@ -1698,7 +1780,8 @@ namespace Cave.Media.OpenGL
         /// </summary>
         /// <returns>The frequency of the timer, in Hz, or zero if an error occurred.</returns>
         /// <seealso cref="GetTimerValue"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTimerFrequency"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetTimerFrequency")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern ulong GetTimerFrequency();
 
         /// <summary>
@@ -1715,7 +1798,8 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window whose context to make current, or
         /// <see cref="Window.None"/> to detach the current context.</param>
         /// <seealso cref="GetCurrentContext"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwMakeContextCurrent"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwMakeContextCurrent")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void MakeContextCurrent([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -1725,7 +1809,8 @@ namespace Cave.Media.OpenGL
         /// <returns>The window whose context is current, or <see cref="Window.None"/> if no
         /// window's context is current.</returns>
         /// <seealso cref="MakeContextCurrent(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetCurrentContext"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwGetCurrentContext")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Struct)]
         public static extern Window GetCurrentContext();
 
@@ -1741,7 +1826,8 @@ namespace Cave.Media.OpenGL
         /// <strong>EGL:</strong> The context of the specified window must be current on the
         /// calling thread.
         /// </remarks>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSwapBuffers"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSwapBuffers")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SwapBuffers([MarshalAs(UnmanagedType.Struct)] Window window);
 
         /// <summary>
@@ -1771,7 +1857,8 @@ namespace Cave.Media.OpenGL
         /// driver.</para>
         /// </remarks>
         /// <seealso cref="SwapBuffers(Window)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSwapInterval"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwSwapInterval")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern void SwapInterval(int interval);
 
         /// <summary>
@@ -1788,7 +1875,8 @@ namespace Cave.Media.OpenGL
         /// <param name="extension">The ASCII encoded name of the extension.</param>
         /// <returns><c>true</c> if the extension is available, or <c>false</c> otherwise.</returns>
         /// <seealso cref="GetProcAddress(string)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "glfwExtensionSupported"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "glfwExtensionSupported")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ExtensionSupported(string extension);
 
@@ -1808,7 +1896,8 @@ namespace Cave.Media.OpenGL
         /// first.</para>
         /// </remarks>
         /// <seealso cref="ExtensionSupported(string)"/>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "glfwGetProcAddress"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "glfwGetProcAddress")]
+        [SuppressUnmanagedCodeSecurity]
         public static extern IntPtr GetProcAddress(string procname);
 
         /// <summary>
@@ -1816,7 +1905,8 @@ namespace Cave.Media.OpenGL
         /// by <see cref="Init"/>.
         /// </summary>
         /// <returns><c>true</c> if Vulkan is available, or <c>false</c> otherwise.</returns>
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwVulkanSupported"), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl, EntryPoint = "glfwVulkanSupported")]
+        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VulkanSupported();
 
@@ -1825,7 +1915,8 @@ namespace Cave.Media.OpenGL
         /// <returns>The HWND of the specified window, or NULL if an error occurred.</returns>
         public static IntPtr GetWin32Window(Window window) => glfwGetWin32Window(window.Ptr);
 
-        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
+        [SuppressUnmanagedCodeSecurity]
         static extern IntPtr glfwGetWin32Window(IntPtr window);
 
         // TODO X11

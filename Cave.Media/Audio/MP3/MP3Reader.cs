@@ -28,8 +28,8 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public static List<AudioFrame> ReadAllFrames(Stream stream)
         {
-            MP3Reader reader = new MP3Reader(stream);
-            List<AudioFrame> frames = new List<AudioFrame>();
+            var reader = new MP3Reader(stream);
+            var frames = new List<AudioFrame>();
             while (true)
             {
                 AudioFrame frame = reader.GetNextFrame();
@@ -193,7 +193,7 @@ namespace Cave.Media.Audio.MP3
         Search FindFrame()
         {
             // initialize the search and run it at the buffer
-            Search search = new Search();
+            var search = new Search();
             while (true)
             {
                 // fill the buffer
@@ -314,7 +314,7 @@ namespace Cave.Media.Audio.MP3
                     {
                         #region decode mp3 frame
                         case MatchType.MP3Frame:
-                            MP3AudioFrame audioFrame = new MP3AudioFrame();
+                            var audioFrame = new MP3AudioFrame();
                             valid = audioFrame.Parse(m_Reader);
                             frame = audioFrame;
                             break;

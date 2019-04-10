@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 namespace Cave.Media.Structs
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct TIMECODEDATA

@@ -14,7 +14,7 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Parse()
         {
-            ID3v2EncodingType encoding = (ID3v2EncodingType)m_Content[0];
+            var encoding = (ID3v2EncodingType)m_Content[0];
             int start = 1 + ID3v2Encoding.Parse(encoding, m_Content, 1, out m_Description);
             ID3v2Encoding.Parse(0, m_Content, start, out m_Address);
         }

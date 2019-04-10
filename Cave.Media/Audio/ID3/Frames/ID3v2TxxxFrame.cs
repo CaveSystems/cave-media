@@ -25,10 +25,10 @@ namespace Cave.Media.Audio.ID3.Frames
             byte[] nameBytes = ID3v2Encoding.GetBytes(encoding, name, true);
             byte[] valueBytes = ID3v2Encoding.GetBytes(encoding, value, true);
             int contentSize = nameBytes.Length + valueBytes.Length + 1;
-            ID3v2FrameHeader frameHeader = ID3v2FrameHeader.Create(header, "TXXX", flags, contentSize);
-            using (MemoryStream ms = new MemoryStream())
+            var frameHeader = ID3v2FrameHeader.Create(header, "TXXX", flags, contentSize);
+            using (var ms = new MemoryStream())
             {
-                DataWriter writer = new DataWriter(ms);
+                var writer = new DataWriter(ms);
                 writer.Write(frameHeader.Data);
                 writer.Write((byte)encoding);
                 writer.Write(nameBytes);

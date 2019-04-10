@@ -51,7 +51,7 @@ namespace Cave.Media.OpenGL
         /// <summary>
         /// Cursor modes.
         /// </summary>
-        /// <seealso cref="glfw3.SetInputMode(Window, InputMode, bool)"/>
+        /// <seealso cref="SetInputMode(Window, InputMode, bool)"/>
         public enum CursorMode
         {
             /// <summary>
@@ -188,7 +188,7 @@ namespace Cave.Media.OpenGL
         /// with <see cref="Init"/>, can be set individually with
         /// <see cref="WindowHint(Hint, bool)"/> and reset all at once to their defaults with
         /// <see cref="DefaultWindowHints"/>.</para>
-        /// 
+        ///
         /// <para>Note that hints need to be set before the creation of the window and context you
         /// wish to have the specified attributes.</para>
         /// </summary>
@@ -216,7 +216,7 @@ namespace Cave.Media.OpenGL
             Visible = 0x00020004,
 
             /// <summary>
-            /// Specifies whether the windowed mode window will have window decorations such as a 
+            /// Specifies whether the windowed mode window will have window decorations such as a
             ///border, a close widget, etc. An undecorated window may still allow the user to
             /// generate close events on some platforms. This hint is ignored for full screen
             /// windows.
@@ -368,7 +368,7 @@ namespace Cave.Media.OpenGL
             /// version 3.0 and above when available. While there is no way to ask the driver for a
             /// context of the highest supported version, GLFW will attempt to provide this when you
             /// ask for a version 1.0 context, which is the default for these hints.</para>
-            /// 
+            ///
             /// <para><b>OpenGL ES:</b> Creation will fail if the OpenGL ES version of the created
             /// context is less than the one requested. Additionally, OpenGL ES 1.x cannot be
             /// returned if 2.0 or later was requested, and vice versa. This is because OpenGL ES
@@ -443,7 +443,7 @@ namespace Cave.Media.OpenGL
             /// <remarks>
             /// <para><b>OSX:</b> The EGL API is not available on this platform and requests to use
             /// it will fail.</para>
-            /// 
+            ///
             /// <para><b>Wayland, Mir:</b> The EGL API is the native context creation API, so this
             /// hint will have no effect.</para>
             /// </remarks>
@@ -453,7 +453,7 @@ namespace Cave.Media.OpenGL
         /// <summary>
         /// Input mode options.
         /// </summary>
-        /// <seealso cref="glfw3.SetInputMode(Window, InputMode, bool)"/>
+        /// <seealso cref="SetInputMode(Window, InputMode, bool)"/>
         public enum InputMode
         {
             Cursor = 0x00033001,

@@ -88,7 +88,7 @@ namespace Cave.Media.Video
                 height = TextureSize.Y;
             }
 
-            Vector3 v = new Vector3
+            var v = new Vector3
             {
                 X = ((x - 0.5f + (width / 2.0f)) / Renderer.Resolution.X * 2.0f) - 1.0f,
                 Y = -(((y - 0.5f + (height / 2.0f)) / Renderer.Resolution.Y * 2.0f) - 1.0f),

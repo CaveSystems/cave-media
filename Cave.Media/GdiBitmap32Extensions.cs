@@ -17,14 +17,14 @@ namespace Cave.Media
         /// <summary>Creates a bitmap instance from the specified image.</summary>
         public static Bitmap ToGdiBitmap(this Image image)
         {
-            Bitmap bitmap = image as Bitmap;
+            var bitmap = image as Bitmap;
             if (bitmap?.PixelFormat == PixelFormat.Format32bppArgb)
             {
                 return bitmap;
             }
 
-            Bitmap b = new Bitmap(image.Width, image.Height);
-            using (Graphics g = Graphics.FromImage(b))
+            var b = new Bitmap(image.Width, image.Height);
+            using (var g = Graphics.FromImage(b))
             {
                 g.DrawImage(image, 0, 0, b.Width, b.Height);
             }
@@ -38,7 +38,7 @@ namespace Cave.Media
             {
                 return ((GdiBitmap32)other).Bitmap;
             }
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 other.Save(ms);
                 ms.Position = 0;

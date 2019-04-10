@@ -26,10 +26,10 @@ namespace Cave.Media.Audio.ID3.Frames
                 case 4: break;
                 default: throw new NotSupportedException("Unsupported Header Version");
             }
-            ID3v2FrameHeader frameHeader = ID3v2FrameHeader.Create(header, "XSLT", flags, data.Length);
-            using (MemoryStream ms = new MemoryStream())
+            var frameHeader = ID3v2FrameHeader.Create(header, "XSLT", flags, data.Length);
+            using (var ms = new MemoryStream())
             {
-                DataWriter writer = new DataWriter(ms);
+                var writer = new DataWriter(ms);
                 writer.Write(frameHeader.Data);
                 writer.Write(data);
                 return new ID3v2XSLTFrame(new ID3v2Frame(header, ms.ToArray()));

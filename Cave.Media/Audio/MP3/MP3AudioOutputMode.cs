@@ -2,7 +2,7 @@ namespace Cave.Media.Audio.MP3
 {
     /// <summary>
     /// Provides available output modes for mp3 audio decoders.
-    /// </summary> 
+    /// </summary>
     public enum MP3AudioOutputMode
     {
         /// <summary>both channels</summary>

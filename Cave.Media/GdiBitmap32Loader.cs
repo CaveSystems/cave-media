@@ -14,8 +14,8 @@ namespace Cave.Media
     /// <summary>
     /// Provides gdi 32 bit argb bitmap functions
     /// </summary>
-    /// <seealso cref="System.IDisposable" />
-    /// <seealso cref="Cave.Media.IBitmap32" />
+    /// <seealso cref="IDisposable" />
+    /// <seealso cref="IBitmap32" />
     public class GdiBitmap32Loader : IBitmap32Loader
     {
         /// <summary>Creates a bitmap instance from the specified data.</summary>
@@ -57,8 +57,8 @@ namespace Cave.Media
                     {
                         size = g.MeasureString(text, font);
                     }
-                    Bitmap result = new Bitmap((int)size.Width + 1, (int)size.Height + 1, PixelFormat.Format32bppArgb);
-                    using (Graphics g = Graphics.FromImage(result))
+                    var result = new Bitmap((int)size.Width + 1, (int)size.Height + 1, PixelFormat.Format32bppArgb);
+                    using (var g = Graphics.FromImage(result))
                     {
                         g.TextRenderingHint = TextRenderingHint.AntiAlias;
                         g.InterpolationMode = InterpolationMode.HighQualityBicubic;

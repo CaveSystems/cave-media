@@ -13,10 +13,10 @@ namespace Cave.Media
     /// </summary>
     /// <remarks>Do not use this to frequent because you will get blocked by google if you do.
     /// We cache all downloaded audio files to reduce calls to the google api.</remarks>
-    /// <seealso cref="Cave.Media.ISpeechSynthesizer" />
+    /// <seealso cref="ISpeechSynthesizer" />
     public class GoogleSpeechSynthesizer : ISpeechSynthesizer
     {
-        CultureInfo cultureInfo;        
+        CultureInfo cultureInfo;
         IAudioDevice device;
 
         /// <summary>Initializes a new instance of the <see cref="GoogleSpeechSynthesizer"/> class.</summary>
@@ -131,7 +131,7 @@ namespace Cave.Media
             if (!decoder.IsAvailable) decoder = new MP3AudioDecoder();
             if (!decoder.IsAvailable) throw new Exception("No mp3 decoder available!");
             try
-            { 
+            {
                 decoder.BeginDecode(s);
                 using (var data = new MemoryStream())
                 {

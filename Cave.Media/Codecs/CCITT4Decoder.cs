@@ -26,8 +26,8 @@ namespace Cave.Media.Codecs
         public byte[] DecodeRow(byte[] data)
         {
             m_Reset(CCITT4DecoderState.White);
-            BitStreamReaderReverse reader = new BitStreamReaderReverse(new MemoryStream(data));
-            BitStreamWriter writer = new BitStreamWriter(new MemoryStream());
+            var reader = new BitStreamReaderReverse(new MemoryStream(data));
+            var writer = new BitStreamWriter(new MemoryStream());
             while (reader.Position < reader.Length)
             {
                 // read a bit

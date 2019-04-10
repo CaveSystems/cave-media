@@ -44,7 +44,7 @@ namespace Cave.Media.Audio.ID3
                 throw new InvalidOperationException(string.Format("Cannot read header at state {0}", m_State));
             }
 
-            ID3v2Header header = new ID3v2Header();
+            var header = new ID3v2Header();
             if (!header.Parse(m_Reader))
             {
                 tagData = null;

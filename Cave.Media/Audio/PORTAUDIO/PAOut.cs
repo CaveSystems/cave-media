@@ -83,7 +83,7 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <exception cref="Exception"></exception>
         internal PAOut(IAudioDevice dev, IAudioConfiguration configuration) : base(dev, configuration)
         {
-            PAStreamParameters l_OutputParameters = new PAStreamParameters();
+            var l_OutputParameters = new PAStreamParameters();
             switch (configuration.ChannelSetup)
             {
                 case AudioChannelSetup.Mono:
@@ -113,7 +113,7 @@ namespace Cave.Media.Audio.PORTAUDIO
         }
         #endregion
 
-        #region protected overrides        
+        #region protected overrides
 
         /// <summary>Begins playing.</summary>
         /// <exception cref="Exception">

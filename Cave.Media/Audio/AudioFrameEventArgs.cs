@@ -5,7 +5,7 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides audio frame event arguments.
     /// </summary>
-    /// <seealso cref="System.EventArgs" />
+    /// <seealso cref="EventArgs" />
     public class AudioFrameEventArgs : EventArgs
     {
         /// <summary>The frame.</summary>

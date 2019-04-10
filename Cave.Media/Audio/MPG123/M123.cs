@@ -157,10 +157,9 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Any encoding on the list.
             /// </summary>
-            ANY = 
+            ANY =
                 SIGNED_16 | UNSIGNED_16 | UNSIGNED_8 | SIGNED_8 | ULAW_8 | ALAW_8 |
-                SIGNED_32 | UNSIGNED_32 | SIGNED_24 | UNSIGNED_24 | FLOAT_32 | FLOAT_64
-            ,
+                SIGNED_32 | UNSIGNED_32 | SIGNED_24 | UNSIGNED_24 | FLOAT_32 | FLOAT_64,
         }
 
         /// <summary>
@@ -743,27 +742,25 @@ namespace Cave.Media.Audio.MPG123
             /// <value>The name of the log source.</value>
             public string LogSourceName { get { return "MPG123_PARS"; } }
 
-            IntPtr m_Handle;
-
             /// <summary>
             /// Obtains the handle.
             /// </summary>
-            public IntPtr Handle { get { return m_Handle; } }
+            public IntPtr Handle { get; private set; }
 
             /// <summary>
-            /// Creates new empty MPG123_PARS.
+            /// Initializes a new instance of the <see cref="M123_PARS"/> class.
             /// </summary>
             public M123_PARS()
             {
-                m_Handle = IntPtr.Zero;
+                Handle = IntPtr.Zero;
             }
 
             /// <summary>
-            /// Cleans up
+            /// Finalizes an instance of the <see cref="M123_PARS"/> class.
             /// </summary>
             ~M123_PARS()
             {
-                if (m_Handle != IntPtr.Zero)
+                if (Handle != IntPtr.Zero)
                 {
                     Trace.WriteLine(string.Format("MPG123_PARS struct was not disposed via mpg123_delete_pars()!"));
                 }
@@ -775,7 +772,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="handle"></param>
             public M123_PARS(IntPtr handle)
             {
-                m_Handle = handle;
+                this.Handle = handle;
             }
 
             /// <summary>
@@ -785,7 +782,7 @@ namespace Cave.Media.Audio.MPG123
             {
                 get
                 {
-                    return m_Handle != IntPtr.Zero;
+                    return Handle != IntPtr.Zero;
                 }
             }
 
@@ -793,7 +790,7 @@ namespace Cave.Media.Audio.MPG123
 
             internal void Disposed()
             {
-                m_Handle = IntPtr.Zero;
+                Handle = IntPtr.Zero;
             }
 
             #endregion
@@ -855,7 +852,7 @@ namespace Cave.Media.Audio.MPG123
                 return;
             }
 
-            List<Exception> errors = new List<Exception>();
+            var errors = new List<Exception>();
 
             // Initialize
             try
@@ -886,7 +883,7 @@ namespace Cave.Media.Audio.MPG123
         {
             static string[] m_DecodeStringArray(IntPtr pointer)
             {
-                List<string> result = new List<string>();
+                var result = new List<string>();
                 int index = 0;
                 IntPtr item = Marshal.ReadIntPtr(pointer, index);
                 index += IntPtr.Size;
@@ -1388,7 +1385,7 @@ namespace Cave.Media.Audio.MPG123
             {
                 IntPtr resultCode;
                 IntPtr l_Preset = m_mpg123_new_pars(out resultCode);
-                RESULT result = (RESULT)resultCode.ToInt32();
+                var result = (RESULT)resultCode.ToInt32();
                 if (result == RESULT.OK)
                 {
                     preset = new M123_PARS(l_Preset);

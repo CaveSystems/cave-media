@@ -20,10 +20,10 @@ namespace Cave.Media
             using (Bitmap32 thumb = bitmap.Resize(32, 32, ResizeMode.TouchFromInside))
             {
                 ARGBImageData data = thumb.Data;
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
                     // calculate fingerprint and distance matrix
-                    BitStreamWriter writer = new BitStreamWriter(ms);
+                    var writer = new BitStreamWriter(ms);
                     float[] distanceMatrix = new float[16];
                     {
                         int x = 0, y = 0;
@@ -146,7 +146,7 @@ namespace Cave.Media
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -162,7 +162,7 @@ namespace Cave.Media
         /// </returns>
         public override bool Equals(object obj)
         {
-            FingerPrint other = obj as FingerPrint;
+            var other = obj as FingerPrint;
             return other == null ? false : ToString().Equals(other.ToString());
         }
 

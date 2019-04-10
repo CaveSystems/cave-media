@@ -38,10 +38,10 @@ namespace Cave.Media
                 throw new FormatException();
             }
 
-            Vector4 v1 = Vector4.Parse("(" + l_Vectors[0] + ")");
-            Vector4 v2 = Vector4.Parse("(" + l_Vectors[1] + ")");
-            Vector4 v3 = Vector4.Parse("(" + l_Vectors[2] + ")");
-            Vector4 v4 = Vector4.Parse("(" + l_Vectors[3] + ")");
+            var v1 = Vector4.Parse("(" + l_Vectors[0] + ")");
+            var v2 = Vector4.Parse("(" + l_Vectors[1] + ")");
+            var v3 = Vector4.Parse("(" + l_Vectors[2] + ")");
+            var v4 = Vector4.Parse("(" + l_Vectors[3] + ")");
             return FromColumns(v1, v2, v3, v4);
         }
 
@@ -86,7 +86,7 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix4 FromColumns(Vector4 v1, Vector4 v2, Vector4 v3, Vector4 v4)
         {
-            Matrix4 result = new Matrix4();
+            var result = new Matrix4();
             result.v11 = v1.X;
             result.v12 = v1.Y;
             result.v13 = v1.Z;
@@ -136,7 +136,7 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix4 FromRows(Vector4 v1, Vector4 v2, Vector4 v3, Vector4 v4)
         {
-            Matrix4 result = new Matrix4();
+            var result = new Matrix4();
             result.v11 = v1.X;
             result.v21 = v1.Y;
             result.v31 = v1.Z;
@@ -178,7 +178,7 @@ namespace Cave.Media
         /// <returns>Returns a new <see cref="Matrix4"/> instance with the specified values.</returns>
         public static Matrix4 Create(float p11, float p12, float p13, float p14, float p21, float p22, float p23, float p24, float p31, float p32, float p33, float p34, float p41, float p42, float p43, float p44)
         {
-            Matrix4 result = new Matrix4();
+            var result = new Matrix4();
             result.v11 = p11;
             result.v12 = p12;
             result.v13 = p13;
@@ -533,7 +533,7 @@ namespace Cave.Media
         /// <returns>Returns the matrix-scalar product.</returns>
         public Matrix4 Multiply(float value)
         {
-            Matrix4 result = (Matrix4)Clone();
+            var result = (Matrix4)Clone();
             for (int i = 0; i < 16; i++)
             {
                 this[i] *= value;
@@ -567,8 +567,7 @@ namespace Cave.Media
                 (v41 * matrix.v11) + (v42 * matrix.v21) + (v43 * matrix.v31) + (matrix.v44 * v41),
                 (v41 * matrix.v12) + (v42 * matrix.v22) + (v43 * matrix.v32) + (matrix.v44 * v42),
                 (v41 * matrix.v13) + (v42 * matrix.v23) + (v43 * matrix.v33) + (matrix.v44 * v43),
-                (v41 * matrix.v14) + (v42 * matrix.v24) + (v43 * matrix.v34) + (matrix.v44 * v44)
-            );
+                (v41 * matrix.v14) + (v42 * matrix.v24) + (v43 * matrix.v34) + (matrix.v44 * v44));
         }
 
         /// <summary>
@@ -578,7 +577,7 @@ namespace Cave.Media
         /// <returns>Returns the matrix-sum.</returns>
         public Matrix4 Add(Matrix4 matrix)
         {
-            Matrix4 result = (Matrix4)Clone();
+            var result = (Matrix4)Clone();
             for (int i = 0; i < 16; i++)
             {
                 result[i] += matrix[i];
@@ -608,7 +607,7 @@ namespace Cave.Media
                 return false;
             }
 
-            Matrix4 other = (Matrix4)obj;
+            var other = (Matrix4)obj;
             for (int i = 0; i < 16; i++)
             {
                 if (other[i] != this[i])
@@ -629,7 +628,7 @@ namespace Cave.Media
         /// </returns>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             result.Append("[");
             for (int y = 0; y < 4; y++)
             {

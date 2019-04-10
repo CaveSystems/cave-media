@@ -12,7 +12,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static ID3v2FrameFlags FromID3v2d4(ID3v2d4FrameFlags flags)
         {
-            ID3v2FrameFlags result = new ID3v2FrameFlags();
+            var result = new ID3v2FrameFlags();
             result.Compression = (flags & ID3v2d4FrameFlags.Compression) != 0;
             result.DataLengthIndicator = (flags & ID3v2d4FrameFlags.DataLengthIndicator) != 0;
             result.Encryption = (flags & ID3v2d4FrameFlags.Encryption) != 0;
@@ -31,7 +31,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static ID3v2FrameFlags FromID3v2d3(ID3v2d3FrameFlags flags)
         {
-            ID3v2FrameFlags result = new ID3v2FrameFlags();
+            var result = new ID3v2FrameFlags();
             result.Compression = (flags & ID3v2d3FrameFlags.Compression) != 0;
             result.Encryption = (flags & ID3v2d3FrameFlags.Encryption) != 0;
             result.FileAlterPreservation = (flags & ID3v2d3FrameFlags.FileAlterPreservation) != 0;

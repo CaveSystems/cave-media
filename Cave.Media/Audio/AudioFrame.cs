@@ -9,7 +9,7 @@ namespace Cave.Media.Audio
     public abstract class AudioFrame : DataFrame
     {
         /// <summary>
-        /// If <see cref="IsAudio"/> == true this returns the duration of the frame otherwise it always returns <see cref="System.TimeSpan.Zero"/>.
+        /// If <see cref="IsAudio"/> == true this returns the duration of the frame otherwise it always returns <see cref="TimeSpan.Zero"/>.
         /// </summary>
         public abstract TimeSpan Duration { get; }
 

@@ -43,7 +43,7 @@ namespace Cave.Media.Audio
             get
             {
                 int deviceCount = PA.SafeNativeMethods.Pa_GetDeviceCount();
-                List<IAudioDevice> devices = new List<IAudioDevice>();
+                var devices = new List<IAudioDevice>();
                 for (int i = 0; i < deviceCount; i++)
                 {
                     PADeviceInfo l_DeviceInfo = PA.GetDeviceInfo(i);
@@ -71,7 +71,7 @@ namespace Cave.Media.Audio
             get
             {
                 int deviceCount = PA.SafeNativeMethods.Pa_GetDeviceCount();
-                List<IAudioDevice> devices = new List<IAudioDevice>();
+                var devices = new List<IAudioDevice>();
                 for (int i = 0; i < deviceCount; i++)
                 {
                     PADeviceInfo deviceInfo = PA.GetDeviceInfo(i);

@@ -53,7 +53,7 @@ namespace Cave.Media.OpenGL
             public MouseButton Button { get; private set; }
 
             /// <summary>
-            /// the input state <see cref="InputState"/> of the button when the event was triggered. 
+            /// the input state <see cref="InputState"/> of the button when the event was triggered.
             /// </summary>
             public InputState State { get; private set; }
 

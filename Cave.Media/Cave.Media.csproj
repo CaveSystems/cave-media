@@ -55,6 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Cave.Media.snk" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cave.Media.dll.config">

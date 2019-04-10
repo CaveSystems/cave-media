@@ -199,7 +199,7 @@ namespace Cave.Media.Video
             gl2.CompileShader(shader);
             CheckErrors("CompileShader");
 
-            StringBuilder resultString = new StringBuilder(short.MaxValue);
+            var resultString = new StringBuilder(short.MaxValue);
             gl2.GetShaderInfoLog(shader, short.MaxValue, out int length, resultString);
             CheckErrors("GetShaderInfoLog");
 
@@ -237,7 +237,7 @@ namespace Cave.Media.Video
             gl2.LinkProgram(shaderProgram);
             CheckErrors("LinkProgram");
 
-            StringBuilder resultString = new StringBuilder(short.MaxValue);
+            var resultString = new StringBuilder(short.MaxValue);
             gl2.GetProgramInfoLog(shaderProgram, short.MaxValue, out int length, resultString);
             gl2.GetProgramiv(shaderProgram, GL._LINK_STATUS, out int result);
             if (result != (int)GL._TRUE)
@@ -304,7 +304,7 @@ namespace Cave.Media.Video
             GL last = GL._NO_ERROR;
             while (true)
             {
-                GL e = (GL)gl2.GetError();
+                var e = (GL)gl2.GetError();
                 if (e == GL._NO_ERROR)
                 {
                     break;
@@ -345,7 +345,7 @@ namespace Cave.Media.Video
         void MouseButtonChange(glfw3.Window window, glfw3.MouseButton button, glfw3.InputState state, glfw3.KeyMods mods)
         {
             Vector2 mousePosition = GetMousePosition(window);
-            Vector2 mousePositionNorm = Vector2.Create(mousePosition.X / Resolution.X, mousePosition.Y / Resolution.Y);
+            var mousePositionNorm = Vector2.Create(mousePosition.X / Resolution.X, mousePosition.Y / Resolution.Y);
             MouseButtonChanged?.Invoke(this, new glfw3.MouseButtonEventArgs(mousePosition, mousePositionNorm, button, state, mods));
         }
 
@@ -521,7 +521,7 @@ namespace Cave.Media.Video
         /// <returns>array of <see cref="IRenderDevice"/>.</returns>
         public IRenderDevice[] GetDevices()
         {
-            List<IRenderDevice> results = new List<IRenderDevice>();
+            var results = new List<IRenderDevice>();
             foreach (var monitor in glfw3.GetMonitors())
             {
                 results.Add(new Glfw3Device(results.Count + 1, monitor));

@@ -21,8 +21,8 @@ namespace Cave.Media.Lyrics
             return new SynchronizedLyricsItem(TimeCode, Commands);
         }
 
-        /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return StringExtensions.FormatTime(TimeCode) + " " + StringExtensions.Join(Commands, ", ");

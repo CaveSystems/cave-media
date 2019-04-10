@@ -47,7 +47,7 @@ namespace Cave.Media.Audio
         protected abstract void Dispose(bool disposing);
 
         /// <summary>
-        /// Begins playing. 
+        /// Begins playing.
         /// </summary>
         protected abstract void StartPlayback();
 

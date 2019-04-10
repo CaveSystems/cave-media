@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Cave.Media.Audio.ID3
 {
-
     sealed class ID3v2EnUnsync
     {
         public static void Int32(int value, byte[] data, int start)
@@ -21,7 +20,7 @@ namespace Cave.Media.Audio.ID3
 
         public static byte[] Buffer(byte[] data)
         {
-            List<byte> buffer = new List<byte>(data.Length * 2);
+            var buffer = new List<byte>(data.Length * 2);
             foreach (byte b in data)
             {
                 buffer.Add(b);

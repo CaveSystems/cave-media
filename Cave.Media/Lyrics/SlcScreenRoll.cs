@@ -4,7 +4,7 @@ using Cave.IO;
 namespace Cave.Media.Lyrics
 {
     /// <summary>
-    /// Synchronized Lyrics Command. 
+    /// Synchronized Lyrics Command.
     /// </summary>
     /// <seealso cref="SynchronizedLyricsCommand" />
     public class SlcScreenRoll : SynchronizedLyricsCommand

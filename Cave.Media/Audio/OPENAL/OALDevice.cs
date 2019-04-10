@@ -117,7 +117,7 @@ namespace Cave.Media.Audio.OPENAL
                     throw new ObjectDisposedException("OpenALOutputDevice");
                 }
 
-                List<AudioConfiguration> configs = new List<AudioConfiguration>();
+                var configs = new List<AudioConfiguration>();
                 foreach (int sampleRate in new int[] { 8000, 11025, 16000, 22050, 32000, 44100, 48000, 64000, 96000 })
                 {
                     foreach (AudioChannelSetup setup in new AudioChannelSetup[] { AudioChannelSetup.Mono, AudioChannelSetup.Stereo })

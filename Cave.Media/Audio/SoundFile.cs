@@ -46,9 +46,9 @@ namespace Cave.Media.Audio
             }
             int sampleRate = reader.ReadInt32();
             int channels = reader.ReadInt32();
-            AudioConfiguration config = new AudioConfiguration(sampleRate, sampleFormat, channels);
+            var config = new AudioConfiguration(sampleRate, sampleFormat, channels);
             string comment = reader.ReadZeroTerminatedString(64 * 1024);
-            while (0 != (reader.BaseStream.Position % 8))
+            while ((reader.BaseStream.Position % 8) != 0)
             {
                 reader.ReadByte();
             }
@@ -159,17 +159,17 @@ namespace Cave.Media.Audio
         /// </exception>
         public void Save(Stream stream)
         {
-            List<byte> comment = new List<byte>();
+            var comment = new List<byte>();
             if (Comment != null)
             {
                 comment.AddRange(Encoding.UTF8.GetBytes(Comment));
-                while (0 != (comment.Count % 8))
+                while ((comment.Count % 8) != 0)
                 {
                     comment.Add(0);
                 }
             }
 
-            DataWriter writer = new DataWriter(stream, endian: EndianType.BigEndian);
+            var writer = new DataWriter(stream, endian: EndianType.BigEndian);
             writer.Write(0x2e736e64);
             writer.Write(comment.Count + (6 * 4));
             writer.Write(Data.Length);

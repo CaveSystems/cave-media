@@ -161,66 +161,66 @@ namespace Cave.Media.Audio.MP3
             float pp5 = p5 + p10;
             float pp6 = p6 + p9;
             float pp7 = p7 + p8;
-            float pp8 = (p0 - p15) * cos1_32;
-            float pp9 = (p1 - p14) * cos3_32;
-            float pp10 = (p2 - p13) * cos5_32;
-            float pp11 = (p3 - p12) * cos7_32;
-            float pp12 = (p4 - p11) * cos9_32;
-            float pp13 = (p5 - p10) * cos11_32;
-            float pp14 = (p6 - p9) * cos13_32;
-            float pp15 = (p7 - p8) * cos15_32;
+            float pp8 = (p0 - p15) * cos1a32;
+            float pp9 = (p1 - p14) * cos3a32;
+            float pp10 = (p2 - p13) * cos5a32;
+            float pp11 = (p3 - p12) * cos7a32;
+            float pp12 = (p4 - p11) * cos9a32;
+            float pp13 = (p5 - p10) * cos11a32;
+            float pp14 = (p6 - p9) * cos13a32;
+            float pp15 = (p7 - p8) * cos15a32;
 
             p0 = pp0 + pp7;
             p1 = pp1 + pp6;
             p2 = pp2 + pp5;
             p3 = pp3 + pp4;
-            p4 = (pp0 - pp7) * cos1_16;
-            p5 = (pp1 - pp6) * cos3_16;
-            p6 = (pp2 - pp5) * cos5_16;
-            p7 = (pp3 - pp4) * cos7_16;
+            p4 = (pp0 - pp7) * cos1a16;
+            p5 = (pp1 - pp6) * cos3a16;
+            p6 = (pp2 - pp5) * cos5a16;
+            p7 = (pp3 - pp4) * cos7a16;
             p8 = pp8 + pp15;
             p9 = pp9 + pp14;
             p10 = pp10 + pp13;
             p11 = pp11 + pp12;
-            p12 = (pp8 - pp15) * cos1_16;
-            p13 = (pp9 - pp14) * cos3_16;
-            p14 = (pp10 - pp13) * cos5_16;
-            p15 = (pp11 - pp12) * cos7_16;
+            p12 = (pp8 - pp15) * cos1a16;
+            p13 = (pp9 - pp14) * cos3a16;
+            p14 = (pp10 - pp13) * cos5a16;
+            p15 = (pp11 - pp12) * cos7a16;
 
 
             pp0 = p0 + p3;
             pp1 = p1 + p2;
-            pp2 = (p0 - p3) * cos1_8;
-            pp3 = (p1 - p2) * cos3_8;
+            pp2 = (p0 - p3) * cos1a8;
+            pp3 = (p1 - p2) * cos3a8;
             pp4 = p4 + p7;
             pp5 = p5 + p6;
-            pp6 = (p4 - p7) * cos1_8;
-            pp7 = (p5 - p6) * cos3_8;
+            pp6 = (p4 - p7) * cos1a8;
+            pp7 = (p5 - p6) * cos3a8;
             pp8 = p8 + p11;
             pp9 = p9 + p10;
-            pp10 = (p8 - p11) * cos1_8;
-            pp11 = (p9 - p10) * cos3_8;
+            pp10 = (p8 - p11) * cos1a8;
+            pp11 = (p9 - p10) * cos3a8;
             pp12 = p12 + p15;
             pp13 = p13 + p14;
-            pp14 = (p12 - p15) * cos1_8;
-            pp15 = (p13 - p14) * cos3_8;
+            pp14 = (p12 - p15) * cos1a8;
+            pp15 = (p13 - p14) * cos3a8;
 
             p0 = pp0 + pp1;
-            p1 = (pp0 - pp1) * cos1_4;
+            p1 = (pp0 - pp1) * cos1a4;
             p2 = pp2 + pp3;
-            p3 = (pp2 - pp3) * cos1_4;
+            p3 = (pp2 - pp3) * cos1a4;
             p4 = pp4 + pp5;
-            p5 = (pp4 - pp5) * cos1_4;
+            p5 = (pp4 - pp5) * cos1a4;
             p6 = pp6 + pp7;
-            p7 = (pp6 - pp7) * cos1_4;
+            p7 = (pp6 - pp7) * cos1a4;
             p8 = pp8 + pp9;
-            p9 = (pp8 - pp9) * cos1_4;
+            p9 = (pp8 - pp9) * cos1a4;
             p10 = pp10 + pp11;
-            p11 = (pp10 - pp11) * cos1_4;
+            p11 = (pp10 - pp11) * cos1a4;
             p12 = pp12 + pp13;
-            p13 = (pp12 - pp13) * cos1_4;
+            p13 = (pp12 - pp13) * cos1a4;
             p14 = pp14 + pp15;
-            p15 = (pp14 - pp15) * cos1_4;
+            p15 = (pp14 - pp15) * cos1a4;
 
             // this is pretty insane coding
             float tmp1;
@@ -235,22 +235,22 @@ namespace Cave.Media.Audio.MP3
             new_v0 = p1;
             new_v23 = -(new_v8 = p3) - p2;
 
-            p0 = (s0 - s31) * cos1_64;
-            p1 = (s1 - s30) * cos3_64;
-            p2 = (s2 - s29) * cos5_64;
-            p3 = (s3 - s28) * cos7_64;
-            p4 = (s4 - s27) * cos9_64;
-            p5 = (s5 - s26) * cos11_64;
-            p6 = (s6 - s25) * cos13_64;
-            p7 = (s7 - s24) * cos15_64;
-            p8 = (s8 - s23) * cos17_64;
-            p9 = (s9 - s22) * cos19_64;
-            p10 = (s10 - s21) * cos21_64;
-            p11 = (s11 - s20) * cos23_64;
-            p12 = (s12 - s19) * cos25_64;
-            p13 = (s13 - s18) * cos27_64;
-            p14 = (s14 - s17) * cos29_64;
-            p15 = (s15 - s16) * cos31_64;
+            p0 = (s0 - s31) * cos1a64;
+            p1 = (s1 - s30) * cos3a64;
+            p2 = (s2 - s29) * cos5a64;
+            p3 = (s3 - s28) * cos7a64;
+            p4 = (s4 - s27) * cos9a64;
+            p5 = (s5 - s26) * cos11a64;
+            p6 = (s6 - s25) * cos13a64;
+            p7 = (s7 - s24) * cos15a64;
+            p8 = (s8 - s23) * cos17a64;
+            p9 = (s9 - s22) * cos19a64;
+            p10 = (s10 - s21) * cos21a64;
+            p11 = (s11 - s20) * cos23a64;
+            p12 = (s12 - s19) * cos25a64;
+            p13 = (s13 - s18) * cos27a64;
+            p14 = (s14 - s17) * cos29a64;
+            p15 = (s15 - s16) * cos31a64;
 
 
             pp0 = p0 + p15;
@@ -261,68 +261,68 @@ namespace Cave.Media.Audio.MP3
             pp5 = p5 + p10;
             pp6 = p6 + p9;
             pp7 = p7 + p8;
-            pp8 = (p0 - p15) * cos1_32;
-            pp9 = (p1 - p14) * cos3_32;
-            pp10 = (p2 - p13) * cos5_32;
-            pp11 = (p3 - p12) * cos7_32;
-            pp12 = (p4 - p11) * cos9_32;
-            pp13 = (p5 - p10) * cos11_32;
-            pp14 = (p6 - p9) * cos13_32;
-            pp15 = (p7 - p8) * cos15_32;
+            pp8 = (p0 - p15) * cos1a32;
+            pp9 = (p1 - p14) * cos3a32;
+            pp10 = (p2 - p13) * cos5a32;
+            pp11 = (p3 - p12) * cos7a32;
+            pp12 = (p4 - p11) * cos9a32;
+            pp13 = (p5 - p10) * cos11a32;
+            pp14 = (p6 - p9) * cos13a32;
+            pp15 = (p7 - p8) * cos15a32;
 
 
             p0 = pp0 + pp7;
             p1 = pp1 + pp6;
             p2 = pp2 + pp5;
             p3 = pp3 + pp4;
-            p4 = (pp0 - pp7) * cos1_16;
-            p5 = (pp1 - pp6) * cos3_16;
-            p6 = (pp2 - pp5) * cos5_16;
-            p7 = (pp3 - pp4) * cos7_16;
+            p4 = (pp0 - pp7) * cos1a16;
+            p5 = (pp1 - pp6) * cos3a16;
+            p6 = (pp2 - pp5) * cos5a16;
+            p7 = (pp3 - pp4) * cos7a16;
             p8 = pp8 + pp15;
             p9 = pp9 + pp14;
             p10 = pp10 + pp13;
             p11 = pp11 + pp12;
-            p12 = (pp8 - pp15) * cos1_16;
-            p13 = (pp9 - pp14) * cos3_16;
-            p14 = (pp10 - pp13) * cos5_16;
-            p15 = (pp11 - pp12) * cos7_16;
+            p12 = (pp8 - pp15) * cos1a16;
+            p13 = (pp9 - pp14) * cos3a16;
+            p14 = (pp10 - pp13) * cos5a16;
+            p15 = (pp11 - pp12) * cos7a16;
 
 
             pp0 = p0 + p3;
             pp1 = p1 + p2;
-            pp2 = (p0 - p3) * cos1_8;
-            pp3 = (p1 - p2) * cos3_8;
+            pp2 = (p0 - p3) * cos1a8;
+            pp3 = (p1 - p2) * cos3a8;
             pp4 = p4 + p7;
             pp5 = p5 + p6;
-            pp6 = (p4 - p7) * cos1_8;
-            pp7 = (p5 - p6) * cos3_8;
+            pp6 = (p4 - p7) * cos1a8;
+            pp7 = (p5 - p6) * cos3a8;
             pp8 = p8 + p11;
             pp9 = p9 + p10;
-            pp10 = (p8 - p11) * cos1_8;
-            pp11 = (p9 - p10) * cos3_8;
+            pp10 = (p8 - p11) * cos1a8;
+            pp11 = (p9 - p10) * cos3a8;
             pp12 = p12 + p15;
             pp13 = p13 + p14;
-            pp14 = (p12 - p15) * cos1_8;
-            pp15 = (p13 - p14) * cos3_8;
+            pp14 = (p12 - p15) * cos1a8;
+            pp15 = (p13 - p14) * cos3a8;
 
 
             p0 = pp0 + pp1;
-            p1 = (pp0 - pp1) * cos1_4;
+            p1 = (pp0 - pp1) * cos1a4;
             p2 = pp2 + pp3;
-            p3 = (pp2 - pp3) * cos1_4;
+            p3 = (pp2 - pp3) * cos1a4;
             p4 = pp4 + pp5;
-            p5 = (pp4 - pp5) * cos1_4;
+            p5 = (pp4 - pp5) * cos1a4;
             p6 = pp6 + pp7;
-            p7 = (pp6 - pp7) * cos1_4;
+            p7 = (pp6 - pp7) * cos1a4;
             p8 = pp8 + pp9;
-            p9 = (pp8 - pp9) * cos1_4;
+            p9 = (pp8 - pp9) * cos1a4;
             p10 = pp10 + pp11;
-            p11 = (pp10 - pp11) * cos1_4;
+            p11 = (pp10 - pp11) * cos1a4;
             p12 = pp12 + pp13;
-            p13 = (pp12 - pp13) * cos1_4;
+            p13 = (pp12 - pp13) * cos1a4;
             p14 = pp14 + pp15;
-            p15 = (pp14 - pp15) * cos1_4;
+            p15 = (pp14 - pp15) * cos1a4;
 
 
             // manually doing something that a compiler should handle sucks
@@ -340,7 +340,7 @@ namespace Cave.Media.Audio.MP3
             new_v30 = (tmp1 = -p8 - p12 - p14 - p15) - p0;
             new_v28 = tmp1 - tmp2;
 
-            // insert V[0-15] (== new_v[0-15]) into actual v:    
+            // insert V[0-15] (== new_v[0-15]) into actual v:
             // float[] x2 = actual_v + actual_write_pos;
             float[] dest = actual_v;
 
@@ -800,10 +800,8 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples()
         {
-
             switch (m_Position)
             {
-
                 case 0:
                     compute_pcm_samples0();
                     break;
@@ -882,36 +880,36 @@ namespace Cave.Media.Audio.MP3
             actual_v = (actual_v == v1) ? v2 : v1;
         }
 
-        static readonly float cos1_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 64.0)));
-        static readonly float cos3_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 64.0)));
-        static readonly float cos5_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 5.0 / 64.0)));
-        static readonly float cos7_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 7.0 / 64.0)));
-        static readonly float cos9_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 9.0 / 64.0)));
-        static readonly float cos11_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 11.0 / 64.0)));
-        static readonly float cos13_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 13.0 / 64.0)));
-        static readonly float cos15_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 15.0 / 64.0)));
-        static readonly float cos17_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 17.0 / 64.0)));
-        static readonly float cos19_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 19.0 / 64.0)));
-        static readonly float cos21_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 21.0 / 64.0)));
-        static readonly float cos23_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 23.0 / 64.0)));
-        static readonly float cos25_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 25.0 / 64.0)));
-        static readonly float cos27_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 27.0 / 64.0)));
-        static readonly float cos29_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 29.0 / 64.0)));
-        static readonly float cos31_64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 31.0 / 64.0)));
-        static readonly float cos1_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 32.0)));
-        static readonly float cos3_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 32.0)));
-        static readonly float cos5_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 5.0 / 32.0)));
-        static readonly float cos7_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 7.0 / 32.0)));
-        static readonly float cos9_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 9.0 / 32.0)));
-        static readonly float cos11_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 11.0 / 32.0)));
-        static readonly float cos13_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 13.0 / 32.0)));
-        static readonly float cos15_32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 15.0 / 32.0)));
-        static readonly float cos1_16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 16.0)));
-        static readonly float cos3_16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 16.0)));
-        static readonly float cos5_16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 5.0 / 16.0)));
-        static readonly float cos7_16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 7.0 / 16.0)));
-        static readonly float cos1_8 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 8.0)));
-        static readonly float cos3_8 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 8.0)));
-        static readonly float cos1_4 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 4.0)));
+        static readonly float cos1a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 64.0)));
+        static readonly float cos3a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 64.0)));
+        static readonly float cos5a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 5.0 / 64.0)));
+        static readonly float cos7a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 7.0 / 64.0)));
+        static readonly float cos9a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 9.0 / 64.0)));
+        static readonly float cos11a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 11.0 / 64.0)));
+        static readonly float cos13a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 13.0 / 64.0)));
+        static readonly float cos15a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 15.0 / 64.0)));
+        static readonly float cos17a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 17.0 / 64.0)));
+        static readonly float cos19a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 19.0 / 64.0)));
+        static readonly float cos21a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 21.0 / 64.0)));
+        static readonly float cos23a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 23.0 / 64.0)));
+        static readonly float cos25a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 25.0 / 64.0)));
+        static readonly float cos27a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 27.0 / 64.0)));
+        static readonly float cos29a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 29.0 / 64.0)));
+        static readonly float cos31a64 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 31.0 / 64.0)));
+        static readonly float cos1a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 32.0)));
+        static readonly float cos3a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 32.0)));
+        static readonly float cos5a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 5.0 / 32.0)));
+        static readonly float cos7a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 7.0 / 32.0)));
+        static readonly float cos9a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 9.0 / 32.0)));
+        static readonly float cos11a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 11.0 / 32.0)));
+        static readonly float cos13a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 13.0 / 32.0)));
+        static readonly float cos15a32 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 15.0 / 32.0)));
+        static readonly float cos1a16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 16.0)));
+        static readonly float cos3a16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 16.0)));
+        static readonly float cos5a16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 5.0 / 16.0)));
+        static readonly float cos7a16 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 7.0 / 16.0)));
+        static readonly float cos1a8 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 8.0)));
+        static readonly float cos3a8 = (float)(1.0 / (2.0 * Math.Cos(Math.PI * 3.0 / 8.0)));
+        static readonly float cos1a4 = (float)(1.0 / (2.0 * Math.Cos(Math.PI / 4.0)));
     }
 }

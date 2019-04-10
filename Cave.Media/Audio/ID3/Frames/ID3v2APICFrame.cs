@@ -82,10 +82,10 @@ namespace Cave.Media.Audio.ID3.Frames
             byte[] descriptionBytes = ID3v2Encoding.GetBytes(encoding, description, true);
             byte[] mimeTypeBytes = ID3v2Encoding.GetBytes(encoding, mimeType, true);
             int contentSize = descriptionBytes.Length + mimeTypeBytes.Length + 1 + 1 + imageData.Length;
-            ID3v2FrameHeader frameHeader = ID3v2FrameHeader.Create(header, "APIC", flags, contentSize);
-            using (MemoryStream ms = new MemoryStream())
+            var frameHeader = ID3v2FrameHeader.Create(header, "APIC", flags, contentSize);
+            using (var ms = new MemoryStream())
             {
-                DataWriter writer = new DataWriter(ms);
+                var writer = new DataWriter(ms);
                 writer.Write(frameHeader.Data);
                 writer.Write((byte)encoding);
                 writer.Write(mimeTypeBytes);
@@ -109,7 +109,7 @@ namespace Cave.Media.Audio.ID3.Frames
         #region Parser functions
         void Parse()
         {
-            ID3v2EncodingType encoding = (ID3v2EncodingType)m_Content[0];
+            var encoding = (ID3v2EncodingType)m_Content[0];
             int index = 1 + ID3v2Encoding.Parse(0, m_Content, 1, out m_MimeType);
             m_PictureType = (ID3v2PictureType)m_Content[index++];
             index += ID3v2Encoding.Parse(encoding, m_Content, index, out m_Description);

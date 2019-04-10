@@ -48,7 +48,7 @@ namespace Cave.Media.OpenGL
         public delegate void CursorPosFunc([MarshalAs(UnmanagedType.Struct)] Window window, double xpos, double ypos);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="window"></param>
         /// <param name="count"></param>

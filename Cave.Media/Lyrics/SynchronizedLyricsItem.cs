@@ -40,7 +40,7 @@ namespace Cave.Media.Lyrics
         /// <summary>Saves the specified previous time.</summary>
         /// <param name="previousTime">The previous time.</param>
         /// <param name="writer">The writer.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void Save(TimeSpan previousTime, DataWriter writer)
         {
             // save time in milliseconds since last slc
@@ -64,8 +64,8 @@ namespace Cave.Media.Lyrics
             writer.Write((byte)0);
         }
 
-        /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return StringExtensions.FormatTime(TimeCode) + " " + StringExtensions.Join(Commands, ", ");

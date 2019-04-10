@@ -58,7 +58,7 @@ namespace Cave.Media
         /// <param name="z">z value.</param>
         public static Vector3 Create(float x, float y, float z)
         {
-            Vector3 l_Vector = new Vector3
+            var l_Vector = new Vector3
             {
                 X = x,
                 Y = y,
@@ -84,7 +84,7 @@ namespace Cave.Media
                 throw new ArgumentException(string.Format("Number of values do not match!"));
             }
 
-            Vector3 l_Vector = new Vector3
+            var l_Vector = new Vector3
             {
                 X = values[0],
                 Y = values[1],
@@ -302,7 +302,7 @@ namespace Cave.Media
                 return false;
             }
 
-            Vector3 other = (Vector3)obj;
+            var other = (Vector3)obj;
             return (other.X == X) && (other.Y == Y) && (other.Z == Z);
         }
 

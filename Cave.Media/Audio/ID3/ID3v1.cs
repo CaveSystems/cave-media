@@ -22,7 +22,7 @@ namespace Cave.Media.Audio.ID3
             stream.Seek(-128, SeekOrigin.End);
             byte[] buffer = new byte[128];
             stream.Read(buffer, 0, 128);
-            ID3v1 result = new ID3v1(buffer);
+            var result = new ID3v1(buffer);
             stream.Close();
             return result;
         }
@@ -34,35 +34,35 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public static string[] Genres => new string[]
                 {
-                    "Blues","ClassicRock","Country","Dance","Disco","Funk","Grunge","Hip-Hop",
-                    "Jazz","Metal","NewAge","Oldies","Other","Pop","R&B","Rap","Reggae",
-                    "Rock","Techno","Industrial","Alternative","Ska","DeathMetal","Pranks","Soundtrack",
-                    "Euro-Techno","Ambient","Trip-Hop","Vocal","Jazz+Funk","Fusion","Trance","Classical",
-                    "Instrumental","Acid","House","Game","SoundClip","Gospel","Noise","AlternRock",
-                    "Bass","Soul","Punk","Space","Meditative","InstrumentalPop","InstrumentalRock","Ethnic",
-                    "Gothic","Darkwave","Techno-Industrial","Electronic","Pop-Folk","Eurodance","Dream","SouthernRock",
-                    "Comedy","Cult","Gangsta","Top","ChristianRap","Pop/Funk","Jungle","NativeAmerican",
-                    "Cabaret","NewWave","Psychadelic","Rave","Showtunes","Trailer","Lo-Fi","Tribal",
-                    "AcidPunk","AcidJazz","Polka","Retro","Musical","Rock&Roll","HardRock","Folk",
-                    "Folk-Rock","NationalFolk","Swing","FastFusion","Bebob","Latin","Revival","Celtic",
-                    "Bluegrass","Avantgarde","GothicRock","ProgressiveRock","PsychedelicRock","SymphonicRock","SlowRock",
-                    "BigBand","Chorus","EasyListening","Acoustic","Humour","Speech","Chanson","Opera",
-                    "ChamberMusic","Sonata","Symphony","BootyBass","Primus","PornGroove","Satire","SlowJam",
-                    "Club","Tango","Samba","Folklore","Ballad","PowerBallad","RhythmicSoul","Freestyle",
-                    "Duet","PunkRock","DrumSolo","Acapella","Euro-House","DanceHall",
+                    "Blues", "ClassicRock", "Country", "Dance", "Disco", "Funk", "Grunge", "Hip-Hop",
+                    "Jazz", "Metal", "NewAge", "Oldies", "Other", "Pop", "R&B", "Rap", "Reggae",
+                    "Rock", "Techno", "Industrial", "Alternative", "Ska", "DeathMetal", "Pranks", "Soundtrack",
+                    "Euro-Techno", "Ambient", "Trip-Hop", "Vocal", "Jazz+Funk", "Fusion", "Trance", "Classical",
+                    "Instrumental", "Acid", "House", "Game", "SoundClip", "Gospel", "Noise", "AlternRock",
+                    "Bass", "Soul", "Punk", "Space", "Meditative", "InstrumentalPop", "InstrumentalRock", "Ethnic",
+                    "Gothic", "Darkwave", "Techno-Industrial", "Electronic", "Pop-Folk", "Eurodance", "Dream", "SouthernRock",
+                    "Comedy", "Cult", "Gangsta", "Top", "ChristianRap", "Pop/Funk", "Jungle", "NativeAmerican",
+                    "Cabaret", "NewWave", "Psychadelic", "Rave", "Showtunes", "Trailer", "Lo-Fi", "Tribal",
+                    "AcidPunk", "AcidJazz", "Polka", "Retro", "Musical", "Rock&Roll", "HardRock", "Folk",
+                    "Folk-Rock", "NationalFolk", "Swing", "FastFusion", "Bebob", "Latin", "Revival", "Celtic",
+                    "Bluegrass", "Avantgarde", "GothicRock", "ProgressiveRock", "PsychedelicRock", "SymphonicRock", "SlowRock",
+                    "BigBand", "Chorus", "EasyListening", "Acoustic", "Humour", "Speech", "Chanson", "Opera",
+                    "ChamberMusic", "Sonata", "Symphony", "BootyBass", "Primus", "PornGroove", "Satire", "SlowJam",
+                    "Club", "Tango", "Samba", "Folklore", "Ballad", "PowerBallad", "RhythmicSoul", "Freestyle",
+                    "Duet", "PunkRock", "DrumSolo", "Acapella", "Euro-House", "DanceHall",
                 };
         #endregion
 
         #region private fields and implementation
-        Encoding m_Encoding = Encoding.GetEncoding("ISO-8859-1");
-        string m_Title;
-        string m_Artist;
-        string m_Album;
-        string m_Year;
-        string m_Comment;
-        string m_Genre;
-        byte m_TrackNumber;
-        byte[] m_Data = null;
+        Encoding encoding = Encoding.GetEncoding("ISO-8859-1");
+        string title;
+        string artist;
+        string album;
+        string year;
+        string comment;
+        string genre;
+        byte trackNumber;
+        byte[] data = null;
         #endregion
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Cave.Media.Audio.ID3
                 throw new InvalidDataException();
             }
 
-            m_Data = data;
+            this.data = data;
             ParseData();
         }
 
@@ -99,33 +99,33 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         void ParseData()
         {
-            string str = m_Encoding.GetString(m_Data);
+            string str = encoding.GetString(data);
             if (str.Substring(0, 3) != "TAG")
             {
                 throw new InvalidDataException(string.Format("TAG header not found!"));
             }
 
-            m_Title = ASCII.Clean(str, 3, 30).TrimEnd();
-            m_Artist = ASCII.Clean(str, 33, 30).TrimEnd();
-            m_Album = ASCII.Clean(str, 63, 30).TrimEnd();
-            m_Year = ASCII.Clean(str, 93, 4).TrimEnd();
-            if ((m_Data[126] != 0) && (m_Data[125] == 0))
+            title = ASCII.Clean(str, 3, 30).TrimEnd();
+            artist = ASCII.Clean(str, 33, 30).TrimEnd();
+            album = ASCII.Clean(str, 63, 30).TrimEnd();
+            year = ASCII.Clean(str, 93, 4).TrimEnd();
+            if ((data[126] != 0) && (data[125] == 0))
             {
-                m_Comment = ASCII.Clean(str, 97, 28).TrimEnd();
-                m_TrackNumber = m_Data[126];
+                comment = ASCII.Clean(str, 97, 28).TrimEnd();
+                trackNumber = data[126];
             }
             else
             {
-                m_Comment = ASCII.Clean(str, 97, 30).TrimEnd();
+                comment = ASCII.Clean(str, 97, 30).TrimEnd();
             }
-            byte l_Genre = m_Data[127];
+            byte l_Genre = data[127];
             if (l_Genre < Genres.Length)
             {
-                m_Genre = Genres[l_Genre];
+                genre = Genres[l_Genre];
             }
             else
             {
-                m_Genre = null;
+                genre = null;
             }
         }
 
@@ -146,7 +146,7 @@ namespace Cave.Media.Audio.ID3
                 return false;
             }
 
-            m_Data = reader.Read(0, 128);
+            data = reader.Read(0, 128);
             ParseData();
             reader.Remove(128);
             return true;
@@ -160,9 +160,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Title
         {
-            get => m_Title;
-            set { m_Data = null;
-                m_Title = value; }
+            get => title;
+            set { data = null;
+                title = value; }
         }
 
         /// <summary>
@@ -170,9 +170,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Artist
         {
-            get => m_Artist;
-            set { m_Data = null;
-                m_Artist = value; }
+            get => artist;
+            set { data = null;
+                artist = value; }
         }
 
         /// <summary>
@@ -180,9 +180,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Album
         {
-            get => m_Album;
-            set { m_Data = null;
-                m_Album = value; }
+            get => album;
+            set { data = null;
+                album = value; }
         }
 
         /// <summary>
@@ -190,9 +190,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Year
         {
-            get => m_Year;
-            set { m_Data = null;
-                m_Year = value; }
+            get => year;
+            set { data = null;
+                year = value; }
         }
 
         /// <summary>
@@ -200,9 +200,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Comment
         {
-            get => m_Comment;
-            set { m_Data = null;
-                m_Comment = value; }
+            get => comment;
+            set { data = null;
+                comment = value; }
         }
 
         /// <summary>
@@ -210,9 +210,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public string Genre
         {
-            get => m_Genre;
-            set { m_Data = null;
-                m_Genre = value; }
+            get => genre;
+            set { data = null;
+                genre = value; }
         }
 
         /// <summary>
@@ -220,9 +220,9 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public byte TrackNumber
         {
-            get => m_TrackNumber;
-            set { m_Data = null;
-                m_TrackNumber = value; }
+            get => trackNumber;
+            set { data = null;
+                trackNumber = value; }
         }
 
         /// <summary>
@@ -243,34 +243,34 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                if (m_Data == null)
+                if (data == null)
                 {
-                    StringBuilder stringBuilder = new StringBuilder();
+                    var stringBuilder = new StringBuilder();
                     stringBuilder.Append("TAG");
-                    stringBuilder.Append(m_Title.ForceLength(30, "", "\0"));
-                    stringBuilder.Append(m_Artist.ForceLength(30, "", "\0"));
-                    stringBuilder.Append(m_Album.ForceLength(30, "", "\0"));
-                    stringBuilder.Append(m_Year.ForceLength(4, "", "\0"));
-                    if ((m_TrackNumber > 0) && (m_TrackNumber < 255))
+                    stringBuilder.Append(title.ForceLength(30, string.Empty, "\0"));
+                    stringBuilder.Append(artist.ForceLength(30, string.Empty, "\0"));
+                    stringBuilder.Append(album.ForceLength(30, string.Empty, "\0"));
+                    stringBuilder.Append(year.ForceLength(4, string.Empty, "\0"));
+                    if ((trackNumber > 0) && (trackNumber < 255))
                     {
-                        stringBuilder.Append(m_Comment.ForceLength(28, "", "\0"));
+                        stringBuilder.Append(comment.ForceLength(28, string.Empty, "\0"));
                         stringBuilder.Append("\0\0");
                     }
                     else
                     {
-                        stringBuilder.Append(m_Comment.ForceLength(30, "", "\0"));
+                        stringBuilder.Append(comment.ForceLength(30, string.Empty, "\0"));
                     }
                     stringBuilder.Append("\0");
-                    byte[] data = m_Encoding.GetBytes(stringBuilder.ToString());
+                    byte[] data = encoding.GetBytes(stringBuilder.ToString());
                     if (data.Length != 128)
                     {
                         throw new Exception(string.Format("Encoding for the TAG is invalid and does not return one byte for one character!"));
                     }
 
-                    data[127] = (byte)Array.IndexOf(Genres, m_Genre);
-                    m_Data = data;
+                    data[127] = (byte)Array.IndexOf(Genres, genre);
+                    this.data = data;
                 }
-                return (byte[])m_Data.Clone();
+                return (byte[])data.Clone();
             }
         }
 
@@ -280,7 +280,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             result.AppendLine(base.ToString());
             result.Append("Album: ");
             result.AppendLine(Album);
@@ -316,7 +316,7 @@ namespace Cave.Media.Audio.ID3
                 // try to load existing tag
                 byte[] buffer = new byte[128];
                 stream.Read(buffer, 0, 128);
-                ID3v1 result = new ID3v1(buffer);
+                var result = new ID3v1(buffer);
 
                 // success -> replace
                 stream.Position = l_Position;

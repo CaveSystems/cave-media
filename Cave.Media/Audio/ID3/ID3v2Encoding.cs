@@ -61,7 +61,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns><c>true</c> if value can be represented in iso encoding; otherwise, <c>false</c>.</returns>
         public static bool CanUseISO(string value)
         {
-            Encoding enc = Encoding.GetEncoding("ISO-8859-1");
+            var enc = Encoding.GetEncoding("ISO-8859-1");
             return value == enc.GetString(enc.GetBytes(value));
         }
 
@@ -160,7 +160,7 @@ namespace Cave.Media.Audio.ID3
                 l_MarkerLength = 0;
                 if (len == 0)
                 {
-                    text = "";
+                    text = string.Empty;
                     return 0;
                 }
             }

@@ -11,10 +11,10 @@ using System;
 namespace Cave.Media.Audio.MP3
 {
     /// <summary> The Equalizer class can be used to specify
-    /// equalization settings for the MPEG audio decoder. 
-    /// The equalizer consists of 32 band-pass filters. 
+    /// equalization settings for the MPEG audio decoder.
+    /// The equalizer consists of 32 band-pass filters.
     /// Each band of the equalizer can take on a fractional value between -1.0 and +1.0.
-    /// At -1.0, the input signal is attenuated by 6dB, at +1.0 the signal is amplified by 6dB. 
+    /// At -1.0, the input signal is attenuated by 6dB, at +1.0 the signal is amplified by 6dB.
     /// </summary>
     public sealed class MP3AudioEqualizer
     {
@@ -23,13 +23,13 @@ namespace Cave.Media.Audio.MP3
         /// <summary>
         /// Equalizer setting to denote that a given band will not be present in the output signal.
         /// </summary>
-        public static readonly float BAND_NOT_PRESENT = float.NegativeInfinity;
+        public static readonly float BandNotPresent = float.NegativeInfinity;
 
         float[] m_Values;
 
         float limit(float eq)
         {
-            if (eq == BAND_NOT_PRESENT)
+            if (eq == BandNotPresent)
             {
                 return eq;
             }
@@ -106,7 +106,7 @@ namespace Cave.Media.Audio.MP3
         public float GetFactor(int band)
         {
             float value = m_Values[band];
-            return value == BAND_NOT_PRESENT ? 0.0f : (float)Math.Pow(2.0, value);
+            return value == BandNotPresent ? 0.0f : (float)Math.Pow(2.0, value);
         }
 
         /// <summary>

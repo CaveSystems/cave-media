@@ -28,13 +28,13 @@ namespace Cave.Media.Structs
             }
 
             byte[] buffer = new byte[16];
-            if (16 != stream.Read(buffer, 0, 16))
+            if (stream.Read(buffer, 0, 16) != 16)
             {
                 throw new EndOfStreamException();
             }
             IntPtr bufferPtr = Marshal.AllocHGlobal(16);
             Marshal.Copy(buffer, 0, bufferPtr, 16);
-            ICONDIRENTRY result = (ICONDIRENTRY)Marshal.PtrToStructure(bufferPtr, typeof(ICONDIRENTRY));
+            var result = (ICONDIRENTRY)Marshal.PtrToStructure(bufferPtr, typeof(ICONDIRENTRY));
             Marshal.FreeHGlobal(bufferPtr);
             return result;
         }

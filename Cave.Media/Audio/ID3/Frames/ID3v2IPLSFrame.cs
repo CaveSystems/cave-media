@@ -18,10 +18,10 @@ namespace Cave.Media.Audio.ID3.Frames
             Encoding encoding = ID3v2Encoding.Get((ID3v2EncodingType)m_Content[0]);
             string[] strings = encoding.GetString(m_Data, 1, m_Content.Length - 1).Split('\0');
             int i = 0;
-            List<ID3v2Contributor> l_List = new List<ID3v2Contributor>();
+            var l_List = new List<ID3v2Contributor>();
             while (i < strings.Length)
             {
-                ID3v2Contributor item = new ID3v2Contributor();
+                var item = new ID3v2Contributor();
                 item.Involvement = strings[i++];
                 item.Involvee = strings[i++];
                 l_List.Add(item);

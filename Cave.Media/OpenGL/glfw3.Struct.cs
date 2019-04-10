@@ -26,30 +26,30 @@ namespace Cave.Media.OpenGL
                 Ptr = ptr;
             }
 
-            /// <summary>Determines whether the specified <see cref="System.Object" />, is equal to this instance.</summary>
-            /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+            /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
+            /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
             /// <returns>
-            ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
             public override bool Equals(object obj)
             {
                 return obj is Cursor ? Equals((Cursor)obj) : false;
             }
 
-            /// <summary>Determines whether the specified <see cref="System.Object" />, is equal to this instance.</summary>
+            /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
             /// <param name="obj">The <see cref="Cursor" /> to compare with this instance.</param>
             /// <returns>
             ///   <c>true</c> if the specified <see cref="Cursor" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
             public bool Equals(Cursor obj) => Ptr == obj.Ptr;
 
-            /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-            /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+            /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+            /// <returns>A <see cref="string" /> that represents this instance.</returns>
             public override string ToString() => Ptr.ToString();
 
             /// <summary>Returns a hash code for this instance.</summary>
             /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             /// </returns>
             public override int GetHashCode() => Ptr.GetHashCode();
 
@@ -65,7 +65,7 @@ namespace Cave.Media.OpenGL
             /// <returns>The result of the operator.</returns>
             public static bool operator !=(Cursor a, Cursor b) => !a.Equals(b);
 
-            /// <summary>Performs an implicit conversion from <see cref="Cursor"/> to <see cref="System.Boolean"/>.</summary>
+            /// <summary>Performs an implicit conversion from <see cref="Cursor"/> to <see cref="bool"/>.</summary>
             /// <param name="obj">The object.</param>
             /// <returns>The result of the conversion.</returns>
             public static implicit operator bool(Cursor obj) => obj.Ptr != IntPtr.Zero;
@@ -193,10 +193,10 @@ namespace Cave.Media.OpenGL
                 Ptr = ptr;
             }
 
-            /// <summary>Determines whether the specified <see cref="System.Object" />, is equal to this instance.</summary>
-            /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+            /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
+            /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
             /// <returns>
-            ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
             public override bool Equals(object obj)
             {
@@ -210,13 +210,13 @@ namespace Cave.Media.OpenGL
             /// </returns>
             public bool Equals(Monitor obj) => Ptr == obj.Ptr;
 
-            /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-            /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+            /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+            /// <returns>A <see cref="string" /> that represents this instance.</returns>
             public override string ToString() => Ptr.ToString();
 
             /// <summary>Returns a hash code for this instance.</summary>
             /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             /// </returns>
             public override int GetHashCode() => Ptr.GetHashCode();
 
@@ -232,7 +232,7 @@ namespace Cave.Media.OpenGL
             /// <returns>The result of the operator.</returns>
             public static bool operator !=(Monitor a, Monitor b) => !a.Equals(b);
 
-            /// <summary>Performs an implicit conversion from <see cref="Monitor"/> to <see cref="System.Boolean"/>.</summary>
+            /// <summary>Performs an implicit conversion from <see cref="Monitor"/> to <see cref="bool"/>.</summary>
             /// <param name="obj">The object.</param>
             /// <returns>The result of the conversion.</returns>
             public static implicit operator bool(Monitor obj) => obj.Ptr != IntPtr.Zero;
@@ -276,10 +276,10 @@ namespace Cave.Media.OpenGL
             /// </summary>
             public int RefreshRate;
 
-            /// <summary>Determines whether the specified <see cref="System.Object" />, is equal to this instance.</summary>
-            /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+            /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
+            /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
             /// <returns>
-            ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
             public override bool Equals(object obj)
             {
@@ -301,8 +301,8 @@ namespace Cave.Media.OpenGL
                     && obj.RefreshRate == RefreshRate;
             }
 
-            /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-            /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+            /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+            /// <returns>A <see cref="string" /> that represents this instance.</returns>
             public override string ToString()
             {
                 return string.Format("VideoMode(width: {0}, height: {1}, redBits: {2}, greenBits: {3}, blueBits: {4}, refreshRate: {5})",
@@ -311,13 +311,12 @@ namespace Cave.Media.OpenGL
                     RedBits.ToString(),
                     GreenBits.ToString(),
                     BlueBits.ToString(),
-                    RefreshRate.ToString()
-                );
+                    RefreshRate.ToString());
             }
 
             /// <summary>Returns a hash code for this instance.</summary>
             /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             /// </returns>
             public override int GetHashCode()
             {
@@ -371,10 +370,10 @@ namespace Cave.Media.OpenGL
                 Ptr = ptr;
             }
 
-            /// <summary>Determines whether the specified <see cref="System.Object" />, is equal to this instance.</summary>
-            /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+            /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
+            /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
             /// <returns>
-            ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
             public override bool Equals(object obj)
             {
@@ -391,13 +390,13 @@ namespace Cave.Media.OpenGL
             /// <summary>Determines whether the specified <see cref="Window" />, is valid.</summary>
             public bool IsValid { get => Ptr != IntPtr.Zero; }
 
-            /// <summary>Returns a <see cref="System.String" /> that represents this instance.</summary>
-            /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+            /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
+            /// <returns>A <see cref="string" /> that represents this instance.</returns>
             public override string ToString() => Ptr.ToString();
 
             /// <summary>Returns a hash code for this instance.</summary>
             /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             /// </returns>
             public override int GetHashCode() => Ptr.GetHashCode();
 

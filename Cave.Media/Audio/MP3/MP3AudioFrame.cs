@@ -100,7 +100,7 @@ namespace Cave.Media.Audio.MP3
             if (reader.EnsureBuffer(dataLength + 4))
             {
                 byte[] nextHeaderBuffer = reader.Read(dataLength, 4);
-                MP3AudioFrameHeader next = new MP3AudioFrameHeader(nextHeaderBuffer);
+                var next = new MP3AudioFrameHeader(nextHeaderBuffer);
                 if (next.Validation != MP3AudioFrameHeadervalidation.Valid)
                 {
                     if ((nextHeaderBuffer[0] == 'I') && (nextHeaderBuffer[1] == 'D') && (nextHeaderBuffer[2] == '3'))

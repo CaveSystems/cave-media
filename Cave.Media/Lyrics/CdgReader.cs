@@ -27,13 +27,13 @@ namespace Cave.Media.Lyrics
         /// <returns></returns>
         public static SynchronizedLyrics ReadAllFrames(Stream stream)
         {
-            List<SynchronizedLyricsItem> items = new List<SynchronizedLyricsItem>();
-            CdgReader reader = new CdgReader(stream);
+            var items = new List<SynchronizedLyricsItem>();
+            var reader = new CdgReader(stream);
             CdgPacket packet;
             TimeSpan time;
             while (reader.GetNextPacket(out packet, out time))
             {
-                SynchronizedLyricsItemBuilder builder = new SynchronizedLyricsItemBuilder();
+                var builder = new SynchronizedLyricsItemBuilder();
                 builder.TimeCode = time;
 
                 switch (packet.Instruction)
@@ -173,7 +173,7 @@ namespace Cave.Media.Lyrics
         /// <param name="packet">The packet.</param>
         /// <param name="time">The time.</param>
         /// <returns></returns>
-        /// <exception cref="System.ObjectDisposedException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
         public bool GetNextPacket(out CdgPacket packet, out TimeSpan time)
         {
             if (m_Reader == null)

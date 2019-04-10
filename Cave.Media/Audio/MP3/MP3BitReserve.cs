@@ -8,10 +8,10 @@ using System;
 
 namespace Cave.Media.Audio.MP3
 {
-    /// <summary> 
+    /// <summary>
     /// Implementation of a Bit Reservoir for the Mpeg Layer III decoder.
     /// We use one byte of ar byte array per bit. Zero means bit is unset, non-zero means the bit is set.
-    /// Although this may seem waseful, this can be a factor of two quicker than packing 8 bits to a byte and extracting. 
+    /// Although this may seem waseful, this can be a factor of two quicker than packing 8 bits to a byte and extracting.
     /// </summary>
     public sealed class MP3BitReserve
     {

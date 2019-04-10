@@ -34,10 +34,10 @@ namespace Cave.Media.Lyrics
         /// <returns></returns>
         public static SynchronizedLyrics FromStream(MemoryStream stream)
         {
-            List<SynchronizedLyricsItem> items = new List<SynchronizedLyricsItem>();
+            var items = new List<SynchronizedLyricsItem>();
             long milliSecond = 0;
 
-            DataReader reader = new DataReader(stream);
+            var reader = new DataReader(stream);
             if (reader.ReadString(3) != "SLT")
             {
                 throw new InvalidDataException("Invalid format!");
@@ -53,7 +53,7 @@ namespace Cave.Media.Lyrics
                 long milliSecondDistance = reader.Read7BitEncodedInt64();
                 milliSecond += milliSecondDistance;
 
-                SynchronizedLyricsItemBuilder item = new SynchronizedLyricsItemBuilder();
+                var item = new SynchronizedLyricsItemBuilder();
                 item.TimeCode = new TimeSpan(milliSecond * TimeSpan.TicksPerMillisecond);
                 while (true)
                 {
@@ -122,7 +122,7 @@ namespace Cave.Media.Lyrics
         /// <param name="stream">The stream.</param>
         public void Save(Stream stream)
         {
-            DataWriter writer = new DataWriter(stream);
+            var writer = new DataWriter(stream);
             writer.Write("SLT");
             writer.Write7BitEncoded32(1);
             TimeSpan timeCode = TimeSpan.Zero;
@@ -137,7 +137,7 @@ namespace Cave.Media.Lyrics
         /// <returns></returns>
         public byte[] ToArray()
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 Save(ms);
                 return ms.ToArray();
