@@ -21,7 +21,10 @@ namespace Cave.Media
         /// <summary>Creates a bitmap instance from the specified data.</summary>
         public Bitmap32 Create(byte[] data)
         {
-            using (var ms = new MemoryStream(data)) return FromStream(ms);
+            using (var ms = new MemoryStream(data))
+            {
+                return FromStream(ms);
+            }
         }
 
         /// <summary>Creates a new bitmap instance</summary>

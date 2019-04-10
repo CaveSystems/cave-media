@@ -85,7 +85,6 @@ namespace Cave.Media
         }
 
         string base32data;
-        byte[] data;
         uint[] blocks;
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace Cave.Media
         /// <summary>
         /// Gets the full fingerprint data.
         /// </summary>
-        public byte[] Data => data;
+        public byte[] Data { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FingerPrint"/> class.
@@ -113,7 +112,7 @@ namespace Cave.Media
         {
             PixelSize = pixelSize;
             this.blocks = blocks;
-            this.data = data;
+            this.Data = data;
             if (data.Length != ((pixelSize * pixelSize * 6) + 7) / 8)
             {
                 throw new ArgumentOutOfRangeException("data.Length", "Data length is out of range!");

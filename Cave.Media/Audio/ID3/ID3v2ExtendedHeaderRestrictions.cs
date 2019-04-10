@@ -7,7 +7,6 @@ namespace Cave.Media.Audio.ID3
     /// This header is a result of a collective brainfuck. The only useful setting is the crc, that is ignored by most decoders.
     /// Attention: Some players may skip the whole tag if this header is used.
     /// </summary>
-
     public class ID3v2ExtendedHeaderRestrictions
     {
         /// <summary>

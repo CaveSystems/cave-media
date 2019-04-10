@@ -3,7 +3,6 @@ namespace Cave.Media
     /// <summary>
     /// Provides available sample formats.
     /// </summary>
-
     public enum AudioSampleFormat
     {
         /// <summary>

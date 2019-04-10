@@ -7,8 +7,6 @@ namespace Cave.Media.Audio
     /// </summary>
     public abstract class AudioDevice : IAudioDevice
     {
-        string m_Name;
-        IAudioDeviceCapabilities m_Capabilities;
         IAudioConfiguration m_Configuration = null;
 
         /// <summary>Gets the used audio API.</summary>
@@ -26,19 +24,9 @@ namespace Cave.Media.Audio
         /// </exception>
         protected AudioDevice(IAudioAPI api, string name, IAudioDeviceCapabilities capabilities)
         {
-            if (api == null)
-            {
-                throw new ArgumentNullException("API");
-            }
-
-            if (name == null)
-            {
-                throw new ArgumentNullException("Name");
-            }
-
-            API = api;
-            m_Name = name;
-            m_Capabilities = capabilities;
+            API = api ?? throw new ArgumentNullException("API");
+            Name = name ?? throw new ArgumentNullException("Name");
+            Capabilities = capabilities;
         }
 
         #region IAudioDevice Member
@@ -46,18 +34,12 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Obtains the devices capabilities.
         /// </summary>
-        public IAudioDeviceCapabilities Capabilities
-        {
-            get { return m_Capabilities; }
-        }
+        public IAudioDeviceCapabilities Capabilities { get; private set; }
 
         /// <summary>
         /// Retrieves the device name.
         /// </summary>
-        public string Name
-        {
-            get { return m_Name; }
-        }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Obtains whether the device supports playback or not.
@@ -89,7 +71,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public override string ToString()
         {
-            return m_Name;
+            return Name;
         }
 
         /// <summary>
@@ -100,7 +82,7 @@ namespace Cave.Media.Audio
         public override bool Equals(object obj)
         {
             var other = obj as IAudioDevice;
-            return other == null ? false : Equals(other.Name, m_Name);
+            return other == null ? false : Equals(other.Name, Name);
         }
 
         /// <summary>

@@ -5,7 +5,6 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides an interface for audio encoder implementations.
     /// </summary>
-
     public interface IAudioEncoder
     {
         /// <summary>

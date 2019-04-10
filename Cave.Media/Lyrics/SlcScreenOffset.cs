@@ -19,7 +19,8 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Initializes a new instance of the <see cref="SlcScreenOffset"/> class.</summary>
         /// <param name="reader">The reader.</param>
-        public SlcScreenOffset(DataReader reader) : base(SynchronizedLyricsCommandType.ScreenOffset)
+        public SlcScreenOffset(DataReader reader)
+            : base(SynchronizedLyricsCommandType.ScreenOffset)
         {
             Horizontal = reader.ReadInt8();
             Vertical = reader.ReadInt8();

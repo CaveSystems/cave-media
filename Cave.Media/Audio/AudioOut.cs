@@ -6,12 +6,8 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides a basic platform and device independent audio queue.
     /// </summary>
-    public abstract class AudioOut: IDisposable
+    public abstract class AudioOut : IDisposable
     {
-        IAudioConfiguration m_Configuration;
-        IAudioDevice m_Device;
-        AudioDeviceState m_State = AudioDeviceState.Stopped;
-
         #region constructor
 
         /// <summary>
@@ -21,18 +17,8 @@ namespace Cave.Media.Audio
         /// <param name="configuration">The configuration to use.</param>
         protected internal AudioOut(IAudioDevice device, IAudioConfiguration configuration)
         {
-            if (device == null)
-            {
-                throw new ArgumentNullException(nameof(device));
-            }
-
-            if (configuration == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
-
-            m_Device = device;
-            m_Configuration = configuration;
+            Device = device ?? throw new ArgumentNullException(nameof(device));
+            this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
         #endregion
 
@@ -97,7 +83,7 @@ namespace Cave.Media.Audio
         /// <param name="data">The data.</param>
         public void Write(byte[] data)
         {
-            Write(new AudioData(m_Configuration.SamplingRate, m_Configuration.Format, m_Configuration.ChannelSetup, TimeBuffered, 0, 0, data));
+            Write(new AudioData(Configuration.SamplingRate, Configuration.Format, Configuration.ChannelSetup, TimeBuffered, 0, 0, data));
         }
 
         /// <summary>
@@ -105,16 +91,16 @@ namespace Cave.Media.Audio
         /// </summary>
         public void Start()
         {
-            switch (m_State)
+            switch (State)
             {
                 case AudioDeviceState.Started: throw new InvalidOperationException(string.Format("Cannot start device twice!"));
                 case AudioDeviceState.Invalid: throw new InvalidOperationException(string.Format("Device is invalid!"));
                 case AudioDeviceState.Stopped: break;
-                default: throw new NotImplementedException(string.Format("Unknown state {0}!", m_State));
+                default: throw new NotImplementedException(string.Format("Unknown state {0}!", State));
             }
             Trace.WriteLine("Start Playback");
             StartPlayback();
-            m_State = AudioDeviceState.Started;
+            State = AudioDeviceState.Started;
         }
 
         /// <summary>
@@ -122,18 +108,18 @@ namespace Cave.Media.Audio
         /// </summary>
         public void Stop()
         {
-            switch (m_State)
+            switch (State)
             {
                 case AudioDeviceState.Started: break;
                 case AudioDeviceState.Invalid: throw new InvalidOperationException(string.Format("Device is invalid!"));
                 case AudioDeviceState.Stopped: throw new InvalidOperationException(string.Format("Cannot stop device (was not started)!"));
                 case AudioDeviceState.Disposed: throw new ObjectDisposedException(LogSourceName);
                 case AudioDeviceState.Closed: throw new InvalidOperationException(string.Format("Device already closed!"));
-                default: throw new NotImplementedException(string.Format("Unknown state {0}!", m_State));
+                default: throw new NotImplementedException(string.Format("Unknown state {0}!", State));
             }
             Trace.WriteLine("Stop Playback");
             StopPlayback();
-            m_State = AudioDeviceState.Stopped;
+            State = AudioDeviceState.Stopped;
         }
 
         /// <summary>
@@ -141,14 +127,14 @@ namespace Cave.Media.Audio
         /// </summary>
         public virtual void Close()
         {
-            if (m_State == AudioDeviceState.Started)
+            if (State == AudioDeviceState.Started)
             {
                 Stop();
             }
 
-            if (m_State < AudioDeviceState.Closed)
+            if (State < AudioDeviceState.Closed)
             {
-                m_State = AudioDeviceState.Closed;
+                State = AudioDeviceState.Closed;
                 Dispose();
             }
         }
@@ -158,9 +144,9 @@ namespace Cave.Media.Audio
         /// </summary>
         public void Dispose()
         {
-            if (m_State < AudioDeviceState.Disposed)
+            if (State < AudioDeviceState.Disposed)
             {
-                m_State = AudioDeviceState.Disposed;
+                State = AudioDeviceState.Disposed;
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }
@@ -190,36 +176,36 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Retrieves the <see cref="IAudioConfiguration"/> used by this queue.
         /// </summary>
-        public IAudioConfiguration Configuration { get { return m_Configuration; } }
+        public IAudioConfiguration Configuration { get; private set; }
 
         /// <summary>
         /// Retrieves the <see cref="IAudioDevice"/> used by this queue.
         /// </summary>
-        public IAudioDevice Device { get { return m_Device; } }
+        public IAudioDevice Device { get; private set; }
 
         /// <summary>
         /// Obtains the time passed since starting this queue.
         /// </summary>
-        public long TicksPassed { get { return BytesPassed / m_Configuration.BytesPerTick; } }
+        public long TicksPassed { get { return BytesPassed / Configuration.BytesPerTick; } }
 
         /// <summary>
         /// Obtains the current state of the device.
         /// </summary>
-        public AudioDeviceState State { get { return m_State; } }
+        public AudioDeviceState State { get; private set; } = AudioDeviceState.Stopped;
 
         /// <summary>
         /// Obtains the time buffered (time to play until queue gets empty).
         /// </summary>
-        public TimeSpan TimeBuffered { get { return TimeSpan.FromSeconds((double)BytesBuffered / (m_Configuration.BytesPerTick * m_Configuration.SamplingRate)); } }
+        public TimeSpan TimeBuffered { get { return TimeSpan.FromSeconds((double)BytesBuffered / (Configuration.BytesPerTick * Configuration.SamplingRate)); } }
 
         /// <summary>
         /// Obtains the time passed since starting this queue.
         /// </summary>
-        public TimeSpan TimePassed { get { return TimeSpan.FromSeconds(TicksPassed / (double)m_Configuration.SamplingRate); } }
+        public TimeSpan TimePassed { get { return TimeSpan.FromSeconds(TicksPassed / (double)Configuration.SamplingRate); } }
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return "AudioOut: " + m_Device.Name; } }
+        public string LogSourceName { get { return "AudioOut: " + Device.Name; } }
         #endregion
     }
 }

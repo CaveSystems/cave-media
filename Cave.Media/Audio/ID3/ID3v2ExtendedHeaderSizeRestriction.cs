@@ -3,7 +3,6 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Size and FrameCount restrictions.
     /// </summary>
-
     public enum ID3v2ExtendedHeaderSizeRestriction
     {
         /// <summary>

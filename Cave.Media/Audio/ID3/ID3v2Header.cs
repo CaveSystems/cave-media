@@ -1,7 +1,6 @@
+using System;
 using System.IO;
 using Cave.Media.Audio.MP3;
-using System;
-using Cave.Collections.Generic;
 
 namespace Cave.Media.Audio.ID3
 {
@@ -12,23 +11,21 @@ namespace Cave.Media.Audio.ID3
     {
         #region private fields and implementation
         byte[] m_Data;
-        byte m_Version;
         byte m_Revision;
-        ID3v2HeaderFlags m_Flags;
         int m_BodySize;
 
         ID3v2HeaderFlags CheckFlags(byte b)
         {
-            switch (m_Version)
+            switch (Version)
             {
                 case 0:
                 case 1:
-                    throw new InvalidDataException(string.Format("Invalid ID3v2.{0} tag!", m_Version));
+                    throw new InvalidDataException(string.Format("Invalid ID3v2.{0} tag!", Version));
 
                 case 2:
                     if ((b & 0x3F) != 0)
                     {
-                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", Version));
                     }
 
                     break;
@@ -36,7 +33,7 @@ namespace Cave.Media.Audio.ID3
                 case 3:
                     if ((b & 0x1F) != 0)
                     {
-                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", Version));
                     }
 
                     break;
@@ -44,7 +41,7 @@ namespace Cave.Media.Audio.ID3
                 case 4:
                     if ((b & 0x0F) != 0)
                     {
-                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", m_Version));
+                        throw new InvalidDataException(string.Format("Invalid flags present at ID3v2.{0} tag!", Version));
                     }
 
                     break;
@@ -65,9 +62,9 @@ namespace Cave.Media.Audio.ID3
                 throw new InvalidDataException(string.Format("Missing ID3 identifier!"));
             }
 
-            m_Version = m_Data[3];
+            Version = m_Data[3];
             m_Revision = m_Data[4];
-            m_Flags = CheckFlags(m_Data[5]);
+            Flags = CheckFlags(m_Data[5]);
             m_BodySize = ID3v2DeUnsync.Int32(m_Data, 6);
         }
 
@@ -114,31 +111,31 @@ namespace Cave.Media.Audio.ID3
         /// <exception cref="NotSupportedException"></exception>
         public ID3v2Header(byte version, byte revision, ID3v2HeaderFlags flags, int size)
         {
-            m_Version = version;
+            Version = version;
             m_Revision = revision;
-            m_Flags = flags;
+            Flags = flags;
             m_BodySize = size;
 
-            switch (m_Version)
+            switch (Version)
             {
                 case 2:
-                    m_Flags = (ID3v2HeaderFlags)((int)m_Flags & 0xC0);
+                    Flags = (ID3v2HeaderFlags)((int)Flags & 0xC0);
                     throw new NotImplementedException("Missing ID3v2.2 implementation.");
                 case 3:
-                    m_Flags = (ID3v2HeaderFlags)((int)m_Flags & 0xE0);
+                    Flags = (ID3v2HeaderFlags)((int)Flags & 0xE0);
                     break;
                 case 4:
-                    m_Flags = (ID3v2HeaderFlags)((int)m_Flags & 0xF0);
+                    Flags = (ID3v2HeaderFlags)((int)Flags & 0xF0);
                     break;
-                default: throw new NotSupportedException(string.Format("ID3v2.{0} is not supported!", m_Version));
+                default: throw new NotSupportedException(string.Format("ID3v2.{0} is not supported!", Version));
             }
             m_Data = new byte[10];
             m_Data[0] = (byte)'I';
             m_Data[1] = (byte)'D';
             m_Data[2] = (byte)'3';
-            m_Data[3] = m_Version;
+            m_Data[3] = Version;
             m_Data[4] = 0;
-            m_Data[5] = (byte)((int)m_Flags & 0xF0);
+            m_Data[5] = (byte)((int)Flags & 0xF0);
             ID3v2EnUnsync.Int32(m_BodySize, m_Data, 6);
         }
 
@@ -147,7 +144,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Gets/sets the ID3v2 (major) version used.
         /// </summary>
-        public byte Version { get { return m_Version; } }
+        public byte Version { get; private set; }
 
         /// <summary>
         /// Gets/sets the ID3v2 revision used.
@@ -157,7 +154,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Gets/sets the ID3v2 revision used.
         /// </summary>
-        public ID3v2HeaderFlags Flags { get { return m_Flags; } }
+        public ID3v2HeaderFlags Flags { get; private set; }
 
         /// <summary>
         /// The ID3v2 tag size is the size of the complete tag after

@@ -7,7 +7,6 @@ namespace Cave.Media.Audio
     {
         readonly IAudioConfiguration[] m_OutputConfigurations;
         readonly IAudioConfiguration[] m_InputConfigurations;
-        readonly AudioDeviceType m_Type;
 
         /// <summary>
         /// Creates a new <see cref="AudioDeviceCapabilities"/> object.
@@ -16,17 +15,17 @@ namespace Cave.Media.Audio
         /// <param name="configurations"></param>
         public AudioDeviceCapabilities(AudioDeviceType devType, params IAudioConfiguration[] configurations)
         {
-            m_Type = devType;
+            Type = devType;
             if (configurations == null)
             {
                 configurations = new IAudioConfiguration[0];
             }
 
-            if ((m_Type & AudioDeviceType.Input) != 0)
+            if ((Type & AudioDeviceType.Input) != 0)
             {
                 m_InputConfigurations = configurations;
             }
-            if ((m_Type & AudioDeviceType.Output) != 0)
+            if ((Type & AudioDeviceType.Output) != 0)
             {
                 m_OutputConfigurations = configurations;
             }
@@ -40,7 +39,7 @@ namespace Cave.Media.Audio
         /// <param name="inputConfigurations">The available input configurations.</param>
         public AudioDeviceCapabilities(AudioDeviceType devType, IAudioConfiguration[] outputConfigurations, IAudioConfiguration[] inputConfigurations)
         {
-            m_Type = devType;
+            Type = devType;
             if (outputConfigurations == null)
             {
                 outputConfigurations = new IAudioConfiguration[0];
@@ -58,7 +57,7 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Determines the device type.
         /// </summary>
-        public AudioDeviceType Type { get { return m_Type; } }
+        public AudioDeviceType Type { get; private set; }
 
         /// <summary>
         /// Determines if the device is an input device.

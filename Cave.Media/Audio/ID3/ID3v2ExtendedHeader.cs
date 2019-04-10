@@ -1,6 +1,5 @@
-using Cave.Collections.Generic;
-using Cave.Media.Audio.MP3;
 using System;
+using Cave.Media.Audio.MP3;
 
 namespace Cave.Media.Audio.ID3
 {
@@ -27,12 +26,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="header"></param>
         public ID3v2ExtendedHeader(ID3v2Header header)
         {
-            if (header == null)
-            {
-                throw new ArgumentNullException("Header");
-            }
-
-            m_Header = header;
+            m_Header = header ?? throw new ArgumentNullException("Header");
         }
         #endregion
 

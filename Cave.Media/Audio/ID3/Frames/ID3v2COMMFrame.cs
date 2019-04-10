@@ -7,20 +7,19 @@ namespace Cave.Media.Audio.ID3.Frames
     /// This frame is intended for any kind of full text information that
     /// does not fit in any other frame.
     /// </summary>
-
     public sealed class ID3v2COMMFrame : ID3v2Frame
     {
-        string m_Language = null;
-        string m_Description = null;
-        string[] m_Lines;
+        string language = null;
+        string description = null;
+        string[] lines;
 
         void Parse()
         {
             var encoding = (ID3v2EncodingType)m_Content[0];
-            m_Language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
-            int len = ID3v2Encoding.Parse(encoding, m_Content, 4, out m_Description);
+            language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
+            int len = ID3v2Encoding.Parse(encoding, m_Content, 4, out description);
             ID3v2Encoding.Parse(encoding, m_Content, 4 + len, out string text);
-            m_Lines = text.SplitNewLine();
+            lines = text.SplitNewLine();
         }
 
         internal ID3v2COMMFrame(ID3v2Frame frame)
@@ -39,12 +38,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Language == null)
+                if (language == null)
                 {
                     Parse();
                 }
 
-                return m_Language;
+                return language;
             }
         }
 
@@ -55,12 +54,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Description == null)
+                if (description == null)
                 {
                     Parse();
                 }
 
-                return m_Description;
+                return description;
             }
         }
 
@@ -71,12 +70,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Lines == null)
+                if (lines == null)
                 {
                     Parse();
                 }
 
-                return m_Lines;
+                return lines;
             }
         }
 

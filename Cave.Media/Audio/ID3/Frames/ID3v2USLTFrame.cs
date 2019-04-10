@@ -6,7 +6,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// other vocal activities. The head includes an encoding descriptor and
     /// a content descriptor.
     /// </summary>
-
     public sealed class ID3v2USLTFrame : ID3v2Frame
     {
         bool m_Parsed = false;

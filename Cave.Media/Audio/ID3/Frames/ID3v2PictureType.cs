@@ -3,7 +3,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// <summary>
     /// Provides avaiable ID3v2 pricture types.
     /// </summary>
-
     public enum ID3v2PictureType : byte
     {
         /// <summary>

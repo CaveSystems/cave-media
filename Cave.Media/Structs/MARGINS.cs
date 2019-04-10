@@ -15,10 +15,13 @@ namespace Cave.Media.Structs
         /// <param name="t">Top.</param>
         /// <param name="r">Right.</param>
         /// <param name="b">Bottom.</param>
-        public MARGINS(int l, int t, int r, int b) { LEFT = l;
+        public MARGINS(int l, int t, int r, int b)
+        {
+            LEFT = l;
             TOP = t;
             RIGHT = r;
-            BOTTOM = b; }
+            BOTTOM = b;
+        }
 
         /// <summary>
         /// distance to the left border.

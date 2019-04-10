@@ -8,9 +8,7 @@ namespace Cave.Media.Audio.MP3
     /// </summary>
     public sealed class MP3AudioFrame : AudioFrame
     {
-        MP3AudioFrameHeader m_Header;
         byte[] m_Data;
-        bool m_InvalidPaddingCorrected;
         MP3BitReserve m_Bits;
 
         /// <summary>Retrieves the bits of the frame exclusing header.</summary>
@@ -21,7 +19,7 @@ namespace Cave.Media.Audio.MP3
             {
                 if (m_Bits == null)
                 {
-                    if (m_Header.Protection)
+                    if (Header.Protection)
                     {
                         m_Bits = new MP3BitReserve(m_Data, 6);
                     }
@@ -47,13 +45,13 @@ namespace Cave.Media.Audio.MP3
         public MP3AudioFrame(byte[] data)
         {
             m_Data = data;
-            m_Header = new MP3AudioFrameHeader(data);
-            if (m_Header.Validation != MP3AudioFrameHeadervalidation.Valid)
+            Header = new MP3AudioFrameHeader(data);
+            if (Header.Validation != MP3AudioFrameHeadervalidation.Valid)
             {
                 throw new InvalidDataException();
             }
 
-            int dataLength = m_Header.Length;
+            int dataLength = Header.Length;
             if (dataLength == 0 || data.Length != dataLength)
             {
                 throw new InvalidDataException();
@@ -77,13 +75,13 @@ namespace Cave.Media.Audio.MP3
             }
 
             byte[] headerData = reader.Read(0, 4);
-            m_Header = new MP3AudioFrameHeader(headerData);
-            if (m_Header.Validation != MP3AudioFrameHeadervalidation.Valid)
+            Header = new MP3AudioFrameHeader(headerData);
+            if (Header.Validation != MP3AudioFrameHeadervalidation.Valid)
             {
                 return false;
             }
 
-            int dataLength = m_Header.Length;
+            int dataLength = Header.Length;
             if (dataLength == 0)
             {
                 return false;
@@ -116,12 +114,12 @@ namespace Cave.Media.Audio.MP3
                         // next header is invalid, check if the padding bit is set incorrectly
                         // there is a high pobability that the padding bit is invalid if
                         // the framestart is not directly after our buffer but one byte late
-                        int newStart = dataLength + (m_Header.Padding ? -1 : 1);
+                        int newStart = dataLength + (Header.Padding ? -1 : 1);
                         nextHeaderBuffer = reader.Read(newStart, 4);
                         next = new MP3AudioFrameHeader(nextHeaderBuffer);
                         if (next.Validation == MP3AudioFrameHeadervalidation.Valid)
                         {
-                            if (!m_Header.Padding)
+                            if (!Header.Padding)
                             {
                                 // frame has a padding byte but the header padding bit is not set
                                 m_Data = reader.Read(0, newStart);
@@ -131,7 +129,7 @@ namespace Cave.Media.Audio.MP3
                                 // frame has no padding byte but the header padding bit is set
                                 m_Data = reader.Read(0, newStart);
                             }
-                            m_InvalidPaddingCorrected = true;
+                            InvalidPaddingCorrected = true;
                         }
                     }
                 }
@@ -152,7 +150,7 @@ namespace Cave.Media.Audio.MP3
             {
                 if (m_Duration == TimeSpan.Zero)
                 {
-                    m_Duration = new TimeSpan(m_Header.SampleCount * TimeSpan.TicksPerSecond / m_Header.SamplingRate);
+                    m_Duration = new TimeSpan(Header.SampleCount * TimeSpan.TicksPerSecond / Header.SamplingRate);
                 }
                 return m_Duration;
             }
@@ -171,12 +169,12 @@ namespace Cave.Media.Audio.MP3
         /// <summary>
         /// Obtains whether the padding bit at the header was corrected during Parse().
         /// </summary>
-        public bool InvalidPaddingCorrected => m_InvalidPaddingCorrected;
+        public bool InvalidPaddingCorrected { get; private set; }
 
         /// <summary>
         /// Obtains the <see cref="MP3AudioFrameHeader"/>.
         /// </summary>
-        public MP3AudioFrameHeader Header => m_Header;
+        public MP3AudioFrameHeader Header { get; private set; }
 
         /// <summary>
         /// Obtains an array with the data for this instance.

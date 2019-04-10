@@ -4,12 +4,11 @@
     A non-GPL license for this library is not available.
 */
 #endregion
-
-using Cave.IO;
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using Cave.IO;
 
 namespace Cave.Media.Audio.OPENAL
 {

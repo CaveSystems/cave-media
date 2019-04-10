@@ -2,19 +2,15 @@ namespace Cave.Media
 {
     class MediaPacket : IMediaPacket
     {
-        IAudioData[] m_AudioData;
         IVideoFrame[] m_Frames;
 
         public MediaPacket(IAudioData[] data, IVideoFrame[] frames)
         {
-            m_AudioData = data;
+            AudioData = data;
             m_Frames = frames;
         }
 
-        public IAudioData[] AudioData
-        {
-            get { return m_AudioData; }
-        }
+        public IAudioData[] AudioData { get; private set; }
 
         public IVideoFrame[] Frames
         {

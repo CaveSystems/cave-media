@@ -5,7 +5,6 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides an interface to audio devices.
     /// </summary>
-
     public interface IAudioDevice : IDisposable
     {
         /// <summary>Gets the used audio API.</summary>

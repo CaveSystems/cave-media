@@ -1,9 +1,9 @@
-using Cave.IO;
-using Cave.Media.Audio.ID3;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Cave.IO;
+using Cave.Media.Audio.ID3;
 
 namespace Cave.Media.Audio.MP3
 {
@@ -65,16 +65,14 @@ namespace Cave.Media.Audio.MP3
         /// </summary>
         class Search : IDataFrameSearch
         {
-            MatchType m_Match;
-            int m_Length;
             int m_CurrentValue;
             int m_Index;
 
-            public MatchType Match { get { return m_Match; } }
+            public MatchType Match { get; private set; }
 
-            public int Index { get { return m_Index - m_Length; } }
+            public int Index { get { return m_Index - Length; } }
 
-            public int Length { get { return m_Length; } }
+            public int Length { get; private set; }
 
             #region IBufferSearch Member
 
@@ -84,24 +82,24 @@ namespace Cave.Media.Audio.MP3
                 m_CurrentValue = (m_CurrentValue << 8) | value;
                 if ((m_CurrentValue & 0xFFFF) == 0xFFFF)
                 {
-                    m_Match = MatchType.Invalid;
-                    m_Length = 1;
+                    Match = MatchType.Invalid;
+                    Length = 1;
                     return true;
                 }
 
                 // mp3 data start
                 if ((m_CurrentValue & 0xFFE0) == 0xFFE0)
                 {
-                    m_Match = MatchType.MP3Frame;
-                    m_Length = 2;
+                    Match = MatchType.MP3Frame;
+                    Length = 2;
                     return true;
                 }
 
                 // id3v2 start
                 if ((m_CurrentValue & 0xFFFFFF) == 0x494433)
                 {
-                    m_Match = MatchType.ID3Frame;
-                    m_Length = 3;
+                    Match = MatchType.ID3Frame;
+                    Length = 3;
                     return true;
                 }
                 return false;

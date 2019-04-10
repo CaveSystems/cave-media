@@ -162,8 +162,11 @@ namespace Cave.Media.Lyrics
 
                 for (int x = 0; x < cmd.Width; x++)
                 {
-                    if (--shift < 0) { shift = 7;
-                        b++; }
+                    if (--shift < 0)
+                    {
+                        shift = 7;
+                        b++;
+                    }
                     int color = (current >> shift) & 1;
                     switch (cmd.Type)
                     {

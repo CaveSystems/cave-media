@@ -16,7 +16,8 @@ namespace Cave.Media.Lyrics
         /// <summary>Initializes a new instance of the <see cref="SlcWithColorIndex"/> class.</summary>
         /// <param name="type">The type.</param>
         /// <param name="reader">The reader.</param>
-        public SlcWithColorIndex(SynchronizedLyricsCommandType type, DataReader reader) : base(type)
+        public SlcWithColorIndex(SynchronizedLyricsCommandType type, DataReader reader)
+            : base(type)
         {
             ColorIndex = reader.ReadByte();
         }

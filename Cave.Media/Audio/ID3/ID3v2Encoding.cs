@@ -7,7 +7,6 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Provides available ID3v2 encodings.
     /// </summary>
-
     public sealed class ID3v2Encoding
     {
         /// <summary>

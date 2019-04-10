@@ -4,11 +4,10 @@
     Copyright(c) 1999-2011 Ross Bencina and Phil Burk
 */
 #endregion
-
-using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Cave.IO;
 
 namespace Cave.Media.Audio.PORTAUDIO
 {
@@ -81,7 +80,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <exception cref="NotSupportedException">
         /// </exception>
         /// <exception cref="Exception"></exception>
-        internal PAOut(IAudioDevice dev, IAudioConfiguration configuration) : base(dev, configuration)
+        internal PAOut(IAudioDevice dev, IAudioConfiguration configuration)
+            : base(dev, configuration)
         {
             var l_OutputParameters = new PAStreamParameters();
             switch (configuration.ChannelSetup)

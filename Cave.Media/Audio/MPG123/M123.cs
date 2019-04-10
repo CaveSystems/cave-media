@@ -21,14 +21,13 @@
     A non-GPL license for this library is not available.
 */
 #endregion
-
-using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
+using Cave.IO;
 
 namespace Cave.Media.Audio.MPG123
 {
@@ -914,7 +913,7 @@ namespace Cave.Media.Audio.MPG123
                         array[count++] = value;
                     }
                 }
-                else // if (IntPtr.Size == 8)
+                else if (IntPtr.Size == 8)
                 {
                     while (count < array.Length)
                     {
@@ -922,6 +921,10 @@ namespace Cave.Media.Audio.MPG123
                         index += 8;
                         array[count++] = value;
                     }
+                }
+                else
+                {
+                    throw new NotImplementedException();
                 }
             }
 
@@ -1182,7 +1185,7 @@ namespace Cave.Media.Audio.MPG123
                 AudioChannelSetup channel;
                 switch ((CHANNELCOUNT)channelConfig.ToInt32())
                 {
-                    case CHANNELCOUNT.MONO: channel = AudioChannelSetup.Mono; ; break;
+                    case CHANNELCOUNT.MONO: channel = AudioChannelSetup.Mono; break;
                     case CHANNELCOUNT.STEREO: channel = AudioChannelSetup.Stereo; break;
                     default: channel = AudioChannelSetup.None; break;
                 }

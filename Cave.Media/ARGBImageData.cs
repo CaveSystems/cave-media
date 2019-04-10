@@ -406,9 +406,21 @@ namespace Cave.Media
         /// </summary>
         public void CopyTo32BitBitmapData(System.Drawing.Imaging.BitmapData imgData)
         {
-            if (imgData.Width != Width) throw new ArgumentException(string.Format("Width is not compatible!"));
-            if (imgData.Height != Height) throw new ArgumentException(string.Format("Height is not compatible!"));
-            if (imgData.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb) throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
+            if (imgData.Width != Width)
+            {
+                throw new ArgumentException(string.Format("Width is not compatible!"));
+            }
+
+            if (imgData.Height != Height)
+            {
+                throw new ArgumentException(string.Format("Height is not compatible!"));
+            }
+
+            if (imgData.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            {
+                throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
+            }
+
             if (imgData.Stride != Stride)
             {
                 Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", Stride, imgData.Stride));

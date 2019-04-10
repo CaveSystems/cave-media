@@ -8,7 +8,6 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Provides support for reading and writing ID3v1.0 and ID3v1.1 format.
     /// </summary>
-
     public sealed class ID3v1 : MP3MetaFrame
     {
         /// <summary>
@@ -161,8 +160,11 @@ namespace Cave.Media.Audio.ID3
         public string Title
         {
             get => title;
-            set { data = null;
-                title = value; }
+            set
+            {
+                data = null;
+                title = value;
+            }
         }
 
         /// <summary>
@@ -171,8 +173,11 @@ namespace Cave.Media.Audio.ID3
         public string Artist
         {
             get => artist;
-            set { data = null;
-                artist = value; }
+            set
+            {
+                data = null;
+                artist = value;
+            }
         }
 
         /// <summary>
@@ -181,8 +186,11 @@ namespace Cave.Media.Audio.ID3
         public string Album
         {
             get => album;
-            set { data = null;
-                album = value; }
+            set
+            {
+                data = null;
+                album = value;
+            }
         }
 
         /// <summary>
@@ -191,8 +199,11 @@ namespace Cave.Media.Audio.ID3
         public string Year
         {
             get => year;
-            set { data = null;
-                year = value; }
+            set
+            {
+                data = null;
+                year = value;
+            }
         }
 
         /// <summary>
@@ -201,8 +212,11 @@ namespace Cave.Media.Audio.ID3
         public string Comment
         {
             get => comment;
-            set { data = null;
-                comment = value; }
+            set
+            {
+                data = null;
+                comment = value;
+            }
         }
 
         /// <summary>
@@ -211,8 +225,11 @@ namespace Cave.Media.Audio.ID3
         public string Genre
         {
             get => genre;
-            set { data = null;
-                genre = value; }
+            set
+            {
+                data = null;
+                genre = value;
+            }
         }
 
         /// <summary>
@@ -221,8 +238,11 @@ namespace Cave.Media.Audio.ID3
         public byte TrackNumber
         {
             get => trackNumber;
-            set { data = null;
-                trackNumber = value; }
+            set
+            {
+                data = null;
+                trackNumber = value;
+            }
         }
 
         /// <summary>

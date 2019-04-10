@@ -6,10 +6,9 @@
     Wherever possible everything was cleaned up and done the .net / CaveProjects way.
 */
 #endregion
-using Cave.IO;
-using Cave.Media.Audio.MP3;
 using System;
 using System.IO;
+using Cave.Media.Audio.MP3;
 
 namespace Cave.Media.Audio
 {

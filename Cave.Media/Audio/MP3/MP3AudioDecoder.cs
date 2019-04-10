@@ -8,7 +8,6 @@
 #endregion
 using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace Cave.Media.Audio.MP3
 {

@@ -51,7 +51,8 @@ namespace Cave.Media.Audio.MP3
         /// <summary>Initializes a new instance of the <see cref="MP3AudioEqualizer"/> class.</summary>
         /// <param name="itemstings">The 32 band settings.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public MP3AudioEqualizer(float[] itemstings) : this()
+        public MP3AudioEqualizer(float[] itemstings)
+            : this()
         {
             if (itemstings == null)
             {

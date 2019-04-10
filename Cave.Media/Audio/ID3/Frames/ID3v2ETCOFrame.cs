@@ -6,7 +6,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// <summary>
     /// This frame allows synchronisation with key events in a song or sound.
     /// </summary>
-
     public sealed class ID3v2ETCOFrame : ID3v2Frame
     {
         ID3v2Event[] m_Events = null;

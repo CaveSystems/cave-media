@@ -1,6 +1,6 @@
-﻿using Cave.Media.Audio.PORTAUDIO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Cave.Media.Audio.PORTAUDIO;
 
 namespace Cave.Media.Audio
 {

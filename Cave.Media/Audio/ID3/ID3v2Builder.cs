@@ -14,7 +14,6 @@ namespace Cave.Media.Audio.ID3
     public class ID3v2Builder
     {
         ID3v2FrameFlags flags = new ID3v2FrameFlags() { Unsynchronisation = true };
-        ID3v2Header header = new ID3v2Header(3, 0, ID3v2HeaderFlags.None, 0);
         List<ID3v2Frame> frames = new List<ID3v2Frame>();
 
         /// <summary>Retrieves the tag as byte array.</summary>
@@ -44,7 +43,7 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Gets the header.</summary>
         /// <value>The header.</value>
-        public ID3v2Header Header => header;
+        public ID3v2Header Header { get; private set; } = new ID3v2Header(3, 0, ID3v2HeaderFlags.None, 0);
 
         /// <summary>
         /// Obtains the text of the first T* (not TXXX) frame with the specified ID.
@@ -74,7 +73,8 @@ namespace Cave.Media.Audio.ID3
         /// <param name="id">The identifier.</param>
         /// <param name="frame">The frame.</param>
         /// <returns></returns>
-        public bool TryGetFrame<T>(string id, out T frame) where T : ID3v2Frame
+        public bool TryGetFrame<T>(string id, out T frame)
+            where T : ID3v2Frame
         {
             foreach (ID3v2Frame f in frames)
             {
@@ -83,8 +83,11 @@ namespace Cave.Media.Audio.ID3
                     continue;
                 }
 
-                if (f is T) { frame = (T)f;
-                    return true; }
+                if (f is T)
+                {
+                    frame = (T)f;
+                    return true;
+                }
             }
             frame = default(T);
             return false;
@@ -94,7 +97,8 @@ namespace Cave.Media.Audio.ID3
         /// <typeparam name="T"></typeparam>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public T[] GetFrames<T>(string id = null) where T : ID3v2Frame
+        public T[] GetFrames<T>(string id = null)
+            where T : ID3v2Frame
         {
             var result = new List<T>();
             foreach (ID3v2Frame f in frames)
@@ -203,7 +207,7 @@ namespace Cave.Media.Audio.ID3
             }
 
             RemoveFrames(id);
-            var frame = ID3v2TextFrame.Create(header, flags, id, value);
+            var frame = ID3v2TextFrame.Create(Header, flags, id, value);
             AddFrame(frame);
         }
 
@@ -253,7 +257,7 @@ namespace Cave.Media.Audio.ID3
                 {
                     items.Include(item.ToLower().Trim());
                 }
-                var mood = ID3v2TXXXFrame.Create(header, flags, "albummood", string.Join(";", items.ToArray()));
+                var mood = ID3v2TXXXFrame.Create(Header, flags, "albummood", string.Join(";", items.ToArray()));
                 AddFrame(mood);
             }
         }
@@ -317,7 +321,7 @@ namespace Cave.Media.Audio.ID3
             set
             {
                 RemoveTXXXFrames("Acoustid Id");
-                var frame = ID3v2TXXXFrame.Create(header, flags, "Acoustid Id", value.ToString());
+                var frame = ID3v2TXXXFrame.Create(Header, flags, "Acoustid Id", value.ToString());
                 AddFrame(frame);
             }
         }
@@ -333,7 +337,7 @@ namespace Cave.Media.Audio.ID3
             set
             {
                 RemoveTXXXFrames("MusicBrainz Artist Id");
-                var frame = ID3v2TXXXFrame.Create(header, flags, "MusicBrainz Artist Id", value.ToString());
+                var frame = ID3v2TXXXFrame.Create(Header, flags, "MusicBrainz Artist Id", value.ToString());
                 AddFrame(frame);
             }
         }
@@ -349,7 +353,7 @@ namespace Cave.Media.Audio.ID3
             set
             {
                 RemoveTXXXFrames("MusicBrainz Album Id");
-                var frame = ID3v2TXXXFrame.Create(header, flags, "MusicBrainz Album Id", value.ToString());
+                var frame = ID3v2TXXXFrame.Create(Header, flags, "MusicBrainz Album Id", value.ToString());
                 AddFrame(frame);
             }
         }
@@ -365,7 +369,7 @@ namespace Cave.Media.Audio.ID3
             set
             {
                 RemoveTXXXFrames("MusicBrainz Release Group Id");
-                var frame = ID3v2TXXXFrame.Create(header, flags, "MusicBrainz Release Group Id", value.ToString());
+                var frame = ID3v2TXXXFrame.Create(Header, flags, "MusicBrainz Release Group Id", value.ToString());
                 AddFrame(frame);
             }
         }
@@ -400,7 +404,7 @@ namespace Cave.Media.Audio.ID3
                 }
             }
             {
-                var frame = ID3v2APICFrame.Create(header, flags, string.Empty, ID3v2PictureType.CoverFront, mimeType, imageData);
+                var frame = ID3v2APICFrame.Create(Header, flags, string.Empty, ID3v2PictureType.CoverFront, mimeType, imageData);
                 AddFrame(frame);
             }
         }
@@ -643,7 +647,7 @@ namespace Cave.Media.Audio.ID3
                 case 4: break;
                 default: throw new NotSupportedException(string.Format("Editing ID3v2.{0} is not supported!", tag.Version));
             }
-            header = tag.Header;
+            Header = tag.Header;
             frames.Clear();
             foreach (ID3v2Frame frame in tag.Frames)
             {

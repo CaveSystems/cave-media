@@ -12,8 +12,6 @@ namespace Cave.Media
         #region private fields
         readonly LinkedList<byte[]> m_Buffers = new LinkedList<byte[]>();
         Stream m_Stream;
-        int m_BufferLength = 0;
-        long m_BufferEndPosition = 0;
         long m_EndOfStream;
 
         LinkedListNode<byte[]> m_ReadBufferNode = null;
@@ -69,7 +67,7 @@ namespace Cave.Media
 
             if (m_EndOfStream > 0)
             {
-                int l_Readable = (int)(m_EndOfStream - m_BufferEndPosition);
+                int l_Readable = (int)(m_EndOfStream - BufferEndPosition);
                 if (size > l_Readable)
                 {
                     size = l_Readable;
@@ -106,8 +104,8 @@ namespace Cave.Media
                     Array.Copy(buffer, newBuffer, len);
                     m_Buffers.AddLast(buffer);
                 }
-                m_BufferLength += len;
-                m_BufferEndPosition += len;
+                BufferLength += len;
+                BufferEndPosition += len;
                 l_Left -= len;
             }
 
@@ -213,7 +211,7 @@ namespace Cave.Media
         /// <returns></returns>
         public byte ReadByte(int index)
         {
-            if (index >= m_BufferLength)
+            if (index >= BufferLength)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
@@ -235,7 +233,7 @@ namespace Cave.Media
 
             while (m_Buffers.First != m_ReadBufferNode)
             {
-                m_BufferLength -= m_Buffers.First.Value.Length;
+                BufferLength -= m_Buffers.First.Value.Length;
                 m_Buffers.RemoveFirst();
             }
         }
@@ -259,7 +257,7 @@ namespace Cave.Media
         /// <summary>
         /// Obtains the number of bytes currently available for reading.
         /// </summary>
-        public int Available => m_BufferLength - m_ReadBufferPosition;
+        public int Available => BufferLength - m_ReadBufferPosition;
 
         /// <summary>
         /// Obtains all currently buffered data and removes it.
@@ -291,25 +289,25 @@ namespace Cave.Media
         {
             Source = buffer;
             m_Buffers.AddLast(buffer);
-            m_BufferLength = buffer.Length;
+            BufferLength = buffer.Length;
             m_ReadBufferNode = m_Buffers.First;
-            m_BufferEndPosition = m_BufferLength;
+            BufferEndPosition = BufferLength;
         }
 
         /// <summary>
         /// Obtains the current start position (at the stream) of the buffer.
         /// </summary>
-        public long BufferStartPosition => m_BufferEndPosition - m_BufferLength + m_ReadBufferPosition;
+        public long BufferStartPosition => BufferEndPosition - BufferLength + m_ReadBufferPosition;
 
         /// <summary>
         /// Obtains the current end position (at the stream) of the buffer.
         /// </summary>
-        public long BufferEndPosition => m_BufferEndPosition;
+        public long BufferEndPosition { get; private set; } = 0;
 
         /// <summary>
         /// Obtains the current buffer length.
         /// </summary>
-        public int BufferLength => m_BufferLength;
+        public int BufferLength { get; private set; } = 0;
 
         /// <summary>
         /// Returns "DataFrameReader &lt;Source&gt;".

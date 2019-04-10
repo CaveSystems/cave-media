@@ -1,29 +1,26 @@
-using Cave;
-using Cave.Media.Audio.MP3;
 using System;
+using Cave.Media.Audio.MP3;
 
 namespace Cave.Media.Audio.ID3.Frames
 {
     /// <summary>
     /// Provides an event.
     /// </summary>
-
     public abstract class ID3v2Event
     {
         internal ID3v2Event(long value, bool isTimeStamp)
         {
-            m_IsTimeStamp = isTimeStamp;
-            m_Value = value;
+            IsTimeStamp = isTimeStamp;
+            this.value = value;
         }
 
-        bool m_IsTimeStamp;
-        long m_Value;
-        long m_TicksPerFrame;
+        long value;
+        long ticksPerFrame;
 
         /// <summary>
-        /// Obtains whether this event has a timestamp (true) or frame number (false).
+        /// Gets a value indicating whether this event has a timestamp (true) or frame number (false).
         /// </summary>
-        public bool IsTimeStamp { get { return m_IsTimeStamp; } }
+        public bool IsTimeStamp { get; private set; }
 
         /// <summary>
         /// Provides setting of the mp3 frame header used to convert between time per frame and frame number.
@@ -36,7 +33,7 @@ namespace Cave.Media.Audio.ID3.Frames
                 throw new ArgumentNullException("Header");
             }
 
-            m_TicksPerFrame = header.SampleCount * TimeSpan.TicksPerSecond / header.SamplingRate;
+            ticksPerFrame = header.SampleCount * TimeSpan.TicksPerSecond / header.SamplingRate;
         }
 
         /// <summary>
@@ -50,7 +47,7 @@ namespace Cave.Media.Audio.ID3.Frames
                 throw new ArgumentOutOfRangeException(nameof(timePerFrame));
             }
 
-            m_TicksPerFrame = timePerFrame.Ticks;
+            ticksPerFrame = timePerFrame.Ticks;
         }
 
         /// <summary>
@@ -60,17 +57,17 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_IsTimeStamp)
+                if (IsTimeStamp)
                 {
-                    return new TimeSpan(m_Value * TimeSpan.TicksPerMillisecond);
+                    return new TimeSpan(value * TimeSpan.TicksPerMillisecond);
                 }
 
-                if (m_TicksPerFrame == 0)
+                if (ticksPerFrame == 0)
                 {
                     throw new InvalidOperationException(string.Format("This Event uses a FrameNumber instead of TimeStamp. Please use SetFrameLength() to calculate the TimeSpan!"));
                 }
 
-                return new TimeSpan(m_TicksPerFrame * FrameNumber);
+                return new TimeSpan(ticksPerFrame * FrameNumber);
             }
         }
 
@@ -81,17 +78,17 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (!m_IsTimeStamp)
+                if (!IsTimeStamp)
                 {
-                    return (int)m_Value;
+                    return (int)value;
                 }
 
-                if (m_TicksPerFrame == 0)
+                if (ticksPerFrame == 0)
                 {
                     throw new InvalidOperationException(string.Format("This Event uses a TimeStamp instead of FrameCount. Please use SetFrameLength() to calculate the TimeSpan!"));
                 }
 
-                return (int)(TimeStamp.Ticks / m_TicksPerFrame);
+                return (int)(TimeStamp.Ticks / ticksPerFrame);
             }
         }
     }

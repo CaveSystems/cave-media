@@ -9,7 +9,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// The text information frames are the most important frames, containing information like artist, album and more.
     /// There may only be one text information frame of its kind in an tag.
     /// </summary>
-
     public class ID3v2TextFrame : ID3v2Frame
     {
         /// <summary>Creates a new ID3v2TextFrame.</summary>

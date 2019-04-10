@@ -3,7 +3,6 @@ namespace Cave.Media.Audio
     /// <summary>
     /// Provides a generic interface for audio device capabilities.
     /// </summary>
-
     public interface IAudioDeviceCapabilities
     {
         /// <summary>

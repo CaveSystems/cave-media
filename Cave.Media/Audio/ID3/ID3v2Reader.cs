@@ -7,10 +7,8 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Provides an ID3v2 tag reader for mp3 files.
     /// </summary>
-
     public class ID3v2Reader
     {
-        ID3v2ReaderState m_State = ID3v2ReaderState.ReadHeader;
         DataFrameReader m_Reader;
         ID3v2Header m_Header;
         long m_BodyBytes;
@@ -31,7 +29,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Obtains the current <see cref="ID3v2ReaderState"/>.
         /// </summary>
-        public ID3v2ReaderState State { get { return m_State; } }
+        public ID3v2ReaderState State { get; private set; } = ID3v2ReaderState.ReadHeader;
 
         /// <summary>
         /// Reads the header (check <see cref="State"/> before usage).
@@ -39,9 +37,9 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public ID3v2Header ReadHeader(out byte[] tagData)
         {
-            if (m_State != ID3v2ReaderState.ReadHeader)
+            if (State != ID3v2ReaderState.ReadHeader)
             {
-                throw new InvalidOperationException(string.Format("Cannot read header at state {0}", m_State));
+                throw new InvalidOperationException(string.Format("Cannot read header at state {0}", State));
             }
 
             var header = new ID3v2Header();
@@ -55,7 +53,7 @@ namespace Cave.Media.Audio.ID3
             {
                 m_BodyBytes -= 10;
             }
-            m_State++;
+            State++;
             if (header.Version < 2)
             {
                 tagData = null;
@@ -84,12 +82,12 @@ namespace Cave.Media.Audio.ID3
         /// <returns>Returns the extended header is present or null otherwise.</returns>
         public bool ReadExtendedHeader(out ID3v2ExtendedHeader extendedHeader)
         {
-            if (m_State != ID3v2ReaderState.ReadExtendedHeader)
+            if (State != ID3v2ReaderState.ReadExtendedHeader)
             {
-                throw new InvalidOperationException(string.Format("Cannot read extended header at state {0}", m_State));
+                throw new InvalidOperationException(string.Format("Cannot read extended header at state {0}", State));
             }
 
-            m_State++;
+            State++;
             extendedHeader = null;
             if ((m_Header.Flags & ID3v2HeaderFlags.ExtendedHeader) == 0)
             {
@@ -106,9 +104,9 @@ namespace Cave.Media.Audio.ID3
         /// <returns>Returns a frame if one left or null otherwise.</returns>
         public bool ReadFrame(out ID3v2Frame frame)
         {
-            if (m_State != ID3v2ReaderState.ReadFrames)
+            if (State != ID3v2ReaderState.ReadFrames)
             {
-                throw new InvalidOperationException(string.Format("Cannot read frame at state {0}", m_State));
+                throw new InvalidOperationException(string.Format("Cannot read frame at state {0}", State));
             }
 
             frame = null;
@@ -117,10 +115,10 @@ namespace Cave.Media.Audio.ID3
                 if ((m_Header.Flags & ID3v2HeaderFlags.Footer) == 0)
                 {
                     // no footer, end of tag
-                    m_State = ID3v2ReaderState.ReadEnd;
+                    State = ID3v2ReaderState.ReadEnd;
                     return true;
                 }
-                m_State = ID3v2ReaderState.ReadFooter;
+                State = ID3v2ReaderState.ReadFooter;
                 return true;
             }
 
@@ -134,7 +132,7 @@ namespace Cave.Media.Audio.ID3
                     {
                         long read = m_BodyBytes - m_Reader.BufferStartPosition;
                         data = m_Reader.GetBuffer((int)read);
-                        m_State = ID3v2ReaderState.ReadEnd;
+                        State = ID3v2ReaderState.ReadEnd;
                         frame = null;
                         break;
                     }
@@ -150,7 +148,7 @@ namespace Cave.Media.Audio.ID3
                         // load padding bytes
                         long read = m_BodyBytes - m_Reader.BufferStartPosition;
                         data = m_Reader.GetBuffer((int)read);
-                        m_State = ID3v2ReaderState.ReadEnd;
+                        State = ID3v2ReaderState.ReadEnd;
                         frame = null;
                     }
                     break;
@@ -186,9 +184,9 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public bool ReadFooter(out ID3v2Footer footer)
         {
-            if (m_State != ID3v2ReaderState.ReadFooter)
+            if (State != ID3v2ReaderState.ReadFooter)
             {
-                throw new InvalidOperationException(string.Format("Cannot read footer at state {0}", m_State));
+                throw new InvalidOperationException(string.Format("Cannot read footer at state {0}", State));
             }
 
             footer = new ID3v2Footer();

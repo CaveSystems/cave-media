@@ -754,7 +754,7 @@ namespace Cave.Media
         /// <param name="items">if true sets the bit, else unsets the bit.</param>
         public void SetBit(int bitIndex, bool items)
         {
-            uint mask = (uint)1 << bitIndex;
+            uint mask = 1U << bitIndex;
             if (items)
             {
                 AsUInt32 |= mask;

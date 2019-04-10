@@ -15,10 +15,9 @@ namespace Cave.Media
     /// </summary>
     public class GdiBitmap32 : Bitmap32
     {
-        Bitmap bitmap;
         Graphics graphics;
 
-        internal Bitmap Bitmap { get => bitmap; }
+        internal Bitmap Bitmap { get; private set; }
 
         ImageCodecInfo GetEncoder(ImageFormat format)
         {
@@ -48,7 +47,7 @@ namespace Cave.Media
                 throw new ArgumentException("Invalid image format!");
             }
 
-            this.bitmap = bitmap;
+            this.Bitmap = bitmap;
             graphics = Graphics.FromImage(bitmap);
             graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -180,7 +179,7 @@ namespace Cave.Media
             ImageCodecInfo encoder = GetEncoder(format);
             var encoderParams = new EncoderParameters(1);
             encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, quality);
-            bitmap.Save(stream, encoder, encoderParams);
+            Bitmap.Save(stream, encoder, encoderParams);
         }
 
         /// <summary>
@@ -190,21 +189,21 @@ namespace Cave.Media
         {
             graphics?.Dispose();
             graphics = null;
-            bitmap?.Dispose();
-            bitmap = null;
+            Bitmap?.Dispose();
+            Bitmap = null;
         }
 
         /// <summary>Gets the data.</summary>
         /// <value>The data.</value>
-        public override ARGBImageData Data => ARGBImageData.Load(bitmap);
+        public override ARGBImageData Data => ARGBImageData.Load(Bitmap);
 
         /// <summary>Gets the width.</summary>
         /// <value>The width.</value>
-        public override int Width => bitmap.Width;
+        public override int Width => Bitmap.Width;
 
         /// <summary>Gets the height.</summary>
         /// <value>The height.</value>
-        public override int Height => bitmap.Height;
+        public override int Height => Bitmap.Height;
 
         /// <summary>Saves the image to the specified stream.</summary>
         /// <param name="fileName">Name of the file.</param>

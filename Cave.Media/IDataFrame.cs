@@ -1,11 +1,8 @@
-using Cave.Collections.Generic;
-
 namespace Cave.Media
 {
     /// <summary>
     /// provides an interface for media frames.
     /// </summary>
-
     public interface IDataFrame
     {
         /// <summary>

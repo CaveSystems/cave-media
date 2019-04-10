@@ -8,7 +8,6 @@ namespace Cave.Media
     /// <summary>
     /// Provides a simple 4d matrix with float values.
     /// </summary>
-
     [StructLayout(LayoutKind.Explicit, Size = 3 * 3 * 4)]
     public struct Matrix4
     {
@@ -48,13 +47,7 @@ namespace Cave.Media
         /// <summary>
         /// Obtains a new empty <see cref="Matrix4"/>.
         /// </summary>
-        public static Matrix4 Empty
-        {
-            get
-            {
-                return new Matrix4();
-            }
-        }
+        public static Matrix4 Empty => default(Matrix4);
 
         /// <summary>
         /// Creates a new <see cref="Matrix4"/> with the specified columns.
@@ -86,23 +79,25 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix4 FromColumns(Vector4 v1, Vector4 v2, Vector4 v3, Vector4 v4)
         {
-            var result = new Matrix4();
-            result.v11 = v1.X;
-            result.v12 = v1.Y;
-            result.v13 = v1.Z;
-            result.v14 = v1.W;
-            result.v21 = v2.X;
-            result.v22 = v2.Y;
-            result.v23 = v2.Z;
-            result.v24 = v2.W;
-            result.v31 = v3.X;
-            result.v32 = v3.Y;
-            result.v33 = v3.Z;
-            result.v34 = v3.W;
-            result.v41 = v4.X;
-            result.v42 = v4.Y;
-            result.v43 = v4.Z;
-            result.v44 = v4.W;
+            var result = new Matrix4
+            {
+                v11 = v1.X,
+                v12 = v1.Y,
+                v13 = v1.Z,
+                v14 = v1.W,
+                v21 = v2.X,
+                v22 = v2.Y,
+                v23 = v2.Z,
+                v24 = v2.W,
+                v31 = v3.X,
+                v32 = v3.Y,
+                v33 = v3.Z,
+                v34 = v3.W,
+                v41 = v4.X,
+                v42 = v4.Y,
+                v43 = v4.Z,
+                v44 = v4.W
+            };
             return result;
         }
 
@@ -136,23 +131,25 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix4 FromRows(Vector4 v1, Vector4 v2, Vector4 v3, Vector4 v4)
         {
-            var result = new Matrix4();
-            result.v11 = v1.X;
-            result.v21 = v1.Y;
-            result.v31 = v1.Z;
-            result.v41 = v1.W;
-            result.v12 = v2.X;
-            result.v22 = v2.Y;
-            result.v32 = v2.Z;
-            result.v42 = v2.W;
-            result.v13 = v3.X;
-            result.v23 = v3.Y;
-            result.v33 = v3.Z;
-            result.v43 = v3.W;
-            result.v14 = v4.X;
-            result.v24 = v4.Y;
-            result.v34 = v4.Z;
-            result.v44 = v4.W;
+            var result = new Matrix4
+            {
+                v11 = v1.X,
+                v21 = v1.Y,
+                v31 = v1.Z,
+                v41 = v1.W,
+                v12 = v2.X,
+                v22 = v2.Y,
+                v32 = v2.Z,
+                v42 = v2.W,
+                v13 = v3.X,
+                v23 = v3.Y,
+                v33 = v3.Z,
+                v43 = v3.W,
+                v14 = v4.X,
+                v24 = v4.Y,
+                v34 = v4.Z,
+                v44 = v4.W
+            };
             return result;
         }
 
@@ -178,23 +175,25 @@ namespace Cave.Media
         /// <returns>Returns a new <see cref="Matrix4"/> instance with the specified values.</returns>
         public static Matrix4 Create(float p11, float p12, float p13, float p14, float p21, float p22, float p23, float p24, float p31, float p32, float p33, float p34, float p41, float p42, float p43, float p44)
         {
-            var result = new Matrix4();
-            result.v11 = p11;
-            result.v12 = p12;
-            result.v13 = p13;
-            result.v14 = p14;
-            result.v21 = p21;
-            result.v22 = p22;
-            result.v23 = p23;
-            result.v24 = p24;
-            result.v31 = p31;
-            result.v32 = p32;
-            result.v33 = p33;
-            result.v34 = p34;
-            result.v41 = p41;
-            result.v42 = p42;
-            result.v43 = p43;
-            result.v44 = p44;
+            var result = new Matrix4
+            {
+                v11 = p11,
+                v12 = p12,
+                v13 = p13,
+                v14 = p14,
+                v21 = p21,
+                v22 = p22,
+                v23 = p23,
+                v24 = p24,
+                v31 = p31,
+                v32 = p32,
+                v33 = p33,
+                v34 = p34,
+                v41 = p41,
+                v42 = p42,
+                v43 = p43,
+                v44 = p44
+            };
             return result;
         }
 
@@ -275,56 +274,56 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Matrix4"/> instances for equality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator ==(Matrix4 A, Matrix4 B)
+        public static bool operator ==(Matrix4 first, Matrix4 second)
         {
-            return Equals(null, A) ? Equals(null, B) : A.Equals(B);
+            return Equals(null, first) ? Equals(null, second) : first.Equals(second);
         }
 
         /// <summary>
         /// Checks two <see cref="Matrix4"/> instances for inequality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator !=(Matrix4 A, Matrix4 B)
+        public static bool operator !=(Matrix4 first, Matrix4 second)
         {
-            return Equals(null, A) ? !Equals(null, B) : !A.Equals(B);
+            return Equals(null, first) ? !Equals(null, second) : !first.Equals(second);
         }
 
         /// <summary>
         /// Calculates the sum of two <see cref="Matrix4"/> structs.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix4 operator +(Matrix4 A, Matrix4 B)
+        public static Matrix4 operator +(Matrix4 first, Matrix4 second)
         {
-            return A.Add(B);
+            return first.Add(second);
         }
 
         /// <summary>
         /// Calculates the product of two <see cref="Matrix4"/> structs.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix4 operator *(Matrix4 A, Matrix4 B)
+        public static Matrix4 operator *(Matrix4 first, Matrix4 second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
 
         /// <summary>
         /// Calculates the product of a <see cref="Matrix4"/> struct and a scalar.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix4 operator *(Matrix4 A, float B)
+        public static Matrix4 operator *(Matrix4 first, float second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
         #endregion
 

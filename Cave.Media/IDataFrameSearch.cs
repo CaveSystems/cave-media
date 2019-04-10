@@ -3,7 +3,6 @@ namespace Cave.Media
     /// <summary>
     /// Provides an interface for frame start searches done with a <see cref="DataFrameReader"/>.
     /// </summary>
-
     public interface IDataFrameSearch
     {
         /// <summary>

@@ -178,7 +178,8 @@ namespace Cave.Media.Audio.ID3
         /// <param name="id">The identifier.</param>
         /// <param name="frame">The frame.</param>
         /// <returns></returns>
-        public bool TryGetFrame<T>(string id, out T frame) where T : ID3v2Frame
+        public bool TryGetFrame<T>(string id, out T frame)
+            where T : ID3v2Frame
         {
             foreach (ID3v2Frame f in frames)
             {
@@ -187,8 +188,11 @@ namespace Cave.Media.Audio.ID3
                     continue;
                 }
 
-                if (f is T) { frame = (T)f;
-                    return true; }
+                if (f is T)
+                {
+                    frame = (T)f;
+                    return true;
+                }
             }
             frame = default(T);
             return false;
@@ -223,7 +227,8 @@ namespace Cave.Media.Audio.ID3
         /// <typeparam name="T"></typeparam>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public T[] GetFrames<T>(string id = null) where T : ID3v2Frame
+        public T[] GetFrames<T>(string id = null)
+            where T : ID3v2Frame
         {
             var result = new List<T>();
             foreach (ID3v2Frame f in frames)

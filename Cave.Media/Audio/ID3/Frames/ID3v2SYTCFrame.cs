@@ -7,7 +7,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// ID3v2: Synchronised tempo codes frame.<br />
     /// For a more accurate description of the tempo of a musical piece this frame might be used.
     /// </summary>
-
     public sealed class ID3v2SYTCFrame : ID3v2Frame
     {
         ID3v2Event[] m_Events = null;

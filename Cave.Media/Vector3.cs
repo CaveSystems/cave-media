@@ -120,133 +120,133 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Vector3"/> instances for equality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator ==(Vector3 A, Vector3 B)
+        public static bool operator ==(Vector3 first, Vector3 second)
         {
-            return Equals(null, A) ? Equals(null, B) : A.Equals(B);
+            return Equals(null, first) ? Equals(null, second) : first.Equals(second);
         }
 
         /// <summary>
         /// Checks two <see cref="Vector3"/> instances for inequality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator !=(Vector3 A, Vector3 B)
+        public static bool operator !=(Vector3 first, Vector3 second)
         {
-            return Equals(null, A) ? !Equals(null, B) : !A.Equals(B);
+            return Equals(null, first) ? !Equals(null, second) : !first.Equals(second);
         }
 
         /// <summary>
         /// provides addition.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator +(Vector3 A, Vector3 B)
+        public static Vector3 operator +(Vector3 first, Vector3 second)
         {
-            return Create(A.X + B.X, A.Y + B.Y, A.Z + B.Z);
+            return Create(first.X + second.X, first.Y + second.Y, first.Z + second.Z);
         }
 
         /// <summary>
         /// provides addition.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 Add(Vector3 A, Vector3 B)
+        public static Vector3 Add(Vector3 first, Vector3 second)
         {
-            return Create(A.X + B.X, A.Y + B.Y, A.Z + B.Z);
+            return Create(first.X + second.X, first.Y + second.Y, first.Z + second.Z);
         }
 
         /// <summary>
         /// provides subtraction.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator -(Vector3 A, Vector3 B)
+        public static Vector3 operator -(Vector3 first, Vector3 second)
         {
-            return Create(A.X - B.X, A.Y - B.Y, A.Z - B.Z);
+            return Create(first.X - second.X, first.Y - second.Y, first.Z - second.Z);
         }
 
         /// <summary>
         /// provides subtraction.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 Subtract(Vector3 A, Vector3 B)
+        public static Vector3 Subtract(Vector3 first, Vector3 second)
         {
-            return Create(A.X - B.X, A.Y - B.Y, A.Z - B.Z);
+            return Create(first.X - second.X, first.Y - second.Y, first.Z - second.Z);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator *(Vector3 A, float B)
+        public static Vector3 operator *(Vector3 first, float second)
         {
-            return Create(A.X * B, A.Y * B, A.Z * B);
+            return Create(first.X * second, first.Y * second, first.Z * second);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 Multiply(Vector3 A, float B)
+        public static Vector3 Multiply(Vector3 first, float second)
         {
-            return Create(A.X * B, A.Y * B, A.Z * B);
+            return Create(first.X * second, first.Y * second, first.Z * second);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator *(Vector3 A, Vector3 B)
+        public static Vector3 operator *(Vector3 first, Vector3 second)
         {
-            return Create(A.X * B.X, A.Y * B.Y, A.Z * B.Z);
+            return Create(first.X * second.X, first.Y * second.Y, first.Z * second.Z);
         }
 
         /// <summary>
         /// provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 Mulitply(Vector3 A, Vector3 B)
+        public static Vector3 Mulitply(Vector3 first, Vector3 second)
         {
-            return Create(A.X * B.X, A.Y * B.Y, A.Z * B.Z);
+            return Create(first.X * second.X, first.Y * second.Y, first.Z * second.Z);
         }
 
         /// <summary>
         /// provides division.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator /(Vector3 A, float B)
+        public static Vector3 operator /(Vector3 first, float second)
         {
-            return Create(A.X / B, A.Y / B, A.Z / B);
+            return Create(first.X / second, first.Y / second, first.Z / second);
         }
 
         /// <summary>
         /// provides division.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 Divide(Vector3 A, float B)
+        public static Vector3 Divide(Vector3 first, float second)
         {
-            return Create(A.X / B, A.Y / B, A.Z / B);
+            return Create(first.X / second, first.Y / second, first.Z / second);
         }
         #endregion
 

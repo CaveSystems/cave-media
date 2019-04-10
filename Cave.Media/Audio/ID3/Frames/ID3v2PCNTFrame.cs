@@ -6,17 +6,16 @@ namespace Cave.Media.Audio.ID3.Frames
     /// This is simply a counter of the number of times a file has been played. The value is increased by one every time the file begins to play.
     /// Attention: Most users don't like it if someone touches the files just to collect data! Use only after displaying opt-in form!.
     /// </summary>
-
     public sealed class ID3v2PCNTFrame : ID3v2Frame
     {
-        long m_Counter = -1;
+        long counter = -1;
 
         void Parse()
         {
-            m_Counter = 0;
+            counter = 0;
             for (int i = 10; i < m_Data.Length; i++)
             {
-                m_Counter = (m_Counter << 8) | m_Data[i];
+                counter = (counter << 8) | m_Data[i];
             }
         }
 
@@ -36,12 +35,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Counter == -1)
+                if (counter == -1)
                 {
                     Parse();
                 }
 
-                return m_Counter;
+                return counter;
             }
         }
 

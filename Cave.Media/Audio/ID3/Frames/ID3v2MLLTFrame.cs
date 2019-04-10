@@ -21,7 +21,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// out bytes and milliseconds respectively.
     /// </para>
     /// </summary>
-
     public sealed class ID3v2MLLTFrame : ID3v2Frame
     {
         internal ID3v2MLLTFrame(ID3v2Frame frame)

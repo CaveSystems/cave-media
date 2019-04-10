@@ -223,7 +223,8 @@ namespace Cave.Media.Audio.MP3
         /// Creates a new header from the specified 4 bytes data.
         /// </summary>
         /// <param name="value"></param>
-        public MP3AudioFrameHeader(byte[] value) : this(GetUint(value)) { }
+        public MP3AudioFrameHeader(byte[] value)
+            : this(GetUint(value)) { }
 
         /// <summary>Gets the slots.</summary>
         /// <value>The slots.</value>

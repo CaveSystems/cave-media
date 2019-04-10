@@ -1,7 +1,6 @@
+using System;
 using System.IO;
 using Cave.Media.Audio.MP3;
-using System;
-using Cave.Collections.Generic;
 
 namespace Cave.Media.Audio.ID3
 {
@@ -13,7 +12,6 @@ namespace Cave.Media.Audio.ID3
     /// audio data. The footer is a copy of the header, but with a different
     /// identifier.
     /// </summary>
-
     public class ID3v2Footer : MP3MetaFrame
     {
         #region private fields and implementation
@@ -109,8 +107,11 @@ namespace Cave.Media.Audio.ID3
         public byte Version
         {
             get { return m_Version; }
-            set { m_Version = value;
-                m_Data = null; }
+            set
+            {
+                m_Version = value;
+                m_Data = null;
+            }
         }
 
         /// <summary>
@@ -119,8 +120,11 @@ namespace Cave.Media.Audio.ID3
         public byte Revision
         {
             get { return m_Revision; }
-            set { m_Revision = value;
-                m_Data = null; }
+            set
+            {
+                m_Revision = value;
+                m_Data = null;
+            }
         }
 
         /// <summary>
@@ -129,8 +133,11 @@ namespace Cave.Media.Audio.ID3
         public ID3v2HeaderFlags Flags
         {
             get { return m_Flags; }
-            set { m_Flags = value;
-                m_Data = null; }
+            set
+            {
+                m_Flags = value;
+                m_Data = null;
+            }
         }
 
         /// <summary>
@@ -143,8 +150,11 @@ namespace Cave.Media.Audio.ID3
         public int BodySize
         {
             get { return m_BodySize; }
-            set { m_BodySize = value;
-                m_Data = null; }
+            set
+            {
+                m_BodySize = value;
+                m_Data = null;
+            }
         }
         #endregion
 

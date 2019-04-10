@@ -21,14 +21,13 @@
     A non-GPL license for this library is not available.
 */
 #endregion
-
-using Cave.IO;
-using Cave.Media.Audio.MP3;
-using Cave.Media.Audio.MPG123;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.ConstrainedExecution;
+using Cave.IO;
+using Cave.Media.Audio.MP3;
+using Cave.Media.Audio.MPG123;
 
 namespace Cave.Media.Audio
 {

@@ -1,22 +1,16 @@
-using Cave.Collections;
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Cave.Collections;
 
 namespace Cave.Media.Audio
 {
     /// <summary>
     /// Provides a data buffer with audio specific informations (<see cref="IAudioConfiguration"/>.
     /// </summary>
-
     public class AudioData : AudioConfiguration, IAudioData
     {
-        byte[] m_Data;
-        TimeSpan m_StartTime;
-        int m_StreamIndex;
-        int m_ChannelNumber;
-        int m_SampleCount;
-        float? m_Peak;
+        byte[] data;
+        float? peak;
 
         /// <summary>Initializes a new instance of the <see cref="AudioData" /> class.</summary>
         /// <param name="samplingRate">SamplingRate.</param>
@@ -44,9 +38,9 @@ namespace Cave.Media.Audio
                 throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
             }
 
-            m_SampleCount = sampleCount;
-            m_Data = new byte[BytesPerSample * sampleCount];
-            Buffer.BlockCopy(samples, 0, m_Data, 0, sampleCount * 4);
+            SampleCount = sampleCount;
+            data = new byte[BytesPerSample * sampleCount];
+            Buffer.BlockCopy(samples, 0, data, 0, sampleCount * 4);
         }
 
         /// <summary>Initializes a new instance of the <see cref="AudioData"/> class.</summary>
@@ -75,11 +69,11 @@ namespace Cave.Media.Audio
                 throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
             }
 
-            m_StreamIndex = streamIndex;
-            m_Data = buffer;
-            m_StartTime = startTime;
-            m_ChannelNumber = channelNumber;
-            m_SampleCount = buffer.Length / BytesPerSample;
+            StreamIndex = streamIndex;
+            data = buffer;
+            StartTime = startTime;
+            ChannelNumber = channelNumber;
+            SampleCount = buffer.Length / BytesPerSample;
         }
 
         /// <summary>
@@ -110,11 +104,11 @@ namespace Cave.Media.Audio
                 throw new ArgumentOutOfRangeException(nameof(ChannelSetup));
             }
 
-            m_StreamIndex = streamIndex;
-            m_Data = buffer;
-            m_StartTime = startTime;
-            m_ChannelNumber = channelNumber;
-            m_SampleCount = buffer.Length / BytesPerSample;
+            StreamIndex = streamIndex;
+            data = buffer;
+            StartTime = startTime;
+            ChannelNumber = channelNumber;
+            SampleCount = buffer.Length / BytesPerSample;
         }
 
         /// <summary>Initializes a new instance of the <see cref="AudioData"/> class.</summary>
@@ -123,18 +117,18 @@ namespace Cave.Media.Audio
         public AudioData(IAudioConfiguration config, byte[] data)
             : base(config.SamplingRate, config.Format, config.Channels)
         {
-            m_Data = data;
-            m_SampleCount = data.Length / BytesPerSample;
+            this.data = data;
+            SampleCount = data.Length / BytesPerSample;
         }
 
         #region Peak calculation
         unsafe float CalculatePeakInt8()
         {
             int result = 0;
-            fixed (byte* bytePtr = &m_Data[0])
+            fixed (byte* bytePtr = &data[0])
             {
                 byte* p = bytePtr;
-                for (int i = 0; i < m_SampleCount; i++)
+                for (int i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs((int)p[i]));
                 }
@@ -145,10 +139,10 @@ namespace Cave.Media.Audio
         unsafe float CalculatePeakInt16()
         {
             int result = 0;
-            fixed (byte* bytePtr = &m_Data[0])
+            fixed (byte* bytePtr = &data[0])
             {
                 short* p = (short*)bytePtr;
-                for (int i = 0; i < m_SampleCount; i++)
+                for (int i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs((int)p[i]));
                 }
@@ -159,10 +153,10 @@ namespace Cave.Media.Audio
         unsafe float CalculatePeakInt32()
         {
             uint result = 0;
-            fixed (byte* bytePtr = &m_Data[0])
+            fixed (byte* bytePtr = &data[0])
             {
                 int* p = (int*)bytePtr;
-                for (int i = 0; i < m_SampleCount; i++)
+                for (int i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, (uint)Math.Abs(p[i]));
                 }
@@ -173,10 +167,10 @@ namespace Cave.Media.Audio
         unsafe float CalculatePeakInt64()
         {
             ulong result = 0;
-            fixed (byte* bytePtr = &m_Data[0])
+            fixed (byte* bytePtr = &data[0])
             {
                 long* p = (long*)bytePtr;
-                for (int i = 0; i < m_SampleCount; i++)
+                for (int i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, (ulong)Math.Abs(p[i]));
                 }
@@ -187,10 +181,10 @@ namespace Cave.Media.Audio
         unsafe float CalculatePeakFloat()
         {
             float result = 0;
-            fixed (byte* bytePtr = &m_Data[0])
+            fixed (byte* bytePtr = &data[0])
             {
                 float* p = (float*)bytePtr;
-                for (int i = 0; i < m_SampleCount; i++)
+                for (int i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs(p[i]));
                 }
@@ -201,10 +195,10 @@ namespace Cave.Media.Audio
         unsafe float CalculatePeakDouble()
         {
             double result = 0;
-            fixed (byte* bytePtr = &m_Data[0])
+            fixed (byte* bytePtr = &data[0])
             {
                 double* p = (double*)bytePtr;
-                for (int i = 0; i < m_SampleCount; i++)
+                for (int i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs(p[i]));
                 }
@@ -217,7 +211,7 @@ namespace Cave.Media.Audio
 
         unsafe IAudioData NormalizeInt16(float factor)
         {
-            byte[] result = (byte[])m_Data.Clone();
+            byte[] result = (byte[])data.Clone();
 #if DEBUG
             float overshoot = 0;
             float undershoot = 0;
@@ -225,7 +219,7 @@ namespace Cave.Media.Audio
             fixed (byte* bytePtr = &result[0])
             {
                 short* p = (short*)bytePtr;
-                int samples = m_Data.Length / BytesPerSample;
+                int samples = data.Length / BytesPerSample;
                 for (int i = 0; i < samples; i++)
                 {
                     int v = (int)(p[i] * factor);
@@ -255,14 +249,14 @@ namespace Cave.Media.Audio
 
         unsafe IAudioData NormalizeFloat(float factor)
         {
-            byte[] result = (byte[])m_Data.Clone();
+            byte[] result = (byte[])data.Clone();
 #if DEBUG
             float overshoot = 0;
             float undershoot = 0;
 #endif
             fixed (byte* bytePtr = &result[0])
             {
-                int samples = m_Data.Length / BytesPerSample;
+                int samples = data.Length / BytesPerSample;
                 float* p = (float*)bytePtr;
                 for (int i = 0; i < samples; i++)
                 {
@@ -302,21 +296,21 @@ namespace Cave.Media.Audio
         {
             get
             {
-                if (!m_Peak.HasValue)
+                if (!peak.HasValue)
                 {
                     switch (Format)
                     {
-                        case AudioSampleFormat.Int8: m_Peak = CalculatePeakInt8(); break;
-                        case AudioSampleFormat.Int16: m_Peak = CalculatePeakInt16(); break;
-                        case AudioSampleFormat.Int32: m_Peak = CalculatePeakInt32(); break;
-                        case AudioSampleFormat.Int64: m_Peak = CalculatePeakInt64(); break;
-                        case AudioSampleFormat.Float: m_Peak = CalculatePeakFloat(); break;
-                        case AudioSampleFormat.Double: m_Peak = CalculatePeakDouble(); break;
+                        case AudioSampleFormat.Int8: peak = CalculatePeakInt8(); break;
+                        case AudioSampleFormat.Int16: peak = CalculatePeakInt16(); break;
+                        case AudioSampleFormat.Int32: peak = CalculatePeakInt32(); break;
+                        case AudioSampleFormat.Int64: peak = CalculatePeakInt64(); break;
+                        case AudioSampleFormat.Float: peak = CalculatePeakFloat(); break;
+                        case AudioSampleFormat.Double: peak = CalculatePeakDouble(); break;
                         case AudioSampleFormat.Int24:
                         default: throw new NotImplementedException();
                     }
                 }
-                return m_Peak.Value;
+                return peak.Value;
             }
         }
 
@@ -339,17 +333,17 @@ namespace Cave.Media.Audio
         {
             get
             {
-                return (float)m_Data.Length / (BytesPerTick * SamplingRate);
+                return (float)data.Length / (BytesPerTick * SamplingRate);
             }
         }
 
         /// <summary>Gets the sample count (for all channels).</summary>
         /// <value>The sample count (for all channels).</value>
-        public int SampleCount { get { return m_SampleCount; } }
+        public int SampleCount { get; private set; }
 
         /// <summary>Gets the length of the audio data in bytes.</summary>
         /// <value>The length in bytes.</value>
-        public int Length { get { return m_Data.Length; } }
+        public int Length { get { return data.Length; } }
 
         /// <summary>
         /// Obtains the buffer containing the data (check <see cref="IAudioConfiguration.Format"/>,
@@ -360,7 +354,7 @@ namespace Cave.Media.Audio
         {
             get
             {
-                return (byte[])m_Data.Clone();
+                return (byte[])data.Clone();
             }
         }
 
@@ -368,29 +362,52 @@ namespace Cave.Media.Audio
         /// Stream index (&lt;0 = invalid or unknown index)<br/>
         /// If the audio source supports only one stream this is always set to 0.
         /// </summary>
-        public int StreamIndex
-        {
-            get { return m_StreamIndex; }
-        }
+        public int StreamIndex { get; private set; }
 
         /// <summary>
         /// Channel number (&lt;0 = invalid or unknown index).
         /// </summary>
-        public int ChannelNumber
-        {
+        public int ChannelNumber {
+/* Nicht gemergte Änderung aus Projekt "Cave.Media (net47)"
+Vor:
             get { return m_ChannelNumber; }
-        }
+Nach:
+            get; private set; }
+*/
+
+/* Nicht gemergte Änderung aus Projekt "Cave.Media (net46)"
+Vor:
+            get { return m_ChannelNumber; }
+Nach:
+            get; private set; }
+*/
+
+/* Nicht gemergte Änderung aus Projekt "Cave.Media (net20)"
+Vor:
+            get { return m_ChannelNumber; }
+Nach:
+            get; private set; }
+*/
+
+/* Nicht gemergte Änderung aus Projekt "Cave.Media (net45)"
+Vor:
+            get { return m_ChannelNumber; }
+Nach:
+            get; private set; }
+*/
+
+/* Nicht gemergte Änderung aus Projekt "Cave.Media (net35)"
+Vor:
+            get { return m_ChannelNumber; }
+Nach:
+            get; private set; }
+*/
+ get; private set; }
 
         /// <summary>
         /// Obtains the start time.
         /// </summary>
-        public TimeSpan StartTime
-        {
-            get
-            {
-                return m_StartTime;
-            }
-        }
+        public TimeSpan StartTime { get; private set; }
 
         /// <summary>
         /// Obtains the duration.
@@ -399,9 +416,9 @@ namespace Cave.Media.Audio
         {
             get
             {
-                return m_Data.LongLength == 0
+                return data.LongLength == 0
                     ? TimeSpan.Zero
-                    : new TimeSpan(m_Data.LongLength / BytesPerTick * TimeSpan.TicksPerSecond / SamplingRate);
+                    : new TimeSpan(data.LongLength / BytesPerTick * TimeSpan.TicksPerSecond / SamplingRate);
             }
         }
 
@@ -423,8 +440,8 @@ namespace Cave.Media.Audio
         /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         public unsafe IAudioData ConvertToInt16()
         {
-            byte[] result = new byte[m_Data.Length / BytesPerSample * 2];
-            fixed (byte* ptrOut = &result[0]) fixed (byte* ptrIn = &m_Data[0])
+            byte[] result = new byte[data.Length / BytesPerSample * 2];
+            fixed (byte* ptrOut = &result[0]) fixed (byte* ptrIn = &data[0])
             {
                 short* pOut = (short*)ptrOut;
                 switch (Format)
@@ -485,8 +502,8 @@ namespace Cave.Media.Audio
         /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         public unsafe IAudioData ConvertToFloat()
         {
-            byte[] result = new byte[m_Data.Length / BytesPerSample * 4];
-            fixed (byte* ptrOut = &result[0]) fixed (byte* ptrIn = &m_Data[0])
+            byte[] result = new byte[data.Length / BytesPerSample * 4];
+            fixed (byte* ptrOut = &result[0]) fixed (byte* ptrIn = &data[0])
             {
                 float* pOut = (float*)ptrOut;
                 switch (Format)
@@ -547,7 +564,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public unsafe IAudioData ChangeVolume(float volume)
         {
-            byte[] copy = (byte[])m_Data.Clone();
+            byte[] copy = (byte[])data.Clone();
             fixed (byte* ptr = &copy[0])
             {
                 switch (Format)
@@ -598,13 +615,13 @@ namespace Cave.Media.Audio
                         for (int i = 0; i < SampleCount; i++)
                         {
                             float f = *p * volume;
-                            if (f > Int64.MaxValue)
+                            if (f > long.MaxValue)
                             {
-                                f = Int64.MaxValue;
+                                f = long.MaxValue;
                             }
-                            else if (f < Int64.MinValue)
+                            else if (f < long.MinValue)
                             {
-                                f = Int64.MinValue;
+                                f = long.MinValue;
                             }
 
                             *p = (long)f;
@@ -618,13 +635,13 @@ namespace Cave.Media.Audio
                         for (int i = 0; i < SampleCount; i++)
                         {
                             float f = *p * volume;
-                            if (f > Int32.MaxValue)
+                            if (f > int.MaxValue)
                             {
-                                f = Int32.MaxValue;
+                                f = int.MaxValue;
                             }
-                            else if (f < Int32.MinValue)
+                            else if (f < int.MinValue)
                             {
-                                f = Int32.MinValue;
+                                f = int.MinValue;
                             }
 
                             *p = (int)f;
@@ -638,13 +655,13 @@ namespace Cave.Media.Audio
                         for (int i = 0; i < SampleCount; i++)
                         {
                             float f = *p * volume;
-                            if (f > Int16.MaxValue)
+                            if (f > short.MaxValue)
                             {
-                                f = Int16.MaxValue;
+                                f = short.MaxValue;
                             }
-                            else if (f < Int16.MinValue)
+                            else if (f < short.MinValue)
                             {
-                                f = Int16.MinValue;
+                                f = short.MinValue;
                             }
 
                             *p = (short)f;
@@ -658,13 +675,13 @@ namespace Cave.Media.Audio
                         for (int i = 0; i < SampleCount; i++)
                         {
                             float f = *p * volume;
-                            if (f > SByte.MaxValue)
+                            if (f > sbyte.MaxValue)
                             {
-                                f = SByte.MaxValue;
+                                f = sbyte.MaxValue;
                             }
-                            else if (f < SByte.MinValue)
+                            else if (f < sbyte.MinValue)
                             {
-                                f = SByte.MinValue;
+                                f = sbyte.MinValue;
                             }
 
                             *p = (sbyte)f;

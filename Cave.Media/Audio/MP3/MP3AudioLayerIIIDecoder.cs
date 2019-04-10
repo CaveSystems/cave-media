@@ -235,24 +235,9 @@ namespace Cave.Media.Audio.MP3
                 throw new ArgumentNullException("Header");
             }
 
-            if (filter1 == null)
-            {
-                throw new ArgumentNullException("Filter1");
-            }
-
-            if (filter2 == null)
-            {
-                throw new ArgumentNullException("Filter2");
-            }
-
-            if (buffer == null)
-            {
-                throw new ArgumentNullException("Buffer");
-            }
-
-            this.filter1 = filter1;
-            this.filter2 = filter2;
-            outputBuffer = buffer;
+            this.filter1 = filter1 ?? throw new ArgumentNullException("Filter1");
+            this.filter2 = filter2 ?? throw new ArgumentNullException("Filter2");
+            outputBuffer = buffer ?? throw new ArgumentNullException("Buffer");
             outputMode = mode;
 
             is1d = new int[(SBLIMIT * SSLIMIT) + 4];
@@ -518,7 +503,6 @@ namespace Cave.Media.Audio.MP3
 
                     for (sb18 = 18; sb18 < 576; sb18 += 36)
                     {
-
                         // Frequency inversion
                         for (ss = 1; ss < SSLIMIT; ss += 2)
                         {

@@ -1,7 +1,6 @@
-﻿using Cave.IO;
-using System;
+﻿using System;
 using System.IO;
-using System.Text;
+using Cave.IO;
 
 namespace Cave.Media.Audio.ID3.Frames
 {

@@ -5,7 +5,6 @@ namespace Cave.Media
     /// </summary>
     public class MediaStream : IMediaStream
     {
-        MediaType m_Type;
         int m_ID;
 
         /// <summary>
@@ -15,17 +14,14 @@ namespace Cave.Media
         /// <param name="id"></param>
         public MediaStream(MediaType type, int id)
         {
-            m_Type = type;
+            Type = type;
             m_ID = id;
         }
 
         /// <summary>
         /// Obtains the type of the stream.
         /// </summary>
-        public MediaType Type
-        {
-            get { return m_Type; }
-        }
+        public MediaType Type { get; private set; }
 
         /// <summary>
         /// Obtains the ID of the stream.

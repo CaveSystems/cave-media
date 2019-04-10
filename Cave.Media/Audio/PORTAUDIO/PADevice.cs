@@ -53,7 +53,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <summary>Initializes a new instance of the <see cref="PADevice" /> class.</summary>
         /// <param name="api">The API.</param>
         /// <param name="devIndex">Index of the device.</param>
-        internal PADevice(IAudioAPI api, int devIndex) : base(api, GetName(devIndex), GetCapabilities(devIndex))
+        internal PADevice(IAudioAPI api, int devIndex)
+            : base(api, GetName(devIndex), GetCapabilities(devIndex))
         {
             DeviceIndex = devIndex;
         }

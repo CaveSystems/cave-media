@@ -3,7 +3,6 @@ namespace Cave.Media.Audio.ID3
     /// <summary>
     /// Provides idiotic image size restrictions.
     /// </summary>
-
     public sealed class ID3v2ImageSize
     {
         /// <summary>

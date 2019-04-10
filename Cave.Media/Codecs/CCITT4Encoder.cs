@@ -1,6 +1,6 @@
-using Cave.IO;
 using System;
 using System.IO;
+using Cave.IO;
 
 namespace Cave.Media.Codecs
 {

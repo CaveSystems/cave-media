@@ -8,7 +8,6 @@ namespace Cave.Media
     /// <summary>
     /// Provides a simple 3d matrix with float values.
     /// </summary>
-
     [StructLayout(LayoutKind.Explicit, Size = 3 * 3 * 4)]
     public struct Matrix3
     {
@@ -48,13 +47,7 @@ namespace Cave.Media
         /// Obtains an empty <see cref="Matrix3"/>.
         /// </summary>
         /// <returns>Returns a new empty <see cref="Matrix3"/> instance (all values set to 0).</returns>
-        public static Matrix3 Empty
-        {
-            get
-            {
-                return new Matrix3();
-            }
-        }
+        public static Matrix3 Empty => default(Matrix3);
 
         /// <summary>
         /// Creates a new <see cref="Matrix3"/> with the specified rows.
@@ -233,67 +226,67 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Matrix3"/> instances for equality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator ==(Matrix3 A, Matrix3 B)
+        public static bool operator ==(Matrix3 first, Matrix3 second)
         {
-            return Equals(null, A) ? Equals(null, B) : A.Equals(B);
+            return Equals(null, first) ? Equals(null, second) : first.Equals(second);
         }
 
         /// <summary>
         /// Checks two <see cref="Matrix3"/> instances for inequality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator !=(Matrix3 A, Matrix3 B)
+        public static bool operator !=(Matrix3 first, Matrix3 second)
         {
-            return Equals(null, A) ? !Equals(null, B) : !A.Equals(B);
+            return Equals(null, first) ? !Equals(null, second) : !first.Equals(second);
         }
 
         /// <summary>
         /// Calculates the sum of two <see cref="Matrix3"/> structs.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix3 operator +(Matrix3 A, Matrix3 B)
+        public static Matrix3 operator +(Matrix3 first, Matrix3 second)
         {
-            return A.Add(B);
+            return first.Add(second);
         }
 
         /// <summary>
         /// Calculates the product of two <see cref="Matrix3"/> structs.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix3 operator *(Matrix3 A, Matrix3 B)
+        public static Matrix3 operator *(Matrix3 first, Matrix3 second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
 
         /// <summary>
         /// Calculates the product of a <see cref="Matrix3"/> struct and a <see cref="Vector3"/>.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator *(Matrix3 A, Vector3 B)
+        public static Vector3 operator *(Matrix3 first, Vector3 second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
 
         /// <summary>
         /// Calculates the product of a <see cref="Matrix3"/> struct and a scalar.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix3 operator *(Matrix3 A, float B)
+        public static Matrix3 operator *(Matrix3 first, float second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
         #endregion
 
@@ -504,11 +497,9 @@ namespace Cave.Media
                 (v11 * matrix.v11) + (v12 * matrix.v21) + (v13 * matrix.v31),
                 (v11 * matrix.v12) + (v12 * matrix.v22) + (v13 * matrix.v32),
                 (v11 * matrix.v13) + (v12 * matrix.v23) + (v13 * matrix.v33),
-
                 (v21 * matrix.v11) + (v22 * matrix.v21) + (v23 * matrix.v31),
                 (v21 * matrix.v12) + (v22 * matrix.v22) + (v23 * matrix.v32),
                 (v21 * matrix.v13) + (v22 * matrix.v23) + (v23 * matrix.v33),
-
                 (v31 * matrix.v11) + (v32 * matrix.v21) + (v33 * matrix.v31),
                 (v31 * matrix.v12) + (v32 * matrix.v22) + (v33 * matrix.v32),
                 (v31 * matrix.v13) + (v32 * matrix.v23) + (v33 * matrix.v33));

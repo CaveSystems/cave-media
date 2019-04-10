@@ -19,18 +19,17 @@ namespace Cave.Media.Audio.ID3.Frames
     /// which may be up to 64 bytes. There may be more than one "UFID" frame
     /// in a tag, but only one with the same 'Owner identifier'.
     /// </summary>
-
     public sealed class ID3v2UFIDFrame : ID3v2Frame
     {
-        string m_Owner = null;
-        byte[] m_Ufid = null;
+        string owner = null;
+        byte[] ufid = null;
 
-        void m_Split()
+        void Split()
         {
             int index = Array.IndexOf<byte>(m_Content, 0);
-            m_Owner = ID3v2Encoding.ISO88591.GetString(m_Content, 0, index);
-            m_Ufid = new byte[m_Content.Length - index - 1];
-            Array.Copy(m_Content, index + 1, m_Ufid, 0, m_Ufid.Length);
+            owner = ID3v2Encoding.ISO88591.GetString(m_Content, 0, index);
+            ufid = new byte[m_Content.Length - index - 1];
+            Array.Copy(m_Content, index + 1, ufid, 0, ufid.Length);
         }
 
         internal ID3v2UFIDFrame(ID3v2Frame frame)
@@ -43,44 +42,44 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the owner of the ufid.
+        /// Gets the owner of the ufid.
         /// </summary>
         public string Owner
         {
             get
             {
-                if (m_Owner == null)
+                if (owner == null)
                 {
-                    m_Split();
+                    Split();
                 }
 
-                return m_Owner;
+                return owner;
             }
         }
 
         /// <summary>
-        /// Obtains the ufid data.
+        /// Gets the ufid data.
         /// </summary>
         public byte[] UFID
         {
             get
             {
-                if (m_Ufid == null)
+                if (ufid == null)
                 {
-                    m_Split();
+                    Split();
                 }
 
-                return (byte[])m_Ufid.Clone();
+                return (byte[])ufid.Clone();
             }
         }
 
         /// <summary>
-        /// Obtains the UFID as hex string.
+        /// Gets the UFID as hex string.
         /// </summary>
         public string HexUFID => StringExtensions.ToHexString(UFID);
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "Owner":HexUFID.</returns>
         public override string ToString()

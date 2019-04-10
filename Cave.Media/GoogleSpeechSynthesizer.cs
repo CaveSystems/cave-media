@@ -1,10 +1,10 @@
-﻿using Cave.Media.Audio;
-using Cave.Media.Audio.MP3;
-using Cave.Net;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using Cave.Media.Audio;
+using Cave.Media.Audio.MP3;
+using Cave.Net;
 
 namespace Cave.Media
 {
@@ -25,7 +25,7 @@ namespace Cave.Media
         {
             var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             FilePath = Path.Combine(folder, "GoogleSpeechSynthesizer");
-			Directory.CreateDirectory(FilePath);
+            Directory.CreateDirectory(FilePath);
             cultureInfo = CultureInfo.CurrentCulture;
             this.device = device;
             Trace.WriteLine(string.Format("Using <green>GoogleSpeechSynthesizer <default>Cache: <cyan>{0}<default> Device: {1}", FilePath, device));
@@ -53,8 +53,7 @@ namespace Cave.Media
         /// <exception cref="ArgumentNullException">cultureInfo</exception>
         public void SelectVoiceByHints(VoiceGender gender, VoiceAge age, CultureInfo cultureInfo)
         {
-            if (cultureInfo == null) throw new ArgumentNullException(nameof(cultureInfo));
-            this.cultureInfo = cultureInfo;
+            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
         }
 
         /// <summary>Speaks the specified text.</summary>
@@ -69,7 +68,10 @@ namespace Cave.Media
 
                 lock (this)
                 {
-                    if (TryPlay(Path.Combine(FilePath, hash + ".snd"))) return;
+                    if (TryPlay(Path.Combine(FilePath, hash + ".snd")))
+                    {
+                        return;
+                    }
 
                     Trace.WriteLine(string.Format("Request new google translation for {0}", text));
                     byte[] data;
@@ -82,7 +84,7 @@ namespace Cave.Media
                         else
                         {
                             data = HttpConnection.Get(uri);
-							File.WriteAllBytes(fileName, data);
+                            File.WriteAllBytes(fileName, data);
                         }
                     }
                     DecodeAndPlay(data, Path.Combine(FilePath, hash + ".snd"), text);
@@ -96,10 +98,21 @@ namespace Cave.Media
 
         private bool TryPlay(string fileName)
         {
-            if (!File.Exists(fileName)) return false;
+            if (!File.Exists(fileName))
+            {
+                return false;
+            }
+
             SoundFile soundFile;
-            try { soundFile = SoundFile.Read(fileName); }
-            catch (InvalidDataException) { File.Delete(fileName); return false; }
+            try
+            {
+                soundFile = SoundFile.Read(fileName);
+            }
+            catch (InvalidDataException)
+            {
+                File.Delete(fileName);
+                return false;
+            }
             catch { return false; }
             try { soundFile.Play(device, Volume); } catch { }
             return true;
@@ -128,8 +141,16 @@ namespace Cave.Media
         private SoundFile Decode(Stream s)
         {
             IAudioDecoder decoder = new Mpg123();
-            if (!decoder.IsAvailable) decoder = new MP3AudioDecoder();
-            if (!decoder.IsAvailable) throw new Exception("No mp3 decoder available!");
+            if (!decoder.IsAvailable)
+            {
+                decoder = new MP3AudioDecoder();
+            }
+
+            if (!decoder.IsAvailable)
+            {
+                throw new Exception("No mp3 decoder available!");
+            }
+
             try
             {
                 decoder.BeginDecode(s);

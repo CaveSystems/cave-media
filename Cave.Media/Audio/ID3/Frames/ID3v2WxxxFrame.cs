@@ -6,7 +6,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// information, price information or plain ordinary news can be added to
     /// the tag.
     /// </summary>
-
     public sealed class ID3v2WXXXFrame : ID3v2Frame
     {
         string m_Address;

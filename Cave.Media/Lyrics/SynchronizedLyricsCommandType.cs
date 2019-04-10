@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cave.Media.Lyrics
+﻿namespace Cave.Media.Lyrics
 {
     /// <summary>
     /// Provides command types for synchronized lyrics.

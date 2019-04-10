@@ -1,5 +1,5 @@
-﻿using Cave.IO;
-using System;
+﻿using System;
+using Cave.IO;
 
 namespace Cave.Media.Lyrics
 {

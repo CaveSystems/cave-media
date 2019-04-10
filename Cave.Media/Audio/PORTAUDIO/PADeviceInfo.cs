@@ -4,10 +4,9 @@
     Copyright(c) 1999-2011 Ross Bencina and Phil Burk
 */
 #endregion
-
-using Cave.IO;
 using System;
 using System.Runtime.InteropServices;
+using Cave.IO;
 
 namespace Cave.Media.Audio.PORTAUDIO
 {

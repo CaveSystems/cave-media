@@ -5,7 +5,6 @@ namespace Cave.Media.Structs
     /// <summary>
     /// The AVISTREAMHEADER structure contains information about one stream in an AVI file. AVI stream header: riff chunk 'strh'.
     /// </summary>
-
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 56)]
     public struct AVISTREAMHEADER
     {

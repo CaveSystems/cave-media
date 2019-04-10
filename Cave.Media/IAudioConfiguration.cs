@@ -5,7 +5,6 @@ namespace Cave.Media
     /// <summary>
     /// Provides an interface for audio configurations.
     /// </summary>
-
     public interface IAudioConfiguration : IEquatable<IAudioConfiguration>
     {
         /// <summary>

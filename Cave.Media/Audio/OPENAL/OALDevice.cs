@@ -87,18 +87,8 @@ namespace Cave.Media.Audio.OPENAL
         /// <exception cref="ArgumentException">DeviceName.</exception>
         internal OALDevice(IAudioAPI api, string name)
         {
-            if (api == null)
-            {
-                throw new ArgumentNullException("API");
-            }
-
-            if (name == null)
-            {
-                throw new ArgumentNullException("Name");
-            }
-
-            API = api;
-            Name = name;
+            API = api ?? throw new ArgumentNullException("API");
+            Name = name ?? throw new ArgumentNullException("Name");
             string[] l_Devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
             if (Array.IndexOf(l_Devices, name) < 0)
             {

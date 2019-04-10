@@ -1,6 +1,5 @@
-using Cave.Collections.Generic;
-using Cave.IO;
 using System;
+using Cave.IO;
 
 namespace Cave.Media.Audio.MP3
 {

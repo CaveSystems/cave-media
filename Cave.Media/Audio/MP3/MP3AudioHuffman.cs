@@ -137,17 +137,12 @@ namespace Cave.Media.Audio.MP3
         /// <param name="treeLength">Length of the decoder tree.</param>
         MP3AudioHuffman(int tableNumber, int x, int y, int linBitCount, int linBitMax, int[][] tree, int treeLength)
         {
-            if (tree == null)
-            {
-                throw new ArgumentNullException("Tree");
-            }
-
             TableNumber = tableNumber;
             XLength = x;
             YLength = y;
             LinBitCount = linBitCount;
             LinBitMax = linBitMax;
-            Tree = tree;
+            Tree = tree ?? throw new ArgumentNullException("Tree");
             TreeLength = treeLength;
         }
 
