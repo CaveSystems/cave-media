@@ -99,7 +99,7 @@ namespace Cave.Media
         /// <param name="translation">The translation.</param>
         public override void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null)
         {
-            Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height);
+            Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
         }
 
         /// <summary>Draws the specified image ontop of this one.</summary>
@@ -180,7 +180,7 @@ namespace Cave.Media
         protected internal void Save(Stream stream, ImageFormat format, int quality)
         {
             ImageCodecInfo encoder = GetEncoder(format);
-            EncoderParameters encoderParams = new EncoderParameters(1);
+            var encoderParams = new EncoderParameters(1);
             encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, quality);
             bitmap.Save(stream, encoder, encoderParams);
         }

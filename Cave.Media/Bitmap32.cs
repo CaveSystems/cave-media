@@ -123,7 +123,7 @@ namespace Cave.Media
         /// <param name="translation">The translation.</param>
         public virtual void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null)
         {
-            bitmap.Draw(other, x, y, width, height);
+            bitmap.Draw(other, x, y, width, height, translation);
         }
 
         /// <summary>Draws the specified image ontop of this one.</summary>
