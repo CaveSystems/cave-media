@@ -233,11 +233,11 @@ namespace Cave.Media
                 }
             }
 
-            List<ColorCounter> colorCounters = new List<ColorCounter>();
+            var colorCounters = new List<ColorCounter>();
             for (int y = 0; y < Height; y++)
             {
                 var data = Data.Data;
-                Dictionary<ARGB, ColorCounter> colorDict = new Dictionary<ARGB, ColorCounter>();
+                var colorDict = new Dictionary<ARGB, ColorCounter>();
                 unsafe
                 {
                     fixed (int* p = &data[0])
@@ -266,7 +266,7 @@ namespace Cave.Media
                 distance += 255;
             }
             colorCounters.Sort();
-            List<ARGB> colors = new List<ARGB>(colorCounters.Count);
+            var colors = new List<ARGB>(colorCounters.Count);
             for (int i = 0; i < colorCounters.Count; i++)
             {
                 colors.Add(colorCounters[i].Color);
