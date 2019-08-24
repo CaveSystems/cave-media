@@ -1,4 +1,5 @@
-﻿#if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+﻿#if NETSTANDARD20
+#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Text;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides gdi 32 bit argb bitmap functions
+    /// Provides gdi 32 bit argb bitmap functions.
     /// </summary>
     /// <seealso cref="IDisposable" />
     /// <seealso cref="IBitmap32" />
@@ -27,7 +28,7 @@ namespace Cave.Media
             }
         }
 
-        /// <summary>Creates a new bitmap instance</summary>
+        /// <summary>Creates a new bitmap instance.</summary>
         public Bitmap32 Create(int width, int height)
         {
             return new GdiBitmap32(width, height);
@@ -40,13 +41,13 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Creates a new bitmap instance
+        /// Creates a new bitmap instance.
         /// </summary>
-        /// <param name="fontName">Name of the font</param>
-        /// <param name="fontSize">Size in points</param>
-        /// <param name="foreColor">ForeColor</param>
-        /// <param name="backColor">BackColor</param>
-        /// <param name="text">text to draw</param>
+        /// <param name="fontName">Name of the font.</param>
+        /// <param name="fontSize">Size in points.</param>
+        /// <param name="foreColor">ForeColor.</param>
+        /// <param name="backColor">BackColor.</param>
+        /// <param name="text">text to draw.</param>
         public Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
         {
             SizeF size;
@@ -89,5 +90,9 @@ namespace Cave.Media
         }
     }
 }
+
+#else
+
+#error No code defined for the current framework or NETXX version define missing!
 
 #endif
