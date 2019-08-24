@@ -12,7 +12,7 @@ namespace Cave.Media
         bool Parse(DataFrameReader reader);
 
         /// <summary>
-        /// Obtains an array with the data for this instance.
+        /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         byte[] Data { get; }
@@ -23,7 +23,7 @@ namespace Cave.Media
         int Length { get; }
 
         /// <summary>
-        /// Obtains whether the <see cref="Length"/> of the frame is immutable or not.
+        /// Gets whether the <see cref="Length"/> of the frame is immutable or not.
         /// </summary>
         bool IsFixedLength { get; }
     }

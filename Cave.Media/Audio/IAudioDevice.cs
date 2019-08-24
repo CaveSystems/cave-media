@@ -12,7 +12,7 @@ namespace Cave.Media.Audio
         IAudioAPI API { get; }
 
         /// <summary>
-        /// Obtains the devices capabilities.
+        /// Gets the devices capabilities.
         /// </summary>
         IAudioDeviceCapabilities Capabilities { get; }
 
@@ -22,17 +22,17 @@ namespace Cave.Media.Audio
         string Name { get; }
 
         /// <summary>
-        /// Obtains whether the device supports playback or not.
+        /// Gets whether the device supports playback or not.
         /// </summary>
         bool SupportsPlayback { get; }
 
         /// <summary>
-        /// Obtains whether the device supports recording or not.
+        /// Gets whether the device supports recording or not.
         /// </summary>
         bool SupportsRecording { get; }
 
         /// <summary>
-        /// Obtains a new audio out stream.
+        /// Gets a new audio out stream.
         /// </summary>
         AudioOut CreateAudioOut(IAudioConfiguration configuration);
     }

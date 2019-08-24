@@ -6,12 +6,12 @@ namespace Cave.Media
     public interface IMediaStream
     {
         /// <summary>
-        /// Obtains the type of the stream.
+        /// Gets the type of the stream.
         /// </summary>
         MediaType Type { get; }
 
         /// <summary>
-        /// Obtains the ID of the stream.
+        /// Gets the ID of the stream.
         /// </summary>
         int ID { get; }
     }

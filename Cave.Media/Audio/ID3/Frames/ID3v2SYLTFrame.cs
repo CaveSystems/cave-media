@@ -52,7 +52,7 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             /// <summary>
-            /// Obtains the event text.
+            /// Gets the event text.
             /// </summary>
             public readonly string Text;
         }
@@ -168,7 +168,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the language (3 character language code).
+        /// Gets the language (3 character language code).
         /// </summary>
         public string Language
         {
@@ -184,7 +184,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the descriptor.
+        /// Gets the descriptor.
         /// </summary>
         public string Descriptor
         {
@@ -200,7 +200,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the content type.
+        /// Gets the content type.
         /// </summary>
         public ContentType Type
         {
@@ -216,7 +216,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the list of events.
+        /// Gets the list of events.
         /// </summary>
         public ID3v2Event[] Events
         {
@@ -232,7 +232,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] ContentType LNG:"Descriptor".</returns>
         public override string ToString()

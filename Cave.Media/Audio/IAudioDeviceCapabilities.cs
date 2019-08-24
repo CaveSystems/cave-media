@@ -6,7 +6,7 @@ namespace Cave.Media.Audio
     public interface IAudioDeviceCapabilities
     {
         /// <summary>
-        /// Obtains the device type.
+        /// Gets the device type.
         /// </summary>
         AudioDeviceType Type { get; }
 
@@ -21,12 +21,12 @@ namespace Cave.Media.Audio
         bool IsOutput { get; }
 
         /// <summary>
-        /// Obtains the supported output configurations.
+        /// Gets the supported output configurations.
         /// </summary>
         IAudioConfiguration[] OutputConfigurations { get; }
 
         /// <summary>
-        /// Obtains the supported output configurations.
+        /// Gets the supported output configurations.
         /// </summary>
         IAudioConfiguration[] InputConfigurations { get; }
     }

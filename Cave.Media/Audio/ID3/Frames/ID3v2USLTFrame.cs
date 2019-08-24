@@ -81,7 +81,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] LNG:"Descriptor".</returns>
         public override string ToString()

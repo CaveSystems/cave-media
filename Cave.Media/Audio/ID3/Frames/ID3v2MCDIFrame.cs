@@ -19,7 +19,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the TOC.
+        /// Gets the TOC.
         /// </summary>
         public byte[] TOC => (byte[])m_Content.Clone();
 
@@ -29,7 +29,7 @@ namespace Cave.Media.Audio.ID3.Frames
         public string HexTOC => StringExtensions.ToHexString(m_Content);
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] HexTOC.</returns>
         public override string ToString()

@@ -169,7 +169,7 @@ namespace Cave.Media.Audio.ID3
         #endregion
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length].</returns>
         public override string ToString()
@@ -178,7 +178,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the hashcode for this instance.
+        /// Gets the hashcode for this instance.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

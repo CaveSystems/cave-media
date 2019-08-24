@@ -46,7 +46,7 @@ namespace Cave.Media.Audio.ID3
         public ID3v2Header Header { get; private set; } = new ID3v2Header(3, 0, ID3v2HeaderFlags.None, 0);
 
         /// <summary>
-        /// Obtains the text of the first T* (not TXXX) frame with the specified ID.
+        /// Gets the text of the first T* (not TXXX) frame with the specified ID.
         /// </summary>
         /// <param name="frameID">ID of the frame.</param>
         /// <returns></returns>
@@ -263,7 +263,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the content types (genres).
+        /// Gets the content types (genres).
         /// </summary>
         public string[] ContentTypes
         {
@@ -410,7 +410,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the date.
+        /// Gets the date.
         /// </summary>
         public DateTime Date
         {

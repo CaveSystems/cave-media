@@ -59,7 +59,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             DeviceIndex = devIndex;
         }
 
-        /// <summary>Obtains whether the device supports playback or not.</summary>
+        /// <summary>Gets whether the device supports playback or not.</summary>
         public override bool SupportsPlayback
         {
             get
@@ -69,7 +69,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains whether the device supports recording or not.</summary>
+        /// <summary>Gets whether the device supports recording or not.</summary>
         public override bool SupportsRecording
         {
             get
@@ -79,7 +79,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains a new audio queue (sound target/source).</summary>
+        /// <summary>Gets a new audio queue (sound target/source).</summary>
         /// <param name="configuration">The desired AudioConfiguration.</param>
         /// <returns>Returns an IAudioQueue or IAudioQueue3D.</returns>
         public override AudioOut CreateAudioOut(IAudioConfiguration configuration)

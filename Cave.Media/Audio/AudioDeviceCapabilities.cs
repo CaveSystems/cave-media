@@ -70,12 +70,12 @@ namespace Cave.Media.Audio
         public bool IsOutput { get { return (Type & AudioDeviceType.Output) != AudioDeviceType.Invalid; } }
 
         /// <summary>
-        /// Obtains the supported input configurations.
+        /// Gets the supported input configurations.
         /// </summary>
         public IAudioConfiguration[] InputConfigurations { get { return (IAudioConfiguration[])m_InputConfigurations.Clone(); } }
 
         /// <summary>
-        /// Obtains the supported output configurations.
+        /// Gets the supported output configurations.
         /// </summary>
         public IAudioConfiguration[] OutputConfigurations { get { return (IAudioConfiguration[])m_OutputConfigurations.Clone(); } }
     }

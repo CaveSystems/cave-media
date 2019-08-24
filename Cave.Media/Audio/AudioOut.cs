@@ -47,22 +47,22 @@ namespace Cave.Media.Audio
         #region public abstract properties
 
         /// <summary>
-        /// Obtains the latency of the queue.
+        /// Gets the latency of the queue.
         /// </summary>
         public abstract TimeSpan Latency { get; }
 
         /// <summary>
-        /// Obtains the number of bytes passed since starting this queue.
+        /// Gets the number of bytes passed since starting this queue.
         /// </summary>
         public abstract long BytesPassed { get; }
 
         /// <summary>
-        /// Obtains the bytes buffered (bytes to play until queue gets empty).
+        /// Gets the bytes buffered (bytes to play until queue gets empty).
         /// </summary>
         public abstract long BytesBuffered { get; }
 
         /// <summary>
-        /// Obtains whether the IAudioQueue supports 3D positioning or not.
+        /// Gets whether the IAudioQueue supports 3D positioning or not.
         /// </summary>
         public abstract bool Supports3D { get; }
         #endregion
@@ -184,22 +184,22 @@ namespace Cave.Media.Audio
         public IAudioDevice Device { get; private set; }
 
         /// <summary>
-        /// Obtains the time passed since starting this queue.
+        /// Gets the time passed since starting this queue.
         /// </summary>
         public long TicksPassed { get { return BytesPassed / Configuration.BytesPerTick; } }
 
         /// <summary>
-        /// Obtains the current state of the device.
+        /// Gets the current state of the device.
         /// </summary>
         public AudioDeviceState State { get; private set; } = AudioDeviceState.Stopped;
 
         /// <summary>
-        /// Obtains the time buffered (time to play until queue gets empty).
+        /// Gets the time buffered (time to play until queue gets empty).
         /// </summary>
         public TimeSpan TimeBuffered { get { return TimeSpan.FromSeconds((double)BytesBuffered / (Configuration.BytesPerTick * Configuration.SamplingRate)); } }
 
         /// <summary>
-        /// Obtains the time passed since starting this queue.
+        /// Gets the time passed since starting this queue.
         /// </summary>
         public TimeSpan TimePassed { get { return TimeSpan.FromSeconds(TicksPassed / (double)Configuration.SamplingRate); } }
 

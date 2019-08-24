@@ -10,12 +10,12 @@ namespace Cave.Media.Audio.ID3
     public sealed class ID3v2Encoding
     {
         /// <summary>
-        /// Obtains the default encoding.
+        /// Gets the default encoding.
         /// </summary>
         public static Encoding ISO88591 => Encoding.GetEncoding("ISO-8859-1");
 
         /// <summary>
-        /// Obtains a specific encoding.
+        /// Gets a specific encoding.
         /// </summary>
         /// <param name="encoding">The ID3v2 encoding number.</param>
         /// <returns>The dotnet encoding instance.</returns>
@@ -80,7 +80,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains whether 8 bit char index search (true) shall be used or 16 bit (false).
+        /// Gets whether 8 bit char index search (true) shall be used or 16 bit (false).
         /// </summary>
         /// <param name="encoding">The ID3v2 encoding number.</param>
         /// <returns>Returns true if 8 bit char index search may be used.</returns>

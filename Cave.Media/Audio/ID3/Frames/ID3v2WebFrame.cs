@@ -25,7 +25,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the URL / address this frame contains.
+        /// Gets the URL / address this frame contains.
         /// </summary>
         public string Address
         {
@@ -41,7 +41,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "URL".</returns>
         public override string ToString()

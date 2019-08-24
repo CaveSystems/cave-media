@@ -32,7 +32,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a MediaPacket.
+        /// Gets a MediaPacket.
         /// </summary>
         /// <returns>Returns a MediaPacket.</returns>
         public IMediaPacket ToPacket()

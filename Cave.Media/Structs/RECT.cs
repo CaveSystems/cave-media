@@ -70,7 +70,7 @@ namespace Cave.Media.Structs
         public Rectangle Rectangle { get { return new Rectangle(Left, Top, Width, Height); } }
 
         /// <summary>
-        /// Obtains the rect ccordinates (x1,y1)-(x2,y2).
+        /// Gets the rect ccordinates (x1,y1)-(x2,y2).
         /// </summary>
         /// <returns></returns>
         public override string ToString()

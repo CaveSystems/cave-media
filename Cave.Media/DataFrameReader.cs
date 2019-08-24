@@ -239,7 +239,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains buffered data beginning at index 0 and removes it.
+        /// Gets buffered data beginning at index 0 and removes it.
         /// </summary>
         /// <returns></returns>
         public byte[] GetBuffer(int count)
@@ -255,12 +255,12 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the number of bytes currently available for reading.
+        /// Gets the number of bytes currently available for reading.
         /// </summary>
         public int Available => BufferLength - m_ReadBufferPosition;
 
         /// <summary>
-        /// Obtains all currently buffered data and removes it.
+        /// Gets all currently buffered data and removes it.
         /// </summary>
         /// <returns></returns>
         public byte[] GetBuffer()
@@ -295,17 +295,17 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the current start position (at the stream) of the buffer.
+        /// Gets the current start position (at the stream) of the buffer.
         /// </summary>
         public long BufferStartPosition => BufferEndPosition - BufferLength + m_ReadBufferPosition;
 
         /// <summary>
-        /// Obtains the current end position (at the stream) of the buffer.
+        /// Gets the current end position (at the stream) of the buffer.
         /// </summary>
         public long BufferEndPosition { get; private set; } = 0;
 
         /// <summary>
-        /// Obtains the current buffer length.
+        /// Gets the current buffer length.
         /// </summary>
         public int BufferLength { get; private set; } = 0;
 

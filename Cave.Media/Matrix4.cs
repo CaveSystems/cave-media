@@ -45,7 +45,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a new empty <see cref="Matrix4"/>.
+        /// Gets a new empty <see cref="Matrix4"/>.
         /// </summary>
         public static Matrix4 Empty => default;
 
@@ -198,7 +198,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a rotation matrix (rotation around x axsis).
+        /// Gets a rotation matrix (rotation around x axsis).
         /// </summary>
         /// <param name="radians">angle 0..2pi.</param>
         /// <returns>Returns a rotation <see cref="Matrix4"/>.</returns>
@@ -210,7 +210,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a rotation matrix (rotation around y axsis).
+        /// Gets a rotation matrix (rotation around y axsis).
         /// </summary>
         /// <param name="radians">angle 0..2pi.</param>
         /// <returns>Returns a rotation <see cref="Matrix4"/>.</returns>
@@ -222,7 +222,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a rotation matrix (rotation around z axsis).
+        /// Gets a rotation matrix (rotation around z axsis).
         /// </summary>
         /// <param name="radians">angle 0..2pi.</param>
         /// <returns>Returns a rotation <see cref="Matrix4"/>.</returns>
@@ -234,7 +234,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a scaling matrix.
+        /// Gets a scaling matrix.
         /// </summary>
         /// <param name="X">the x scaling factor.</param>
         /// <param name="Y">the y scaling factor.</param>
@@ -246,7 +246,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a translation matrix.
+        /// Gets a translation matrix.
         /// </summary>
         /// <param name="X">the x translation.</param>
         /// <param name="Y">the y translation.</param>
@@ -482,7 +482,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the column vectors.
+        /// Gets the column vectors.
         /// </summary>
         /// <returns></returns>
         public Vector4[] ToColumns()
@@ -497,7 +497,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the row vectors.
+        /// Gets the row vectors.
         /// </summary>
         /// <returns></returns>
         public Vector4[] ToRows()
@@ -653,7 +653,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a hash code for this instance.
+        /// Gets a hash code for this instance.
         /// </summary>
         /// <returns>Returns a hash code for this object.</returns>
         public override int GetHashCode()
@@ -664,7 +664,7 @@ namespace Cave.Media
         #region ICloneable Member
 
         /// <summary>
-        /// Obtains a copy of this object.
+        /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
         public Matrix4 Clone()

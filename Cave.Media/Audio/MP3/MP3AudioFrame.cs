@@ -142,7 +142,7 @@ namespace Cave.Media.Audio.MP3
         TimeSpan m_Duration = TimeSpan.Zero;
 
         /// <summary>
-        /// Obtains the duration of the audio frame.
+        /// Gets the duration of the audio frame.
         /// </summary>
         public override TimeSpan Duration
         {
@@ -167,17 +167,17 @@ namespace Cave.Media.Audio.MP3
         public override bool IsValid => true;
 
         /// <summary>
-        /// Obtains whether the padding bit at the header was corrected during Parse().
+        /// Gets whether the padding bit at the header was corrected during Parse().
         /// </summary>
         public bool InvalidPaddingCorrected { get; private set; }
 
         /// <summary>
-        /// Obtains the <see cref="MP3AudioFrameHeader"/>.
+        /// Gets the <see cref="MP3AudioFrameHeader"/>.
         /// </summary>
         public MP3AudioFrameHeader Header { get; private set; }
 
         /// <summary>
-        /// Obtains an array with the data for this instance.
+        /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data => (byte[])m_Data.Clone();

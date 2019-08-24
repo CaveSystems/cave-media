@@ -164,7 +164,7 @@ namespace Cave.Media.Audio.ID3
         public override int Length { get { return 10; } }
 
         /// <summary>
-        /// Obtains an array with the data for this instance.
+        /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data

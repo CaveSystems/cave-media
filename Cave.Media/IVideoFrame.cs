@@ -20,7 +20,7 @@ namespace Cave.Media
         ARGBImageData Image { get; }
 
         /// <summary>
-        /// Obtains the display time.
+        /// Gets the display time.
         /// </summary>
         TimeSpan DisplayTime { get; }
     }

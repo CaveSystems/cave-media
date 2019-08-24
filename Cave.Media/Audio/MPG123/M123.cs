@@ -742,7 +742,7 @@ namespace Cave.Media.Audio.MPG123
             public string LogSourceName { get { return "MPG123_PARS"; } }
 
             /// <summary>
-            /// Obtains the handle.
+            /// Gets the handle.
             /// </summary>
             public IntPtr Handle { get; private set; }
 
@@ -775,7 +775,7 @@ namespace Cave.Media.Audio.MPG123
             }
 
             /// <summary>
-            /// Obtains whether the handle is valid or not.
+            /// Gets whether the handle is valid or not.
             /// </summary>
             public bool Valid
             {
@@ -797,7 +797,7 @@ namespace Cave.Media.Audio.MPG123
         #endregion
 
         /// <summary>
-        /// Obtains the MPG123_ENC value for the specified IAudioConfiguration.
+        /// Gets the MPG123_ENC value for the specified IAudioConfiguration.
         /// </summary>
         /// <param name="config">The audio configuration.</param>
         /// <returns></returns>
@@ -816,7 +816,7 @@ namespace Cave.Media.Audio.MPG123
         }
 
         /// <summary>
-        /// Obtains the MPG123_CHANNELCOUNT value for the specified IAudioConfiguration.
+        /// Gets the MPG123_CHANNELCOUNT value for the specified IAudioConfiguration.
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>

@@ -51,7 +51,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the time stamp this event occures (if IsTimeStamp == false SetFrameLength() has to be called prior usage!).
+        /// Gets the time stamp this event occures (if IsTimeStamp == false SetFrameLength() has to be called prior usage!).
         /// </summary>
         public TimeSpan TimeStamp
         {
@@ -72,7 +72,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the frame number this event occures (if IsTimeStamp == true SetFrameLength() has to be called prior usage!).
+        /// Gets the frame number this event occures (if IsTimeStamp == true SetFrameLength() has to be called prior usage!).
         /// </summary>
         public int FrameNumber
         {

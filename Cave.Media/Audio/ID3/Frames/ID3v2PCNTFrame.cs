@@ -29,7 +29,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the counter.
+        /// Gets the counter.
         /// </summary>
         public long Counter
         {
@@ -45,7 +45,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] Counter.</returns>
         public override string ToString()

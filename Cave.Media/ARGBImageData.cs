@@ -51,7 +51,7 @@ namespace Cave.Media
         public int Height { get; }
 
         /// <summary>
-        /// Obtains the width of the image.
+        /// Gets the width of the image.
         /// </summary>
         public int Width { get; }
 
@@ -112,7 +112,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the raw data (stride * width).
+        /// Gets the raw data (stride * width).
         /// </summary>
         public byte[] Raw
         {

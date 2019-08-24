@@ -20,7 +20,7 @@ namespace Cave.Media.Audio.MP3
         /// <summary>Gets the name of the source currently beeing decoded. This is used for error messages.</summary>
         public override string SourceName { get; set; }
 
-        /// <summary>Obtains the description of the decoder.</summary>
+        /// <summary>Gets the description of the decoder.</summary>
         public override string Description
         {
             get
@@ -32,7 +32,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        /// <summary>Obtains the features list.</summary>
+        /// <summary>Gets the features list.</summary>
         public override string Features
         {
             get
@@ -41,7 +41,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        /// <summary>Obtains the mime types the decoder is able to handle.</summary>
+        /// <summary>Gets the mime types the decoder is able to handle.</summary>
         public override string[] MimeTypes
         {
             get
@@ -50,7 +50,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        /// <summary>Obtains the decoder name.</summary>
+        /// <summary>Gets the decoder name.</summary>
         public override string Name { get { return "MP3AudioDecoder"; } }
 
         /// <summary>Gets the name of the log source.</summary>

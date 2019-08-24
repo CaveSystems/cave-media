@@ -94,7 +94,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains an empty <see cref="Vector3"/> object.
+        /// Gets an empty <see cref="Vector3"/> object.
         /// </summary>
         public static Vector3 Empty => default;
 
@@ -256,7 +256,7 @@ namespace Cave.Media
         public float Length => (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
 
         /// <summary>
-        /// Obtains a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
+        /// Gets a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
         /// </summary>
         /// <returns>Returns the normalized version of this vector.</returns>
         public Vector3 Normalized => Create(X, Y, Z) / Length;
@@ -271,7 +271,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a string of the form '(x,y,z)'.
+        /// Gets a string of the form '(x,y,z)'.
         /// The values are converted to strings using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <returns>Returns a string of the form '(x,y,z)'.</returns>
@@ -281,7 +281,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a string of the form '(x,y,z)'.
+        /// Gets a string of the form '(x,y,z)'.
         /// </summary>
         /// <param name="cultureInfo">The <see cref="CultureInfo"/> for encoding the float values.</param>
         /// <returns>Returns a string of the form '(x,y,z)'.</returns>
@@ -307,7 +307,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the hash code for this instance.
+        /// Gets the hash code for this instance.
         /// </summary>
         /// <returns>Returns the hash code for this instance.</returns>
         public override int GetHashCode()
@@ -316,7 +316,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a copy of this object.
+        /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
         public Vector3 Clone()

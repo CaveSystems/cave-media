@@ -32,7 +32,7 @@ namespace Cave.Media.Audio
         #region IAudioDevice Member
 
         /// <summary>
-        /// Obtains the devices capabilities.
+        /// Gets the devices capabilities.
         /// </summary>
         public IAudioDeviceCapabilities Capabilities { get; private set; }
 
@@ -42,17 +42,17 @@ namespace Cave.Media.Audio
         public string Name { get; private set; }
 
         /// <summary>
-        /// Obtains whether the device supports playback or not.
+        /// Gets whether the device supports playback or not.
         /// </summary>
         public abstract bool SupportsPlayback { get; }
 
         /// <summary>
-        /// Obtains whether the device supports recording or not.
+        /// Gets whether the device supports recording or not.
         /// </summary>
         public abstract bool SupportsRecording { get; }
 
         /// <summary>
-        /// Obtains a new audio queue (sound target/source).
+        /// Gets a new audio queue (sound target/source).
         /// </summary>
         /// <param name="configuration">The desired AudioConfiguration.</param>
         /// <returns>Returns an IAudioQueue or IAudioQueue3D.</returns>
@@ -66,7 +66,7 @@ namespace Cave.Media.Audio
         #endregion
 
         /// <summary>
-        /// Obtains the name of the device.
+        /// Gets the name of the device.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -86,7 +86,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the hashcode based on the name and configuration.
+        /// Gets the hashcode based on the name and configuration.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

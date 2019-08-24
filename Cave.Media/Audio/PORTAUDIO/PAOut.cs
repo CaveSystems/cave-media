@@ -191,7 +191,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains the number of bytes passed since starting this queue.</summary>
+        /// <summary>Gets the number of bytes passed since starting this queue.</summary>
         public override long BytesPassed
         {
             get
@@ -203,7 +203,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains the bytes buffered (bytes to play until queue gets empty).</summary>
+        /// <summary>Gets the bytes buffered (bytes to play until queue gets empty).</summary>
         public override long BytesBuffered
         {
             get
@@ -215,7 +215,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains the latency of the queue.</summary>
+        /// <summary>Gets the latency of the queue.</summary>
         public override TimeSpan Latency
         {
             get
@@ -224,7 +224,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        /// <summary>Obtains whether the IAudioQueue supports 3D positioning or not.</summary>
+        /// <summary>Gets whether the IAudioQueue supports 3D positioning or not.</summary>
         public override bool Supports3D
         {
             get

@@ -69,17 +69,17 @@ namespace Cave.Media.Audio.ID3.Frames
         public ID3v2EncodingType EncodingType { get; private set; }
 
         /// <summary>
-        /// Obtains the name of this frame.
+        /// Gets the name of this frame.
         /// </summary>
         public string Name { get; private set; }
 
         /// <summary>
-        /// Obtains the value of this frame.
+        /// Gets the value of this frame.
         /// </summary>
         public string Value { get; private set; }
 
         /// <summary>
-        /// Obtains a string describing this frame.
+        /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "<see cref="Name"/>":"<see cref="Value"/>".</returns>
         public override string ToString()

@@ -18,25 +18,25 @@ namespace Cave.Media.Audio
         bool IsAvailable { get; }
 
         /// <summary>
-        /// Obtains the default output device.
+        /// Gets the default output device.
         /// </summary>
         /// <returns>Returns the default output device.</returns>
         IAudioDevice DefaultOutputDevice { get; }
 
         /// <summary>
-        /// Obtains the default input device.
+        /// Gets the default input device.
         /// </summary>
         /// <returns>Returns the default input device.</returns>
         IAudioDevice DefaultInputDevice { get; }
 
         /// <summary>
-        /// Obtains all available output devices.
+        /// Gets all available output devices.
         /// </summary>
         /// <returns>Returns all output devices.</returns>
         IAudioDevice[] OutputDevices { get; }
 
         /// <summary>
-        /// Obtains the available input devices.
+        /// Gets the available input devices.
         /// </summary>
         /// <returns>Returns all input devices.</returns>
         IAudioDevice[] InputDevices { get; }

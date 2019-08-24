@@ -8,32 +8,32 @@ namespace Cave.Media
     public interface IAudioConfiguration : IEquatable<IAudioConfiguration>
     {
         /// <summary>
-        /// Obtains the sampling rate.
+        /// Gets the sampling rate.
         /// </summary>
         int SamplingRate { get; }
 
         /// <summary>
-        /// Obtains the sample format.
+        /// Gets the sample format.
         /// </summary>
         AudioSampleFormat Format { get; }
 
         /// <summary>
-        /// Obtains the channel configuration.
+        /// Gets the channel configuration.
         /// </summary>
         AudioChannelSetup ChannelSetup { get; }
 
         /// <summary>
-        /// Obtains the number of channels.
+        /// Gets the number of channels.
         /// </summary>
         int Channels { get; }
 
         /// <summary>
-        /// Obtains the bytes per sample (one channel).
+        /// Gets the bytes per sample (one channel).
         /// </summary>
         int BytesPerSample { get; }
 
         /// <summary>
-        /// Obtains the bytes per tick (one sample on all channels).
+        /// Gets the bytes per tick (one sample on all channels).
         /// </summary>
         int BytesPerTick { get; }
 

@@ -346,7 +346,7 @@ namespace Cave.Media.Audio
         public int Length { get { return data.Length; } }
 
         /// <summary>
-        /// Obtains the buffer containing the data (check <see cref="IAudioConfiguration.Format"/>,
+        /// Gets the buffer containing the data (check <see cref="IAudioConfiguration.Format"/>,
         /// <see cref="IAudioConfiguration.SamplingRate"/> and <see cref="IAudioConfiguration.Channels"/>
         /// for more informations.
         /// </summary>
@@ -405,12 +405,12 @@ Nach:
  get; private set; }
 
         /// <summary>
-        /// Obtains the start time.
+        /// Gets the start time.
         /// </summary>
         public TimeSpan StartTime { get; private set; }
 
         /// <summary>
-        /// Obtains the duration.
+        /// Gets the duration.
         /// </summary>
         public TimeSpan Duration
         {
@@ -708,7 +708,7 @@ Nach:
         }
 
         /// <summary>
-        /// Obtains the hash code of the buffer.
+        /// Gets the hash code of the buffer.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

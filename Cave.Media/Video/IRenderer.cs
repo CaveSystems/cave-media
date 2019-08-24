@@ -14,7 +14,7 @@ namespace Cave.Media.Video
         event EventHandler<EventArgs> Closed;
 
         /// <summary>
-        /// Obtains a list of all available devices.
+        /// Gets a list of all available devices.
         /// </summary>
         /// <returns>array of devices.</returns>
         IRenderDevice[] GetDevices();

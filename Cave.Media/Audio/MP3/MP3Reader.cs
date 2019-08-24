@@ -226,7 +226,7 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Obtains the next frame.
+        /// Gets the next frame.
         /// </summary>
         /// <returns>Returns the next frame or null (at end of stream).</returns>
         public AudioFrame GetNextFrame()

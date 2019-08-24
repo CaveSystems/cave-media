@@ -45,7 +45,7 @@ namespace Cave.Media.Audio
             }
         }
 
-        /// <summary>Obtains the available input devices.</summary>
+        /// <summary>Gets the available input devices.</summary>
         /// <exception cref="NotImplementedException"></exception>
         public override IAudioDevice[] InputDevices
         {
@@ -73,7 +73,7 @@ namespace Cave.Media.Audio
             }
         }
 
-        /// <summary>Obtains all available output devices.</summary>
+        /// <summary>Gets all available output devices.</summary>
         /// <exception cref="NotSupportedException">Invalid bit size!.</exception>
         public override IAudioDevice[] OutputDevices
         {

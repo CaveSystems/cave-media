@@ -89,7 +89,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains an empty <see cref="Vector2"/> object.
+        /// Gets an empty <see cref="Vector2"/> object.
         /// </summary>
         public static Vector2 Empty => default;
 
@@ -245,7 +245,7 @@ namespace Cave.Media
         public float Length => (float)Math.Sqrt((X * X) + (Y * Y));
 
         /// <summary>
-        /// Obtains a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
+        /// Gets a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
         /// </summary>
         /// <returns>Returns the normalized version of this vector.</returns>
         public Vector2 Normalized => Create(X, Y) / Length;
@@ -260,7 +260,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a string of the form '(x,y)'.
+        /// Gets a string of the form '(x,y)'.
         /// The values are converted to strings using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <returns>Returns a string of the form '(x,y)'.</returns>
@@ -270,7 +270,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a string of the form '(x,y)'.
+        /// Gets a string of the form '(x,y)'.
         /// </summary>
         /// <param name="cultureInfo">The <see cref="CultureInfo"/> for encoding the float values.</param>
         /// <returns>Returns a string of the form '(x,y)'.</returns>
@@ -296,7 +296,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the hash code for this instance.
+        /// Gets the hash code for this instance.
         /// </summary>
         /// <returns>Returns the hash code for this instance.</returns>
         public override int GetHashCode()
@@ -307,7 +307,7 @@ namespace Cave.Media
         #region ICloneable Member
 
         /// <summary>
-        /// Obtains a copy of this object.
+        /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
         public object Clone()

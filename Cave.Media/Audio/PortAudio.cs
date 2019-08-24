@@ -37,7 +37,7 @@ namespace Cave.Media.Audio
             catch { }
         }
 
-        /// <summary>Obtains the available input devices.</summary>
+        /// <summary>Gets the available input devices.</summary>
         public override IAudioDevice[] InputDevices
         {
             get
@@ -65,7 +65,7 @@ namespace Cave.Media.Audio
             }
         }
 
-        /// <summary>Obtains all available output devices.</summary>
+        /// <summary>Gets all available output devices.</summary>
         public override IAudioDevice[] OutputDevices
         {
             get

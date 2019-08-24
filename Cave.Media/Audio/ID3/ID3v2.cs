@@ -20,7 +20,7 @@ namespace Cave.Media.Audio.ID3
         byte[] data;
 
         /// <summary>
-        /// Obtains the text of the first T* (not TXXX) frame with the specified ID.
+        /// Gets the text of the first T* (not TXXX) frame with the specified ID.
         /// </summary>
         /// <param name="frameID">ID of the frame.</param>
         /// <returns>Returns the text of the frame or an empty string.</returns>
@@ -377,12 +377,12 @@ namespace Cave.Media.Audio.ID3
         public ID3v2APICFrame CoverFront => GetPictureFrame(ID3v2PictureType.CoverFront);
 
         /// <summary>
-        /// Obtains the ID3v2.x version with 2 &lt;= x &lt;= 4.
+        /// Gets the ID3v2.x version with 2 &lt;= x &lt;= 4.
         /// </summary>
         public byte Version => Header.Version;
 
         /// <summary>
-        /// Obtains whether a date frame has been set or not.
+        /// Gets whether a date frame has been set or not.
         /// </summary>
         public bool HasDate
         {
@@ -401,7 +401,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the date (if present, check <see cref="HasDate"/>).
+        /// Gets the date (if present, check <see cref="HasDate"/>).
         /// </summary>
         public DateTime Date
         {
@@ -492,7 +492,7 @@ namespace Cave.Media.Audio.ID3
         public string Performer => GetTextFrameText("TPE4");
 
         /// <summary>
-        /// Obtains the content types (genres).
+        /// Gets the content types (genres).
         /// </summary>
         public string[] ContentTypes
         {
@@ -592,7 +592,7 @@ namespace Cave.Media.Audio.ID3
         public ID3v2Header Header { get; private set; }
 
         /// <summary>
-        /// Obtains all frames currently present at the tag.
+        /// Gets all frames currently present at the tag.
         /// </summary>
         public ID3v2Frame[] Frames => frames.ToArray();
 
@@ -607,7 +607,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains an array with the data for this instance.
+        /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data => data;

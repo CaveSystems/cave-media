@@ -12,7 +12,7 @@ namespace Cave.Media.Audio
         event EventHandler<AudioFrameEventArgs> Decoding;
 
         /// <summary>
-        /// Obtains the decoder name.
+        /// Gets the decoder name.
         /// </summary>
         string Name { get; }
 
@@ -20,17 +20,17 @@ namespace Cave.Media.Audio
         string SourceName { get; set; }
 
         /// <summary>
-        /// Obtains the description of the decoder.
+        /// Gets the description of the decoder.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Obtains the features list.
+        /// Gets the features list.
         /// </summary>
         string Features { get; }
 
         /// <summary>
-        /// Obtains the mime types the decoder is able to handle.
+        /// Gets the mime types the decoder is able to handle.
         /// </summary>
         string[] MimeTypes { get; }
 

@@ -587,61 +587,61 @@ namespace Cave.Media
         #region struct fields
 
         /// <summary>
-        /// Obtains the blue value of the integer.
+        /// Gets the blue value of the integer.
         /// </summary>
         [FieldOffset(0)]
         public byte Blue;
 
         /// <summary>
-        /// Obtains the green value of the integer.
+        /// Gets the green value of the integer.
         /// </summary>
         [FieldOffset(1)]
         public byte Green;
 
         /// <summary>
-        /// Obtains the red value of the integer.
+        /// Gets the red value of the integer.
         /// </summary>
         [FieldOffset(2)]
         public byte Red;
 
         /// <summary>
-        /// Obtains the alpha value of the integer.
+        /// Gets the alpha value of the integer.
         /// </summary>
         [FieldOffset(3)]
         public byte Alpha;
 
         /// <summary>
-        /// Obtains the unsigned integer value.
+        /// Gets the unsigned integer value.
         /// </summary>
         [FieldOffset(0)]
         public uint AsUInt32;
 
         /// <summary>
-        /// Obtains the integer value.
+        /// Gets the integer value.
         /// </summary>
         [FieldOffset(0)]
         public int AsInt32;
 
         /// <summary>
-        /// Obtains the high word value.
+        /// Gets the high word value.
         /// </summary>
         [FieldOffset(0)]
         public ushort HiWord;
 
         /// <summary>
-        /// Obtains the low word value.
+        /// Gets the low word value.
         /// </summary>
         [FieldOffset(2)]
         public ushort LoWord;
 
         /// <summary>
-        /// Obtains the high word as signed short value.
+        /// Gets the high word as signed short value.
         /// </summary>
         [FieldOffset(0)]
         public short HiShort;
 
         /// <summary>
-        /// Obtains the low word as signed short value.
+        /// Gets the low word as signed short value.
         /// </summary>
         [FieldOffset(2)]
         public short LoShort;
@@ -1094,7 +1094,7 @@ namespace Cave.Media
         #region object overrides
 
         /// <summary>
-        /// Obtains a hex string for the color.
+        /// Gets a hex string for the color.
         /// </summary>
         /// <returns>color as hex string.</returns>
         public override string ToString()

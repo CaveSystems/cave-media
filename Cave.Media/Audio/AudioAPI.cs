@@ -8,7 +8,7 @@ namespace Cave.Media.Audio
     public abstract class AudioAPI : IAudioAPI
     {
         /// <summary>
-        /// Obtains all available <see cref="AudioAPI"/> instances.
+        /// Gets all available <see cref="AudioAPI"/> instances.
         /// </summary>
         /// <returns></returns>
         public static IAudioAPI[] GetAvailableAudioAPIs()
@@ -19,7 +19,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains all available <see cref="AudioAPI"/> instances.
+        /// Gets all available <see cref="AudioAPI"/> instances.
         /// </summary>
         /// <returns></returns>
         public static IAudioEncoder[] GetAvailableAudioEncoders()
@@ -30,7 +30,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains all available <see cref="AudioAPI"/> instances.
+        /// Gets all available <see cref="AudioAPI"/> instances.
         /// </summary>
         /// <returns></returns>
         public static IAudioDecoder[] GetAvailableAudioDecoders()
@@ -56,7 +56,7 @@ namespace Cave.Media.Audio
         public abstract bool IsAvailable { get; }
 
         /// <summary>
-        /// Obtains the default output device.
+        /// Gets the default output device.
         /// </summary>
         /// <returns>Returns the default output device.</returns>
         public virtual IAudioDevice DefaultOutputDevice
@@ -68,7 +68,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the default input device.
+        /// Gets the default input device.
         /// </summary>
         /// <returns>Returns the default input device.</returns>
         public virtual IAudioDevice DefaultInputDevice
@@ -80,13 +80,13 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains all available output devices.
+        /// Gets all available output devices.
         /// </summary>
         /// <returns>Returns all output devices.</returns>
         public abstract IAudioDevice[] OutputDevices { get; }
 
         /// <summary>
-        /// Obtains the available input devices.
+        /// Gets the available input devices.
         /// </summary>
         /// <returns>Returns all input devices.</returns>
         public abstract IAudioDevice[] InputDevices { get; }

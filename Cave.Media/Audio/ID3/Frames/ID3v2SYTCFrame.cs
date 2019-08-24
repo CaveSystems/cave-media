@@ -47,7 +47,7 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             /// <summary>
-            /// Obtains the <see cref="EventType"/>.
+            /// Gets the <see cref="EventType"/>.
             /// </summary>
             public readonly EventType Type;
 
@@ -121,7 +121,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains a list of all events.
+        /// Gets a list of all events.
         /// </summary>
         public ID3v2Event[] Events
         {

@@ -25,10 +25,10 @@ namespace Cave.Media.Audio
             Decoding?.Invoke(this, new AudioFrameEventArgs(frame));
         }
 
-        /// <summary>Obtains the description of the decoder.</summary>
+        /// <summary>Gets the description of the decoder.</summary>
         public abstract string Description { get; }
 
-        /// <summary>Obtains the features list.</summary>
+        /// <summary>Gets the features list.</summary>
         public abstract string Features { get; }
 
         /// <summary>Gets a value indicating whether this decoder is available on this platform/installation or not.</summary>
@@ -37,10 +37,10 @@ namespace Cave.Media.Audio
         /// </value>
         public abstract bool IsAvailable { get; }
 
-        /// <summary>Obtains the mime types the decoder is able to handle.</summary>
+        /// <summary>Gets the mime types the decoder is able to handle.</summary>
         public abstract string[] MimeTypes { get; }
 
-        /// <summary>Obtains the decoder name.</summary>
+        /// <summary>Gets the decoder name.</summary>
         public abstract string Name { get; }
 
         /// <summary>Gets the name of the source currently beeing decoded. This is used for error messages.</summary>

@@ -14,12 +14,12 @@ namespace Cave.Media.Audio.MP3
         static readonly ushort[] Version2Layer2 = new ushort[] { 0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160 };
 
         /// <summary>
-        /// Obtains the MPEG Version.
+        /// Gets the MPEG Version.
         /// </summary>
         public readonly MP3AudioFrameVersion Version;
 
         /// <summary>
-        /// Obtains the MPEG Layer.
+        /// Gets the MPEG Layer.
         /// </summary>
         public readonly MP3AudioFrameLayer Layer;
 
@@ -34,32 +34,32 @@ namespace Cave.Media.Audio.MP3
         public readonly ushort BitRateIndex;
 
         /// <summary>
-        /// Obtains the SamplingRate.
+        /// Gets the SamplingRate.
         /// </summary>
         public readonly ushort SamplingRate;
 
         /// <summary>
-        /// Obtains the SamplingRate index.
+        /// Gets the SamplingRate index.
         /// </summary>
         public readonly ushort SamplingRateIndex;
 
         /// <summary>
-        /// Obtains the sample count of this frame.
+        /// Gets the sample count of this frame.
         /// </summary>
         public readonly uint SampleCount;
 
         /// <summary>
-        /// Obtains whether the frame contains padding or not.
+        /// Gets whether the frame contains padding or not.
         /// </summary>
         public readonly bool Padding;
 
         /// <summary>
-        /// Obtains whether the private bit is set or not.
+        /// Gets whether the private bit is set or not.
         /// </summary>
         public readonly bool Private;
 
         /// <summary>
-        /// Obtains the channel configuration.
+        /// Gets the channel configuration.
         /// </summary>
         public readonly MP3AudioFrameChannels Channels;
 
@@ -68,22 +68,22 @@ namespace Cave.Media.Audio.MP3
         public int ChannelCount => Channels == MP3AudioFrameChannels.Mono ? 1 : 2;
 
         /// <summary>
-        /// Obtains the mode extension.
+        /// Gets the mode extension.
         /// </summary>
         public readonly byte ModeExtension;
 
         /// <summary>
-        /// Obtains whether the copyright flag is set or not.
+        /// Gets whether the copyright flag is set or not.
         /// </summary>
         public readonly bool Copyright;
 
         /// <summary>
-        /// Obtains whether the original flag is set or not.
+        /// Gets whether the original flag is set or not.
         /// </summary>
         public readonly bool Original;
 
         /// <summary>
-        /// Obtains the emphasis value.
+        /// Gets the emphasis value.
         /// </summary>
         public readonly byte Emphasis;
 
@@ -93,7 +93,7 @@ namespace Cave.Media.Audio.MP3
         public readonly bool Protection;
 
         /// <summary>
-        /// Obtains whether the header is valid or not.
+        /// Gets whether the header is valid or not.
         /// </summary>
         public readonly MP3AudioFrameHeadervalidation Validation;
 

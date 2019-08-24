@@ -23,11 +23,11 @@ namespace Cave.Media.Audio.ID3
             m_Reader = reader;
         }
 
-        /// <summary>Obtains the number of bytes currently available for reading.</summary>
+        /// <summary>Gets the number of bytes currently available for reading.</summary>
         public int Available { get { return m_Reader.Available; } }
 
         /// <summary>
-        /// Obtains the current <see cref="ID3v2ReaderState"/>.
+        /// Gets the current <see cref="ID3v2ReaderState"/>.
         /// </summary>
         public ID3v2ReaderState State { get; private set; } = ID3v2ReaderState.ReadHeader;
 

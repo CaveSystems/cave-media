@@ -14,7 +14,7 @@ namespace Cave.Media.Audio
         public abstract TimeSpan Duration { get; }
 
         /// <summary>
-        /// Obtains whether the frame contains audio or not.
+        /// Gets whether the frame contains audio or not.
         /// </summary>
         public abstract bool IsAudio { get; }
     }

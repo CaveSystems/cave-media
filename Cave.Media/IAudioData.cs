@@ -20,7 +20,7 @@ namespace Cave.Media
         int ChannelNumber { get; }
 
         /// <summary>
-        /// Obtains the buffer containing the data (check <see cref="IAudioConfiguration.Format"/>,
+        /// Gets the buffer containing the data (check <see cref="IAudioConfiguration.Format"/>,
         /// <see cref="IAudioConfiguration.SamplingRate"/> and <see cref="IAudioConfiguration.ChannelSetup"/>
         /// for more informations.
         /// </summary>
@@ -31,12 +31,12 @@ namespace Cave.Media
         int Length { get; }
 
         /// <summary>
-        /// Obtains the start time.
+        /// Gets the start time.
         /// </summary>
         TimeSpan StartTime { get; }
 
         /// <summary>
-        /// Obtains the duration.
+        /// Gets the duration.
         /// </summary>
         TimeSpan Duration { get; }
 

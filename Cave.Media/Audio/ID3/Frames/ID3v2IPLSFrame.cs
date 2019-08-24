@@ -39,7 +39,7 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Obtains the full list of Involvements and Involvees.
+        /// Gets the full list of Involvements and Involvees.
         /// </summary>
         public ID3v2Contributor[] List
         {

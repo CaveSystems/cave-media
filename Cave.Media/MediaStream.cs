@@ -19,12 +19,12 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the type of the stream.
+        /// Gets the type of the stream.
         /// </summary>
         public MediaType Type { get; private set; }
 
         /// <summary>
-        /// Obtains the ID of the stream.
+        /// Gets the ID of the stream.
         /// </summary>
         public int ID
         {

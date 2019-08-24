@@ -11,7 +11,7 @@ namespace Cave.Media.Structs
     public struct ICONDIRENTRY
     {
         /// <summary>
-        /// Obtains the size of the structure.
+        /// Gets the size of the structure.
         /// </summary>
         public const int StructureSize = 16;
 
@@ -91,7 +91,7 @@ namespace Cave.Media.Structs
         }
 
         /// <summary>
-        /// Obtains the structure as byte array.
+        /// Gets the structure as byte array.
         /// </summary>
         /// <returns></returns>
         public byte[] ToArray()

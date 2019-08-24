@@ -12,7 +12,7 @@ namespace Cave.Media
         public abstract bool Parse(DataFrameReader reader);
 
         /// <summary>
-        /// Obtains an array with the data for this instance.
+        /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public abstract byte[] Data { get; }
@@ -23,12 +23,12 @@ namespace Cave.Media
         public abstract int Length { get; }
 
         /// <summary>
-        /// Obtains whether the <see cref="Length"/> of the frame is immutable or not.
+        /// Gets whether the <see cref="Length"/> of the frame is immutable or not.
         /// </summary>
         public abstract bool IsFixedLength { get; }
 
         /// <summary>
-        /// Obtains whether the frame contains valid data or not.
+        /// Gets whether the frame contains valid data or not.
         /// </summary>
         public abstract bool IsValid { get; }
     }

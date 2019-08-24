@@ -110,7 +110,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the description for the lame encoder.
+        /// Gets the description for the lame encoder.
         /// </summary>
         public string Description
         {
@@ -123,7 +123,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the featurelist of the mpg123 decoder.
+        /// Gets the featurelist of the mpg123 decoder.
         /// </summary>
         public string Features
         {
@@ -158,7 +158,7 @@ namespace Cave.Media.Audio
         public string SourceName { get; set; }
 
         /// <summary>
-        /// Obtains the encoder name.
+        /// Gets the encoder name.
         /// </summary>
         public string Name
         {

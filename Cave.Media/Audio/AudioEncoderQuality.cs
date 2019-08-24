@@ -6,12 +6,12 @@ namespace Cave.Media.Audio
     public abstract class AudioEncoderQuality : IAudioEncoderQuality
     {
         /// <summary>
-        /// Obtains the name of the quality setting.
+        /// Gets the name of the quality setting.
         /// </summary>
         public abstract string Name { get; }
 
         /// <summary>
-        /// Obtains the description for the quality setting.
+        /// Gets the description for the quality setting.
         /// </summary>
         public abstract string Description { get; }
     }

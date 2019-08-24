@@ -43,7 +43,7 @@ namespace Cave.Media.Audio.ID3
         public readonly int Height;
 
         /// <summary>
-        /// Obtains whether the image has exactly the specified <see cref="Width"/> and <see cref="Height"/> (true) or if it may be smaller (false).
+        /// Gets whether the image has exactly the specified <see cref="Width"/> and <see cref="Height"/> (true) or if it may be smaller (false).
         /// </summary>
         public readonly bool Fixed;
     }

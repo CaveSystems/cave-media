@@ -97,7 +97,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains an empty <see cref="Vector3"/> object.
+        /// Gets an empty <see cref="Vector3"/> object.
         /// </summary>
         public static Vector4 Empty => default;
 
@@ -258,12 +258,12 @@ namespace Cave.Media
         #endregion
 
         /// <summary>
-        /// Calculates the length of the vector.
+        /// Gets the length of the vector.
         /// </summary>
         public float Length => (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
 
         /// <summary>
-        /// Obtains a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
+        /// Gets a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
         /// </summary>
         /// <returns>Returns the normalized version of this vector.</returns>
         public Vector4 Normalized
@@ -275,7 +275,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a <see cref="Vector3"/> instance.
+        /// Gets a <see cref="Vector3"/> instance.
         /// </summary>
         /// <returns>Returns a <see cref="Vector3"/> instance.</returns>
         public Vector3 ToVector3()
@@ -295,7 +295,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a string of the form '(x,y,z,w)'.
+        /// Gets a string of the form '(x,y,z,w)'.
         /// The values are converted to strings using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <returns>Returns a string of the form '(x,y,z,w)'.</returns>
@@ -305,7 +305,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a string of the form '(x,y,z,w)'.
+        /// Gets a string of the form '(x,y,z,w)'.
         /// </summary>
         /// <param name="cultureInfo">The <see cref="CultureInfo"/> for encoding the float values.</param>
         /// <returns>Returns a string of the form '(x,y,z,w)'.</returns>
@@ -331,7 +331,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains the hash code for this instance.
+        /// Gets the hash code for this instance.
         /// </summary>
         /// <returns>Returns the hash code for this instance.</returns>
         public override int GetHashCode()
@@ -340,7 +340,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Obtains a copy of this object.
+        /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
         public Vector4 Clone()

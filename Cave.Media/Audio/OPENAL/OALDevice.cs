@@ -96,7 +96,7 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains the devices capabilities.</summary>
+        /// <summary>Gets the devices capabilities.</summary>
         /// <exception cref="ObjectDisposedException">OpenALOutputDevice.</exception>
         public IAudioDeviceCapabilities Capabilities
         {
@@ -125,7 +125,7 @@ namespace Cave.Media.Audio.OPENAL
         /// <summary>Retrieves the device name.</summary>
         public string Name { get; private set; }
 
-        /// <summary>Obtains whether the device supports playback or not.</summary>
+        /// <summary>Gets whether the device supports playback or not.</summary>
         public bool SupportsPlayback
         {
             get
@@ -143,7 +143,7 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains whether the device supports recording or not.</summary>
+        /// <summary>Gets whether the device supports recording or not.</summary>
         public bool SupportsRecording
         {
             get
@@ -161,7 +161,7 @@ namespace Cave.Media.Audio.OPENAL
             }
         }
 
-        /// <summary>Obtains a new audio out stream.</summary>
+        /// <summary>Gets a new audio out stream.</summary>
         /// <param name="configuration">Audio configuration to use.</param>
         /// <returns></returns>
         /// <exception cref="ObjectDisposedException">OpenALOutputDevice.</exception>

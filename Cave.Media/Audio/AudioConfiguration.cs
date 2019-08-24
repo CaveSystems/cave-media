@@ -49,22 +49,22 @@ namespace Cave.Media.Audio
         #region IAudioConfiguration Member
 
         /// <summary>
-        /// Obtains the sampling rate.
+        /// Gets the sampling rate.
         /// </summary>
         public int SamplingRate { get; private set; }
 
         /// <summary>
-        /// Obtains the sample format.
+        /// Gets the sample format.
         /// </summary>
         public AudioSampleFormat Format { get; private set; }
 
         /// <summary>
-        /// Obtains the channel configuration.
+        /// Gets the channel configuration.
         /// </summary>
         public AudioChannelSetup ChannelSetup { get; private set; }
 
         /// <summary>
-        /// Obtains the number of channels.
+        /// Gets the number of channels.
         /// </summary>
         public int Channels
         {
@@ -72,12 +72,12 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the bytes per sample (one channel).
+        /// Gets the bytes per sample (one channel).
         /// </summary>
         public int BytesPerSample { get; private set; }
 
         /// <summary>
-        /// Obtains the bytes per tick (one sample on all channels).
+        /// Gets the bytes per tick (one sample on all channels).
         /// </summary>
         public int BytesPerTick { get; private set; }
         #endregion
@@ -100,7 +100,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>
-        /// Obtains the hash code for the audio configuration.
+        /// Gets the hash code for the audio configuration.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

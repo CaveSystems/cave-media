@@ -256,7 +256,7 @@ namespace Cave.Media.Audio.ID3
         public override bool IsFixedLength => true;
 
         /// <summary>
-        /// Obtains an array with the data for this instance.
+        /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
         public override byte[] Data
@@ -295,7 +295,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>
-        /// Obtains the full tag as string.
+        /// Gets the full tag as string.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

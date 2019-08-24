@@ -13,12 +13,12 @@ namespace Cave
         public static Type Type => typeof(CaveSystemMedia);
 
         /// <summary>
-        /// Obtains the assembly.
+        /// Gets the assembly.
         /// </summary>
         public static Assembly Assembly => Type.Assembly;
 
         /// <summary>
-        /// Obtains the <see cref="AssemblyVersionInfo"/> for the <see cref="Assembly"/>.
+        /// Gets the <see cref="AssemblyVersionInfo"/> for the <see cref="Assembly"/>.
         /// </summary>
         public static AssemblyVersionInfo VersionInfo => AssemblyVersionInfo.FromAssembly(Assembly);
     }

@@ -10,7 +10,7 @@ namespace Cave.Media.Structs
         #region static functions
 
         /// <summary>
-        /// Obtains the string of the <see cref="FOURCC"/> int.
+        /// Gets the string of the <see cref="FOURCC"/> int.
         /// </summary>
         /// <param name="fcc"></param>
         /// <returns></returns>
@@ -20,7 +20,7 @@ namespace Cave.Media.Structs
         }
 
         /// <summary>
-        /// Obtains the string of the <see cref="FOURCC"/> int.
+        /// Gets the string of the <see cref="FOURCC"/> int.
         /// </summary>
         /// <param name="fcc"></param>
         /// <returns></returns>
@@ -30,7 +30,7 @@ namespace Cave.Media.Structs
         }
 
         /// <summary>
-        /// Obtains the int of the <see cref="FOURCC"/> string.
+        /// Gets the int of the <see cref="FOURCC"/> string.
         /// </summary>
         /// <param name="fcc"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Cave.Media.Structs
         }
 
         /// <summary>
-        /// Obtains the int of the <see cref="FOURCC"/> characters.
+        /// Gets the int of the <see cref="FOURCC"/> characters.
         /// </summary>
         /// <param name="fcc"></param>
         /// <returns></returns>

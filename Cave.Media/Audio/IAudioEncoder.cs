@@ -8,33 +8,33 @@ namespace Cave.Media.Audio
     public interface IAudioEncoder
     {
         /// <summary>
-        /// Obtains the encoder name.
+        /// Gets the encoder name.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Obtains the description of the encoder.
+        /// Gets the description of the encoder.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Obtains the features list.
+        /// Gets the features list.
         /// </summary>
         string Features { get; }
 
         /// <summary>
-        /// Obtains the mime types the encoder is able to produce.
+        /// Gets the mime types the encoder is able to produce.
         /// </summary>
         string[] MimeTypes { get; }
 
         /// <summary>
-        /// Obtains the available <see cref="IAudioConfiguration"/>s.
+        /// Gets the available <see cref="IAudioConfiguration"/>s.
         /// </summary>
         /// <returns></returns>
         IAudioConfiguration[] GetAvailableConfigurations();
 
         /// <summary>
-        /// Obtains the available <see cref="IAudioEncoderQuality"/>s.
+        /// Gets the available <see cref="IAudioEncoderQuality"/>s.
         /// </summary>
         /// <returns></returns>
         IAudioEncoderQuality[] GetAvailableQualitySettings();
