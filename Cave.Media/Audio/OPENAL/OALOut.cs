@@ -85,7 +85,10 @@ namespace Cave.Media.Audio.OPENAL
                         m_BufferUnderflowCount++;
                     }
                 }
-                else break;
+                else
+                {
+                    break;
+                }
             }
             if (state != OAL.AL_PLAYING)
             {
@@ -109,7 +112,10 @@ namespace Cave.Media.Audio.OPENAL
                     OAL.SafeNativeMethods.alSourceStop(m_Source);
                     OAL.SafeNativeMethods.CheckError();
                 }
-                else break;
+                else
+                {
+                    break;
+                }
             }
             if (state != OAL.AL_STOPPED)
             {

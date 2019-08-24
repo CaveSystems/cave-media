@@ -3,7 +3,7 @@
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides a generic speech synthesizer interface
+    /// Provides a generic speech synthesizer interface.
     /// </summary>
     public interface ISpeechSynthesizer
     {

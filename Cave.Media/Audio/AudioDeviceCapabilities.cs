@@ -5,14 +5,14 @@ namespace Cave.Media.Audio
     /// </summary>
     public class AudioDeviceCapabilities : IAudioDeviceCapabilities
     {
-        readonly IAudioConfiguration[] m_OutputConfigurations;
-        readonly IAudioConfiguration[] m_InputConfigurations;
+        readonly IAudioConfiguration[] outputConfigurations;
+        readonly IAudioConfiguration[] inputConfigurations;
 
         /// <summary>
-        /// Creates a new <see cref="AudioDeviceCapabilities"/> object.
+        /// Initializes a new instance of the <see cref="AudioDeviceCapabilities"/> class.
         /// </summary>
-        /// <param name="devType"></param>
-        /// <param name="configurations"></param>
+        /// <param name="devType">Device type.</param>
+        /// <param name="configurations">Configurations available.</param>
         public AudioDeviceCapabilities(AudioDeviceType devType, params IAudioConfiguration[] configurations)
         {
             Type = devType;
@@ -23,16 +23,16 @@ namespace Cave.Media.Audio
 
             if ((Type & AudioDeviceType.Input) != 0)
             {
-                m_InputConfigurations = configurations;
+                inputConfigurations = configurations;
             }
             if ((Type & AudioDeviceType.Output) != 0)
             {
-                m_OutputConfigurations = configurations;
+                outputConfigurations = configurations;
             }
         }
 
         /// <summary>
-        /// Creates a new <see cref="AudioDeviceCapabilities"/> object.
+        /// Initializes a new instance of the <see cref="AudioDeviceCapabilities"/> class.
         /// </summary>
         /// <param name="devType">The device type.</param>
         /// <param name="outputConfigurations">The available output configurations.</param>
@@ -50,33 +50,33 @@ namespace Cave.Media.Audio
                 inputConfigurations = new IAudioConfiguration[0];
             }
 
-            m_OutputConfigurations = outputConfigurations;
-            m_InputConfigurations = inputConfigurations;
+            this.outputConfigurations = outputConfigurations;
+            this.inputConfigurations = inputConfigurations;
         }
 
         /// <summary>
-        /// Determines the device type.
+        /// Gets the device type.
         /// </summary>
         public AudioDeviceType Type { get; private set; }
 
         /// <summary>
-        /// Determines if the device is an input device.
+        /// Gets a value indicating whether the device is an input device.
         /// </summary>
-        public bool IsInput { get { return (Type & AudioDeviceType.Input) != AudioDeviceType.Invalid; } }
+        public bool IsInput => (Type & AudioDeviceType.Input) != AudioDeviceType.Invalid;
 
         /// <summary>
-        /// Determines if the device is an output device.
+        /// Gets a value indicating whether the device is an output device.
         /// </summary>
-        public bool IsOutput { get { return (Type & AudioDeviceType.Output) != AudioDeviceType.Invalid; } }
+        public bool IsOutput => (Type & AudioDeviceType.Output) != AudioDeviceType.Invalid;
 
         /// <summary>
         /// Gets the supported input configurations.
         /// </summary>
-        public IAudioConfiguration[] InputConfigurations { get { return (IAudioConfiguration[])m_InputConfigurations.Clone(); } }
+        public IAudioConfiguration[] InputConfigurations => (IAudioConfiguration[])inputConfigurations.Clone();
 
         /// <summary>
         /// Gets the supported output configurations.
         /// </summary>
-        public IAudioConfiguration[] OutputConfigurations { get { return (IAudioConfiguration[])m_OutputConfigurations.Clone(); } }
+        public IAudioConfiguration[] OutputConfigurations => (IAudioConfiguration[])outputConfigurations.Clone();
     }
 }

@@ -5,26 +5,26 @@ namespace Cave.Media.Audio
     /// </summary>
     public static class AudioTools
     {
-        static unsafe byte[] m_Interpolate8Bit(double factor, byte[] buffer)
+        static unsafe byte[] Interpolate8Bit(double factor, byte[] buffer)
         {
-            int l_SampleCount = buffer.Length;
-            int newBufferSize = (int)(l_SampleCount * factor);
+            int sampleCount = buffer.Length;
+            int newBufferSize = (int)(sampleCount * factor);
             byte[] newBuffer = new byte[newBufferSize];
 
-            fixed (byte* l_SourceBytePtr = &buffer[0])
+            fixed (byte* sourceBytePtr = &buffer[0])
             {
-                fixed (byte* l_TargetBytePtr = &newBuffer[0])
+                fixed (byte* targetBytePtr = &newBuffer[0])
                 {
-                    byte* l_SourcePtr = l_SourceBytePtr;
-                    byte* l_TargetPtr = l_TargetBytePtr;
+                    byte* sourcePtr = sourceBytePtr;
+                    byte* targetPtr = targetBytePtr;
                     double current = 0;
 
-                    for (int i = 0; i < l_SampleCount; i++)
+                    for (int i = 0; i < sampleCount; i++)
                     {
-                        int l_NextStep = (int)current + 1;
-                        while (current < l_NextStep)
+                        int nextStep = (int)current + 1;
+                        while (current < nextStep)
                         {
-                            l_TargetPtr[(int)current] = l_SourcePtr[i];
+                            targetPtr[(int)current] = sourcePtr[i];
                             current += factor;
                         }
                     }
@@ -33,26 +33,26 @@ namespace Cave.Media.Audio
             return newBuffer;
         }
 
-        static unsafe byte[] m_Interpolate16Bit(double factor, byte[] buffer)
+        static unsafe byte[] Interpolate16Bit(double factor, byte[] buffer)
         {
-            int l_SampleCount = buffer.Length / 2;
-            int newBufferSize = (int)(l_SampleCount * factor) * 2;
+            int sampleCount = buffer.Length / 2;
+            int newBufferSize = (int)(sampleCount * factor) * 2;
             byte[] newBuffer = new byte[newBufferSize];
 
-            fixed (byte* l_SourceBytePtr = &buffer[0])
+            fixed (byte* sourceBytePtr = &buffer[0])
             {
-                fixed (byte* l_TargetBytePtr = &newBuffer[0])
+                fixed (byte* targetBytePtr = &newBuffer[0])
                 {
-                    ushort* l_SourcePtr = (ushort*)l_SourceBytePtr;
-                    ushort* l_TargetPtr = (ushort*)l_TargetBytePtr;
+                    ushort* sourcePtr = (ushort*)sourceBytePtr;
+                    ushort* targetPtr = (ushort*)targetBytePtr;
                     double current = 0;
 
-                    for (int i = 0; i < l_SampleCount; i++)
+                    for (int i = 0; i < sampleCount; i++)
                     {
-                        int l_NextStep = (int)current + 1;
-                        while (current < l_NextStep)
+                        int nextStep = (int)current + 1;
+                        while (current < nextStep)
                         {
-                            l_TargetPtr[(int)current] = l_SourcePtr[i];
+                            targetPtr[(int)current] = sourcePtr[i];
                             current += factor;
                         }
                     }
@@ -63,24 +63,24 @@ namespace Cave.Media.Audio
 
         static unsafe byte[] m_Interpolate32Bit(double factor, byte[] buffer)
         {
-            int l_SampleCount = buffer.Length / 4;
-            int newBufferSize = (int)(l_SampleCount * factor) * 4;
+            int sampleCount = buffer.Length / 4;
+            int newBufferSize = (int)(sampleCount * factor) * 4;
             byte[] newBuffer = new byte[newBufferSize];
 
-            fixed (byte* l_SourceBytePtr = &buffer[0])
+            fixed (byte* sourceBytePtr = &buffer[0])
             {
-                fixed (byte* l_TargetBytePtr = &newBuffer[0])
+                fixed (byte* targetBytePtr = &newBuffer[0])
                 {
-                    uint* l_SourcePtr = (uint*)l_SourceBytePtr;
-                    uint* l_TargetPtr = (uint*)l_TargetBytePtr;
+                    uint* sourcePtr = (uint*)sourceBytePtr;
+                    uint* targetPtr = (uint*)targetBytePtr;
                     double current = 0;
 
-                    for (int i = 0; i < l_SampleCount; i++)
+                    for (int i = 0; i < sampleCount; i++)
                     {
-                        int l_NextStep = (int)current + 1;
-                        while (current < l_NextStep)
+                        int nextStep = (int)current + 1;
+                        while (current < nextStep)
                         {
-                            l_TargetPtr[(int)current] = l_SourcePtr[i];
+                            targetPtr[(int)current] = sourcePtr[i];
                             current += factor;
                         }
                     }

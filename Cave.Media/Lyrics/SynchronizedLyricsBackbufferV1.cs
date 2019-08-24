@@ -289,7 +289,7 @@ namespace Cave.Media.Lyrics
         Bitmap bitmap;
 
         /// <summary>
-        /// Copies the image to the specified bitmapdata instance
+        /// Copies the image to the specified bitmapdata instance.
         /// </summary>
         public Bitmap ToBitmap()
         {

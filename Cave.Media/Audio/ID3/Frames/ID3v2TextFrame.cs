@@ -38,8 +38,8 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void ParseData()
         {
-            EncodingType = (ID3v2EncodingType)m_Content[0];
-            ID3v2Encoding.Parse(EncodingType, m_Content, 1, out string text);
+            EncodingType = (ID3v2EncodingType)Content[0];
+            ID3v2Encoding.Parse(EncodingType, Content, 1, out string text);
             Text = text;
         }
 

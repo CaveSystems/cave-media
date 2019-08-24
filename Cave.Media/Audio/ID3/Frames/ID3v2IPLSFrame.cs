@@ -11,22 +11,22 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2IPLSFrame : ID3v2Frame
     {
-        ID3v2Contributor[] m_List = null;
+        ID3v2Contributor[] list = null;
 
         void Parse()
         {
-            Encoding encoding = ID3v2Encoding.Get((ID3v2EncodingType)m_Content[0]);
-            string[] strings = encoding.GetString(m_Data, 1, m_Content.Length - 1).Split('\0');
+            Encoding encoding = ID3v2Encoding.Get((ID3v2EncodingType)Content[0]);
+            string[] strings = encoding.GetString(RawData, 1, Content.Length - 1).Split('\0');
             int i = 0;
-            var l_List = new List<ID3v2Contributor>();
+            var list = new List<ID3v2Contributor>();
             while (i < strings.Length)
             {
                 var item = default(ID3v2Contributor);
                 item.Involvement = strings[i++];
                 item.Involvee = strings[i++];
-                l_List.Add(item);
+                list.Add(item);
             }
-            m_List = l_List.ToArray();
+            this.list = list.ToArray();
         }
 
         internal ID3v2IPLSFrame(ID3v2Frame frame)
@@ -45,12 +45,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_List == null)
+                if (list == null)
                 {
                     Parse();
                 }
 
-                return (ID3v2Contributor[])m_List.Clone();
+                return (ID3v2Contributor[])list.Clone();
             }
         }
     }

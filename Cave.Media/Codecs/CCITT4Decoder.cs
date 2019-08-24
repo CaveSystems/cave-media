@@ -9,15 +9,15 @@ namespace Cave.Media.Codecs
     /// </summary>
     public sealed class CCITT4Decoder : CCITT4
     {
-        CCITT4DecoderState m_State = CCITT4DecoderState.White;
-        int m_CurrentValue = 0;
-        int m_CurrentBitLength = 0;
+        CCITT4DecoderState state = CCITT4DecoderState.White;
+        int currentValue = 0;
+        int currentBitLength = 0;
 
-        private void m_Reset(CCITT4DecoderState state)
+        private void Reset(CCITT4DecoderState state)
         {
-            m_State = state;
-            m_CurrentValue = 0;
-            m_CurrentBitLength = 0;
+            this.state = state;
+            currentValue = 0;
+            currentBitLength = 0;
         }
 
         /// <summary>
@@ -25,93 +25,93 @@ namespace Cave.Media.Codecs
         /// </summary>
         public byte[] DecodeRow(byte[] data)
         {
-            m_Reset(CCITT4DecoderState.White);
+            Reset(CCITT4DecoderState.White);
             var reader = new BitStreamReaderReverse(new MemoryStream(data));
             var writer = new BitStreamWriter(new MemoryStream());
             while (reader.Position < reader.Length)
             {
                 // read a bit
-                m_CurrentValue = (m_CurrentValue << 1) | reader.ReadBit();
-                m_CurrentBitLength++;
-                if (m_CurrentBitLength > 13)
+                currentValue = (currentValue << 1) | reader.ReadBit();
+                currentBitLength++;
+                if (currentBitLength > 13)
                 {
                     throw new FormatException();
                 }
 
                 // did we get a EndOfLine code ?
-                if ((m_CurrentBitLength == EOL[1]) && (m_CurrentValue == EOL[0]))
+                if ((currentBitLength == EOL[1]) && (currentValue == EOL[0]))
                 {
-                    m_Reset(0);
+                    Reset(0);
                     continue;
                 }
-                if (m_State == 0)
+                if (state == 0)
                 {
                     // white makeup search
                     for (int i = 0; i < WhiteMakeUpCodes.GetLength(0); i++)
                     {
-                        if ((WhiteMakeUpCodes[i, 1] == m_CurrentBitLength) &&
-                            (WhiteMakeUpCodes[i, 0] == m_CurrentValue))
+                        if ((WhiteMakeUpCodes[i, 1] == currentBitLength) &&
+                            (WhiteMakeUpCodes[i, 0] == currentValue))
                         {
                             writer.WriteBits(WhiteMakeUpCodes[i, 2], true);
-                            m_Reset(CCITT4DecoderState.WhiteTerminationRequired);
+                            Reset(CCITT4DecoderState.WhiteTerminationRequired);
                             break;
                         }
                     }
-                    if (m_State != 0)
+                    if (state != 0)
                     {
                         continue;
                     }
                 }
-                if ((int)m_State <= 1)
+                if ((int)state <= 1)
                 {
                     // white termination search
                     for (int i = 0; i < WhiteTerminatingCodes.GetLength(0); i++)
                     {
-                        if ((WhiteTerminatingCodes[i, 1] == m_CurrentBitLength) &&
-                            (WhiteTerminatingCodes[i, 0] == m_CurrentValue))
+                        if ((WhiteTerminatingCodes[i, 1] == currentBitLength) &&
+                            (WhiteTerminatingCodes[i, 0] == currentValue))
                         {
                             writer.WriteBits(i, true);
-                            m_Reset(CCITT4DecoderState.Black);
+                            Reset(CCITT4DecoderState.Black);
                             break;
                         }
                     }
-                    if ((int)m_State != 1)
+                    if ((int)state != 1)
                     {
                         continue;
                     }
                 }
-                if ((int)m_State == 2)
+                if ((int)state == 2)
                 {
                     // black makeup search
                     for (int i = 0; i < BlackMakeUpCodes.GetLength(0); i++)
                     {
-                        if ((BlackMakeUpCodes[i, 1] == m_CurrentBitLength) &&
-                            (BlackMakeUpCodes[i, 0] == m_CurrentValue))
+                        if ((BlackMakeUpCodes[i, 1] == currentBitLength) &&
+                            (BlackMakeUpCodes[i, 0] == currentValue))
                         {
                             writer.WriteBits(BlackMakeUpCodes[i, 2], false);
-                            m_Reset(CCITT4DecoderState.BlackTerminationRequired);
+                            Reset(CCITT4DecoderState.BlackTerminationRequired);
                             break;
                         }
                     }
-                    if ((int)m_State != 2)
+                    if ((int)state != 2)
                     {
                         continue;
                     }
                 }
-                if ((int)m_State >= 2)
+                if ((int)state >= 2)
                 {
                     // black termination search
                     for (int i = 0; i < BlackTerminatingCodes.GetLength(0); i++)
                     {
-                        if ((BlackTerminatingCodes[i, 1] == m_CurrentBitLength) &&
-                            (BlackTerminatingCodes[i, 0] == m_CurrentValue))
+                        if ((BlackTerminatingCodes[i, 1] == currentBitLength) &&
+                            (BlackTerminatingCodes[i, 0] == currentValue))
                         {
                             writer.WriteBits(i, false);
-                            m_Reset(CCITT4DecoderState.White);
+                            Reset(CCITT4DecoderState.White);
                             break;
                         }
                     }
-                    if ((int)m_State != 3)
+                    if ((int)state != 3)
                     {
                         continue;
                     }

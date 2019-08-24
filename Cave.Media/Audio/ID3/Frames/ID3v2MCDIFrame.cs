@@ -21,12 +21,12 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <summary>
         /// Gets the TOC.
         /// </summary>
-        public byte[] TOC => (byte[])m_Content.Clone();
+        public byte[] TOC => (byte[])Content.Clone();
 
         /// <summary>
         /// Returns the TOC as hexadecimal string.
         /// </summary>
-        public string HexTOC => StringExtensions.ToHexString(m_Content);
+        public string HexTOC => StringExtensions.ToHexString(Content);
 
         /// <summary>
         /// Gets a string describing this frame.

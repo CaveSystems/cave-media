@@ -1,3 +1,6 @@
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+#pragma warning disable SA1310 // Field names should not contain underscore
+
 using System;
 
 namespace Cave.Media.Structs
@@ -12,8 +15,8 @@ namespace Cave.Media.Structs
         /// <summary>
         /// Gets the string of the <see cref="FOURCC"/> int.
         /// </summary>
-        /// <param name="fcc"></param>
-        /// <returns></returns>
+        /// <param name="fcc">The four character code.</param>
+        /// <returns>The four character code as string.</returns>
         public static string ToString(uint fcc)
         {
             return new string(new char[] { (char)((fcc >> 0) & 0xFF), (char)((fcc >> 8) & 0xFF), (char)((fcc >> 16) & 0xFF), (char)((fcc >> 24) & 0xFF) });
@@ -22,8 +25,8 @@ namespace Cave.Media.Structs
         /// <summary>
         /// Gets the string of the <see cref="FOURCC"/> int.
         /// </summary>
-        /// <param name="fcc"></param>
-        /// <returns></returns>
+        /// <param name="fcc">The four character code.</param>
+        /// <returns>The four character code as string.</returns>
         public static string ToString(int fcc)
         {
             return new string(new char[] { (char)((fcc >> 0) & 0xFF), (char)((fcc >> 8) & 0xFF), (char)((fcc >> 16) & 0xFF), (char)((fcc >> 24) & 0xFF) });
@@ -32,8 +35,8 @@ namespace Cave.Media.Structs
         /// <summary>
         /// Gets the int of the <see cref="FOURCC"/> string.
         /// </summary>
-        /// <param name="fcc"></param>
-        /// <returns></returns>
+        /// <param name="fcc">The four character code.</param>
+        /// <returns>Returns the four character code as 32 bit integer.</returns>
         public static uint ToFCC(string fcc)
         {
             if (fcc == null)
@@ -52,8 +55,8 @@ namespace Cave.Media.Structs
         /// <summary>
         /// Gets the int of the <see cref="FOURCC"/> characters.
         /// </summary>
-        /// <param name="fcc"></param>
-        /// <returns></returns>
+        /// <param name="fcc">The four character code.</param>
+        /// <returns>Returns the four character code as 32 bit integer.</returns>
         public static uint ToFCC(params char[] fcc)
         {
             if (fcc == null)
@@ -354,3 +357,6 @@ namespace Cave.Media.Structs
         public static readonly uint RIFFINFO_ITOC = ToFCC('I', 'T', 'O', 'C');
     }
 }
+
+#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
+#pragma warning restore SA1310 // Field names should not contain underscore

@@ -12,7 +12,7 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Parse()
         {
-            ID3v2Encoding.Parse(0, m_Content, 0, out m_Address);
+            ID3v2Encoding.Parse(0, Content, 0, out m_Address);
         }
 
         internal ID3v2WebFrame(ID3v2Frame frame)

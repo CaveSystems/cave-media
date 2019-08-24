@@ -59,7 +59,6 @@ namespace Cave.Media.Audio.PORTAUDIO
             return Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetErrorText(errorCode));
         }
 
-
         public static PAHostApiInfo GetHostApiInfo(int hostApi)
         {
             return (PAHostApiInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetHostApiInfo(hostApi), typeof(PAHostApiInfo));
@@ -110,7 +109,6 @@ namespace Cave.Media.Audio.PORTAUDIO
             [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
             [SuppressUnmanagedCodeSecurity]
             public static extern PAErrorCode Pa_Terminate();
-
 
             [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
             [SuppressUnmanagedCodeSecurity]

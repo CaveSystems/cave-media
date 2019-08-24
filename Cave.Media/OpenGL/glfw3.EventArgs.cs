@@ -31,7 +31,6 @@ namespace Cave.Media.OpenGL
             }
         }
 
-
         /// <summary>
         /// glfw3 mouse button event args send when a mouse button event (down, up) occured.
         /// </summary>

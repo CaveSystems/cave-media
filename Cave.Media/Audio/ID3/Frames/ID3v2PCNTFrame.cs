@@ -13,9 +13,9 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             counter = 0;
-            for (int i = 10; i < m_Data.Length; i++)
+            for (int i = 10; i < Data.Length; i++)
             {
-                counter = (counter << 8) | m_Data[i];
+                counter = (counter << 8) | Data[i];
             }
         }
 

@@ -63,19 +63,19 @@ namespace Cave.Media.Audio.MP3
         /// </value>
         public override bool IsAvailable { get { return true; } }
 
-        IFrameSource m_Source;
-        MP3AudioStereoBuffer m_OutputBuffer;
-        MP3AudioLayerIIIDecoder m_FrameDecoder;
-        int m_SamplingRate;
-        int m_OutputChannels;
-        MP3AudioEqualizer m_Equalizer = new MP3AudioEqualizer();
-        bool m_Resetted = false;
+        IFrameSource source;
+        MP3AudioStereoBuffer outputBuffer;
+        MP3AudioLayerIIIDecoder frameDecoder;
+        int samplingRate;
+        int outputChannels;
+        MP3AudioEqualizer equalizer = new MP3AudioEqualizer();
+        bool resetted = false;
 
         /// <summary>Synthesis filter for the left channel.</summary>
-        MP3AudioSynthesisFilter m_Filter1;
+        MP3AudioSynthesisFilter filter1;
 
         /// <summary>Sythesis filter for the right channel.</summary>
-        MP3AudioSynthesisFilter m_Filter2;
+        MP3AudioSynthesisFilter filter2;
 
         /// <summary>Reads the next audio frame and silently skips garbage and invalid frames.</summary>
         /// <returns></returns>
@@ -84,7 +84,7 @@ namespace Cave.Media.Audio.MP3
             MP3AudioFrame l_MP3Frame = null;
             while (l_MP3Frame == null)
             {
-                AudioFrame frame = m_Source.GetNextFrame();
+                AudioFrame frame = source.GetNextFrame();
 
                 // eof ?
                 if (frame == null)
@@ -111,17 +111,17 @@ namespace Cave.Media.Audio.MP3
 
             try
             {
-                m_OutputBuffer.Clear();
-                m_FrameDecoder.DecodeFrame(frame);
-                m_Resetted = false;
+                outputBuffer.Clear();
+                frameDecoder.DecodeFrame(frame);
+                resetted = false;
                 return true;
             }
             catch (Exception ex)
             {
-                if (!m_Resetted)
+                if (!resetted)
                 {
-                    m_FrameDecoder.Reset();
-                    m_Resetted = true;
+                    frameDecoder.Reset();
+                    resetted = true;
                 }
                 Trace.WriteLine("Source " + SourceName + ": Error while decoding mp3 frame.\n" + ex);
                 return false;
@@ -134,13 +134,13 @@ namespace Cave.Media.Audio.MP3
         /// <exception cref="Exception">Decoding already started!.</exception>
         public override void BeginDecode(IFrameSource source)
         {
-            if (m_FrameDecoder != null)
+            if (frameDecoder != null)
             {
                 Close();
             }
 
             SourceName = source.Name;
-            m_Source = source;
+            this.source = source;
 
             // get first audio frame
             MP3AudioFrame l_MP3Frame = ReadNextAudioFrame();
@@ -150,17 +150,17 @@ namespace Cave.Media.Audio.MP3
             }
 
             // prepare decoder
-            m_OutputChannels = l_MP3Frame.Header.ChannelCount;
-            float[] isEqualizerFactors = m_Equalizer.GetFactors();
-            m_Filter1 = new MP3AudioSynthesisFilter(0, 32000.0f, isEqualizerFactors);
-            if (m_OutputChannels == 2)
+            outputChannels = l_MP3Frame.Header.ChannelCount;
+            float[] isEqualizerFactors = equalizer.GetFactors();
+            filter1 = new MP3AudioSynthesisFilter(0, 32000.0f, isEqualizerFactors);
+            if (outputChannels == 2)
             {
-                m_Filter2 = new MP3AudioSynthesisFilter(1, 32000.0f, isEqualizerFactors);
+                filter2 = new MP3AudioSynthesisFilter(1, 32000.0f, isEqualizerFactors);
             }
 
-            m_SamplingRate = l_MP3Frame.Header.SamplingRate;
-            m_OutputBuffer = new MP3AudioStereoBuffer(m_SamplingRate);
-            m_FrameDecoder = new MP3AudioLayerIIIDecoder(l_MP3Frame.Header, m_Filter1, m_Filter2, m_OutputBuffer, (int)MP3AudioOutputMode.Both);
+            samplingRate = l_MP3Frame.Header.SamplingRate;
+            outputBuffer = new MP3AudioStereoBuffer(samplingRate);
+            frameDecoder = new MP3AudioLayerIIIDecoder(l_MP3Frame.Header, filter1, filter2, outputBuffer, (int)MP3AudioOutputMode.Both);
 
             DecodeFrame(l_MP3Frame);
         }
@@ -168,15 +168,15 @@ namespace Cave.Media.Audio.MP3
         /// <summary>Closes this instance and the underlying stream.</summary>
         public override void Close()
         {
-            m_FrameDecoder = null;
-            m_Source.Close();
+            frameDecoder = null;
+            source.Close();
         }
 
         /// <summary>Decodes audio data.</summary>
         /// <returns>Returns a decoded IAudioData buffer or null if no more buffer available.</returns>
         public override IAudioData Decode()
         {
-            if (m_OutputBuffer.SampleCount == 0)
+            if (outputBuffer.SampleCount == 0)
             {
                 while (true)
                 {
@@ -186,15 +186,15 @@ namespace Cave.Media.Audio.MP3
                         return null;
                     }
 
-                    if (DecodeFrame(l_Frame as MP3AudioFrame) && (m_OutputBuffer.SampleCount > 0))
+                    if (DecodeFrame(l_Frame as MP3AudioFrame) && (outputBuffer.SampleCount > 0))
                     {
                         break;
                     }
                 }
             }
 
-            IAudioData data = m_OutputBuffer.GetAudioData();
-            m_OutputBuffer.Clear();
+            IAudioData data = outputBuffer.GetAudioData();
+            outputBuffer.Clear();
             return data;
         }
     }

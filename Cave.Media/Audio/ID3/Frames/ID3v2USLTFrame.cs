@@ -8,19 +8,19 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2USLTFrame : ID3v2Frame
     {
-        bool m_Parsed = false;
-        string m_Language = null;
-        string m_Descriptor = null;
-        string[] m_Lines = null;
+        bool parsed = false;
+        string language = null;
+        string descriptor = null;
+        string[] lines = null;
 
         void Parse()
         {
-            var encoding = (ID3v2EncodingType)m_Content[0];
-            m_Language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
-            int start = 4 + ID3v2Encoding.Parse(encoding, m_Content, 4, out m_Descriptor);
+            var encoding = (ID3v2EncodingType)Content[0];
+            language = ID3v2Encoding.ISO88591.GetString(Content, 1, 3);
+            int start = 4 + ID3v2Encoding.Parse(encoding, Content, 4, out descriptor);
             string text;
-            ID3v2Encoding.Parse(encoding, m_Content, start, out text);
-            m_Lines = text.Split('\n');
+            ID3v2Encoding.Parse(encoding, Content, start, out text);
+            lines = text.Split('\n');
         }
 
         internal ID3v2USLTFrame(ID3v2Frame frame)
@@ -33,50 +33,50 @@ namespace Cave.Media.Audio.ID3.Frames
         }
 
         /// <summary>
-        /// Provides the lyrics language.
+        /// Gets the lyrics language.
         /// </summary>
         public string Language
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return m_Language;
+                return language;
             }
         }
 
         /// <summary>
-        /// Provides the lyric descripto.
+        /// Gets the lyric descripto.
         /// </summary>
         public string Descriptor
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return m_Descriptor;
+                return descriptor;
             }
         }
 
         /// <summary>
-        /// Provides the full song text.
+        /// Gets the full song text.
         /// </summary>
         public string[] Lines
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return (string[])m_Lines.Clone();
+                return (string[])lines.Clone();
             }
         }
 

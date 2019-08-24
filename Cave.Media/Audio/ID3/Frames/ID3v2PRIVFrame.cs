@@ -8,12 +8,12 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2PRIVFrame : ID3v2Frame
     {
-        string m_Owner;
-        int m_StartIndex;
+        string owner;
+        int startIndex;
 
         void Parse()
         {
-            m_StartIndex = 1 + ID3v2Encoding.Parse(0, m_Content, 0, out m_Owner);
+            startIndex = 1 + ID3v2Encoding.Parse(0, Content, 0, out owner);
         }
 
         internal ID3v2PRIVFrame(ID3v2Frame frame)
@@ -32,12 +32,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Owner == null)
+                if (owner == null)
                 {
                     Parse();
                 }
 
-                return m_Owner;
+                return owner;
             }
         }
 
@@ -48,12 +48,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_StartIndex <= 0)
+                if (startIndex <= 0)
                 {
                     Parse();
                 }
 
-                return new DataFrameReader(m_Data).Read(m_StartIndex, m_Data.Length - m_StartIndex);
+                return new DataFrameReader(Data).Read(startIndex, Data.Length - startIndex);
             }
         }
 

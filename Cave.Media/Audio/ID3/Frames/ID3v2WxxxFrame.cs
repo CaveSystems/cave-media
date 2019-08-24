@@ -8,14 +8,14 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2WXXXFrame : ID3v2Frame
     {
-        string m_Address;
-        string m_Description;
+        string address;
+        string description;
 
         void Parse()
         {
-            var encoding = (ID3v2EncodingType)m_Content[0];
-            int start = 1 + ID3v2Encoding.Parse(encoding, m_Content, 1, out m_Description);
-            ID3v2Encoding.Parse(0, m_Content, start, out m_Address);
+            var encoding = (ID3v2EncodingType)Content[0];
+            int start = 1 + ID3v2Encoding.Parse(encoding, Content, 1, out description);
+            ID3v2Encoding.Parse(0, Content, start, out address);
         }
 
         internal ID3v2WXXXFrame(ID3v2Frame frame)
@@ -34,12 +34,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Address == null)
+                if (address == null)
                 {
                     Parse();
                 }
 
-                return m_Address;
+                return address;
             }
         }
 
@@ -50,12 +50,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Description == null)
+                if (description == null)
                 {
                     Parse();
                 }
 
-                return m_Description;
+                return description;
             }
         }
 

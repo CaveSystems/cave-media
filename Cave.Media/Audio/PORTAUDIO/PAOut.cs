@@ -52,13 +52,13 @@ namespace Cave.Media.Audio.PORTAUDIO
                             audioData = audioData.ChangeVolume(Volume);
                         }
 
-                        streamData.Enqueue(audioData.Data);
+                        streamData.Enqueue(audioData.Data, true);
                         continue;
                     }
                     int silenceBytes = byteCount - streamData.Length;
                     bufferUnderflowCount++;
                     bytesQueued += silenceBytes;
-                    streamData.Enqueue(new byte[silenceBytes]);
+                    streamData.Enqueue(new byte[silenceBytes], true);
                 }
                 streamData.Dequeue(byteCount, output);
                 bytesPassed += inProgressBytes;

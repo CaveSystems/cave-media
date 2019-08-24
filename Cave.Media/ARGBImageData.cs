@@ -402,7 +402,7 @@ namespace Cave.Media
 
 #if !NETSTANDARD20
         /// <summary>
-        /// Copies the image to the specified bitmapdata instance
+        /// Copies the image to the specified bitmapdata instance.
         /// </summary>
         public void CopyTo32BitBitmapData(System.Drawing.Imaging.BitmapData imgData)
         {
@@ -440,7 +440,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Copies the image to the specified bitmap
+        /// Copies the image to the specified bitmap.
         /// </summary>
         public void CopyToBitmap(System.Drawing.Bitmap img)
         {
@@ -450,7 +450,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Creates a new bitmap from the image
+        /// Creates a new bitmap from the image.
         /// </summary>
         public System.Drawing.Bitmap ToGdiBitmap()
         {

@@ -17,7 +17,7 @@ namespace Cave.Media.Audio.ID3
         List<ID3v2Frame> frames = new List<ID3v2Frame>();
 
         /// <summary>Retrieves the tag as byte array.</summary>
-        /// <returns></returns>
+        /// <returns>Returns a new byte array.</returns>
         public byte[] ToArray()
         {
             var buffer = new FifoBuffer();
@@ -31,13 +31,13 @@ namespace Cave.Media.Audio.ID3
             */
             foreach (ID3v2Frame frame in frames)
             {
-                buffer.Enqueue(frame.RawData);
+                buffer.Enqueue(frame.RawData, true);
             }
             int bodySize = buffer.Length;
 
             // no one likes footers so we won't write them
             var header = new ID3v2Header(Header.Version, Header.Revision, flags, bodySize);
-            buffer.Prepend(header.Data);
+            buffer.Prepend(header.Data, true);
             return buffer.ToArray();
         }
 

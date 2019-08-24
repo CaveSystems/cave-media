@@ -68,7 +68,6 @@ namespace Cave.Media.Audio.MP3
             m_Position = 15;
         }
 
-
         /// <summary>Adds a sample.</summary>
         /// <param name="sample">The sample.</param>
         /// <param name="subbandnumber">The subbandnumber.</param>
@@ -187,7 +186,6 @@ namespace Cave.Media.Audio.MP3
             p14 = (pp10 - pp13) * cos5a16;
             p15 = (pp11 - pp12) * cos7a16;
 
-
             pp0 = p0 + p3;
             pp1 = p1 + p2;
             pp2 = (p0 - p3) * cos1a8;
@@ -252,7 +250,6 @@ namespace Cave.Media.Audio.MP3
             p14 = (s14 - s17) * cos29a64;
             p15 = (s15 - s16) * cos31a64;
 
-
             pp0 = p0 + p15;
             pp1 = p1 + p14;
             pp2 = p2 + p13;
@@ -269,7 +266,6 @@ namespace Cave.Media.Audio.MP3
             pp13 = (p5 - p10) * cos11a32;
             pp14 = (p6 - p9) * cos13a32;
             pp15 = (p7 - p8) * cos15a32;
-
 
             p0 = pp0 + pp7;
             p1 = pp1 + pp6;
@@ -288,7 +284,6 @@ namespace Cave.Media.Audio.MP3
             p14 = (pp10 - pp13) * cos5a16;
             p15 = (pp11 - pp12) * cos7a16;
 
-
             pp0 = p0 + p3;
             pp1 = p1 + p2;
             pp2 = (p0 - p3) * cos1a8;
@@ -306,7 +301,6 @@ namespace Cave.Media.Audio.MP3
             pp14 = (p12 - p15) * cos1a8;
             pp15 = (p13 - p14) * cos3a8;
 
-
             p0 = pp0 + pp1;
             p1 = (pp0 - pp1) * cos1a4;
             p2 = pp2 + pp3;
@@ -323,7 +317,6 @@ namespace Cave.Media.Audio.MP3
             p13 = (pp12 - pp13) * cos1a4;
             p14 = pp14 + pp15;
             p15 = (pp14 - pp15) * cos1a4;
-
 
             // manually doing something that a compiler should handle sucks
             // coding like this is hard to read

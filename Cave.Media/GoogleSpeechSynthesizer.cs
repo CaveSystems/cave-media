@@ -50,7 +50,7 @@ namespace Cave.Media
         /// <param name="gender">The gender.</param>
         /// <param name="age">The age.</param>
         /// <param name="cultureInfo">The culture information.</param>
-        /// <exception cref="ArgumentNullException">cultureInfo</exception>
+        /// <exception cref="ArgumentNullException">cultureInfo.</exception>
         public void SelectVoiceByHints(VoiceGender gender, VoiceAge age, CultureInfo cultureInfo)
         {
             this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));

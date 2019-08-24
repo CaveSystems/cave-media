@@ -11,7 +11,7 @@ using System.IO;
 namespace Cave.Media
 {
     /// <summary>
-    /// Provides extensions for GdiBitmap32 instances
+    /// Provides extensions for GdiBitmap32 instances.
     /// </summary>
     public static class GdiBitmap32Extensions
     {

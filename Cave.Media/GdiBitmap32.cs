@@ -65,8 +65,8 @@ namespace Cave.Media
         }
 
         /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
-        /// <param name="width">Width in pixel</param>
-        /// <param name="height">Height in pixel</param>
+        /// <param name="width">Width in pixel.</param>
+        /// <param name="height">Height in pixel.</param>
         public GdiBitmap32(int width, int height)
             : this(new Bitmap(width, height, PixelFormat.Format32bppArgb))
         {
@@ -184,7 +184,7 @@ namespace Cave.Media
         }
 
         /// <summary>
-        /// Disposes the image
+        /// Disposes the image.
         /// </summary>
         public override void Dispose()
         {
@@ -209,7 +209,7 @@ namespace Cave.Media
         /// <summary>Saves the image to the specified stream.</summary>
         /// <param name="fileName">Name of the file.</param>
         /// <param name="quality">The quality.</param>
-        /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!</exception>
+        /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!.</exception>
         public override void Save(string fileName, int quality = 100)
         {
             ImageType type;

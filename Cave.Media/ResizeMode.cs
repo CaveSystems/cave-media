@@ -1,7 +1,7 @@
 ﻿namespace Cave.Media
 {
     /// <summary>
-    /// Modes for resizing images
+    /// Modes for resizing images.
     /// </summary>
     public enum ResizeMode
     {

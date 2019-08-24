@@ -1,3 +1,5 @@
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+
 using System.Runtime.InteropServices;
 
 namespace Cave.Media.Structs
@@ -75,3 +77,5 @@ namespace Cave.Media.Structs
         public int SampleSize;
     }
 }
+
+#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter

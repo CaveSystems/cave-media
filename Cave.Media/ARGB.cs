@@ -218,7 +218,7 @@ namespace Cave.Media
             {
                 unchecked
                 {
-                    float hue = DefaultRNG.UInt32 % 36000 / 36000f;
+                    float hue = (DefaultRNG.UInt32 % 36000) / 36000f;
 
                     const float _1_3 = 1f / 3f;
                     const float _60 = 3.141593f * 2f / 6f;
@@ -531,7 +531,7 @@ namespace Cave.Media
 
             // scale to the 5 color ramps
             heat = heat * 5;
-            byte col = (byte)(heat % 1f * 255f);
+            byte col = (byte)((heat % 1f) * 255f);
             switch ((int)heat)
             {
                 // black..blue:      0..1 blue

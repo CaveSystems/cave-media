@@ -7,7 +7,6 @@
 */
 #endregion
 
-
 namespace Cave.Media.Audio.MP3
 {
     /// <summary>

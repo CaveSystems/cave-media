@@ -26,10 +26,10 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Split()
         {
-            int index = Array.IndexOf<byte>(m_Content, 0);
-            owner = ID3v2Encoding.ISO88591.GetString(m_Content, 0, index);
-            ufid = new byte[m_Content.Length - index - 1];
-            Array.Copy(m_Content, index + 1, ufid, 0, ufid.Length);
+            int index = Array.IndexOf<byte>(Content, 0);
+            owner = ID3v2Encoding.ISO88591.GetString(Content, 0, index);
+            ufid = new byte[Content.Length - index - 1];
+            Array.Copy(Content, index + 1, ufid, 0, ufid.Length);
         }
 
         internal ID3v2UFIDFrame(ID3v2Frame frame)

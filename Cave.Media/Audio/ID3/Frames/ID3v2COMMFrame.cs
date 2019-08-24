@@ -15,10 +15,10 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Parse()
         {
-            var encoding = (ID3v2EncodingType)m_Content[0];
-            language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
-            int len = ID3v2Encoding.Parse(encoding, m_Content, 4, out description);
-            ID3v2Encoding.Parse(encoding, m_Content, 4 + len, out string text);
+            var encoding = (ID3v2EncodingType)Content[0];
+            language = ID3v2Encoding.ISO88591.GetString(Content, 1, 3);
+            int len = ID3v2Encoding.Parse(encoding, Content, 4, out description);
+            ID3v2Encoding.Parse(encoding, Content, 4 + len, out string text);
             lines = text.SplitNewLine();
         }
 

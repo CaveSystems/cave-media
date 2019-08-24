@@ -14,19 +14,20 @@ namespace Cave.Media.Audio.MP3
     /// <summary> Mpeg Audio Layer III frame decoder. </summary>
     public sealed class MP3AudioLayerIIIDecoder
     {
+        const int SSLIMIT = 18;
+        const int SBLIMIT = 32;
+
         #region static parts
 
         static readonly int[][] slen = { new int[] { 0, 0, 0, 0, 3, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4 }, new int[] { 0, 1, 2, 3, 0, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 3 } };
 
         static readonly int[] pretab = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3, 2, 0 };
 
-        SBI[] sfBandIndex;
-
         static readonly float[] twoToNegativeHalfPow = new float[] { 1.0000000000e+00f, 7.0710678119e-01f, 5.0000000000e-01f, 3.5355339059e-01f, 2.5000000000e-01f, 1.7677669530e-01f, 1.2500000000e-01f, 8.8388347648e-02f, 6.2500000000e-02f, 4.4194173824e-02f, 3.1250000000e-02f, 2.2097086912e-02f, 1.5625000000e-02f, 1.1048543456e-02f, 7.8125000000e-03f, 5.5242717280e-03f, 3.9062500000e-03f, 2.7621358640e-03f, 1.9531250000e-03f, 1.3810679320e-03f, 9.7656250000e-04f, 6.9053396600e-04f, 4.8828125000e-04f, 3.4526698300e-04f, 2.4414062500e-04f, 1.7263349150e-04f, 1.2207031250e-04f, 8.6316745750e-05f, 6.1035156250e-05f, 4.3158372875e-05f, 3.0517578125e-05f, 2.1579186438e-05f, 1.5258789062e-05f, 1.0789593219e-05f, 7.6293945312e-06f, 5.3947966094e-06f, 3.8146972656e-06f, 2.6973983047e-06f, 1.9073486328e-06f, 1.3486991523e-06f, 9.5367431641e-07f, 6.7434957617e-07f, 4.7683715820e-07f, 3.3717478809e-07f, 2.3841857910e-07f, 1.6858739404e-07f, 1.1920928955e-07f, 8.4293697022e-08f, 5.9604644775e-08f, 4.2146848511e-08f, 2.9802322388e-08f, 2.1073424255e-08f, 1.4901161194e-08f, 1.0536712128e-08f, 7.4505805969e-09f, 5.2683560639e-09f, 3.7252902985e-09f, 2.6341780319e-09f, 1.8626451492e-09f, 1.3170890160e-09f, 9.3132257462e-10f, 6.5854450798e-10f, 4.6566128731e-10f, 3.2927225399e-10f };
 
-        static readonly float[] t43 = createT43();
+        static readonly float[] t43 = CreateT43();
 
-        static float[] createT43()
+        static float[] CreateT43()
         {
             float[] t43 = new float[8192];
             double d43 = 4.0 / 3.0;
@@ -40,11 +41,11 @@ namespace Cave.Media.Audio.MP3
 
         static readonly float[][] io = { new float[] { 1.0000000000e+00f, 8.4089641526e-01f, 7.0710678119e-01f, 5.9460355751e-01f, 5.0000000001e-01f, 4.2044820763e-01f, 3.5355339060e-01f, 2.9730177876e-01f, 2.5000000001e-01f, 2.1022410382e-01f, 1.7677669530e-01f, 1.4865088938e-01f, 1.2500000000e-01f, 1.0511205191e-01f, 8.8388347652e-02f, 7.4325444691e-02f, 6.2500000003e-02f, 5.2556025956e-02f, 4.4194173826e-02f, 3.7162722346e-02f, 3.1250000002e-02f, 2.6278012978e-02f, 2.2097086913e-02f, 1.8581361173e-02f, 1.5625000001e-02f, 1.3139006489e-02f, 1.1048543457e-02f, 9.2906805866e-03f, 7.8125000006e-03f, 6.5695032447e-03f, 5.5242717285e-03f, 4.6453402934e-03f }, new float[] { 1.0000000000e+00f, 7.0710678119e-01f, 5.0000000000e-01f, 3.5355339060e-01f, 2.5000000000e-01f, 1.7677669530e-01f, 1.2500000000e-01f, 8.8388347650e-02f, 6.2500000001e-02f, 4.4194173825e-02f, 3.1250000001e-02f, 2.2097086913e-02f, 1.5625000000e-02f, 1.1048543456e-02f, 7.8125000002e-03f, 5.5242717282e-03f, 3.9062500001e-03f, 2.7621358641e-03f, 1.9531250001e-03f, 1.3810679321e-03f, 9.7656250004e-04f, 6.9053396603e-04f, 4.8828125002e-04f, 3.4526698302e-04f, 2.4414062501e-04f, 1.7263349151e-04f, 1.2207031251e-04f, 8.6316745755e-05f, 6.1035156254e-05f, 4.3158372878e-05f, 3.0517578127e-05f, 2.1579186439e-05f } };
 
-        static readonly float[] TAN12 = new float[] { 0.0f, 0.26794919f, 0.57735027f, 1.0f, 1.73205081f, 3.73205081f, 9.9999999e10f, -3.73205081f, -1.73205081f, -1.0f, -0.57735027f, -0.26794919f, 0.0f, 0.26794919f, 0.57735027f, 1.0f };
+        static readonly float[] tan12 = new float[] { 0.0f, 0.26794919f, 0.57735027f, 1.0f, 1.73205081f, 3.73205081f, 9.9999999e10f, -3.73205081f, -1.73205081f, -1.0f, -0.57735027f, -0.26794919f, 0.0f, 0.26794919f, 0.57735027f, 1.0f };
 
-        static int[][] reorder_table;
+        static int[][] reorderTable;
 
-        internal static int[] reorder(int[] scalefac_band)
+        internal static int[] Reorder(int[] scalefac_band)
         {
             // SZD: converted from LAME
             int j = 0;
@@ -76,96 +77,87 @@ namespace Cave.Media.Audio.MP3
             new float[] { 0.0000000000e+00f, 0.0000000000e+00f, 0.0000000000e+00f, 0.0000000000e+00f, 0.0000000000e+00f, 0.0000000000e+00f, -1.5076513660e-01f, -7.3296291107e-01f, -3.4890530566e+00f, -4.5470224727e+00f, -1.7695290031e+00f, -1.1451749092e+00f, -8.3137738100e-01f, -1.3065629650e+00f, -5.4142014250e-01f, -4.6528974900e-01f, -4.1066990750e-01f, -3.7004680800e-01f, -3.3876269197e-01f, -3.1242222492e-01f, -2.8939587111e-01f, -2.6880081906e-01f, -5.0000000266e-01f, -2.3251417468e-01f, -2.1596714708e-01f, -2.0004979098e-01f, -1.8449493497e-01f, -1.6905846094e-01f, -1.5350360518e-01f, -1.3758624925e-01f, -1.2103922149e-01f, -2.0710679058e-01f, -8.4752577594e-02f, -6.4157525656e-02f, -4.1131172614e-02f, -1.4790705759e-02f },
         };
 
-        static readonly int[][][] nr_of_sfb_block = { new int[][] { new int[] { 6, 5, 5, 5 }, new int[] { 9, 9, 9, 9 }, new int[] { 6, 9, 9, 9 } }, new int[][] { new int[] { 6, 5, 7, 3 }, new int[] { 9, 9, 12, 6 }, new int[] { 6, 9, 12, 6 } }, new int[][] { new int[] { 11, 10, 0, 0 }, new int[] { 18, 18, 0, 0 }, new int[] { 15, 18, 0, 0 } }, new int[][] { new int[] { 7, 7, 7, 0 }, new int[] { 12, 12, 12, 0 }, new int[] { 6, 15, 12, 0 } }, new int[][] { new int[] { 6, 6, 6, 3 }, new int[] { 12, 9, 9, 6 }, new int[] { 6, 12, 9, 6 } }, new int[][] { new int[] { 8, 8, 5, 0 }, new int[] { 15, 12, 9, 0 }, new int[] { 6, 18, 9, 0 } } };
+        static readonly int[][][] nrOfSfbBlock = { new int[][] { new int[] { 6, 5, 5, 5 }, new int[] { 9, 9, 9, 9 }, new int[] { 6, 9, 9, 9 } }, new int[][] { new int[] { 6, 5, 7, 3 }, new int[] { 9, 9, 12, 6 }, new int[] { 6, 9, 12, 6 } }, new int[][] { new int[] { 11, 10, 0, 0 }, new int[] { 18, 18, 0, 0 }, new int[] { 15, 18, 0, 0 } }, new int[][] { new int[] { 7, 7, 7, 0 }, new int[] { 12, 12, 12, 0 }, new int[] { 6, 15, 12, 0 } }, new int[][] { new int[] { 6, 6, 6, 3 }, new int[] { 12, 9, 9, 6 }, new int[] { 6, 12, 9, 6 } }, new int[][] { new int[] { 8, 8, 5, 0 }, new int[] { 15, 12, 9, 0 }, new int[] { 6, 18, 9, 0 } } };
 
         #endregion
+
+        SBI[] sfBandIndex;
 
         #region private sub classes
         class SBI
         {
-            public int[] l;
-            public int[] s;
+            public int[] L;
+            public int[] S;
 
             public SBI()
             {
-                l = new int[23];
-                s = new int[14];
+                L = new int[23];
+                S = new int[14];
             }
             public SBI(int[] thel, int[] thes)
             {
-                l = thel;
-                s = thes;
+                L = thel;
+                S = thes;
             }
         }
 
-        class grInfo
+        class GRInfo
         {
-            public int part2_3_length = 0;
-            public int big_values = 0;
-            public int global_gain = 0;
-            public int scalefac_compress = 0;
-            public int window_switching_flag = 0;
-            public int block_type = 0;
-            public int mixed_block_flag = 0;
-            public int[] table_select;
-            public int[] subblock_gain;
-            public int region0_count = 0;
-            public int region1_count = 0;
-            public int preflag = 0;
-            public int scalefac_scale = 0;
-            public int count1table_select = 0;
+            public int Part23Length = 0;
+            public int BigValues = 0;
+            public int GlobalGain = 0;
+            public int ScaleFactorCompress = 0;
+            public int WindowSwitchingFlag = 0;
+            public int BlockType = 0;
+            public int MixedBlockFlag = 0;
+            public int[] TableSelect;
+            public int[] SubBlockGain;
+            public int Region0Count = 0;
+            public int Region1Count = 0;
+            public int Preflag = 0;
+            public int ScaleFactorScale = 0;
+            public int Count1TableSelect = 0;
 
-            public grInfo()
+            public GRInfo()
             {
-                table_select = new int[3];
-                subblock_gain = new int[3];
+                TableSelect = new int[3];
+                SubBlockGain = new int[3];
             }
         }
 
         class ChanInfo
         {
-            public int[] scfsi;
-            public grInfo[] gr;
-
-            /// <summary> Dummy Constructor.
-            /// </summary>
-            public ChanInfo()
+            public int[] SCFSI = new int[4];
+            public GRInfo[] GR = new GRInfo[]
             {
-                scfsi = new int[4];
-                gr = new grInfo[2];
-                gr[0] = new grInfo();
-                gr[1] = new grInfo();
-            }
+                new GRInfo(),
+                new GRInfo(),
+            };
         }
 
         class SideInfo
         {
-            public int main_data_begin = 0;
-            public int private_bits = 0;
-            public ChanInfo[] ch;
-
-            /// <summary> Dummy Constructor.
-            /// </summary>
-            public SideInfo()
+            public int MainDataBegin;
+            public int PrivateBits;
+            public ChanInfo[] CH = new ChanInfo[]
             {
-                ch = new ChanInfo[2];
-                ch[0] = new ChanInfo();
-                ch[1] = new ChanInfo();
-            }
+                new ChanInfo(),
+                new ChanInfo(),
+            };
         }
 
         class ScaleFactors
         {
-            public int[] l; /* [cb] */
-            public int[][] s; /* [window][cb] */
+            public int[] L; /* [cb] */
+            public int[][] S; /* [window][cb] */
 
             public ScaleFactors()
             {
-                l = new int[23];
-                s = new int[3][];
+                L = new int[23];
+                S = new int[3][];
                 for (int i = 0; i < 3; i++)
                 {
-                    s[i] = new int[13];
+                    S[i] = new int[13];
                 }
             }
         }
@@ -180,7 +172,8 @@ namespace Cave.Media.Audio.MP3
         float[][] k;
         int[] nonzero;
 
-        MP3AudioSynthesisFilter filter1, filter2;
+        MP3AudioSynthesisFilter filter1;
+        MP3AudioSynthesisFilter filter2;
         MP3AudioStereoBuffer outputBuffer;
         MP3AudioOutputMode outputMode;
         MP3BitReserve bitReserve;
@@ -214,12 +207,10 @@ namespace Cave.Media.Audio.MP3
         int[] w = new int[] { 0 };
 
         int counter = 0;
-        const int SSLIMIT = 18;
-        const int SBLIMIT = 32;
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return "MP3AudioLayerIIIDecoder"; } }
+        public string LogSourceName => "MP3AudioLayerIIIDecoder";
 
         /// <summary>Initializes a new instance of the <see cref="MP3AudioLayerIIIDecoder"/> class.</summary>
         /// <param name="header">The first frame header.</param>
@@ -227,7 +218,7 @@ namespace Cave.Media.Audio.MP3
         /// <param name="filter2">The output filter for the second channel.</param>
         /// <param name="buffer">The output (sample) buffer.</param>
         /// <param name="mode">The audio channel decoder mode.</param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException">MP3AudioFrameVersion {0} is not implemented.</exception>
         public MP3AudioLayerIIIDecoder(MP3AudioFrameHeader header, MP3AudioSynthesisFilter filter1, MP3AudioSynthesisFilter filter2, MP3AudioStereoBuffer buffer, MP3AudioOutputMode mode)
         {
             if (header == null)
@@ -314,13 +305,13 @@ namespace Cave.Media.Audio.MP3
             sfBandIndex[8] = new SBI(l8, s8);
 
             // END OF L3TABLE INIT
-            if (reorder_table == null)
+            if (reorderTable == null)
             {
                 // SZD: generate LUT
-                reorder_table = new int[9][];
+                reorderTable = new int[9][];
                 for (int i = 0; i < 9; i++)
                 {
-                    reorder_table[i] = reorder(sfBandIndex[i].s);
+                    reorderTable[i] = Reorder(sfBandIndex[i].S);
                 }
             }
 
@@ -357,11 +348,9 @@ namespace Cave.Media.Audio.MP3
                         firstChannel = lastChannel = 0;
                         break;
 
-
                     case MP3AudioOutputMode.Right:
                         firstChannel = lastChannel = 1;
                         break;
-
 
                     case MP3AudioOutputMode.Both:
                     default:
@@ -408,8 +397,7 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Decodes the audio frame.</summary>
         /// <param name="frame">The frame to decode.</param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
+        /// <exception cref="NotImplementedException">MP3AudioFrameVersion {0} is not implemented.</exception>
         public void DecodeFrame(MP3AudioFrame frame)
         {
             MP3AudioFrameHeader frameHeader = frame.Header;
@@ -422,12 +410,12 @@ namespace Cave.Media.Audio.MP3
             switch (frameHeader.Version)
             {
                 case MP3AudioFrameVersion.Version1:
-                    get_side_info_ver1(frame);
+                    GetSideInfoVer1(frame);
                     break;
 
                 case MP3AudioFrameVersion.Version2:
                 case MP3AudioFrameVersion.Version25:
-                    get_side_info_ver2(frame);
+                    GetSideInfoVer2(frame);
                     break;
                 default: throw new NotImplementedException(string.Format("MP3AudioFrameVersion {0} is not implemented!", frameHeader.Version));
             }
@@ -442,7 +430,7 @@ namespace Cave.Media.Audio.MP3
                 main_data_end++;
             }
 
-            bytes_to_discard = frameStart - main_data_end - sideInfo.main_data_begin;
+            bytes_to_discard = frameStart - main_data_end - sideInfo.MainDataBegin;
 
             frameStart += nSlots;
 
@@ -471,35 +459,35 @@ namespace Cave.Media.Audio.MP3
                     switch (frameHeader.Version)
                     {
                         case MP3AudioFrameVersion.Version1:
-                            get_scale_factors(ch, gr);
+                            GetScaleFactors(ch, gr);
                             break;
 
                         case MP3AudioFrameVersion.Version2:
                         case MP3AudioFrameVersion.Version25:
-                            get_LSF_scale_factors(frameHeader, ch, gr);
+                            GetLsfScaleFactors(frameHeader, ch, gr);
                             break;
 
                         default: throw new NotImplementedException(string.Format("MP3AudioFrameVersion {0} is not implemented!", frameHeader.Version));
                     }
 
-                    huffman_decode(ch, gr);
+                    HuffmanDecode(ch, gr);
 
                     // System.out.println("CheckSum HuffMan = " + CheckSumHuff);
                     DequantizeSample(ro[ch], ch, gr);
                 }
 
-                stereo(frameHeader, gr);
+                Stereo(frameHeader, gr);
 
                 if ((outputMode == MP3AudioOutputMode.DownMix) && (channels > 1))
                 {
-                    do_downmix();
+                    DoDownmix();
                 }
 
                 for (ch = firstChannel; ch <= lastChannel; ch++)
                 {
-                    reorder(lr[ch], ch, gr);
-                    antialias(ch, gr);
-                    hybrid(ch, gr);
+                    Reorder(lr[ch], ch, gr);
+                    Antialias(ch, gr);
+                    Hybrid(ch, gr);
 
                     for (sb18 = 18; sb18 < 576; sb18 += 36)
                     {
@@ -563,68 +551,68 @@ namespace Cave.Media.Audio.MP3
         /// Mono   : 136 bits (= 17 bytes)
         /// Stereo : 256 bits (= 32 bytes).
         /// </summary>
-        bool get_side_info_ver2(MP3AudioFrame frame)
+        bool GetSideInfoVer2(MP3AudioFrame frame)
         {
             int ch;
 
             // MPEG-2 LSF, SZD: MPEG-2.5 LSF
-            sideInfo.main_data_begin = frame.Bits.ReadBits(8);
+            sideInfo.MainDataBegin = frame.Bits.ReadBits(8);
             if (channels == 1)
             {
-                sideInfo.private_bits = frame.Bits.ReadBits(1);
+                sideInfo.PrivateBits = frame.Bits.ReadBits(1);
             }
             else
             {
-                sideInfo.private_bits = frame.Bits.ReadBits(2);
+                sideInfo.PrivateBits = frame.Bits.ReadBits(2);
             }
 
             for (ch = 0; ch < channels; ch++)
             {
-                sideInfo.ch[ch].gr[0].part2_3_length = frame.Bits.ReadBits(12);
-                sideInfo.ch[ch].gr[0].big_values = frame.Bits.ReadBits(9);
-                sideInfo.ch[ch].gr[0].global_gain = frame.Bits.ReadBits(8);
-                sideInfo.ch[ch].gr[0].scalefac_compress = frame.Bits.ReadBits(9);
-                sideInfo.ch[ch].gr[0].window_switching_flag = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].GR[0].Part23Length = frame.Bits.ReadBits(12);
+                sideInfo.CH[ch].GR[0].BigValues = frame.Bits.ReadBits(9);
+                sideInfo.CH[ch].GR[0].GlobalGain = frame.Bits.ReadBits(8);
+                sideInfo.CH[ch].GR[0].ScaleFactorCompress = frame.Bits.ReadBits(9);
+                sideInfo.CH[ch].GR[0].WindowSwitchingFlag = frame.Bits.ReadBits(1);
 
-                if (sideInfo.ch[ch].gr[0].window_switching_flag != 0)
+                if (sideInfo.CH[ch].GR[0].WindowSwitchingFlag != 0)
                 {
-                    sideInfo.ch[ch].gr[0].block_type = frame.Bits.ReadBits(2);
-                    sideInfo.ch[ch].gr[0].mixed_block_flag = frame.Bits.ReadBits(1);
-                    sideInfo.ch[ch].gr[0].table_select[0] = frame.Bits.ReadBits(5);
-                    sideInfo.ch[ch].gr[0].table_select[1] = frame.Bits.ReadBits(5);
+                    sideInfo.CH[ch].GR[0].BlockType = frame.Bits.ReadBits(2);
+                    sideInfo.CH[ch].GR[0].MixedBlockFlag = frame.Bits.ReadBits(1);
+                    sideInfo.CH[ch].GR[0].TableSelect[0] = frame.Bits.ReadBits(5);
+                    sideInfo.CH[ch].GR[0].TableSelect[1] = frame.Bits.ReadBits(5);
 
-                    sideInfo.ch[ch].gr[0].subblock_gain[0] = frame.Bits.ReadBits(3);
-                    sideInfo.ch[ch].gr[0].subblock_gain[1] = frame.Bits.ReadBits(3);
-                    sideInfo.ch[ch].gr[0].subblock_gain[2] = frame.Bits.ReadBits(3);
+                    sideInfo.CH[ch].GR[0].SubBlockGain[0] = frame.Bits.ReadBits(3);
+                    sideInfo.CH[ch].GR[0].SubBlockGain[1] = frame.Bits.ReadBits(3);
+                    sideInfo.CH[ch].GR[0].SubBlockGain[2] = frame.Bits.ReadBits(3);
 
                     // Set region_count parameters since they are implicit in this case.
-                    if (sideInfo.ch[ch].gr[0].block_type == 0)
+                    if (sideInfo.CH[ch].GR[0].BlockType == 0)
                     {
                         // Side info bad: block_type == 0 in split block
                         return false;
                     }
-                    else if (sideInfo.ch[ch].gr[0].block_type == 2 && sideInfo.ch[ch].gr[0].mixed_block_flag == 0)
+                    else if (sideInfo.CH[ch].GR[0].BlockType == 2 && sideInfo.CH[ch].GR[0].MixedBlockFlag == 0)
                     {
-                        sideInfo.ch[ch].gr[0].region0_count = 8;
+                        sideInfo.CH[ch].GR[0].Region0Count = 8;
                     }
                     else
                     {
-                        sideInfo.ch[ch].gr[0].region0_count = 7;
-                        sideInfo.ch[ch].gr[0].region1_count = 20 - sideInfo.ch[ch].gr[0].region0_count;
+                        sideInfo.CH[ch].GR[0].Region0Count = 7;
+                        sideInfo.CH[ch].GR[0].Region1Count = 20 - sideInfo.CH[ch].GR[0].Region0Count;
                     }
                 }
                 else
                 {
-                    sideInfo.ch[ch].gr[0].table_select[0] = frame.Bits.ReadBits(5);
-                    sideInfo.ch[ch].gr[0].table_select[1] = frame.Bits.ReadBits(5);
-                    sideInfo.ch[ch].gr[0].table_select[2] = frame.Bits.ReadBits(5);
-                    sideInfo.ch[ch].gr[0].region0_count = frame.Bits.ReadBits(4);
-                    sideInfo.ch[ch].gr[0].region1_count = frame.Bits.ReadBits(3);
-                    sideInfo.ch[ch].gr[0].block_type = 0;
+                    sideInfo.CH[ch].GR[0].TableSelect[0] = frame.Bits.ReadBits(5);
+                    sideInfo.CH[ch].GR[0].TableSelect[1] = frame.Bits.ReadBits(5);
+                    sideInfo.CH[ch].GR[0].TableSelect[2] = frame.Bits.ReadBits(5);
+                    sideInfo.CH[ch].GR[0].Region0Count = frame.Bits.ReadBits(4);
+                    sideInfo.CH[ch].GR[0].Region1Count = frame.Bits.ReadBits(3);
+                    sideInfo.CH[ch].GR[0].BlockType = 0;
                 }
 
-                sideInfo.ch[ch].gr[0].scalefac_scale = frame.Bits.ReadBits(1);
-                sideInfo.ch[ch].gr[0].count1table_select = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].GR[0].ScaleFactorScale = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].GR[0].Count1TableSelect = frame.Bits.ReadBits(1);
             }
             return true;
         }
@@ -634,104 +622,104 @@ namespace Cave.Media.Audio.MP3
         /// Mono   : 136 bits (= 17 bytes)
         /// Stereo : 256 bits (= 32 bytes).
         /// </summary>
-        bool get_side_info_ver1(MP3AudioFrame frame)
+        bool GetSideInfoVer1(MP3AudioFrame frame)
         {
             int ch, gr;
-            sideInfo.main_data_begin = frame.Bits.ReadBits(9);
+            sideInfo.MainDataBegin = frame.Bits.ReadBits(9);
             if (channels == 1)
             {
-                sideInfo.private_bits = frame.Bits.ReadBits(5);
+                sideInfo.PrivateBits = frame.Bits.ReadBits(5);
             }
             else
             {
-                sideInfo.private_bits = frame.Bits.ReadBits(3);
+                sideInfo.PrivateBits = frame.Bits.ReadBits(3);
             }
 
             for (ch = 0; ch < channels; ch++)
             {
-                sideInfo.ch[ch].scfsi[0] = frame.Bits.ReadBits(1);
-                sideInfo.ch[ch].scfsi[1] = frame.Bits.ReadBits(1);
-                sideInfo.ch[ch].scfsi[2] = frame.Bits.ReadBits(1);
-                sideInfo.ch[ch].scfsi[3] = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].SCFSI[0] = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].SCFSI[1] = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].SCFSI[2] = frame.Bits.ReadBits(1);
+                sideInfo.CH[ch].SCFSI[3] = frame.Bits.ReadBits(1);
             }
 
             for (gr = 0; gr < 2; gr++)
             {
                 for (ch = 0; ch < channels; ch++)
                 {
-                    sideInfo.ch[ch].gr[gr].part2_3_length = frame.Bits.ReadBits(12);
-                    sideInfo.ch[ch].gr[gr].big_values = frame.Bits.ReadBits(9);
-                    sideInfo.ch[ch].gr[gr].global_gain = frame.Bits.ReadBits(8);
-                    sideInfo.ch[ch].gr[gr].scalefac_compress = frame.Bits.ReadBits(4);
-                    sideInfo.ch[ch].gr[gr].window_switching_flag = frame.Bits.ReadBits(1);
-                    if (sideInfo.ch[ch].gr[gr].window_switching_flag != 0)
+                    sideInfo.CH[ch].GR[gr].Part23Length = frame.Bits.ReadBits(12);
+                    sideInfo.CH[ch].GR[gr].BigValues = frame.Bits.ReadBits(9);
+                    sideInfo.CH[ch].GR[gr].GlobalGain = frame.Bits.ReadBits(8);
+                    sideInfo.CH[ch].GR[gr].ScaleFactorCompress = frame.Bits.ReadBits(4);
+                    sideInfo.CH[ch].GR[gr].WindowSwitchingFlag = frame.Bits.ReadBits(1);
+                    if (sideInfo.CH[ch].GR[gr].WindowSwitchingFlag != 0)
                     {
-                        sideInfo.ch[ch].gr[gr].block_type = frame.Bits.ReadBits(2);
-                        sideInfo.ch[ch].gr[gr].mixed_block_flag = frame.Bits.ReadBits(1);
+                        sideInfo.CH[ch].GR[gr].BlockType = frame.Bits.ReadBits(2);
+                        sideInfo.CH[ch].GR[gr].MixedBlockFlag = frame.Bits.ReadBits(1);
 
-                        sideInfo.ch[ch].gr[gr].table_select[0] = frame.Bits.ReadBits(5);
-                        sideInfo.ch[ch].gr[gr].table_select[1] = frame.Bits.ReadBits(5);
+                        sideInfo.CH[ch].GR[gr].TableSelect[0] = frame.Bits.ReadBits(5);
+                        sideInfo.CH[ch].GR[gr].TableSelect[1] = frame.Bits.ReadBits(5);
 
-                        sideInfo.ch[ch].gr[gr].subblock_gain[0] = frame.Bits.ReadBits(3);
-                        sideInfo.ch[ch].gr[gr].subblock_gain[1] = frame.Bits.ReadBits(3);
-                        sideInfo.ch[ch].gr[gr].subblock_gain[2] = frame.Bits.ReadBits(3);
+                        sideInfo.CH[ch].GR[gr].SubBlockGain[0] = frame.Bits.ReadBits(3);
+                        sideInfo.CH[ch].GR[gr].SubBlockGain[1] = frame.Bits.ReadBits(3);
+                        sideInfo.CH[ch].GR[gr].SubBlockGain[2] = frame.Bits.ReadBits(3);
 
                         // Set region_count parameters since they are implicit in this case.
-                        if (sideInfo.ch[ch].gr[gr].block_type == 0)
+                        if (sideInfo.CH[ch].GR[gr].BlockType == 0)
                         {
                             // Side info bad: block_type == 0 in split block
                             return false;
                         }
-                        else if (sideInfo.ch[ch].gr[gr].block_type == 2 && sideInfo.ch[ch].gr[gr].mixed_block_flag == 0)
+                        else if (sideInfo.CH[ch].GR[gr].BlockType == 2 && sideInfo.CH[ch].GR[gr].MixedBlockFlag == 0)
                         {
-                            sideInfo.ch[ch].gr[gr].region0_count = 8;
+                            sideInfo.CH[ch].GR[gr].Region0Count = 8;
                         }
                         else
                         {
-                            sideInfo.ch[ch].gr[gr].region0_count = 7;
+                            sideInfo.CH[ch].GR[gr].Region0Count = 7;
                         }
-                        sideInfo.ch[ch].gr[gr].region1_count = 20 - sideInfo.ch[ch].gr[gr].region0_count;
+                        sideInfo.CH[ch].GR[gr].Region1Count = 20 - sideInfo.CH[ch].GR[gr].Region0Count;
                     }
                     else
                     {
-                        sideInfo.ch[ch].gr[gr].table_select[0] = frame.Bits.ReadBits(5);
-                        sideInfo.ch[ch].gr[gr].table_select[1] = frame.Bits.ReadBits(5);
-                        sideInfo.ch[ch].gr[gr].table_select[2] = frame.Bits.ReadBits(5);
-                        sideInfo.ch[ch].gr[gr].region0_count = frame.Bits.ReadBits(4);
-                        sideInfo.ch[ch].gr[gr].region1_count = frame.Bits.ReadBits(3);
-                        sideInfo.ch[ch].gr[gr].block_type = 0;
+                        sideInfo.CH[ch].GR[gr].TableSelect[0] = frame.Bits.ReadBits(5);
+                        sideInfo.CH[ch].GR[gr].TableSelect[1] = frame.Bits.ReadBits(5);
+                        sideInfo.CH[ch].GR[gr].TableSelect[2] = frame.Bits.ReadBits(5);
+                        sideInfo.CH[ch].GR[gr].Region0Count = frame.Bits.ReadBits(4);
+                        sideInfo.CH[ch].GR[gr].Region1Count = frame.Bits.ReadBits(3);
+                        sideInfo.CH[ch].GR[gr].BlockType = 0;
                     }
-                    sideInfo.ch[ch].gr[gr].preflag = frame.Bits.ReadBits(1);
-                    sideInfo.ch[ch].gr[gr].scalefac_scale = frame.Bits.ReadBits(1);
-                    sideInfo.ch[ch].gr[gr].count1table_select = frame.Bits.ReadBits(1);
+                    sideInfo.CH[ch].GR[gr].Preflag = frame.Bits.ReadBits(1);
+                    sideInfo.CH[ch].GR[gr].ScaleFactorScale = frame.Bits.ReadBits(1);
+                    sideInfo.CH[ch].GR[gr].Count1TableSelect = frame.Bits.ReadBits(1);
                 }
             }
             return true;
         }
 
-        void get_scale_factors(int ch, int gr)
+        void GetScaleFactors(int ch, int gr)
         {
             int sfb, window;
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
-            int scale_comp = gr_info.scalefac_compress;
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
+            int scale_comp = gr_info.ScaleFactorCompress;
             int length0 = slen[0][scale_comp];
             int length1 = slen[1][scale_comp];
 
-            if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
+            if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
             {
-                if (gr_info.mixed_block_flag != 0)
+                if (gr_info.MixedBlockFlag != 0)
                 {
                     // MIXED
                     for (sfb = 0; sfb < 8; sfb++)
                     {
-                        scaleFactors[ch].l[sfb] = bitReserve.ReadBits(slen[0][gr_info.scalefac_compress]);
+                        scaleFactors[ch].L[sfb] = bitReserve.ReadBits(slen[0][gr_info.ScaleFactorCompress]);
                     }
 
                     for (sfb = 3; sfb < 6; sfb++)
                     {
                         for (window = 0; window < 3; window++)
                         {
-                            scaleFactors[ch].s[window][sfb] = bitReserve.ReadBits(slen[0][gr_info.scalefac_compress]);
+                            scaleFactors[ch].S[window][sfb] = bitReserve.ReadBits(slen[0][gr_info.ScaleFactorCompress]);
                         }
                     }
 
@@ -739,57 +727,57 @@ namespace Cave.Media.Audio.MP3
                     {
                         for (window = 0; window < 3; window++)
                         {
-                            scaleFactors[ch].s[window][sfb] = bitReserve.ReadBits(slen[1][gr_info.scalefac_compress]);
+                            scaleFactors[ch].S[window][sfb] = bitReserve.ReadBits(slen[1][gr_info.ScaleFactorCompress]);
                         }
                     }
 
                     for (sfb = 12, window = 0; window < 3; window++)
                     {
-                        scaleFactors[ch].s[window][sfb] = 0;
+                        scaleFactors[ch].S[window][sfb] = 0;
                     }
                 }
                 else
                 {
                     // SHORT
-                    scaleFactors[ch].s[0][0] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[1][0] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[2][0] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[0][1] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[1][1] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[2][1] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[0][2] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[1][2] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[2][2] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[0][3] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[1][3] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[2][3] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[0][4] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[1][4] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[2][4] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[0][5] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[1][5] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[2][5] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].s[0][6] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[1][6] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[2][6] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[0][7] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[1][7] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[2][7] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[0][8] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[1][8] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[2][8] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[0][9] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[1][9] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[2][9] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[0][10] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[1][10] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[2][10] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[0][11] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[1][11] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[2][11] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].s[0][12] = 0;
-                    scaleFactors[ch].s[1][12] = 0;
-                    scaleFactors[ch].s[2][12] = 0;
+                    scaleFactors[ch].S[0][0] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[1][0] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[2][0] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[0][1] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[1][1] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[2][1] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[0][2] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[1][2] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[2][2] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[0][3] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[1][3] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[2][3] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[0][4] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[1][4] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[2][4] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[0][5] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[1][5] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[2][5] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].S[0][6] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[1][6] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[2][6] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[0][7] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[1][7] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[2][7] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[0][8] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[1][8] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[2][8] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[0][9] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[1][9] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[2][9] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[0][10] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[1][10] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[2][10] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[0][11] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[1][11] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[2][11] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].S[0][12] = 0;
+                    scaleFactors[ch].S[1][12] = 0;
+                    scaleFactors[ch].S[2][12] = 0;
                 }
 
                 // SHORT
@@ -797,46 +785,46 @@ namespace Cave.Media.Audio.MP3
             else
             {
                 // LONG types 0,1,3
-                if ((sideInfo.ch[ch].scfsi[0] == 0) || (gr == 0))
+                if ((sideInfo.CH[ch].SCFSI[0] == 0) || (gr == 0))
                 {
-                    scaleFactors[ch].l[0] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[1] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[2] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[3] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[4] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[5] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[0] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[1] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[2] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[3] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[4] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[5] = bitReserve.ReadBits(length0);
                 }
-                if ((sideInfo.ch[ch].scfsi[1] == 0) || (gr == 0))
+                if ((sideInfo.CH[ch].SCFSI[1] == 0) || (gr == 0))
                 {
-                    scaleFactors[ch].l[6] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[7] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[8] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[9] = bitReserve.ReadBits(length0);
-                    scaleFactors[ch].l[10] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[6] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[7] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[8] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[9] = bitReserve.ReadBits(length0);
+                    scaleFactors[ch].L[10] = bitReserve.ReadBits(length0);
                 }
-                if ((sideInfo.ch[ch].scfsi[2] == 0) || (gr == 0))
+                if ((sideInfo.CH[ch].SCFSI[2] == 0) || (gr == 0))
                 {
-                    scaleFactors[ch].l[11] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[12] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[13] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[14] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[15] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[11] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[12] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[13] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[14] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[15] = bitReserve.ReadBits(length1);
                 }
-                if ((sideInfo.ch[ch].scfsi[3] == 0) || (gr == 0))
+                if ((sideInfo.CH[ch].SCFSI[3] == 0) || (gr == 0))
                 {
-                    scaleFactors[ch].l[16] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[17] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[18] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[19] = bitReserve.ReadBits(length1);
-                    scaleFactors[ch].l[20] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[16] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[17] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[18] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[19] = bitReserve.ReadBits(length1);
+                    scaleFactors[ch].L[20] = bitReserve.ReadBits(length1);
                 }
 
-                scaleFactors[ch].l[21] = 0;
-                scaleFactors[ch].l[22] = 0;
+                scaleFactors[ch].L[21] = 0;
+                scaleFactors[ch].L[22] = 0;
             }
         }
 
-        void get_LSF_scale_data(MP3AudioFrameHeader header, int ch, int gr)
+        void GetLsfScaleData(MP3AudioFrameHeader header, int ch, int gr)
         {
             int scalefac_comp, int_scalefac_comp;
             int mode_ext = header.ModeExtension;
@@ -845,17 +833,17 @@ namespace Cave.Media.Audio.MP3
             int blocktypenumber;
             int blocknumber = 0;
 
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
 
-            scalefac_comp = gr_info.scalefac_compress;
+            scalefac_comp = gr_info.ScaleFactorCompress;
 
-            if (gr_info.block_type == 2)
+            if (gr_info.BlockType == 2)
             {
-                if (gr_info.mixed_block_flag == 0)
+                if (gr_info.MixedBlockFlag == 0)
                 {
                     blocktypenumber = 1;
                 }
-                else if (gr_info.mixed_block_flag == 1)
+                else if (gr_info.MixedBlockFlag == 1)
                 {
                     blocktypenumber = 2;
                 }
@@ -877,7 +865,7 @@ namespace Cave.Media.Audio.MP3
                     newSlen[1] = (scalefac_comp >> 4) % 5;
                     newSlen[2] = (scalefac_comp & 0xF) >> 2;
                     newSlen[3] = scalefac_comp & 3;
-                    sideInfo.ch[ch].gr[gr].preflag = 0;
+                    sideInfo.CH[ch].GR[gr].Preflag = 0;
                     blocknumber = 0;
                 }
                 else if (scalefac_comp < 500)
@@ -886,7 +874,7 @@ namespace Cave.Media.Audio.MP3
                     newSlen[1] = ((scalefac_comp - 400) >> 2) % 5;
                     newSlen[2] = (scalefac_comp - 400) & 3;
                     newSlen[3] = 0;
-                    sideInfo.ch[ch].gr[gr].preflag = 0;
+                    sideInfo.CH[ch].GR[gr].Preflag = 0;
                     blocknumber = 1;
                 }
                 else if (scalefac_comp < 512)
@@ -895,7 +883,7 @@ namespace Cave.Media.Audio.MP3
                     newSlen[1] = (scalefac_comp - 500) % 3;
                     newSlen[2] = 0;
                     newSlen[3] = 0;
-                    sideInfo.ch[ch].gr[gr].preflag = 1;
+                    sideInfo.CH[ch].GR[gr].Preflag = 1;
                     blocknumber = 2;
                 }
             }
@@ -907,10 +895,10 @@ namespace Cave.Media.Audio.MP3
                 if (int_scalefac_comp < 180)
                 {
                     newSlen[0] = int_scalefac_comp / 36;
-                    newSlen[1] = int_scalefac_comp % 36 / 6;
-                    newSlen[2] = int_scalefac_comp % 36 % 6;
+                    newSlen[1] = (int_scalefac_comp % 36) / 6;
+                    newSlen[2] = (int_scalefac_comp % 36) % 6;
                     newSlen[3] = 0;
-                    sideInfo.ch[ch].gr[gr].preflag = 0;
+                    sideInfo.CH[ch].GR[gr].Preflag = 0;
                     blocknumber = 3;
                 }
                 else if (int_scalefac_comp < 244)
@@ -919,7 +907,7 @@ namespace Cave.Media.Audio.MP3
                     newSlen[1] = ((int_scalefac_comp - 180) & 0xF) >> 2;
                     newSlen[2] = (int_scalefac_comp - 180) & 3;
                     newSlen[3] = 0;
-                    sideInfo.ch[ch].gr[gr].preflag = 0;
+                    sideInfo.CH[ch].GR[gr].Preflag = 0;
                     blocknumber = 4;
                 }
                 else if (int_scalefac_comp < 255)
@@ -928,7 +916,7 @@ namespace Cave.Media.Audio.MP3
                     newSlen[1] = (int_scalefac_comp - 244) % 3;
                     newSlen[2] = 0;
                     newSlen[3] = 0;
-                    sideInfo.ch[ch].gr[gr].preflag = 0;
+                    sideInfo.CH[ch].GR[gr].Preflag = 0;
                     blocknumber = 5;
                 }
             }
@@ -940,7 +928,7 @@ namespace Cave.Media.Audio.MP3
             m = 0;
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < nr_of_sfb_block[blocknumber][blocktypenumber][i]; j++)
+                for (int j = 0; j < nrOfSfbBlock[blocknumber][blocktypenumber][i]; j++)
                 {
                     scaleFactorBuffer[m] = (newSlen[i] == 0) ? 0 : bitReserve.ReadBits(newSlen[i]);
                     m++;
@@ -952,35 +940,35 @@ namespace Cave.Media.Audio.MP3
             // for (uint32 i ...
         }
 
-        void get_LSF_scale_factors(MP3AudioFrameHeader header, int ch, int gr)
+        void GetLsfScaleFactors(MP3AudioFrameHeader header, int ch, int gr)
         {
             int m = 0;
             int sfb, window;
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
 
-            get_LSF_scale_data(header, ch, gr);
+            GetLsfScaleData(header, ch, gr);
 
-            if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
+            if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
             {
-                if (gr_info.mixed_block_flag != 0)
+                if (gr_info.MixedBlockFlag != 0)
                 {
                     // MIXED
                     for (sfb = 0; sfb < 8; sfb++)
                     {
-                        scaleFactors[ch].l[sfb] = scaleFactorBuffer[m];
+                        scaleFactors[ch].L[sfb] = scaleFactorBuffer[m];
                         m++;
                     }
                     for (sfb = 3; sfb < 12; sfb++)
                     {
                         for (window = 0; window < 3; window++)
                         {
-                            scaleFactors[ch].s[window][sfb] = scaleFactorBuffer[m];
+                            scaleFactors[ch].S[window][sfb] = scaleFactorBuffer[m];
                             m++;
                         }
                     }
                     for (window = 0; window < 3; window++)
                     {
-                        scaleFactors[ch].s[window][12] = 0;
+                        scaleFactors[ch].S[window][12] = 0;
                     }
                 }
                 else
@@ -990,14 +978,14 @@ namespace Cave.Media.Audio.MP3
                     {
                         for (window = 0; window < 3; window++)
                         {
-                            scaleFactors[ch].s[window][sfb] = scaleFactorBuffer[m];
+                            scaleFactors[ch].S[window][sfb] = scaleFactorBuffer[m];
                             m++;
                         }
                     }
 
                     for (window = 0; window < 3; window++)
                     {
-                        scaleFactors[ch].s[window][12] = 0;
+                        scaleFactors[ch].S[window][12] = 0;
                     }
                 }
             }
@@ -1006,22 +994,22 @@ namespace Cave.Media.Audio.MP3
                 // LONG types 0,1,3
                 for (sfb = 0; sfb < 21; sfb++)
                 {
-                    scaleFactors[ch].l[sfb] = scaleFactorBuffer[m];
+                    scaleFactors[ch].L[sfb] = scaleFactorBuffer[m];
                     m++;
                 }
-                scaleFactors[ch].l[21] = 0; // Jeff
-                scaleFactors[ch].l[22] = 0;
+                scaleFactors[ch].L[21] = 0; // Jeff
+                scaleFactors[ch].L[22] = 0;
             }
         }
 
-        void huffman_decode(int ch, int gr)
+        void HuffmanDecode(int ch, int gr)
         {
             x[0] = 0;
             y[0] = 0;
             v[0] = 0;
             w[0] = 0;
 
-            int part2_3_end = part2Start + sideInfo.ch[ch].gr[gr].part2_3_length;
+            int part2_3_end = part2Start + sideInfo.CH[ch].GR[gr].Part23Length;
             int num_bits;
             int region1Start;
             int region2Start;
@@ -1032,7 +1020,7 @@ namespace Cave.Media.Audio.MP3
             MP3AudioHuffman h;
 
             // Find region boundary for short block case
-            if ((sideInfo.ch[ch].gr[gr].window_switching_flag != 0) && (sideInfo.ch[ch].gr[gr].block_type == 2))
+            if ((sideInfo.CH[ch].GR[gr].WindowSwitchingFlag != 0) && (sideInfo.CH[ch].GR[gr].BlockType == 2))
             {
                 // Region2.
                 // MS: Extrahandling for 8KHZ
@@ -1042,34 +1030,34 @@ namespace Cave.Media.Audio.MP3
             else
             {
                 // Find region boundary for long block case
-                buf = sideInfo.ch[ch].gr[gr].region0_count + 1;
-                buf1 = buf + sideInfo.ch[ch].gr[gr].region1_count + 1;
+                buf = sideInfo.CH[ch].GR[gr].Region0Count + 1;
+                buf1 = buf + sideInfo.CH[ch].GR[gr].Region1Count + 1;
 
-                if (buf1 > sfBandIndex[sfreq].l.Length - 1)
+                if (buf1 > sfBandIndex[sfreq].L.Length - 1)
                 {
-                    buf1 = sfBandIndex[sfreq].l.Length - 1;
+                    buf1 = sfBandIndex[sfreq].L.Length - 1;
                 }
 
-                region1Start = sfBandIndex[sfreq].l[buf];
-                region2Start = sfBandIndex[sfreq].l[buf1]; /* MI */
+                region1Start = sfBandIndex[sfreq].L[buf];
+                region2Start = sfBandIndex[sfreq].L[buf1]; /* MI */
             }
 
             index = 0;
 
             // Read bigvalues area
-            for (int i = 0; i < (sideInfo.ch[ch].gr[gr].big_values << 1); i += 2)
+            for (int i = 0; i < (sideInfo.CH[ch].GR[gr].BigValues << 1); i += 2)
             {
                 if (i < region1Start)
                 {
-                    h = MP3AudioHuffman.Tables[sideInfo.ch[ch].gr[gr].table_select[0]];
+                    h = MP3AudioHuffman.Tables[sideInfo.CH[ch].GR[gr].TableSelect[0]];
                 }
                 else if (i < region2Start)
                 {
-                    h = MP3AudioHuffman.Tables[sideInfo.ch[ch].gr[gr].table_select[1]];
+                    h = MP3AudioHuffman.Tables[sideInfo.CH[ch].GR[gr].TableSelect[1]];
                 }
                 else
                 {
-                    h = MP3AudioHuffman.Tables[sideInfo.ch[ch].gr[gr].table_select[2]];
+                    h = MP3AudioHuffman.Tables[sideInfo.CH[ch].GR[gr].TableSelect[2]];
                 }
 
                 h.Decode(x, y, v, w, bitReserve);
@@ -1081,7 +1069,7 @@ namespace Cave.Media.Audio.MP3
             }
 
             // Read count1 area
-            h = MP3AudioHuffman.Tables[sideInfo.ch[ch].gr[gr].count1table_select + 32];
+            h = MP3AudioHuffman.Tables[sideInfo.CH[ch].GR[gr].Count1TableSelect + 32];
             num_bits = bitReserve.ReadPosition;
 
             while ((num_bits < part2_3_end) && (index < 576))
@@ -1126,12 +1114,10 @@ namespace Cave.Media.Audio.MP3
                 index = 0;
             }
 
-            // may not be necessary , removed AR
-            /*for (; index < 576; index++)
-                is_1d[index] = 0;*/
+            Array.Clear(is1d, 0, 576);
         }
 
-        void i_stereo_k_values(int is_pos, int io_type, int i)
+        void IStereoKValues(int is_pos, int io_type, int i)
         {
             if (is_pos == 0)
             {
@@ -1152,7 +1138,7 @@ namespace Cave.Media.Audio.MP3
 
         void DequantizeSample(float[][] xr, int ch, int gr)
         {
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
             int cb = 0;
             int next_cb_boundary;
             int cb_begin = 0;
@@ -1162,26 +1148,28 @@ namespace Cave.Media.Audio.MP3
             float[][] xr_1d = xr;
 
             // choose correct scalefactor band per block type, initalize boundary
-            if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
+            if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
             {
-                if (gr_info.mixed_block_flag != 0)
-                    next_cb_boundary = sfBandIndex[sfreq].l[1];
+                if (gr_info.MixedBlockFlag != 0)
+                {
+                    next_cb_boundary = sfBandIndex[sfreq].L[1];
+                }
 
                 // LONG blocks: 0,1,3
                 else
                 {
-                    cb_width = sfBandIndex[sfreq].s[1];
+                    cb_width = sfBandIndex[sfreq].S[1];
                     next_cb_boundary = (cb_width << 2) - cb_width;
                     cb_begin = 0;
                 }
             }
             else
             {
-                next_cb_boundary = sfBandIndex[sfreq].l[1]; // LONG blocks: 0,1,3
+                next_cb_boundary = sfBandIndex[sfreq].L[1]; // LONG blocks: 0,1,3
             }
 
             // Compute overall (global) scaling.
-            g_gain = (float)Math.Pow(2.0, 0.25 * (gr_info.global_gain - 210.0));
+            g_gain = (float)Math.Pow(2.0, 0.25 * (gr_info.GlobalGain - 210.0));
 
             for (j = 0; j < nonzero[ch]; j++)
             {
@@ -1189,7 +1177,9 @@ namespace Cave.Media.Audio.MP3
                 int reste = j % SSLIMIT;
                 int quotien = (j - reste) / SSLIMIT;
                 if (is1d[j] == 0)
+                {
                     xr_1d[quotien][reste] = 0.0f;
+                }
                 else
                 {
                     int abv = is1d[j];
@@ -1214,60 +1204,60 @@ namespace Cave.Media.Audio.MP3
                 if (index == next_cb_boundary)
                 {
                     /* Adjust critical band boundary */
-                    if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
+                    if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
                     {
-                        if (gr_info.mixed_block_flag != 0)
+                        if (gr_info.MixedBlockFlag != 0)
                         {
-                            if (index == sfBandIndex[sfreq].l[8])
+                            if (index == sfBandIndex[sfreq].L[8])
                             {
-                                next_cb_boundary = sfBandIndex[sfreq].s[4];
+                                next_cb_boundary = sfBandIndex[sfreq].S[4];
                                 next_cb_boundary = (next_cb_boundary << 2) - next_cb_boundary;
                                 cb = 3;
-                                cb_width = sfBandIndex[sfreq].s[4] - sfBandIndex[sfreq].s[3];
+                                cb_width = sfBandIndex[sfreq].S[4] - sfBandIndex[sfreq].S[3];
 
-                                cb_begin = sfBandIndex[sfreq].s[3];
+                                cb_begin = sfBandIndex[sfreq].S[3];
                                 cb_begin = (cb_begin << 2) - cb_begin;
                             }
-                            else if (index < sfBandIndex[sfreq].l[8])
+                            else if (index < sfBandIndex[sfreq].L[8])
                             {
-                                next_cb_boundary = sfBandIndex[sfreq].l[(++cb) + 1];
+                                next_cb_boundary = sfBandIndex[sfreq].L[(++cb) + 1];
                             }
                             else
                             {
-                                next_cb_boundary = sfBandIndex[sfreq].s[(++cb) + 1];
+                                next_cb_boundary = sfBandIndex[sfreq].S[(++cb) + 1];
                                 next_cb_boundary = (next_cb_boundary << 2) - next_cb_boundary;
 
-                                cb_begin = sfBandIndex[sfreq].s[cb];
-                                cb_width = sfBandIndex[sfreq].s[cb + 1] - cb_begin;
+                                cb_begin = sfBandIndex[sfreq].S[cb];
+                                cb_width = sfBandIndex[sfreq].S[cb + 1] - cb_begin;
                                 cb_begin = (cb_begin << 2) - cb_begin;
                             }
                         }
                         else
                         {
-                            next_cb_boundary = sfBandIndex[sfreq].s[(++cb) + 1];
+                            next_cb_boundary = sfBandIndex[sfreq].S[(++cb) + 1];
                             next_cb_boundary = (next_cb_boundary << 2) - next_cb_boundary;
 
-                            cb_begin = sfBandIndex[sfreq].s[cb];
-                            cb_width = sfBandIndex[sfreq].s[cb + 1] - cb_begin;
+                            cb_begin = sfBandIndex[sfreq].S[cb];
+                            cb_width = sfBandIndex[sfreq].S[cb + 1] - cb_begin;
                             cb_begin = (cb_begin << 2) - cb_begin;
                         }
                     }
                     else
                     {
                         // long blocks
-                        next_cb_boundary = sfBandIndex[sfreq].l[(++cb) + 1];
+                        next_cb_boundary = sfBandIndex[sfreq].L[(++cb) + 1];
                     }
                 }
 
                 // Do long/short dependent scaling operations
-                if ((gr_info.window_switching_flag != 0) && (((gr_info.block_type == 2) && (gr_info.mixed_block_flag == 0)) || ((gr_info.block_type == 2) && (gr_info.mixed_block_flag != 0) && (j >= 36))))
+                if ((gr_info.WindowSwitchingFlag != 0) && (((gr_info.BlockType == 2) && (gr_info.MixedBlockFlag == 0)) || ((gr_info.BlockType == 2) && (gr_info.MixedBlockFlag != 0) && (j >= 36))))
                 {
                     t_index = (index - cb_begin) / cb_width;
                     /*            xr[sb][ss] *= pow(2.0, ((-2.0 * gr_info.subblock_gain[t_index])
                     -(0.5 * (1.0 + gr_info.scalefac_scale)
                     * scalefac[ch].s[t_index][cb]))); */
-                    int idx = scaleFactors[ch].s[t_index][cb] << gr_info.scalefac_scale;
-                    idx += gr_info.subblock_gain[t_index] << 2;
+                    int idx = scaleFactors[ch].S[t_index][cb] << gr_info.ScaleFactorScale;
+                    idx += gr_info.SubBlockGain[t_index] << 2;
 
                     xr_1d[quotien][reste] *= twoToNegativeHalfPow[idx];
                 }
@@ -1277,14 +1267,14 @@ namespace Cave.Media.Audio.MP3
                     /*                xr[sb][ss] *= pow(2.0, -0.5 * (1.0+gr_info.scalefac_scale)
                     * (scalefac[ch].l[cb]
                     + gr_info.preflag * pretab[cb])); */
-                    int idx = scaleFactors[ch].l[cb];
+                    int idx = scaleFactors[ch].L[cb];
 
-                    if (gr_info.preflag != 0)
+                    if (gr_info.Preflag != 0)
                     {
                         idx += pretab[cb];
                     }
 
-                    idx = idx << gr_info.scalefac_scale;
+                    idx = idx << gr_info.ScaleFactorScale;
                     xr_1d[quotien][reste] *= twoToNegativeHalfPow[idx];
                 }
                 index++;
@@ -1311,23 +1301,23 @@ namespace Cave.Media.Audio.MP3
             return;
         }
 
-        void reorder(float[][] xr, int ch, int gr)
+        void Reorder(float[][] xr, int ch, int gr)
         {
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
             int freq, freq3;
             int index;
             int sfb, sfb_start, sfb_lines;
             int src_line, des_line;
             float[][] xr_1d = xr;
 
-            if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
+            if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
             {
                 for (index = 0; index < 576; index++)
                 {
                     out1d[index] = 0.0f;
                 }
 
-                if (gr_info.mixed_block_flag != 0)
+                if (gr_info.MixedBlockFlag != 0)
                 {
                     // NO REORDER FOR LOW 2 SUBBANDS
                     for (index = 0; index < 36; index++)
@@ -1339,7 +1329,7 @@ namespace Cave.Media.Audio.MP3
                     }
 
                     // REORDERING FOR REST SWITCHED SHORT
-                    for (sfb = 3, sfb_start = sfBandIndex[sfreq].s[3], sfb_lines = sfBandIndex[sfreq].s[4] - sfb_start; sfb < 13; sfb++, sfb_start = sfBandIndex[sfreq].s[sfb], sfb_lines = sfBandIndex[sfreq].s[sfb + 1] - sfb_start)
+                    for (sfb = 3, sfb_start = sfBandIndex[sfreq].S[3], sfb_lines = sfBandIndex[sfreq].S[4] - sfb_start; sfb < 13; sfb++, sfb_start = sfBandIndex[sfreq].S[sfb], sfb_lines = sfBandIndex[sfreq].S[sfb + 1] - sfb_start)
                     {
                         int sfb_start3 = (sfb_start << 2) - sfb_start;
 
@@ -1375,7 +1365,7 @@ namespace Cave.Media.Audio.MP3
                     // pure short
                     for (index = 0; index < 576; index++)
                     {
-                        int j = reorder_table[sfreq][index];
+                        int j = reorderTable[sfreq][index];
                         int reste = j % SSLIMIT;
                         int quotien = (j - reste) / SSLIMIT;
                         out1d[index] = xr_1d[quotien][reste];
@@ -1395,7 +1385,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        void stereo(MP3AudioFrameHeader header, int gr)
+        void Stereo(MP3AudioFrameHeader header, int gr)
         {
             int sb, ss;
 
@@ -1414,7 +1404,7 @@ namespace Cave.Media.Audio.MP3
             }
             else
             {
-                grInfo gr_info = sideInfo.ch[0].gr[gr];
+                GRInfo gr_info = sideInfo.CH[0].GR[gr];
                 int mode_ext = header.ModeExtension;
 
                 int sfb;
@@ -1430,7 +1420,7 @@ namespace Cave.Media.Audio.MP3
                     i_stereo = (header.ModeExtension & 0x1) != 0;
                 }
                 bool lsf = (header.Version == MP3AudioFrameVersion.Version2) || (header.Version == MP3AudioFrameVersion.Version25);
-                int io_type = gr_info.scalefac_compress & 1;
+                int io_type = gr_info.ScaleFactorCompress & 1;
 
                 // initialization
                 for (i = 0; i < 576; i++)
@@ -1442,9 +1432,9 @@ namespace Cave.Media.Audio.MP3
 
                 if (i_stereo)
                 {
-                    if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2))
+                    if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
                     {
-                        if (gr_info.mixed_block_flag != 0)
+                        if (gr_info.MixedBlockFlag != 0)
                         {
                             int max_sfb = 0;
 
@@ -1454,8 +1444,8 @@ namespace Cave.Media.Audio.MP3
                                 sfbcnt = 2;
                                 for (sfb = 12; sfb >= 3; sfb--)
                                 {
-                                    i = sfBandIndex[sfreq].s[sfb];
-                                    lines = sfBandIndex[sfreq].s[sfb + 1] - i;
+                                    i = sfBandIndex[sfreq].S[sfb];
+                                    lines = sfBandIndex[sfreq].S[sfb + 1] - i;
                                     i = (i << 2) - i + ((j + 1) * lines) - 1;
 
                                     while (lines > 0)
@@ -1485,22 +1475,22 @@ namespace Cave.Media.Audio.MP3
 
                                 while (sfb < 12)
                                 {
-                                    temp = sfBandIndex[sfreq].s[sfb];
-                                    sb = sfBandIndex[sfreq].s[sfb + 1] - temp;
+                                    temp = sfBandIndex[sfreq].S[sfb];
+                                    sb = sfBandIndex[sfreq].S[sfb + 1] - temp;
                                     i = (temp << 2) - temp + (j * sb);
 
                                     for (; sb > 0; sb--)
                                     {
-                                        isPos[i] = scaleFactors[1].s[j][sfb];
+                                        isPos[i] = scaleFactors[1].S[j][sfb];
                                         if (isPos[i] != 7)
                                         {
                                             if (lsf)
                                             {
-                                                i_stereo_k_values(isPos[i], io_type, i);
+                                                IStereoKValues(isPos[i], io_type, i);
                                             }
                                             else
                                             {
-                                                isRatio[i] = TAN12[isPos[i]];
+                                                isRatio[i] = tan12[isPos[i]];
                                             }
                                         }
 
@@ -1510,11 +1500,11 @@ namespace Cave.Media.Audio.MP3
                                     // for (; sb>0...
                                     sfb++;
                                 } // while (sfb < 12)
-                                sfb = sfBandIndex[sfreq].s[10];
-                                sb = sfBandIndex[sfreq].s[11] - sfb;
+                                sfb = sfBandIndex[sfreq].S[10];
+                                sb = sfBandIndex[sfreq].S[11] - sfb;
                                 sfb = (sfb << 2) - sfb + (j * sb);
-                                temp = sfBandIndex[sfreq].s[11];
-                                sb = sfBandIndex[sfreq].s[12] - temp;
+                                temp = sfBandIndex[sfreq].S[11];
+                                sb = sfBandIndex[sfreq].S[12] - temp;
                                 i = (temp << 2) - temp + (j * sb);
 
                                 for (; sb > 0; sb--)
@@ -1560,28 +1550,28 @@ namespace Cave.Media.Audio.MP3
                                     // if (ro ...
                                 } // while (i>=0)
                                 i = 0;
-                                while (sfBandIndex[sfreq].l[i] <= sb)
+                                while (sfBandIndex[sfreq].L[i] <= sb)
                                 {
                                     i++;
                                 }
 
                                 sfb = i;
-                                i = sfBandIndex[sfreq].l[i];
+                                i = sfBandIndex[sfreq].L[i];
                                 for (; sfb < 8; sfb++)
                                 {
-                                    sb = sfBandIndex[sfreq].l[sfb + 1] - sfBandIndex[sfreq].l[sfb];
+                                    sb = sfBandIndex[sfreq].L[sfb + 1] - sfBandIndex[sfreq].L[sfb];
                                     for (; sb > 0; sb--)
                                     {
-                                        isPos[i] = scaleFactors[1].l[sfb];
+                                        isPos[i] = scaleFactors[1].L[sfb];
                                         if (isPos[i] != 7)
                                         {
                                             if (lsf)
                                             {
-                                                i_stereo_k_values(isPos[i], io_type, i);
+                                                IStereoKValues(isPos[i], io_type, i);
                                             }
                                             else
                                             {
-                                                isRatio[i] = TAN12[isPos[i]];
+                                                isRatio[i] = tan12[isPos[i]];
                                             }
                                         }
 
@@ -1605,8 +1595,8 @@ namespace Cave.Media.Audio.MP3
                                 sfbcnt = -1;
                                 for (sfb = 12; sfb >= 0; sfb--)
                                 {
-                                    temp = sfBandIndex[sfreq].s[sfb];
-                                    lines = sfBandIndex[sfreq].s[sfb + 1] - temp;
+                                    temp = sfBandIndex[sfreq].S[sfb];
+                                    lines = sfBandIndex[sfreq].S[sfb + 1] - temp;
                                     i = (temp << 2) - temp + ((j + 1) * lines) - 1;
 
                                     while (lines > 0)
@@ -1629,21 +1619,21 @@ namespace Cave.Media.Audio.MP3
                                 sfb = sfbcnt + 1;
                                 while (sfb < 12)
                                 {
-                                    temp = sfBandIndex[sfreq].s[sfb];
-                                    sb = sfBandIndex[sfreq].s[sfb + 1] - temp;
+                                    temp = sfBandIndex[sfreq].S[sfb];
+                                    sb = sfBandIndex[sfreq].S[sfb + 1] - temp;
                                     i = (temp << 2) - temp + (j * sb);
                                     for (; sb > 0; sb--)
                                     {
-                                        isPos[i] = scaleFactors[1].s[j][sfb];
+                                        isPos[i] = scaleFactors[1].S[j][sfb];
                                         if (isPos[i] != 7)
                                         {
                                             if (lsf)
                                             {
-                                                i_stereo_k_values(isPos[i], io_type, i);
+                                                IStereoKValues(isPos[i], io_type, i);
                                             }
                                             else
                                             {
-                                                isRatio[i] = TAN12[isPos[i]];
+                                                isRatio[i] = tan12[isPos[i]];
                                             }
                                         }
 
@@ -1654,11 +1644,11 @@ namespace Cave.Media.Audio.MP3
                                     sfb++;
                                 } // while (sfb<12)
 
-                                temp = sfBandIndex[sfreq].s[10];
-                                temp2 = sfBandIndex[sfreq].s[11];
+                                temp = sfBandIndex[sfreq].S[10];
+                                temp2 = sfBandIndex[sfreq].S[11];
                                 sb = temp2 - temp;
                                 sfb = (temp << 2) - temp + (j * sb);
-                                sb = sfBandIndex[sfreq].s[12] - temp2;
+                                sb = sfBandIndex[sfreq].S[12] - temp2;
                                 i = (temp2 << 2) - temp2 + (j * sb);
 
                                 for (; sb > 0; sb--)
@@ -1709,36 +1699,36 @@ namespace Cave.Media.Audio.MP3
                             }
                         }
                         i = 0;
-                        while (sfBandIndex[sfreq].l[i] <= sb)
+                        while (sfBandIndex[sfreq].L[i] <= sb)
                         {
                             i++;
                         }
 
                         sfb = i;
-                        i = sfBandIndex[sfreq].l[i];
+                        i = sfBandIndex[sfreq].L[i];
                         for (; sfb < 21; sfb++)
                         {
-                            sb = sfBandIndex[sfreq].l[sfb + 1] - sfBandIndex[sfreq].l[sfb];
+                            sb = sfBandIndex[sfreq].L[sfb + 1] - sfBandIndex[sfreq].L[sfb];
                             for (; sb > 0; sb--)
                             {
-                                isPos[i] = scaleFactors[1].l[sfb];
+                                isPos[i] = scaleFactors[1].L[sfb];
                                 if (isPos[i] != 7)
                                 {
                                     if (lsf)
                                     {
-                                        i_stereo_k_values(isPos[i], io_type, i);
+                                        IStereoKValues(isPos[i], io_type, i);
                                     }
                                     else
                                     {
-                                        isRatio[i] = TAN12[isPos[i]];
+                                        isRatio[i] = tan12[isPos[i]];
                                     }
                                 }
 
                                 i++;
                             }
                         }
-                        sfb = sfBandIndex[sfreq].l[20];
-                        for (sb = 576 - sfBandIndex[sfreq].l[21]; (sb > 0) && (i < 576); sb--)
+                        sfb = sfBandIndex[sfreq].L[20];
+                        for (sb = 576 - sfBandIndex[sfreq].L[21]; (sb > 0) && (i < 576); sb--)
                         {
                             isPos[i] = isPos[sfb]; // error here : i >=576
 
@@ -1803,19 +1793,19 @@ namespace Cave.Media.Audio.MP3
             // channels == 2
         }
 
-        void antialias(int ch, int gr)
+        void Antialias(int ch, int gr)
         {
             int sb18, ss, sb18lim;
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
 
             // 31 alias-reduction operations between each pair of sub-bands
             // with 8 butterflies between each pair
-            if ((gr_info.window_switching_flag != 0) && (gr_info.block_type == 2) && !(gr_info.mixed_block_flag != 0))
+            if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2) && !(gr_info.MixedBlockFlag != 0))
             {
                 return;
             }
 
-            if ((gr_info.window_switching_flag != 0) && (gr_info.mixed_block_flag != 0) && (gr_info.block_type == 2))
+            if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.MixedBlockFlag != 0) && (gr_info.BlockType == 2))
             {
                 sb18lim = 18;
             }
@@ -1838,18 +1828,18 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        void hybrid(int ch, int gr)
+        void Hybrid(int ch, int gr)
         {
             int bt;
             int sb18;
-            grInfo gr_info = sideInfo.ch[ch].gr[gr];
+            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
             float[] tsOut;
 
             float[][] prvblk;
 
             for (sb18 = 0; sb18 < 576; sb18 += 18)
             {
-                bt = ((gr_info.window_switching_flag != 0) && (gr_info.mixed_block_flag != 0) && (sb18 < 36)) ? 0 : gr_info.block_type;
+                bt = ((gr_info.WindowSwitchingFlag != 0) && (gr_info.MixedBlockFlag != 0) && (sb18 < 36)) ? 0 : gr_info.BlockType;
 
                 tsOut = out1d;
 
@@ -1859,8 +1849,7 @@ namespace Cave.Media.Audio.MP3
                     tsOutCopy[cc] = tsOut[cc + sb18];
                 }
 
-                inv_mdct(tsOutCopy, rawout, bt);
-
+                InvMdct(tsOutCopy, rawout, bt);
 
                 for (int cc = 0; cc < 18; cc++)
                 {
@@ -1911,7 +1900,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        void do_downmix()
+        void DoDownmix()
         {
             for (int sb = 0; sb < SSLIMIT; sb++)
             {
@@ -1924,7 +1913,7 @@ namespace Cave.Media.Audio.MP3
             }
         }
 
-        void inv_mdct(float[] in_Renamed, float[] out_Renamed, int block_type)
+        void InvMdct(float[] in_Renamed, float[] out_Renamed, int block_type)
         {
             float[] win_bt;
             int i;
@@ -1933,8 +1922,6 @@ namespace Cave.Media.Audio.MP3
             float tmpf_10, tmpf_11, tmpf_12, tmpf_13, tmpf_14, tmpf_15, tmpf_16, tmpf_17;
 
             tmpf_0 = tmpf_1 = tmpf_2 = tmpf_3 = tmpf_4 = tmpf_5 = tmpf_6 = tmpf_7 = tmpf_8 = tmpf_9 = tmpf_10 = tmpf_11 = tmpf_12 = tmpf_13 = tmpf_14 = tmpf_15 = tmpf_16 = tmpf_17 = 0.0f;
-
-
 
             if (block_type == 2)
             {

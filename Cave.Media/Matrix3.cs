@@ -1,3 +1,5 @@
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -16,9 +18,8 @@ namespace Cave.Media
         /// <summary>
         /// Parses a <see cref="ToString()"/> output.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Literale nicht als lokalisierte Parameter übergeben", MessageId = "Cave.Vector3.Parse(System.String)")]
+        /// <param name="text">The string to parse.</param>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 Parse(string text)
         {
             if (text == null)
@@ -53,7 +54,7 @@ namespace Cave.Media
         /// Creates a new <see cref="Matrix3"/> with the specified rows.
         /// </summary>
         /// <param name="vectors">The row vectors.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 FromRows(Vector3[] vectors)
         {
             if (vectors == null)
@@ -75,7 +76,7 @@ namespace Cave.Media
         /// <param name="v1">Defines the first vector.</param>
         /// <param name="v2">Defines the second vector.</param>
         /// <param name="v3">Defines the third vector.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 FromRows(Vector3 v1, Vector3 v2, Vector3 v3)
         {
             var result = default(Matrix3);
@@ -95,7 +96,7 @@ namespace Cave.Media
         /// Creates a new <see cref="Matrix3"/> with the specified columns.
         /// </summary>
         /// <param name="vectors">The column vectors.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 FromColumns(Vector3[] vectors)
         {
             if (vectors == null)
@@ -117,7 +118,7 @@ namespace Cave.Media
         /// <param name="v1">Defines the first vector.</param>
         /// <param name="v2">Defines the second vector.</param>
         /// <param name="v3">Defines the third vector.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 FromColumns(Vector3 v1, Vector3 v2, Vector3 v3)
         {
             var result = default(Matrix3);
@@ -193,24 +194,24 @@ namespace Cave.Media
         public static Matrix3 RotationZ(float radians)
         {
             float cos = (float)Math.Cos(radians);
-            float l_Sin = (float)Math.Sin(radians);
-            return Create(cos, l_Sin, 0, -l_Sin, cos, 0, 0, 0, 1);
+            float sin = (float)Math.Sin(radians);
+            return Create(cos, sin, 0, -sin, cos, 0, 0, 0, 1);
         }
 
         /// <summary>
         /// Gets a scaling matrix.
         /// </summary>
-        /// <param name="X">the x scaling factor.</param>
-        /// <param name="Y">the y scaling factor.</param>
-        /// <param name="Z">the z scaling factor.</param>
+        /// <param name="x">the x scaling factor.</param>
+        /// <param name="y">the y scaling factor.</param>
+        /// <param name="z">the z scaling factor.</param>
         /// <returns>Returns a scaling <see cref="Matrix3"/>.</returns>
-        public static Matrix3 Scaling(float X, float Y, float Z)
+        public static Matrix3 Scaling(float x, float y, float z)
         {
-            return Create(X, 0, 0, 0, Y, 0, 0, 0, Z);
+            return Create(x, 0, 0, 0, y, 0, 0, 0, z);
         }
 
         /// <summary>
-        /// Provides the Identity(Einheits-)matrix.
+        /// Gets the Identity(Einheits-)matrix.
         /// </summary>
         public static Matrix3 Identity
         {
@@ -226,9 +227,9 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Matrix3"/> instances for equality.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">First instance.</param>
+        /// <param name="second">Second instance.</param>
+        /// <returns>Returns true if the two instances are equal.</returns>
         public static bool operator ==(Matrix3 first, Matrix3 second)
         {
             return Equals(null, first) ? Equals(null, second) : first.Equals(second);
@@ -237,9 +238,9 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Matrix3"/> instances for inequality.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">First instance.</param>
+        /// <param name="second">Second instance.</param>
+        /// <returns>Returns true if the two instances are not equal.</returns>
         public static bool operator !=(Matrix3 first, Matrix3 second)
         {
             return Equals(null, first) ? !Equals(null, second) : !first.Equals(second);
@@ -248,9 +249,9 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the sum of two <see cref="Matrix3"/> structs.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">First instance.</param>
+        /// <param name="second">Second instance.</param>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 operator +(Matrix3 first, Matrix3 second)
         {
             return first.Add(second);
@@ -259,9 +260,9 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the product of two <see cref="Matrix3"/> structs.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">First instance.</param>
+        /// <param name="second">Second instance.</param>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 operator *(Matrix3 first, Matrix3 second)
         {
             return first.Multiply(second);
@@ -270,9 +271,9 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the product of a <see cref="Matrix3"/> struct and a <see cref="Vector3"/>.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">First instance.</param>
+        /// <param name="second">Second instance.</param>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Vector3 operator *(Matrix3 first, Vector3 second)
         {
             return first.Multiply(second);
@@ -281,9 +282,9 @@ namespace Cave.Media
         /// <summary>
         /// Calculates the product of a <see cref="Matrix3"/> struct and a scalar.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">First instance.</param>
+        /// <param name="second">Second instance.</param>
+        /// <returns>A new <see cref="Matrix3"/> structure.</returns>
         public static Matrix3 operator *(Matrix3 first, float second)
         {
             return first.Multiply(second);
@@ -405,7 +406,7 @@ namespace Cave.Media
         /// <summary>
         /// Gets the column vectors.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Vector3"/> structure.</returns>
         public Vector3[] ToColumns()
         {
             return new Vector3[]
@@ -419,7 +420,7 @@ namespace Cave.Media
         /// <summary>
         /// Gets the row vectors.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Vector3"/> structure.</returns>
         public Vector3[] ToRows()
         {
             return new Vector3[]
@@ -543,10 +544,7 @@ namespace Cave.Media
         /// Returns the matrix values as string of the form [(v11, v12, v13), (v21, v22, v23), (v31, v32, v33)]. All values are encoded with pre decimal DOT decimal place.
         /// This encoding is culture invariant!.
         /// </summary>
-        /// <returns>
-        /// Returns the matrix values as string of the form [(v11, v12, v13), (v21, v22, v23), (v31, v32, v33)]. All values are encoded with pre decimal DOT decimal place.
-        /// This encoding is culture invariant!.
-        /// </returns>
+        /// <returns>Returns a string containing all values.</returns>
         public override string ToString()
         {
             var result = new StringBuilder();
@@ -597,3 +595,5 @@ namespace Cave.Media
         #endregion
     }
 }
+
+#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter

@@ -10,11 +10,11 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2SYLTFrame : ID3v2Frame
     {
-        bool m_Parsed = false;
-        ContentType m_ContentType;
-        string m_Language = null;
-        string m_Descriptor = null;
-        ID3v2Event[] m_Events = null;
+        bool parsed = false;
+        ContentType contentType;
+        string language = null;
+        string descriptor = null;
+        ID3v2Event[] events = null;
 
         #region Event class
 
@@ -113,15 +113,15 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             // encoding
-            var encoding = (ID3v2EncodingType)m_Content[0];
+            var encoding = (ID3v2EncodingType)Content[0];
 
             // language
-            m_Language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
+            language = ID3v2Encoding.ISO88591.GetString(Content, 1, 3);
 
             // timestamp
             bool isTimeStamp;
             {
-                byte mode = m_Content[4];
+                byte mode = Content[4];
                 switch (mode)
                 {
                     case 0: isTimeStamp = false; break;
@@ -131,29 +131,29 @@ namespace Cave.Media.Audio.ID3.Frames
             }
 
             // content type
-            m_ContentType = (ContentType)m_Content[5];
+            contentType = (ContentType)Content[5];
 
             // read descriptor
             int start = 6;
-            start += ID3v2Encoding.Parse(encoding, m_Content, start, out m_Descriptor);
+            start += ID3v2Encoding.Parse(encoding, Content, start, out descriptor);
 
             // read events
             var l_Events = new List<Event>();
-            while (start < m_Content.Length)
+            while (start < Content.Length)
             {
                 string text;
-                start += ID3v2Encoding.Parse(encoding, m_Content, start, out text);
+                start += ID3v2Encoding.Parse(encoding, Content, start, out text);
                 long value = 0;
                 for (int i = 0; i < 4; i++)
                 {
-                    value = (value << 8) | m_Content[start++];
+                    value = (value << 8) | Content[start++];
                 }
 
                 l_Events.Add(new Event(text, value, isTimeStamp));
             }
-            m_Events = l_Events.ToArray();
+            events = l_Events.ToArray();
 
-            m_Parsed = true;
+            parsed = true;
         }
 
         #endregion
@@ -174,12 +174,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return m_Language;
+                return language;
             }
         }
 
@@ -190,12 +190,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return m_Descriptor;
+                return descriptor;
             }
         }
 
@@ -206,12 +206,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return m_ContentType;
+                return contentType;
             }
         }
 
@@ -222,12 +222,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (!m_Parsed)
+                if (!parsed)
                 {
                     Parse();
                 }
 
-                return (ID3v2Event[])m_Events.Clone();
+                return (ID3v2Event[])events.Clone();
             }
         }
 

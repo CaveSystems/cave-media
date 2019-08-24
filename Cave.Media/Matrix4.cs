@@ -1,3 +1,5 @@
+#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -552,17 +554,14 @@ namespace Cave.Media
                 (v11 * matrix.v12) + (v12 * matrix.v22) + (v13 * matrix.v32) + (matrix.v14 * v42),
                 (v11 * matrix.v13) + (v12 * matrix.v23) + (v13 * matrix.v33) + (matrix.v14 * v43),
                 (v11 * matrix.v14) + (v12 * matrix.v24) + (v13 * matrix.v34) + (matrix.v14 * v44),
-
                 (v21 * matrix.v11) + (v22 * matrix.v21) + (v23 * matrix.v31) + (matrix.v24 * v41),
                 (v21 * matrix.v12) + (v22 * matrix.v22) + (v23 * matrix.v32) + (matrix.v24 * v42),
                 (v21 * matrix.v13) + (v22 * matrix.v23) + (v23 * matrix.v33) + (matrix.v24 * v43),
                 (v21 * matrix.v14) + (v22 * matrix.v24) + (v23 * matrix.v34) + (matrix.v24 * v44),
-
                 (v31 * matrix.v11) + (v32 * matrix.v21) + (v33 * matrix.v31) + (matrix.v34 * v41),
                 (v31 * matrix.v12) + (v32 * matrix.v22) + (v33 * matrix.v32) + (matrix.v34 * v42),
                 (v31 * matrix.v13) + (v32 * matrix.v23) + (v33 * matrix.v33) + (matrix.v34 * v43),
                 (v31 * matrix.v14) + (v32 * matrix.v24) + (v33 * matrix.v34) + (matrix.v34 * v44),
-
                 (v41 * matrix.v11) + (v42 * matrix.v21) + (v43 * matrix.v31) + (matrix.v44 * v41),
                 (v41 * matrix.v12) + (v42 * matrix.v22) + (v43 * matrix.v32) + (matrix.v44 * v42),
                 (v41 * matrix.v13) + (v42 * matrix.v23) + (v43 * matrix.v33) + (matrix.v44 * v43),
@@ -675,3 +674,5 @@ namespace Cave.Media
         #endregion
     }
 }
+
+#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter

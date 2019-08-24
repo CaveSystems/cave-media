@@ -8,15 +8,15 @@ namespace Cave.Media.Audio.MP3
     /// </summary>
     public class MP3InvalidFrame : MP3MetaFrame
     {
-        FifoBuffer m_Buffer = new FifoBuffer();
+        FifoBuffer buffer = new FifoBuffer();
 
         internal void Add(byte[] buffer)
         {
-            m_Buffer.Enqueue(buffer);
+            this.buffer.Enqueue(buffer, false);
         }
 
         /// <summary>
-        /// Creates a new empty instance.
+        /// Initializes a new instance of the <see cref="MP3InvalidFrame"/> class.
         /// </summary>
         public MP3InvalidFrame()
         {
@@ -39,7 +39,7 @@ namespace Cave.Media.Audio.MP3
         {
             get
             {
-                return m_Buffer.ToArray();
+                return buffer.ToArray();
             }
         }
 
@@ -50,7 +50,7 @@ namespace Cave.Media.Audio.MP3
         {
             get
             {
-                return m_Buffer.Length;
+                return buffer.Length;
             }
         }
 

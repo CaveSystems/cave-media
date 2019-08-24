@@ -8,7 +8,7 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2ETCOFrame : ID3v2Frame
     {
-        ID3v2Event[] m_Events = null;
+        ID3v2Event[] events = null;
 
         #region Event class
 
@@ -22,7 +22,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// </summary>
             /// <param name="type">The EventType.</param>
             /// <param name="value">The timestamp.</param>
-            /// <returns></returns>
+            /// <returns>A new <see cref="Event"/> instance.</returns>
             public static Event FromTimeStamp(EventType type, long value)
             {
                 return new Event(type, value, true);
@@ -33,7 +33,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// </summary>
             /// <param name="type">The EventType.</param>
             /// <param name="value">The frame number.</param>
-            /// <returns></returns>
+            /// <returns>A new <see cref="Event"/> instance.</returns>
             public static Event FromFrameNumber(EventType type, long value)
             {
                 return new Event(type, value, true);
@@ -275,7 +275,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             bool isTimeStamp;
-            byte mode = m_Content[0];
+            byte mode = Content[0];
             switch (mode)
             {
                 case 0: isTimeStamp = false; break;
@@ -284,18 +284,18 @@ namespace Cave.Media.Audio.ID3.Frames
             }
             var events = new List<Event>();
             int i = 1;
-            while (i < m_Data.Length)
+            while (i < RawData.Length)
             {
-                var type = (EventType)m_Data[i++];
+                var type = (EventType)RawData[i++];
                 int value = 0;
                 for (int n = 0; n < 4; n++)
                 {
-                    value = (value << 8) | m_Content[i++];
+                    value = (value << 8) | Content[i++];
                 }
 
                 events.Add(new Event(type, value, isTimeStamp));
             }
-            m_Events = events.ToArray();
+            this.events = events.ToArray();
         }
 
         #endregion
@@ -316,12 +316,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Events == null)
+                if (events == null)
                 {
                     Parse();
                 }
 
-                return (Event[])m_Events.Clone();
+                return (Event[])events.Clone();
             }
         }
     }

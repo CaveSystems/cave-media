@@ -54,12 +54,12 @@ namespace Cave.Media.Audio.ID3.Frames
         void ParseData()
         {
             int start = 0;
-            EncodingType = (ID3v2EncodingType)m_Content[start++];
-            start += ID3v2Encoding.Parse(EncodingType, m_Content, start, out string name);
-            start += ID3v2Encoding.Parse(EncodingType, m_Content, start, out string value);
-            if (start != m_Content.Length)
+            EncodingType = (ID3v2EncodingType)Content[start++];
+            start += ID3v2Encoding.Parse(EncodingType, Content, start, out string name);
+            start += ID3v2Encoding.Parse(EncodingType, Content, start, out string value);
+            if (start != Content.Length)
             {
-                Trace.WriteLine(string.Format("{0} bytes garbage at end of frame!", m_Content.Length - start));
+                Trace.WriteLine(string.Format("{0} bytes garbage at end of frame!", Content.Length - start));
             }
             Name = name;
             Value = value;

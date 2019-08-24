@@ -101,19 +101,19 @@ namespace Cave.Media.Audio.ID3.Frames
             }
         }
 
-        ID3v2PictureType m_PictureType;
-        string m_MimeType;
-        string m_Description;
-        int m_ImageDataStart;
+        ID3v2PictureType pictureType;
+        string mimeType;
+        string description;
+        int imageDataStart;
 
         #region Parser functions
         void Parse()
         {
-            var encoding = (ID3v2EncodingType)m_Content[0];
-            int index = 1 + ID3v2Encoding.Parse(0, m_Content, 1, out m_MimeType);
-            m_PictureType = (ID3v2PictureType)m_Content[index++];
-            index += ID3v2Encoding.Parse(encoding, m_Content, index, out m_Description);
-            m_ImageDataStart = index;
+            var encoding = (ID3v2EncodingType)Content[0];
+            int index = 1 + ID3v2Encoding.Parse(0, Content, 1, out mimeType);
+            pictureType = (ID3v2PictureType)Content[index++];
+            index += ID3v2Encoding.Parse(encoding, Content, index, out description);
+            imageDataStart = index;
         }
 
         #endregion
@@ -134,12 +134,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0)
+                if (imageDataStart <= 0)
                 {
                     Parse();
                 }
 
-                return m_MimeType;
+                return mimeType;
             }
         }
 
@@ -150,12 +150,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0)
+                if (imageDataStart <= 0)
                 {
                     Parse();
                 }
 
-                return m_PictureType;
+                return pictureType;
             }
         }
 
@@ -166,12 +166,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0)
+                if (imageDataStart <= 0)
                 {
                     Parse();
                 }
 
-                return m_Description;
+                return description;
             }
         }
 
@@ -182,12 +182,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_ImageDataStart <= 0)
+                if (imageDataStart <= 0)
                 {
                     Parse();
                 }
 
-                return new DataFrameReader(m_Content).Read(m_ImageDataStart, m_Content.Length - m_ImageDataStart);
+                return new DataFrameReader(Content).Read(imageDataStart, Content.Length - imageDataStart);
             }
         }
 

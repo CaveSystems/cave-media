@@ -30,7 +30,7 @@ namespace Cave.Media.Lyrics
         /// <value>The backbuffer.</value>
         /// <remarks>
         /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
-        /// Do not save references to this across play calls!
+        /// Do not save references to this across play calls!.
         /// </remarks>
         Bitmap ToBitmap();
 #else

@@ -18,16 +18,16 @@ namespace Cave.Media.Audio.MP3
     /// </summary>
     public sealed class MP3AudioEqualizer
     {
-        const int BANDS = 32;
+        const int bands = 32;
 
         /// <summary>
         /// Equalizer setting to denote that a given band will not be present in the output signal.
         /// </summary>
         public static readonly float BandNotPresent = float.NegativeInfinity;
 
-        float[] m_Values;
+        float[] values;
 
-        float limit(float eq)
+        float Limit(float eq)
         {
             if (eq == BandNotPresent)
             {
@@ -45,7 +45,7 @@ namespace Cave.Media.Audio.MP3
         /// <summary>Creates a new Equalizer instance.</summary>
         public MP3AudioEqualizer()
         {
-            m_Values = new float[BANDS];
+            values = new float[bands];
         }
 
         /// <summary>Initializes a new instance of the <see cref="MP3AudioEqualizer"/> class.</summary>
@@ -60,14 +60,14 @@ namespace Cave.Media.Audio.MP3
             }
 
             Reset();
-            if (itemstings.Length != BANDS)
+            if (itemstings.Length != bands)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            for (int i = 0; i < BANDS; i++)
+            for (int i = 0; i < bands; i++)
             {
-                m_Values[i] = limit(itemstings[i]);
+                values[i] = Limit(itemstings[i]);
             }
         }
 
@@ -75,9 +75,9 @@ namespace Cave.Media.Audio.MP3
         /// </summary>
         public void Reset()
         {
-            for (int i = 0; i < BANDS; i++)
+            for (int i = 0; i < bands; i++)
             {
-                m_Values[i] = 0.0f;
+                values[i] = 0.0f;
             }
         }
 
@@ -89,11 +89,11 @@ namespace Cave.Media.Audio.MP3
         {
             get
             {
-                return m_Values[band];
+                return values[band];
             }
             set
             {
-                m_Values[band] = limit(value);
+                values[band] = Limit(value);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public float GetFactor(int band)
         {
-            float value = m_Values[band];
+            float value = values[band];
             return value == BandNotPresent ? 0.0f : (float)Math.Pow(2.0, value);
         }
 
@@ -117,8 +117,8 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public float[] GetFactors()
         {
-            float[] result = new float[BANDS];
-            for (int i = 0; i < BANDS; i++)
+            float[] result = new float[bands];
+            for (int i = 0; i < bands; i++)
             {
                 result[i] = GetFactor(i);
             }

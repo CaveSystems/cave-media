@@ -9,7 +9,7 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2SYTCFrame : ID3v2Frame
     {
-        ID3v2Event[] m_Events = null;
+        ID3v2Event[] events = null;
 
         #region Event class
 
@@ -81,7 +81,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             bool isTimeStamp;
-            byte mode = m_Content[0];
+            byte mode = Content[0];
             switch (mode)
             {
                 case 0: isTimeStamp = false; break;
@@ -90,19 +90,19 @@ namespace Cave.Media.Audio.ID3.Frames
             }
             var l_Events = new List<Event>();
             int i = 1;
-            while (i < m_Content.Length)
+            while (i < Content.Length)
             {
-                ushort beat = m_Content[i++];
+                ushort beat = Content[i++];
                 if (beat == 0xFF)
                 {
-                    beat += m_Content[i++];
+                    beat += Content[i++];
                 }
 
                 var type = (EventType)beat;
                 int value = 0;
                 for (int n = 0; n < 4; n++)
                 {
-                    value = (value << 8) | m_Content[i++];
+                    value = (value << 8) | Content[i++];
                 }
 
                 l_Events.Add(new Event(type, value, isTimeStamp));
@@ -127,12 +127,12 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             get
             {
-                if (m_Events == null)
+                if (events == null)
                 {
                     Parse();
                 }
 
-                return (ID3v2Event[])m_Events.Clone();
+                return (ID3v2Event[])events.Clone();
             }
         }
     }
