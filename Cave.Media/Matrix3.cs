@@ -31,15 +31,15 @@ namespace Cave.Media
                 throw new FormatException();
             }
 
-            string[] l_Vectors = text.Substring(2, text.Length - 4).Split(new string[] { "), (" }, StringSplitOptions.None);
-            if (l_Vectors.Length != 3)
+            string[] vectors = text.Substring(2, text.Length - 4).Split(new string[] { "), (" }, StringSplitOptions.None);
+            if (vectors.Length != 3)
             {
                 throw new FormatException();
             }
 
-            var v1 = Vector3.Parse("(" + l_Vectors[0] + ")");
-            var v2 = Vector3.Parse("(" + l_Vectors[1] + ")");
-            var v3 = Vector3.Parse("(" + l_Vectors[2] + ")");
+            var v1 = Vector3.Parse("(" + vectors[0] + ")");
+            var v2 = Vector3.Parse("(" + vectors[1] + ")");
+            var v3 = Vector3.Parse("(" + vectors[2] + ")");
             return FromColumns(v1, v2, v3);
         }
 
@@ -47,7 +47,7 @@ namespace Cave.Media
         /// Obtains an empty <see cref="Matrix3"/>.
         /// </summary>
         /// <returns>Returns a new empty <see cref="Matrix3"/> instance (all values set to 0).</returns>
-        public static Matrix3 Empty => default(Matrix3);
+        public static Matrix3 Empty => default;
 
         /// <summary>
         /// Creates a new <see cref="Matrix3"/> with the specified rows.
@@ -78,7 +78,7 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix3 FromRows(Vector3 v1, Vector3 v2, Vector3 v3)
         {
-            var result = new Matrix3();
+            var result = default(Matrix3);
             result.v11 = v1.X;
             result.v21 = v1.Y;
             result.v31 = v1.Z;
@@ -120,7 +120,7 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix3 FromColumns(Vector3 v1, Vector3 v2, Vector3 v3)
         {
-            var result = new Matrix3();
+            var result = default(Matrix3);
             result.v11 = v1.X;
             result.v12 = v1.Y;
             result.v13 = v1.Z;
@@ -148,7 +148,7 @@ namespace Cave.Media
         /// <returns>Returns a new <see cref="Matrix3"/> instance with the specified values.</returns>
         public static Matrix3 Create(float p11, float p12, float p13, float p21, float p22, float p23, float p31, float p32, float p33)
         {
-            var result = new Matrix3();
+            var result = default(Matrix3);
             result.v11 = p11;
             result.v12 = p12;
             result.v13 = p13;

@@ -38,38 +38,38 @@ namespace Cave.Media.OpenGL
         public class MouseButtonEventArgs : EventArgs
         {
             /// <summary>
-            /// mouse cursor position in window coordinates (<see cref="Vector2"/> in range [0,0;width,height]).
+            /// Gets mouse cursor position in window coordinates (<see cref="Vector2"/> in range [0,0;width,height]).
             /// </summary>
             public Vector2 Position { get; private set; }
 
             /// <summary>
-            /// mouse cursor position in normalized window coordinates (<see cref="Vector2"/> in range [0,0;1,1]).
+            /// Gets mouse cursor position in normalized window coordinates (<see cref="Vector2"/> in range [0,0;1,1]).
             /// </summary>
             public Vector2 PositionNorm { get; private set; }
 
             /// <summary>
-            /// the mouse button that triggered this event.
+            /// Gets the mouse button that triggered this event.
             /// </summary>
             public MouseButton Button { get; private set; }
 
             /// <summary>
-            /// the input state <see cref="InputState"/> of the button when the event was triggered.
+            /// Gets the input state <see cref="InputState"/> of the button when the event was triggered.
             /// </summary>
             public InputState State { get; private set; }
 
             /// <summary>
-            /// additional keys that were pressed when the event was triggered.
+            /// Gets additional keys that were pressed when the event was triggered.
             /// </summary>
             public KeyMods Mods { get; private set; }
 
             /// <summary>
-            /// creates a new <see cref="MouseButtonEventArgs"/> with initial values.
+            /// Initializes a new instance of the <see cref="MouseButtonEventArgs"/> class.
             /// </summary>
-            /// <param name="position"></param>
-            /// <param name="positionNorm"></param>
-            /// <param name="button"></param>
-            /// <param name="state"></param>
-            /// <param name="mods"></param>
+            /// <param name="position">Cursor position.</param>
+            /// <param name="positionNorm">Normalized position.</param>
+            /// <param name="button">Active buttons.</param>
+            /// <param name="state">Key and button actions.</param>
+            /// <param name="mods">Modifier flags.</param>
             public MouseButtonEventArgs(Vector2 position, Vector2 positionNorm, MouseButton button, InputState state, KeyMods mods)
             {
                 Position = position;

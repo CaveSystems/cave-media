@@ -184,8 +184,8 @@ namespace Cave.Media.Lyrics
             // can we check the position in the stream ? yes -> can we read another packet ? no -> exit
             if (m_Reader.BaseStream.CanSeek && m_Reader.Available < 24)
             {
-                packet = default(CdgPacket);
-                time = default(TimeSpan);
+                packet = default;
+                time = default;
                 return false;
             }
             try
@@ -196,8 +196,8 @@ namespace Cave.Media.Lyrics
             }
             catch (EndOfStreamException)
             {
-                packet = default(CdgPacket);
-                time = default(TimeSpan);
+                packet = default;
+                time = default;
                 return false;
             }
         }

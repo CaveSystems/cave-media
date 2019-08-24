@@ -258,7 +258,7 @@ namespace Cave.Media
         /// </summary>
         public static ARGB Transparent
         {
-            get { return default(ARGB); }
+            get { return default; }
         }
         #endregion
 

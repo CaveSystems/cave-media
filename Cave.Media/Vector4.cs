@@ -59,14 +59,14 @@ namespace Cave.Media
         /// <param name="w">w value.</param>
         public static Vector4 Create(float x, float y, float z, float w)
         {
-            var l_Vector = new Vector4
+            var vector = new Vector4
             {
                 X = x,
                 Y = y,
                 Z = z,
                 W = w,
             };
-            return l_Vector;
+            return vector;
         }
 
         /// <summary>
@@ -86,20 +86,20 @@ namespace Cave.Media
                 throw new ArgumentException(string.Format("Number of values do not match!"));
             }
 
-            var l_Vector = new Vector4
+            var vector = new Vector4
             {
                 X = values[0],
                 Y = values[1],
                 Z = values[2],
                 W = values[3],
             };
-            return l_Vector;
+            return vector;
         }
 
         /// <summary>
         /// Obtains an empty <see cref="Vector3"/> object.
         /// </summary>
-        public static Vector4 Empty => new Vector4();
+        public static Vector4 Empty => default;
 
         #endregion
 

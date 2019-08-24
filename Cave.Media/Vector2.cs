@@ -91,7 +91,7 @@ namespace Cave.Media
         /// <summary>
         /// Obtains an empty <see cref="Vector2"/> object.
         /// </summary>
-        public static Vector2 Empty => new Vector2();
+        public static Vector2 Empty => default;
 
         #endregion
 

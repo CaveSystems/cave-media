@@ -23,47 +23,47 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         #region private implementation
 
-        readonly object m_SyncRoot = new object();
-        Queue<IAudioData> m_Buffers = new Queue<IAudioData>();
-        PA.StreamCallbackDelegate m_CallbackDelegate;
-        IntPtr m_StreamHandle;
-        FifoBuffer m_StreamData = new FifoBuffer();
+        readonly object syncRoot = new object();
+        Queue<IAudioData> buffers = new Queue<IAudioData>();
+        PA.StreamCallbackDelegate callbackDelegate;
+        IntPtr streamHandle;
+        FifoBuffer streamData = new FifoBuffer();
 
         // Task m_Task;
-        bool m_Exit = true;
-        long m_BytesPassed;
-        long m_BytesQueued;
-        int m_InProgressBytes = 0;
-        long m_BufferUnderflowCount;
+        bool exit = true;
+        long bytesPassed;
+        long bytesQueued;
+        int inProgressBytes = 0;
+        long bufferUnderflowCount;
 
         PAStreamCallbackResult Callback(IntPtr input, IntPtr output, uint frameCount, ref PAStreamCallbackTimeInfo timeInfo, PAStreamCallbackFlags statusFlags, IntPtr userData)
         {
             int byteCount = (int)frameCount * Configuration.BytesPerTick;
-            lock (m_SyncRoot)
+            lock (syncRoot)
             {
                 // fill output buffer
-                while (m_StreamData.Length < byteCount)
+                while (streamData.Length < byteCount)
                 {
-                    if (m_Buffers.Count > 0)
+                    if (buffers.Count > 0)
                     {
-                        IAudioData audioData = m_Buffers.Dequeue();
+                        IAudioData audioData = buffers.Dequeue();
                         if (Volume != 1)
                         {
                             audioData = audioData.ChangeVolume(Volume);
                         }
 
-                        m_StreamData.Enqueue(audioData.Data);
+                        streamData.Enqueue(audioData.Data);
                         continue;
                     }
-                    int silenceBytes = byteCount - m_StreamData.Length;
-                    m_BufferUnderflowCount++;
-                    m_BytesQueued += silenceBytes;
-                    m_StreamData.Enqueue(new byte[silenceBytes]);
+                    int silenceBytes = byteCount - streamData.Length;
+                    bufferUnderflowCount++;
+                    bytesQueued += silenceBytes;
+                    streamData.Enqueue(new byte[silenceBytes]);
                 }
-                m_StreamData.Dequeue(byteCount, output);
-                m_BytesPassed += m_InProgressBytes;
-                m_InProgressBytes = byteCount;
-                return m_Exit ? PAStreamCallbackResult.Complete : PAStreamCallbackResult.Continue;
+                streamData.Dequeue(byteCount, output);
+                bytesPassed += inProgressBytes;
+                inProgressBytes = byteCount;
+                return exit ? PAStreamCallbackResult.Complete : PAStreamCallbackResult.Continue;
             }
         }
         #endregion
@@ -83,7 +83,7 @@ namespace Cave.Media.Audio.PORTAUDIO
         internal PAOut(IAudioDevice dev, IAudioConfiguration configuration)
             : base(dev, configuration)
         {
-            var l_OutputParameters = new PAStreamParameters();
+            var l_OutputParameters = default(PAStreamParameters);
             switch (configuration.ChannelSetup)
             {
                 case AudioChannelSetup.Mono:
@@ -104,8 +104,8 @@ namespace Cave.Media.Audio.PORTAUDIO
 
             SamplesPerBuffer = Math.Max(1, configuration.SamplingRate / PA.BuffersPerSecond);
             BufferSize = configuration.BytesPerTick * SamplesPerBuffer;
-            m_CallbackDelegate = new PA.StreamCallbackDelegate(Callback);
-            PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_OpenStream(out m_StreamHandle, IntPtr.Zero, ref l_OutputParameters, configuration.SamplingRate, (uint)SamplesPerBuffer, PAStreamFlags.ClipOff, m_CallbackDelegate, IntPtr.Zero);
+            callbackDelegate = new PA.StreamCallbackDelegate(Callback);
+            PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_OpenStream(out streamHandle, IntPtr.Zero, ref l_OutputParameters, configuration.SamplingRate, (uint)SamplesPerBuffer, PAStreamFlags.ClipOff, callbackDelegate, IntPtr.Zero);
             if (l_ErrorCode != PAErrorCode.NoError)
             {
                 throw new Exception(PA.GetErrorText(l_ErrorCode));
@@ -122,13 +122,13 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// </exception>
         protected override void StartPlayback()
         {
-            if (!m_Exit)
+            if (!exit)
             {
                 throw new Exception("Already started!");
             }
 
-            m_Exit = false;
-            PAErrorCode errorCode = PA.SafeNativeMethods.Pa_StartStream(m_StreamHandle);
+            exit = false;
+            PAErrorCode errorCode = PA.SafeNativeMethods.Pa_StartStream(streamHandle);
             if (errorCode != PAErrorCode.NoError)
             {
                 throw new Exception(PA.GetErrorText(errorCode));
@@ -142,13 +142,13 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// </exception>
         protected override void StopPlayback()
         {
-            if (m_Exit)
+            if (exit)
             {
                 throw new Exception("Already stopped!");
             }
 
-            m_Exit = true;
-            PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_StopStream(m_StreamHandle);
+            exit = true;
+            PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_StopStream(streamHandle);
             if (l_ErrorCode != PAErrorCode.NoError)
             {
                 throw new Exception(PA.GetErrorText(l_ErrorCode));
@@ -159,18 +159,18 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            m_Exit = true;
-            if (m_StreamHandle != IntPtr.Zero)
+            exit = true;
+            if (streamHandle != IntPtr.Zero)
             {
-                PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_CloseStream(m_StreamHandle);
+                PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_CloseStream(streamHandle);
                 if (l_ErrorCode != PAErrorCode.NoError)
                 {
                     Trace.WriteLine("Error Pa_CloseStream " + PA.GetErrorText(l_ErrorCode));
                 }
-                m_StreamHandle = IntPtr.Zero;
+                streamHandle = IntPtr.Zero;
             }
-            m_CallbackDelegate = null;
-            m_StreamData = null;
+            callbackDelegate = null;
+            streamData = null;
         }
         #endregion
 
@@ -178,16 +178,16 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         /// <summary>Gets the buffer underflow count.</summary>
         /// <value>The buffer underflow count.</value>
-        public override long BufferUnderflowCount => m_BufferUnderflowCount;
+        public override long BufferUnderflowCount => bufferUnderflowCount;
 
         /// <summary>Writes a buffer to the device.</summary>
         /// <param name="audioData">The buffer.</param>
         public override void Write(IAudioData audioData)
         {
-            lock (m_SyncRoot)
+            lock (syncRoot)
             {
-                m_BytesQueued += audioData.Length;
-                m_Buffers.Enqueue(audioData);
+                bytesQueued += audioData.Length;
+                buffers.Enqueue(audioData);
             }
         }
 
@@ -196,9 +196,9 @@ namespace Cave.Media.Audio.PORTAUDIO
         {
             get
             {
-                lock (m_SyncRoot)
+                lock (syncRoot)
                 {
-                    return m_BytesPassed;
+                    return bytesPassed;
                 }
             }
         }
@@ -208,9 +208,9 @@ namespace Cave.Media.Audio.PORTAUDIO
         {
             get
             {
-                lock (m_SyncRoot)
+                lock (syncRoot)
                 {
-                    return m_BytesQueued - m_BytesPassed;
+                    return bytesQueued - bytesPassed;
                 }
             }
         }

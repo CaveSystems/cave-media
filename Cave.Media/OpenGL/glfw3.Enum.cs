@@ -1,6 +1,7 @@
 using System;
 
 #pragma warning disable 1591
+#pragma warning disable SA1602 // Enumeration items must be documented
 
 namespace Cave.Media.OpenGL
 {
@@ -217,7 +218,7 @@ namespace Cave.Media.OpenGL
 
             /// <summary>
             /// Specifies whether the windowed mode window will have window decorations such as a
-            ///border, a close widget, etc. An undecorated window may still allow the user to
+            /// border, a close widget, etc. An undecorated window may still allow the user to
             /// generate close events on some platforms. This hint is ignored for full screen
             /// windows.
             /// </summary>
@@ -743,4 +744,6 @@ namespace Cave.Media.OpenGL
         }
     }
 }
+
+#pragma warning restore SA1602 // Enumeration items must be documented
 #pragma warning restore 1591

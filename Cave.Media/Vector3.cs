@@ -58,13 +58,13 @@ namespace Cave.Media
         /// <param name="z">z value.</param>
         public static Vector3 Create(float x, float y, float z)
         {
-            var l_Vector = new Vector3
+            var vector = new Vector3
             {
                 X = x,
                 Y = y,
                 Z = z,
             };
-            return l_Vector;
+            return vector;
         }
 
         /// <summary>
@@ -84,19 +84,19 @@ namespace Cave.Media
                 throw new ArgumentException(string.Format("Number of values do not match!"));
             }
 
-            var l_Vector = new Vector3
+            var vector = new Vector3
             {
                 X = values[0],
                 Y = values[1],
                 Z = values[2],
             };
-            return l_Vector;
+            return vector;
         }
 
         /// <summary>
         /// Obtains an empty <see cref="Vector3"/> object.
         /// </summary>
-        public static Vector3 Empty => new Vector3();
+        public static Vector3 Empty => default;
 
         #endregion
 

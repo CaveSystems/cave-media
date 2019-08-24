@@ -540,7 +540,7 @@ namespace Cave.Media.Video
         /// <param name="title">The title of the window.</param>
         public void Initialize(IRenderDevice parent, RendererMode mode, RendererFlags flags, int width, int height, string title)
         {
-            if ((parent == null) || (!(parent is Glfw3Device device)))
+            if ((parent == null) || !(parent is Glfw3Device device))
             {
                 throw new ArgumentNullException("device");
             }

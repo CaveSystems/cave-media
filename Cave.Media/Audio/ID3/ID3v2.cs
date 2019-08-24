@@ -194,7 +194,7 @@ namespace Cave.Media.Audio.ID3
                     return true;
                 }
             }
-            frame = default(T);
+            frame = default;
             return false;
         }
 
@@ -219,7 +219,7 @@ namespace Cave.Media.Audio.ID3
 
                 return true;
             }
-            frame = default(ID3v2TXXXFrame);
+            frame = default;
             return false;
         }
 
@@ -417,7 +417,7 @@ namespace Cave.Media.Audio.ID3
                 }
                 if (year == 0)
                 {
-                    return default(DateTime);
+                    return default;
                 }
 
                 int hour = 0;

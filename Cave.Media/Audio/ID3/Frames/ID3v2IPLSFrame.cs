@@ -21,7 +21,7 @@ namespace Cave.Media.Audio.ID3.Frames
             var l_List = new List<ID3v2Contributor>();
             while (i < strings.Length)
             {
-                var item = new ID3v2Contributor();
+                var item = default(ID3v2Contributor);
                 item.Involvement = strings[i++];
                 item.Involvee = strings[i++];
                 l_List.Add(item);

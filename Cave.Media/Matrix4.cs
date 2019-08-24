@@ -31,23 +31,23 @@ namespace Cave.Media
                 throw new FormatException();
             }
 
-            string[] l_Vectors = text.Substring(2, text.Length - 4).Split(new string[] { "), (" }, StringSplitOptions.None);
-            if (l_Vectors.Length != 4)
+            string[] vectors = text.Substring(2, text.Length - 4).Split(new string[] { "), (" }, StringSplitOptions.None);
+            if (vectors.Length != 4)
             {
                 throw new FormatException();
             }
 
-            var v1 = Vector4.Parse("(" + l_Vectors[0] + ")");
-            var v2 = Vector4.Parse("(" + l_Vectors[1] + ")");
-            var v3 = Vector4.Parse("(" + l_Vectors[2] + ")");
-            var v4 = Vector4.Parse("(" + l_Vectors[3] + ")");
+            var v1 = Vector4.Parse("(" + vectors[0] + ")");
+            var v2 = Vector4.Parse("(" + vectors[1] + ")");
+            var v3 = Vector4.Parse("(" + vectors[2] + ")");
+            var v4 = Vector4.Parse("(" + vectors[3] + ")");
             return FromColumns(v1, v2, v3, v4);
         }
 
         /// <summary>
         /// Obtains a new empty <see cref="Matrix4"/>.
         /// </summary>
-        public static Matrix4 Empty => default(Matrix4);
+        public static Matrix4 Empty => default;
 
         /// <summary>
         /// Creates a new <see cref="Matrix4"/> with the specified columns.
