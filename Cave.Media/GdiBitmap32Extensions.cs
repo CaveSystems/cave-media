@@ -1,4 +1,5 @@
-﻿#if NET20 || NET35 || NET40 || NET45 || NET46 || NET471
+﻿#if NETSTANDARD20
+#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
 
 using System;
 using System.Drawing;
@@ -47,5 +48,9 @@ namespace Cave.Media
         }
     }
 }
+
+#else
+
+#error No code defined for the current framework or NETXX version define missing!
 
 #endif
