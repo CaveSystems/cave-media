@@ -54,6 +54,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Cave.Media.dll.config" />
     <None Remove="Cave.Media.snk" />
     <None Remove="stylecop.json" />
   </ItemGroup>
@@ -63,7 +64,7 @@
   <ItemGroup>
     <Content Include="Cave.Media.dll.config">
       <Pack>true</Pack>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>Cave.Media.dll.config</Link>
     </Content>
   </ItemGroup>
@@ -88,6 +89,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="CaveSystemMedia.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
