@@ -1,9 +1,11 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Security;
+
 namespace Cave.Media.OpenGL
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Security;
-
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter")]
     public static partial class glfw3
     {
         /// <summary>
