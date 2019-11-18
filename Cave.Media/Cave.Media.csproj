@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="stylecop.json" />
-    <None Include="cavesystems.jpg" Pack="true" PackagePath="\"/>
+    <None Include="cavesystems.jpg" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
@@ -71,7 +71,7 @@
     <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.3" />
     <PackageReference Include="Cave.BaseX" Version="1.0.1" />
     <PackageReference Include="Cave.Collections" Version="1.0.3" />
-    <PackageReference Include="Cave.Extensions" Version="1.0.10" />
+    <PackageReference Include="Cave.Extensions" Version="1.0.9" />
     <PackageReference Include="Cave.IO" Version="1.0.7" />
     <PackageReference Include="Cave.Net" Version="1.0.10" />
     <PackageReference Include="Cave.Platform" Version="1.0.3" />
