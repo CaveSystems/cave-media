@@ -8,7 +8,7 @@
     <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <FileVersion>$([System.DateTime]::UtcNow.Year).$([System.DateTime]::UtcNow.ToString("MMdd")).$([System.DateTime]::UtcNow.ToString("HHmm")).$([System.DateTime]::UtcNow.ToString("ssfff"))</FileVersion>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <!--project-->
     <RootNamespace>Cave.Media</RootNamespace>
     <AssemblyOriginatorKeyFile>Cave.Media.snk</AssemblyOriginatorKeyFile>
@@ -45,7 +45,7 @@
     <DefineConstants Condition=" !$(DefineConstants.Contains(';NET')) ">$(DefineConstants);NET$(TargetFramework.ToUpper().Replace("_", "").Replace(".", "").Replace("NET", ""))</DefineConstants>
     <DefineConstants Condition=" $(DefineConstants.Contains(';NET')) ">$(DefineConstants.Remove($(DefineConstants.LastIndexOf(";NET"))));NET$(TargetFramework.ToUpper().Replace("_", "").Replace(".", "").Replace("NET", ""))</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net471'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net47'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,18 +68,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.0.3" />
-    <PackageReference Include="Cave.BaseX" Version="1.0.1" />
-    <PackageReference Include="Cave.Collections" Version="1.0.3" />
-    <PackageReference Include="Cave.Extensions" Version="1.0.9" />
-    <PackageReference Include="Cave.IO" Version="1.0.7" />
-    <PackageReference Include="Cave.Net" Version="1.0.10" />
-    <PackageReference Include="Cave.Platform" Version="1.0.3" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19554-01">
+    <PackageReference Include="Cave.AssemblyVersionInfo" Version="1.*" />
+    <PackageReference Include="Cave.BaseX" Version="1.*" />
+    <PackageReference Include="Cave.Collections" Version="1.*" />
+    <PackageReference Include="Cave.Extensions" Version="1.*" />
+    <PackageReference Include="Cave.IO" Version="1.*" />
+    <PackageReference Include="Cave.Net" Version="1.*" />
+    <PackageReference Include="Cave.Platform" Version="1.*" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
