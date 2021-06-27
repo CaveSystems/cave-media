@@ -20,26 +20,24 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <exception cref="NotSupportedException"></exception>
         public static ID3v2TextFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string id, string text)
         {
-            ID3v2EncodingType encoding = ID3v2Encoding.Select(header, text);
+            var encoding = ID3v2Encoding.Select(header, text);
 
             // header, encoding[1], name+0
-            byte[] textBytes = ID3v2Encoding.GetBytes(encoding, text, true);
-            int contentSize = 1 + textBytes.Length;
+            var textBytes = ID3v2Encoding.GetBytes(encoding, text, true);
+            var contentSize = 1 + textBytes.Length;
             var frameHeader = ID3v2FrameHeader.Create(header, id, flags, contentSize);
-            using (var ms = new MemoryStream())
-            {
-                var writer = new DataWriter(ms);
-                writer.Write(frameHeader.Data);
-                writer.Write((byte)encoding);
-                writer.Write(textBytes);
-                return new ID3v2TextFrame(new ID3v2Frame(header, ms.ToArray()));
-            }
+            using var ms = new MemoryStream();
+            var writer = new DataWriter(ms);
+            writer.Write(frameHeader.Data);
+            writer.Write((byte)encoding);
+            writer.Write(textBytes);
+            return new ID3v2TextFrame(new ID3v2Frame(header, ms.ToArray()));
         }
 
         void ParseData()
         {
             EncodingType = (ID3v2EncodingType)Content[0];
-            ID3v2Encoding.Parse(EncodingType, Content, 1, out string text);
+            ID3v2Encoding.Parse(EncodingType, Content, 1, out var text);
             Text = text;
         }
 
@@ -66,9 +64,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "Text".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " \"" + Text + '"';
-        }
+        public override string ToString() => base.ToString() + " \"" + Text + '"';
     }
 }

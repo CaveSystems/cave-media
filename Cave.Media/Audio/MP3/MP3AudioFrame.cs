@@ -51,7 +51,7 @@ namespace Cave.Media.Audio.MP3
                 throw new InvalidDataException();
             }
 
-            int dataLength = Header.Length;
+            var dataLength = Header.Length;
             if (dataLength == 0 || data.Length != dataLength)
             {
                 throw new InvalidDataException();
@@ -74,14 +74,14 @@ namespace Cave.Media.Audio.MP3
                 return false;
             }
 
-            byte[] headerData = reader.Read(0, 4);
+            var headerData = reader.Read(0, 4);
             Header = new MP3AudioFrameHeader(headerData);
             if (Header.Validation != MP3AudioFrameHeadervalidation.Valid)
             {
                 return false;
             }
 
-            int dataLength = Header.Length;
+            var dataLength = Header.Length;
             if (dataLength == 0)
             {
                 return false;
@@ -97,7 +97,7 @@ namespace Cave.Media.Audio.MP3
             // check next header
             if (reader.EnsureBuffer(dataLength + 4))
             {
-                byte[] nextHeaderBuffer = reader.Read(dataLength, 4);
+                var nextHeaderBuffer = reader.Read(dataLength, 4);
                 var next = new MP3AudioFrameHeader(nextHeaderBuffer);
                 if (next.Validation != MP3AudioFrameHeadervalidation.Valid)
                 {
@@ -114,7 +114,7 @@ namespace Cave.Media.Audio.MP3
                         // next header is invalid, check if the padding bit is set incorrectly
                         // there is a high pobability that the padding bit is invalid if
                         // the framestart is not directly after our buffer but one byte late
-                        int newStart = dataLength + (Header.Padding ? -1 : 1);
+                        var newStart = dataLength + (Header.Padding ? -1 : 1);
                         nextHeaderBuffer = reader.Read(newStart, 4);
                         next = new MP3AudioFrameHeader(nextHeaderBuffer);
                         if (next.Validation == MP3AudioFrameHeadervalidation.Valid)
@@ -194,9 +194,6 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return $"MP3AudioFrame {Header}";
-        }
+        public override string ToString() => $"MP3AudioFrame {Header}";
     }
 }

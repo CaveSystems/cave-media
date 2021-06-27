@@ -61,7 +61,7 @@ namespace Cave.Media.Audio.ID3
             }
 
             tagData = m_Reader.GetBuffer(header.HeaderSize + header.BodySize);
-            byte[] bodyData = tagData.GetRange(header.HeaderSize);
+            var bodyData = tagData.GetRange(header.HeaderSize);
 
             // need to unsync whole tag?
             if ((header.Flags & ID3v2HeaderFlags.Unsynchronisation) != 0)
@@ -130,7 +130,7 @@ namespace Cave.Media.Audio.ID3
                 {
                     case 2:
                     {
-                        long read = m_BodyBytes - m_Reader.BufferStartPosition;
+                        var read = m_BodyBytes - m_Reader.BufferStartPosition;
                         data = m_Reader.GetBuffer((int)read);
                         State = ID3v2ReaderState.ReadEnd;
                         frame = null;
@@ -146,7 +146,7 @@ namespace Cave.Media.Audio.ID3
                         }
 
                         // load padding bytes
-                        long read = m_BodyBytes - m_Reader.BufferStartPosition;
+                        var read = m_BodyBytes - m_Reader.BufferStartPosition;
                         data = m_Reader.GetBuffer((int)read);
                         State = ID3v2ReaderState.ReadEnd;
                         frame = null;
@@ -154,7 +154,7 @@ namespace Cave.Media.Audio.ID3
                     break;
                     default: return false;
                 }
-                for (int i = 0; i < data.Length; i++)
+                for (var i = 0; i < data.Length; i++)
                 {
                     if (data[i] != 0)
                     {
@@ -197,9 +197,6 @@ namespace Cave.Media.Audio.ID3
         /// Returns "ID3v2Reader Name".
         /// </summary>
         /// <returns>Returns "ID3v2Reader Name".</returns>
-        public override string ToString()
-        {
-            return "ID3v2Reader " + m_Reader.Source;
-        }
+        public override string ToString() => "ID3v2Reader " + m_Reader.Source;
     }
 }

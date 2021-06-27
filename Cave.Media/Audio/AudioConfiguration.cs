@@ -86,27 +86,18 @@ namespace Cave.Media.Audio
         /// Provides a string describing the audio configuration.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return SamplingRate + " Hz, " + Format + ", " + ChannelSetup;
-        }
+        public override string ToString() => SamplingRate + " Hz, " + Format + ", " + ChannelSetup;
 
         /// <summary>Gets the byte count for a specific duration.</summary>
         /// <param name="duration">The duration.</param>
         /// <returns></returns>
-        public int GetByteCount(TimeSpan duration)
-        {
-            return (int)(duration.Ticks * SamplingRate / TimeSpan.TicksPerSecond * BytesPerTick);
-        }
+        public int GetByteCount(TimeSpan duration) => (int)(duration.Ticks * SamplingRate / TimeSpan.TicksPerSecond * BytesPerTick);
 
         /// <summary>
         /// Gets the hash code for the audio configuration.
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return BytesPerTick ^ SamplingRate;
-        }
+        public override int GetHashCode() => BytesPerTick ^ SamplingRate;
 
         /// <summary>
         /// Checks for equality with another IAudioConfiguration.
@@ -125,9 +116,6 @@ namespace Cave.Media.Audio
         /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
         /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
         /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as IAudioConfiguration);
-        }
+        public override bool Equals(object obj) => Equals(obj as IAudioConfiguration);
     }
 }

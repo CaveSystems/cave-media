@@ -862,23 +862,17 @@ namespace Cave.Media.Audio.OPENAL
             #region Additional wrappers for string functions
 #pragma warning disable 1591
 
-            public static IntPtr alcOpenDevice(string deviceName)
-            {
-                return alcOpenDevice(Encoding.UTF8.GetBytes(deviceName + '\0'));
-            }
+            public static IntPtr alcOpenDevice(string deviceName) => alcOpenDevice(Encoding.UTF8.GetBytes(deviceName + '\0'));
 
-            public static IntPtr alcCaptureOpenDevice(string deviceName, int frequency, int format, int buffersize)
-            {
-                return alcCaptureOpenDevice(Encoding.UTF8.GetBytes(deviceName + '\0'), frequency, format, buffersize);
-            }
+            public static IntPtr alcCaptureOpenDevice(string deviceName, int frequency, int format, int buffersize) => alcCaptureOpenDevice(Encoding.UTF8.GetBytes(deviceName + '\0'), frequency, format, buffersize);
 
-            public static string alGetString1(int state) { return MarshalStruct.ReadUtf8(alGetString(state)); }
+            public static string alGetString1(int state) => MarshalStruct.ReadUtf8(alGetString(state));
 
-            public static string[] alGetStringv(int state) { return MarshalStruct.ReadUtf8Strings(alGetString(state)); }
+            public static string[] alGetStringv(int state) => MarshalStruct.ReadUtf8Strings(alGetString(state));
 
-            public static string alcGetString1(IntPtr device, int attribute) { return MarshalStruct.ReadUtf8(alcGetString(device, attribute)); }
+            public static string alcGetString1(IntPtr device, int attribute) => MarshalStruct.ReadUtf8(alcGetString(device, attribute));
 
-            public static string[] alcGetStringv([In] IntPtr device, int attribute) { return MarshalStruct.ReadUtf8Strings(alcGetString(device, attribute)); }
+            public static string[] alcGetStringv([In] IntPtr device, int attribute) => MarshalStruct.ReadUtf8Strings(alcGetString(device, attribute));
 
             /// <summary>
             /// Checks for an OpenAL error and thows an appropriate exception if an error occured.

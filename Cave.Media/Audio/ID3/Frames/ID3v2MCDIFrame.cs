@@ -32,9 +32,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] HexTOC.</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " " + HexTOC;
-        }
+        public override string ToString() => base.ToString() + " " + HexTOC;
     }
 }

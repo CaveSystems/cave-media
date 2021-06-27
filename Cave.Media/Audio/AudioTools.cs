@@ -7,21 +7,21 @@ namespace Cave.Media.Audio
     {
         static unsafe byte[] Interpolate8Bit(double factor, byte[] buffer)
         {
-            int sampleCount = buffer.Length;
-            int newBufferSize = (int)(sampleCount * factor);
-            byte[] newBuffer = new byte[newBufferSize];
+            var sampleCount = buffer.Length;
+            var newBufferSize = (int)(sampleCount * factor);
+            var newBuffer = new byte[newBufferSize];
 
             fixed (byte* sourceBytePtr = &buffer[0])
             {
                 fixed (byte* targetBytePtr = &newBuffer[0])
                 {
-                    byte* sourcePtr = sourceBytePtr;
-                    byte* targetPtr = targetBytePtr;
+                    var sourcePtr = sourceBytePtr;
+                    var targetPtr = targetBytePtr;
                     double current = 0;
 
-                    for (int i = 0; i < sampleCount; i++)
+                    for (var i = 0; i < sampleCount; i++)
                     {
-                        int nextStep = (int)current + 1;
+                        var nextStep = (int)current + 1;
                         while (current < nextStep)
                         {
                             targetPtr[(int)current] = sourcePtr[i];
@@ -35,21 +35,21 @@ namespace Cave.Media.Audio
 
         static unsafe byte[] Interpolate16Bit(double factor, byte[] buffer)
         {
-            int sampleCount = buffer.Length / 2;
-            int newBufferSize = (int)(sampleCount * factor) * 2;
-            byte[] newBuffer = new byte[newBufferSize];
+            var sampleCount = buffer.Length / 2;
+            var newBufferSize = (int)(sampleCount * factor) * 2;
+            var newBuffer = new byte[newBufferSize];
 
             fixed (byte* sourceBytePtr = &buffer[0])
             {
                 fixed (byte* targetBytePtr = &newBuffer[0])
                 {
-                    ushort* sourcePtr = (ushort*)sourceBytePtr;
-                    ushort* targetPtr = (ushort*)targetBytePtr;
+                    var sourcePtr = (ushort*)sourceBytePtr;
+                    var targetPtr = (ushort*)targetBytePtr;
                     double current = 0;
 
-                    for (int i = 0; i < sampleCount; i++)
+                    for (var i = 0; i < sampleCount; i++)
                     {
-                        int nextStep = (int)current + 1;
+                        var nextStep = (int)current + 1;
                         while (current < nextStep)
                         {
                             targetPtr[(int)current] = sourcePtr[i];
@@ -63,21 +63,21 @@ namespace Cave.Media.Audio
 
         static unsafe byte[] m_Interpolate32Bit(double factor, byte[] buffer)
         {
-            int sampleCount = buffer.Length / 4;
-            int newBufferSize = (int)(sampleCount * factor) * 4;
-            byte[] newBuffer = new byte[newBufferSize];
+            var sampleCount = buffer.Length / 4;
+            var newBufferSize = (int)(sampleCount * factor) * 4;
+            var newBuffer = new byte[newBufferSize];
 
             fixed (byte* sourceBytePtr = &buffer[0])
             {
                 fixed (byte* targetBytePtr = &newBuffer[0])
                 {
-                    uint* sourcePtr = (uint*)sourceBytePtr;
-                    uint* targetPtr = (uint*)targetBytePtr;
+                    var sourcePtr = (uint*)sourceBytePtr;
+                    var targetPtr = (uint*)targetBytePtr;
                     double current = 0;
 
-                    for (int i = 0; i < sampleCount; i++)
+                    for (var i = 0; i < sampleCount; i++)
                     {
-                        int nextStep = (int)current + 1;
+                        var nextStep = (int)current + 1;
                         while (current < nextStep)
                         {
                             targetPtr[(int)current] = sourcePtr[i];

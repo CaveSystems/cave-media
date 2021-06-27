@@ -17,10 +17,8 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public static List<AudioFrame> ReadAllFrames(string fileName)
         {
-            using (FileStream stream = File.OpenRead(fileName))
-            {
-                return ReadAllFrames(stream);
-            }
+            using var stream = File.OpenRead(fileName);
+            return ReadAllFrames(stream);
         }
 
         /// <summary>Reads all frames.</summary>
@@ -32,7 +30,7 @@ namespace Cave.Media.Audio.MP3
             var frames = new List<AudioFrame>();
             while (true)
             {
-                AudioFrame frame = reader.GetNextFrame();
+                var frame = reader.GetNextFrame();
                 if (frame == null)
                 {
                     break;
@@ -106,15 +104,9 @@ namespace Cave.Media.Audio.MP3
             }
             #endregion
 
-            public override string ToString()
-            {
-                return "Search[" + Match + ", " + Index + ", " + Length + "]";
-            }
+            public override string ToString() => "Search[" + Match + ", " + Index + ", " + Length + "]";
 
-            public override int GetHashCode()
-            {
-                return Index;
-            }
+            public override int GetHashCode() => Index;
         }
         #endregion
 
@@ -152,7 +144,7 @@ namespace Cave.Media.Audio.MP3
                 try
                 {
                     stream.Seek(-128, SeekOrigin.End);
-                    byte[] buffer = new byte[128];
+                    var buffer = new byte[128];
                     stream.Read(buffer, 0, 128);
                     if ((buffer[0] == (byte)'T') && (buffer[1] == (byte)'A') && (buffer[2] == (byte)'G'))
                     {
@@ -203,7 +195,7 @@ namespace Cave.Media.Audio.MP3
                     }
 
                     // end of stream
-                    byte[] buffer = m_Reader.GetBuffer(m_Reader.Available);
+                    var buffer = m_Reader.GetBuffer(m_Reader.Available);
                     InvalidData(buffer);
                     return null;
                 }
@@ -216,7 +208,7 @@ namespace Cave.Media.Audio.MP3
                     }
 
                     // nothing found, enqueue invalid data...
-                    byte[] buffer = m_Reader.GetBuffer(m_Reader.Available - 2);
+                    var buffer = m_Reader.GetBuffer(m_Reader.Available - 2);
                     InvalidData(buffer);
 
                     // .. and start new search
@@ -255,7 +247,7 @@ namespace Cave.Media.Audio.MP3
                 #region search next frame start
 
                 // search the next interesting position
-                Search searchResult = FindFrame();
+                var searchResult = FindFrame();
                 if (searchResult == null)
                 {
                     #region end of stream cleanup
@@ -306,7 +298,7 @@ namespace Cave.Media.Audio.MP3
                 // try to decode frame
                 try
                 {
-                    bool valid = false;
+                    var valid = false;
                     AudioFrame frame = null;
                     switch (searchResult.Match)
                     {
@@ -346,7 +338,7 @@ namespace Cave.Media.Audio.MP3
                     Trace.TraceError(ex.ToString());
 
                     // invalid frame or decoder error, move ahead
-                    int count = (searchResult.Index < 0) ? 1 : searchResult.Index + 1;
+                    var count = (searchResult.Index < 0) ? 1 : searchResult.Index + 1;
                     InvalidData(m_Reader.GetBuffer(count));
                 }
                 #endregion
@@ -356,9 +348,6 @@ namespace Cave.Media.Audio.MP3
         /// <summary>
         /// Closes the reader and the underlying stream.
         /// </summary>
-        public void Close()
-        {
-            m_Reader.Close();
-        }
+        public void Close() => m_Reader.Close();
     }
 }

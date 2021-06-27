@@ -43,10 +43,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return Type.ToString();
-        }
+        public override string ToString() => Type.ToString();
 
         /// <summary>Saves the command to the specified writer.</summary>
         /// <param name="writer">The writer.</param>

@@ -125,11 +125,11 @@ namespace Cave.Media.Audio
         #region Peak calculation
         unsafe float CalculatePeakInt8()
         {
-            int result = 0;
+            var result = 0;
             fixed (byte* bytePtr = &data[0])
             {
-                byte* p = bytePtr;
-                for (int i = 0; i < SampleCount; i++)
+                var p = bytePtr;
+                for (var i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs((int)p[i]));
                 }
@@ -139,11 +139,11 @@ namespace Cave.Media.Audio
 
         unsafe float CalculatePeakInt16()
         {
-            int result = 0;
+            var result = 0;
             fixed (byte* bytePtr = &data[0])
             {
-                short* p = (short*)bytePtr;
-                for (int i = 0; i < SampleCount; i++)
+                var p = (short*)bytePtr;
+                for (var i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs((int)p[i]));
                 }
@@ -156,8 +156,8 @@ namespace Cave.Media.Audio
             uint result = 0;
             fixed (byte* bytePtr = &data[0])
             {
-                int* p = (int*)bytePtr;
-                for (int i = 0; i < SampleCount; i++)
+                var p = (int*)bytePtr;
+                for (var i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, (uint)Math.Abs(p[i]));
                 }
@@ -170,8 +170,8 @@ namespace Cave.Media.Audio
             ulong result = 0;
             fixed (byte* bytePtr = &data[0])
             {
-                long* p = (long*)bytePtr;
-                for (int i = 0; i < SampleCount; i++)
+                var p = (long*)bytePtr;
+                for (var i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, (ulong)Math.Abs(p[i]));
                 }
@@ -184,8 +184,8 @@ namespace Cave.Media.Audio
             float result = 0;
             fixed (byte* bytePtr = &data[0])
             {
-                float* p = (float*)bytePtr;
-                for (int i = 0; i < SampleCount; i++)
+                var p = (float*)bytePtr;
+                for (var i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs(p[i]));
                 }
@@ -198,8 +198,8 @@ namespace Cave.Media.Audio
             double result = 0;
             fixed (byte* bytePtr = &data[0])
             {
-                double* p = (double*)bytePtr;
-                for (int i = 0; i < SampleCount; i++)
+                var p = (double*)bytePtr;
+                for (var i = 0; i < SampleCount; i++)
                 {
                     result = Math.Max(result, Math.Abs(p[i]));
                 }
@@ -212,18 +212,18 @@ namespace Cave.Media.Audio
 
         unsafe IAudioData NormalizeInt16(float factor)
         {
-            byte[] result = (byte[])data.Clone();
+            var result = (byte[])data.Clone();
 #if DEBUG
             float overshoot = 0;
             float undershoot = 0;
 #endif
             fixed (byte* bytePtr = &result[0])
             {
-                short* p = (short*)bytePtr;
-                int samples = data.Length / BytesPerSample;
-                for (int i = 0; i < samples; i++)
+                var p = (short*)bytePtr;
+                var samples = data.Length / BytesPerSample;
+                for (var i = 0; i < samples; i++)
                 {
-                    int v = (int)(p[i] * factor);
+                    var v = (int)(p[i] * factor);
                     if (v > 32767)
                     {
 #if DEBUG
@@ -250,18 +250,18 @@ namespace Cave.Media.Audio
 
         unsafe IAudioData NormalizeFloat(float factor)
         {
-            byte[] result = (byte[])data.Clone();
+            var result = (byte[])data.Clone();
 #if DEBUG
             float overshoot = 0;
             float undershoot = 0;
 #endif
             fixed (byte* bytePtr = &result[0])
             {
-                int samples = data.Length / BytesPerSample;
-                float* p = (float*)bytePtr;
-                for (int i = 0; i < samples; i++)
+                var samples = data.Length / BytesPerSample;
+                var p = (float*)bytePtr;
+                for (var i = 0; i < samples; i++)
                 {
-                    float v = p[i] * factor;
+                    var v = p[i] * factor;
                     if (v > 1)
                     {
 #if DEBUG
@@ -441,16 +441,16 @@ Nach:
         /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         public unsafe IAudioData ConvertToInt16()
         {
-            byte[] result = new byte[data.Length / BytesPerSample * 2];
+            var result = new byte[data.Length / BytesPerSample * 2];
             fixed (byte* ptrOut = &result[0]) fixed (byte* ptrIn = &data[0])
             {
-                short* pOut = (short*)ptrOut;
+                var pOut = (short*)ptrOut;
                 switch (Format)
                 {
                     case AudioSampleFormat.Double:
                     {
-                        double* pIn = (double*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (double*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = ToInt16((float)(pIn[i] * 32767.0));
                         }
@@ -458,8 +458,8 @@ Nach:
                     }
                     case AudioSampleFormat.Float:
                     {
-                        float* pIn = (float*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (float*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = ToInt16(pIn[i] * 32767.0f);
                         }
@@ -467,8 +467,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int64:
                     {
-                        long* pIn = (long*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (long*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = ToInt16(pIn[i] / 9223372036854775808.0f);
                         }
@@ -476,8 +476,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int32:
                     {
-                        int* pIn = (int*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (int*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = ToInt16(pIn[i] / 2147483648.0f);
                         }
@@ -485,8 +485,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int8:
                     {
-                        short* pIn = (short*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (short*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = ToInt16(pIn[i] * 128.0f);
                         }
@@ -503,16 +503,16 @@ Nach:
         /// <exception cref="NotImplementedException">"ToInt16() conversion is not implemented for AudioSampleFormat {0}.</exception>
         public unsafe IAudioData ConvertToFloat()
         {
-            byte[] result = new byte[data.Length / BytesPerSample * 4];
+            var result = new byte[data.Length / BytesPerSample * 4];
             fixed (byte* ptrOut = &result[0]) fixed (byte* ptrIn = &data[0])
             {
-                float* pOut = (float*)ptrOut;
+                var pOut = (float*)ptrOut;
                 switch (Format)
                 {
                     case AudioSampleFormat.Double:
                     {
-                        double* pIn = (double*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (double*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = (float)pIn[i];
                         }
@@ -520,8 +520,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int64:
                     {
-                        long* pIn = (long*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (long*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = pIn[i] / 9223372036854775808f;
                         }
@@ -529,8 +529,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int32:
                     {
-                        int* pIn = (int*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (int*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = pIn[i] / 2147483648f;
                         }
@@ -538,8 +538,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int16:
                     {
-                        int* pIn = (int*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (int*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = pIn[i] / 32768f;
                         }
@@ -547,8 +547,8 @@ Nach:
                     }
                     case AudioSampleFormat.Int8:
                     {
-                        short* pIn = (short*)ptrIn;
-                        for (int i = 0; i < SampleCount; i++)
+                        var pIn = (short*)ptrIn;
+                        for (var i = 0; i < SampleCount; i++)
                         {
                             pOut[i] = pIn[i] / 256f;
                         }
@@ -565,17 +565,17 @@ Nach:
         /// <returns></returns>
         public unsafe IAudioData ChangeVolume(float volume)
         {
-            byte[] copy = (byte[])data.Clone();
+            var copy = (byte[])data.Clone();
             fixed (byte* ptr = &copy[0])
             {
                 switch (Format)
                 {
                     case AudioSampleFormat.Double:
                     {
-                        double* p = (double*)ptr;
-                        for (int i = 0; i < SampleCount; i++)
+                        var p = (double*)ptr;
+                        for (var i = 0; i < SampleCount; i++)
                         {
-                            double d = *p * volume;
+                            var d = *p * volume;
                             if (d > 1)
                             {
                                 d = 1;
@@ -592,10 +592,10 @@ Nach:
                     break;
                     case AudioSampleFormat.Float:
                     {
-                        float* p = (float*)ptr;
-                        for (int i = 0; i < SampleCount; i++)
+                        var p = (float*)ptr;
+                        for (var i = 0; i < SampleCount; i++)
                         {
-                            float f = *p * volume;
+                            var f = *p * volume;
                             if (f > 1)
                             {
                                 f = 1;
@@ -612,10 +612,10 @@ Nach:
                     break;
                     case AudioSampleFormat.Int64:
                     {
-                        long* p = (long*)ptr;
-                        for (int i = 0; i < SampleCount; i++)
+                        var p = (long*)ptr;
+                        for (var i = 0; i < SampleCount; i++)
                         {
-                            float f = *p * volume;
+                            var f = *p * volume;
                             if (f > long.MaxValue)
                             {
                                 f = long.MaxValue;
@@ -632,10 +632,10 @@ Nach:
                     break;
                     case AudioSampleFormat.Int32:
                     {
-                        int* p = (int*)ptr;
-                        for (int i = 0; i < SampleCount; i++)
+                        var p = (int*)ptr;
+                        for (var i = 0; i < SampleCount; i++)
                         {
-                            float f = *p * volume;
+                            var f = *p * volume;
                             if (f > int.MaxValue)
                             {
                                 f = int.MaxValue;
@@ -652,10 +652,10 @@ Nach:
                     break;
                     case AudioSampleFormat.Int16:
                     {
-                        short* p = (short*)ptr;
-                        for (int i = 0; i < SampleCount; i++)
+                        var p = (short*)ptr;
+                        for (var i = 0; i < SampleCount; i++)
                         {
-                            float f = *p * volume;
+                            var f = *p * volume;
                             if (f > short.MaxValue)
                             {
                                 f = short.MaxValue;
@@ -672,10 +672,10 @@ Nach:
                     break;
                     case AudioSampleFormat.Int8:
                     {
-                        sbyte* p = (sbyte*)ptr;
-                        for (int i = 0; i < SampleCount; i++)
+                        var p = (sbyte*)ptr;
+                        for (var i = 0; i < SampleCount; i++)
                         {
-                            float f = *p * volume;
+                            var f = *p * volume;
                             if (f > sbyte.MaxValue)
                             {
                                 f = sbyte.MaxValue;
@@ -712,9 +712,6 @@ Nach:
         /// Gets the hash code of the buffer.
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return Data.GetHashCode();
-        }
+        public override int GetHashCode() => Data.GetHashCode();
     }
 }

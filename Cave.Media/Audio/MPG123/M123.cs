@@ -771,7 +771,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="handle"></param>
             public M123_PARS(IntPtr handle)
             {
-                this.Handle = handle;
+                Handle = handle;
             }
 
             /// <summary>
@@ -787,10 +787,7 @@ namespace Cave.Media.Audio.MPG123
 
             #region IDisposable Member
 
-            internal void Disposed()
-            {
-                Handle = IntPtr.Zero;
-            }
+            internal void Disposed() => Handle = IntPtr.Zero;
 
             #endregion
         }
@@ -883,12 +880,12 @@ namespace Cave.Media.Audio.MPG123
             static string[] m_DecodeStringArray(IntPtr pointer)
             {
                 var result = new List<string>();
-                int index = 0;
-                IntPtr item = Marshal.ReadIntPtr(pointer, index);
+                var index = 0;
+                var item = Marshal.ReadIntPtr(pointer, index);
                 index += IntPtr.Size;
                 while (item != IntPtr.Zero)
                 {
-                    string str = Marshal.PtrToStringAnsi(item);
+                    var str = Marshal.PtrToStringAnsi(item);
                     if (!string.IsNullOrEmpty(str))
                     {
                         result.Add(str);
@@ -902,13 +899,13 @@ namespace Cave.Media.Audio.MPG123
 
             static void m_DecodeIntArray(IntPtr pointer, int[] array)
             {
-                int count = 0;
-                int index = 0;
+                var count = 0;
+                var index = 0;
                 if (IntPtr.Size == 4 || Platform.IsMicrosoft)
                 {
                     while (count < array.Length)
                     {
-                        int value = Marshal.ReadInt32(pointer, index);
+                        var value = Marshal.ReadInt32(pointer, index);
                         index += 4;
                         array[count++] = value;
                     }
@@ -917,7 +914,7 @@ namespace Cave.Media.Audio.MPG123
                 {
                     while (count < array.Length)
                     {
-                        int value = (int)Marshal.ReadInt64(pointer, index);
+                        var value = (int)Marshal.ReadInt64(pointer, index);
                         index += 8;
                         array[count++] = value;
                     }
@@ -1028,10 +1025,7 @@ namespace Cave.Media.Audio.MPG123
             /// Returns an array of generally available decoder names (plain 8bit ASCII).
             /// </summary>
             /// <returns>Returns a list of available decoders.</returns>
-            public static string[] mpg123_decoders()
-            {
-                return m_DecodeStringArray(m_mpg123_decoders());
-            }
+            public static string[] mpg123_decoders() => m_DecodeStringArray(m_mpg123_decoders());
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_supported_decoders", CallingConvention = CallingConvention.Cdecl)]
             static extern IntPtr m_mpg123_supported_decoders();
@@ -1040,10 +1034,7 @@ namespace Cave.Media.Audio.MPG123
             /// Return a NULL-terminated array of the decoders supported by the CPU (plain 8bit ASCII).
             /// </summary>
             /// <returns>Returns a list of supported decoders.</returns>
-            public static string[] mpg123_supported_decoders()
-            {
-                return m_DecodeStringArray(m_mpg123_supported_decoders());
-            }
+            public static string[] mpg123_supported_decoders() => m_DecodeStringArray(m_mpg123_supported_decoders());
 
             /// <summary>
             /// Set the chosen decoder to 'decoder_name'.
@@ -1078,7 +1069,7 @@ namespace Cave.Media.Audio.MPG123
                 IntPtr list;
                 UIntPtr count;
                 m_mpg123_rates(out list, out count);
-                int[] result = new int[count.ToUInt32()];
+                var result = new int[count.ToUInt32()];
                 m_DecodeIntArray(list, result);
                 return result;
             }
@@ -1095,10 +1086,10 @@ namespace Cave.Media.Audio.MPG123
                 IntPtr list;
                 UIntPtr count;
                 m_mpg123_encodings(out list, out count);
-                int[] array = new int[count.ToUInt32()];
+                var array = new int[count.ToUInt32()];
                 m_DecodeIntArray(list, array);
-                ENC[] result = new ENC[array.Length];
-                for (int i = 0; i < array.Length; i++)
+                var result = new ENC[array.Length];
+                for (var i = 0; i < array.Length; i++)
                 {
                     result[i] = (ENC)array[i];
                 }
@@ -1164,7 +1155,7 @@ namespace Cave.Media.Audio.MPG123
                 IntPtr channelConfig;
                 IntPtr encoding;
 
-                RESULT result = m_mpg123_getformat(handle, out sampleRate, out channelConfig, out encoding);
+                var result = m_mpg123_getformat(handle, out sampleRate, out channelConfig, out encoding);
                 if (result != RESULT.OK)
                 {
                     throw new Exception(mpg123_plain_strerror(result));
@@ -1256,9 +1247,9 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_read(IntPtr handle, FifoBuffer outBuffer, int bufferSize)
             {
-                IntPtr memory = Marshal.AllocHGlobal(bufferSize);
+                var memory = Marshal.AllocHGlobal(bufferSize);
                 IntPtr bytesDone;
-                RESULT result = m_mpg123_read(handle, memory, new IntPtr(bufferSize), out bytesDone);
+                var result = m_mpg123_read(handle, memory, new IntPtr(bufferSize), out bytesDone);
                 outBuffer.Enqueue(memory, bytesDone.ToInt32());
                 return result;
             }
@@ -1273,10 +1264,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="handle"></param>
             /// <param name="inBuffer"></param>
             /// <returns></returns>
-            public static RESULT mpg123_feed(IntPtr handle, byte[] inBuffer)
-            {
-                return m_mpg123_feed(handle, ref inBuffer, new IntPtr(inBuffer.Length));
-            }
+            public static RESULT mpg123_feed(IntPtr handle, byte[] inBuffer) => m_mpg123_feed(handle, ref inBuffer, new IntPtr(inBuffer.Length));
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_decode", CallingConvention = CallingConvention.Cdecl)]
             static extern RESULT m_mpg123_decode(IntPtr handle, IntPtr inMemory, IntPtr inMemSize, IntPtr outMemory, IntPtr outMemSize, out IntPtr bytesDone);
@@ -1296,23 +1284,23 @@ namespace Cave.Media.Audio.MPG123
             public static RESULT mpg123_decode(IntPtr handle, FifoBuffer input, FifoBuffer output, int bufferSize)
             {
                 // get input buffer
-                int inSize = input.Length;
-                IntPtr inMemory = Marshal.AllocHGlobal(inSize);
+                var inSize = input.Length;
+                var inMemory = Marshal.AllocHGlobal(inSize);
                 input.Dequeue(inSize, inMemory);
 
                 // prepare output buffer
-                IntPtr outMemory = Marshal.AllocHGlobal(bufferSize);
+                var outMemory = Marshal.AllocHGlobal(bufferSize);
                 IntPtr done;
 
                 // decode
-                RESULT result = m_mpg123_decode(handle, inMemory, new IntPtr(inSize), outMemory, new IntPtr(bufferSize), out done);
+                var result = m_mpg123_decode(handle, inMemory, new IntPtr(inSize), outMemory, new IntPtr(bufferSize), out done);
                 if (result == RESULT.ERR)
                 {
                     throw new Exception(mpg123_strerror(handle));
                 }
                 while (result == RESULT.OK)
                 {
-                    int doneCount = done.ToInt32();
+                    var doneCount = done.ToInt32();
                     if (doneCount > 0)
                     {
                         output.Enqueue(outMemory, doneCount);
@@ -1320,7 +1308,7 @@ namespace Cave.Media.Audio.MPG123
                     result = m_mpg123_decode(handle, inMemory, IntPtr.Zero, outMemory, new IntPtr(bufferSize), out done);
                 }
                 {
-                    int doneCount = done.ToInt32();
+                    var doneCount = done.ToInt32();
                     if (doneCount > 0)
                     {
                         output.Enqueue(outMemory, doneCount);
@@ -1344,10 +1332,7 @@ namespace Cave.Media.Audio.MPG123
             /// Get the safe output buffer size for all cases (when you want to replace the internal buffer).
             /// </summary>
             /// <returns></returns>
-            public static int mpg123_safe_buffer()
-            {
-                return m_mpg123_safe_buffer().ToInt32();
-            }
+            public static int mpg123_safe_buffer() => m_mpg123_safe_buffer().ToInt32();
 
             #endregion
 
@@ -1370,7 +1355,7 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                IntPtr l_PresetHandle = preset.Handle;
+                var l_PresetHandle = preset.Handle;
                 IntPtr result;
                 handle = m_mpg123_parnew(ref l_PresetHandle, decoder, out result);
                 return (RESULT)result.ToInt32();
@@ -1387,7 +1372,7 @@ namespace Cave.Media.Audio.MPG123
             public static RESULT mpg123_new_pars(out M123_PARS preset)
             {
                 IntPtr resultCode;
-                IntPtr l_Preset = m_mpg123_new_pars(out resultCode);
+                var l_Preset = m_mpg123_new_pars(out resultCode);
                 var result = (RESULT)resultCode.ToInt32();
                 if (result == RESULT.OK)
                 {
@@ -1414,7 +1399,7 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                IntPtr l_PresetHandle = preset.Handle;
+                var l_PresetHandle = preset.Handle;
                 m_mpg123_delete_pars(ref l_PresetHandle);
                 preset.Disposed();
             }
@@ -1434,7 +1419,7 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                IntPtr l_PresetHandle = preset.Handle;
+                var l_PresetHandle = preset.Handle;
                 return m_mpg123_fmt_none(ref l_PresetHandle);
             }
 
@@ -1453,7 +1438,7 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                IntPtr l_PresetHandle = preset.Handle;
+                var l_PresetHandle = preset.Handle;
                 return m_mpg123_fmt_all(ref l_PresetHandle);
             }
 
@@ -1468,9 +1453,9 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_fmt(M123_PARS preset, IAudioConfiguration config)
             {
-                IntPtr l_PresetHandle = preset.Handle;
-                CHANNELCOUNT channelConfig = GetChannelConfig(config);
-                ENC l_Encoding = GetEncoding(config);
+                var l_PresetHandle = preset.Handle;
+                var channelConfig = GetChannelConfig(config);
+                var l_Encoding = GetEncoding(config);
                 return m_mpg123_fmt(ref l_PresetHandle, new IntPtr(config.SamplingRate), channelConfig, l_Encoding);
             }
 
@@ -1485,10 +1470,10 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static bool mpg123_fmt_support(M123_PARS preset, IAudioConfiguration config)
             {
-                IntPtr l_PresetHandle = preset.Handle;
-                ENC l_Encoding = GetEncoding(config);
-                CHANNELCOUNT availableChannelConfig = m_mpg123_fmt_support(ref l_PresetHandle, new IntPtr(config.SamplingRate), l_Encoding);
-                CHANNELCOUNT channelConfig = GetChannelConfig(config);
+                var l_PresetHandle = preset.Handle;
+                var l_Encoding = GetEncoding(config);
+                var availableChannelConfig = m_mpg123_fmt_support(ref l_PresetHandle, new IntPtr(config.SamplingRate), l_Encoding);
+                var channelConfig = GetChannelConfig(config);
                 return (availableChannelConfig & channelConfig) == channelConfig;
             }
 
@@ -1505,7 +1490,7 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_par(M123_PARS preset, PARAMS type, int value, double floatValue)
             {
-                IntPtr l_PresetHandle = preset.Handle;
+                var l_PresetHandle = preset.Handle;
                 return m_mpg123_par(ref l_PresetHandle, type, new IntPtr(value), floatValue);
             }
 
@@ -1522,9 +1507,9 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_getpar(M123_PARS preset, PARAMS type, out int value, out double floatValue)
             {
-                IntPtr presetHandle = preset.Handle;
+                var presetHandle = preset.Handle;
                 IntPtr p;
-                RESULT result = m_mpg123_getpar(ref presetHandle, type, out p, out floatValue);
+                var result = m_mpg123_getpar(ref presetHandle, type, out p, out floatValue);
                 value = p.ToInt32();
                 return result;
             }

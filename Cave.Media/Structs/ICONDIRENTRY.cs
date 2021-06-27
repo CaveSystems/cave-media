@@ -27,12 +27,12 @@ namespace Cave.Media.Structs
                 throw new ArgumentNullException("stream");
             }
 
-            byte[] buffer = new byte[16];
+            var buffer = new byte[16];
             if (stream.Read(buffer, 0, 16) != 16)
             {
                 throw new EndOfStreamException();
             }
-            IntPtr bufferPtr = Marshal.AllocHGlobal(16);
+            var bufferPtr = Marshal.AllocHGlobal(16);
             Marshal.Copy(buffer, 0, bufferPtr, 16);
             var result = (ICONDIRENTRY)Marshal.PtrToStructure(bufferPtr, typeof(ICONDIRENTRY));
             Marshal.FreeHGlobal(bufferPtr);
@@ -85,10 +85,7 @@ namespace Cave.Media.Structs
         /// "ICON[&lt;Bytes&gt;] (&lt;Width&gt;x&lt;Height&gt;).
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format("ICON[{0}] ({1}x{2})", Size, Width == 0 ? 256 : Width, Height == 0 ? 256 : Height);
-        }
+        public override string ToString() => string.Format("ICON[{0}] ({1}x{2})", Size, Width == 0 ? 256 : Width, Height == 0 ? 256 : Height);
 
         /// <summary>
         /// Gets the structure as byte array.
@@ -96,8 +93,8 @@ namespace Cave.Media.Structs
         /// <returns></returns>
         public byte[] ToArray()
         {
-            byte[] buffer = new byte[16];
-            IntPtr bufferPtr = Marshal.AllocHGlobal(16);
+            var buffer = new byte[16];
+            var bufferPtr = Marshal.AllocHGlobal(16);
             Marshal.StructureToPtr(this, bufferPtr, true);
             Marshal.Copy(bufferPtr, buffer, 0, 16);
             Marshal.FreeHGlobal(bufferPtr);

@@ -53,13 +53,13 @@ namespace Cave.Media.Audio.MP3
         void Reset()
         {
             // initialize v1[] and v2[]:
-            for (int p = 0; p < 512; p++)
+            for (var p = 0; p < 512; p++)
             {
                 v1[p] = v2[p] = 0.0f;
             }
 
             // initialize samples[]:
-            for (int p2 = 0; p2 < 32; p2++)
+            for (var p2 = 0; p2 < 32; p2++)
             {
                 m_Samples[p2] = 0.0f;
             }
@@ -71,10 +71,7 @@ namespace Cave.Media.Audio.MP3
         /// <summary>Adds a sample.</summary>
         /// <param name="sample">The sample.</param>
         /// <param name="subbandnumber">The subbandnumber.</param>
-        public void AddSample(float sample, int subbandnumber)
-        {
-            m_Samples[subbandnumber] = EqualizerFactors[subbandnumber] * sample;
-        }
+        public void AddSample(float sample, int subbandnumber) => m_Samples[subbandnumber] = EqualizerFactors[subbandnumber] * sample;
 
         /// <summary>Adds the samples for all 32 bands.</summary>
         /// <param name="samples">The samples.</param>
@@ -83,7 +80,7 @@ namespace Cave.Media.Audio.MP3
 #if DEBUG
             if (samples.Length != 32) throw new ArgumentException("Samples[32] expected!");
 #endif
-            for (int i = 31; i >= 0; i--)
+            for (var i = 31; i >= 0; i--)
             {
                 m_Samples[i] = samples[i] * EqualizerFactors[i];
             }
@@ -100,74 +97,74 @@ namespace Cave.Media.Audio.MP3
 
             new_v0 = new_v1 = new_v2 = new_v3 = new_v4 = new_v5 = new_v6 = new_v7 = new_v8 = new_v9 = new_v10 = new_v11 = new_v12 = new_v13 = new_v14 = new_v15 = new_v16 = new_v17 = new_v18 = new_v19 = new_v20 = new_v21 = new_v22 = new_v23 = new_v24 = new_v25 = new_v26 = new_v27 = new_v28 = new_v29 = new_v30 = new_v31 = 0.0f;
 
-            float[] s = m_Samples;
+            var s = m_Samples;
 
-            float s0 = s[0];
-            float s1 = s[1];
-            float s2 = s[2];
-            float s3 = s[3];
-            float s4 = s[4];
-            float s5 = s[5];
-            float s6 = s[6];
-            float s7 = s[7];
-            float s8 = s[8];
-            float s9 = s[9];
-            float s10 = s[10];
-            float s11 = s[11];
-            float s12 = s[12];
-            float s13 = s[13];
-            float s14 = s[14];
-            float s15 = s[15];
-            float s16 = s[16];
-            float s17 = s[17];
-            float s18 = s[18];
-            float s19 = s[19];
-            float s20 = s[20];
-            float s21 = s[21];
-            float s22 = s[22];
-            float s23 = s[23];
-            float s24 = s[24];
-            float s25 = s[25];
-            float s26 = s[26];
-            float s27 = s[27];
-            float s28 = s[28];
-            float s29 = s[29];
-            float s30 = s[30];
-            float s31 = s[31];
+            var s0 = s[0];
+            var s1 = s[1];
+            var s2 = s[2];
+            var s3 = s[3];
+            var s4 = s[4];
+            var s5 = s[5];
+            var s6 = s[6];
+            var s7 = s[7];
+            var s8 = s[8];
+            var s9 = s[9];
+            var s10 = s[10];
+            var s11 = s[11];
+            var s12 = s[12];
+            var s13 = s[13];
+            var s14 = s[14];
+            var s15 = s[15];
+            var s16 = s[16];
+            var s17 = s[17];
+            var s18 = s[18];
+            var s19 = s[19];
+            var s20 = s[20];
+            var s21 = s[21];
+            var s22 = s[22];
+            var s23 = s[23];
+            var s24 = s[24];
+            var s25 = s[25];
+            var s26 = s[26];
+            var s27 = s[27];
+            var s28 = s[28];
+            var s29 = s[29];
+            var s30 = s[30];
+            var s31 = s[31];
 
-            float p0 = s0 + s31;
-            float p1 = s1 + s30;
-            float p2 = s2 + s29;
-            float p3 = s3 + s28;
-            float p4 = s4 + s27;
-            float p5 = s5 + s26;
-            float p6 = s6 + s25;
-            float p7 = s7 + s24;
-            float p8 = s8 + s23;
-            float p9 = s9 + s22;
-            float p10 = s10 + s21;
-            float p11 = s11 + s20;
-            float p12 = s12 + s19;
-            float p13 = s13 + s18;
-            float p14 = s14 + s17;
-            float p15 = s15 + s16;
+            var p0 = s0 + s31;
+            var p1 = s1 + s30;
+            var p2 = s2 + s29;
+            var p3 = s3 + s28;
+            var p4 = s4 + s27;
+            var p5 = s5 + s26;
+            var p6 = s6 + s25;
+            var p7 = s7 + s24;
+            var p8 = s8 + s23;
+            var p9 = s9 + s22;
+            var p10 = s10 + s21;
+            var p11 = s11 + s20;
+            var p12 = s12 + s19;
+            var p13 = s13 + s18;
+            var p14 = s14 + s17;
+            var p15 = s15 + s16;
 
-            float pp0 = p0 + p15;
-            float pp1 = p1 + p14;
-            float pp2 = p2 + p13;
-            float pp3 = p3 + p12;
-            float pp4 = p4 + p11;
-            float pp5 = p5 + p10;
-            float pp6 = p6 + p9;
-            float pp7 = p7 + p8;
-            float pp8 = (p0 - p15) * cos1a32;
-            float pp9 = (p1 - p14) * cos3a32;
-            float pp10 = (p2 - p13) * cos5a32;
-            float pp11 = (p3 - p12) * cos7a32;
-            float pp12 = (p4 - p11) * cos9a32;
-            float pp13 = (p5 - p10) * cos11a32;
-            float pp14 = (p6 - p9) * cos13a32;
-            float pp15 = (p7 - p8) * cos15a32;
+            var pp0 = p0 + p15;
+            var pp1 = p1 + p14;
+            var pp2 = p2 + p13;
+            var pp3 = p3 + p12;
+            var pp4 = p4 + p11;
+            var pp5 = p5 + p10;
+            var pp6 = p6 + p9;
+            var pp7 = p7 + p8;
+            var pp8 = (p0 - p15) * cos1a32;
+            var pp9 = (p1 - p14) * cos3a32;
+            var pp10 = (p2 - p13) * cos5a32;
+            var pp11 = (p3 - p12) * cos7a32;
+            var pp12 = (p4 - p11) * cos9a32;
+            var pp13 = (p5 - p10) * cos11a32;
+            var pp14 = (p6 - p9) * cos13a32;
+            var pp15 = (p7 - p8) * cos15a32;
 
             p0 = pp0 + pp7;
             p1 = pp1 + pp6;
@@ -335,9 +332,9 @@ namespace Cave.Media.Audio.MP3
 
             // insert V[0-15] (== new_v[0-15]) into actual v:
             // float[] x2 = actual_v + actual_write_pos;
-            float[] dest = actual_v;
+            var dest = actual_v;
 
-            int pos = m_Position;
+            var pos = m_Position;
 
             dest[0 + pos] = new_v0;
             dest[16 + pos] = new_v1;
@@ -419,17 +416,17 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples0()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
                 float pcm_sample;
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 pcm_sample = (vp[0 + dvp] * dp[0]) + (vp[15 + dvp] * dp[1]) + (vp[14 + dvp] * dp[2]) + (vp[13 + dvp] * dp[3]) + (vp[12 + dvp] * dp[4]) + (vp[11 + dvp] * dp[5]) + (vp[10 + dvp] * dp[6]) + (vp[9 + dvp] * dp[7]) + (vp[8 + dvp] * dp[8]) + (vp[7 + dvp] * dp[9]) + (vp[6 + dvp] * dp[10]) + (vp[5 + dvp] * dp[11]) + (vp[4 + dvp] * dp[12]) + (vp[3 + dvp] * dp[13]) + (vp[2 + dvp] * dp[14]) + (vp[1 + dvp] * dp[15]);
 
                 tmpOut[i] = pcm_sample;
@@ -442,16 +439,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples1()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[1 + dvp] * dp[0]) + (vp[0 + dvp] * dp[1]) + (vp[15 + dvp] * dp[2]) + (vp[14 + dvp] * dp[3]) + (vp[13 + dvp] * dp[4]) + (vp[12 + dvp] * dp[5]) + (vp[11 + dvp] * dp[6]) + (vp[10 + dvp] * dp[7]) + (vp[9 + dvp] * dp[8]) + (vp[8 + dvp] * dp[9]) + (vp[7 + dvp] * dp[10]) + (vp[6 + dvp] * dp[11]) + (vp[5 + dvp] * dp[12]) + (vp[4 + dvp] * dp[13]) + (vp[3 + dvp] * dp[14]) + (vp[2 + dvp] * dp[15]);
@@ -465,16 +462,16 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples2()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[2 + dvp] * dp[0]) + (vp[1 + dvp] * dp[1]) + (vp[0 + dvp] * dp[2]) + (vp[15 + dvp] * dp[3]) + (vp[14 + dvp] * dp[4]) + (vp[13 + dvp] * dp[5]) + (vp[12 + dvp] * dp[6]) + (vp[11 + dvp] * dp[7]) + (vp[10 + dvp] * dp[8]) + (vp[9 + dvp] * dp[9]) + (vp[8 + dvp] * dp[10]) + (vp[7 + dvp] * dp[11]) + (vp[6 + dvp] * dp[12]) + (vp[5 + dvp] * dp[13]) + (vp[4 + dvp] * dp[14]) + (vp[3 + dvp] * dp[15]);
@@ -489,16 +486,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples3()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[3 + dvp] * dp[0]) + (vp[2 + dvp] * dp[1]) + (vp[1 + dvp] * dp[2]) + (vp[0 + dvp] * dp[3]) + (vp[15 + dvp] * dp[4]) + (vp[14 + dvp] * dp[5]) + (vp[13 + dvp] * dp[6]) + (vp[12 + dvp] * dp[7]) + (vp[11 + dvp] * dp[8]) + (vp[10 + dvp] * dp[9]) + (vp[9 + dvp] * dp[10]) + (vp[8 + dvp] * dp[11]) + (vp[7 + dvp] * dp[12]) + (vp[6 + dvp] * dp[13]) + (vp[5 + dvp] * dp[14]) + (vp[4 + dvp] * dp[15]);
@@ -513,16 +510,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples4()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[4 + dvp] * dp[0]) + (vp[3 + dvp] * dp[1]) + (vp[2 + dvp] * dp[2]) + (vp[1 + dvp] * dp[3]) + (vp[0 + dvp] * dp[4]) + (vp[15 + dvp] * dp[5]) + (vp[14 + dvp] * dp[6]) + (vp[13 + dvp] * dp[7]) + (vp[12 + dvp] * dp[8]) + (vp[11 + dvp] * dp[9]) + (vp[10 + dvp] * dp[10]) + (vp[9 + dvp] * dp[11]) + (vp[8 + dvp] * dp[12]) + (vp[7 + dvp] * dp[13]) + (vp[6 + dvp] * dp[14]) + (vp[5 + dvp] * dp[15]);
@@ -537,16 +534,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples5()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[5 + dvp] * dp[0]) + (vp[4 + dvp] * dp[1]) + (vp[3 + dvp] * dp[2]) + (vp[2 + dvp] * dp[3]) + (vp[1 + dvp] * dp[4]) + (vp[0 + dvp] * dp[5]) + (vp[15 + dvp] * dp[6]) + (vp[14 + dvp] * dp[7]) + (vp[13 + dvp] * dp[8]) + (vp[12 + dvp] * dp[9]) + (vp[11 + dvp] * dp[10]) + (vp[10 + dvp] * dp[11]) + (vp[9 + dvp] * dp[12]) + (vp[8 + dvp] * dp[13]) + (vp[7 + dvp] * dp[14]) + (vp[6 + dvp] * dp[15]);
@@ -561,16 +558,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples6()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[6 + dvp] * dp[0]) + (vp[5 + dvp] * dp[1]) + (vp[4 + dvp] * dp[2]) + (vp[3 + dvp] * dp[3]) + (vp[2 + dvp] * dp[4]) + (vp[1 + dvp] * dp[5]) + (vp[0 + dvp] * dp[6]) + (vp[15 + dvp] * dp[7]) + (vp[14 + dvp] * dp[8]) + (vp[13 + dvp] * dp[9]) + (vp[12 + dvp] * dp[10]) + (vp[11 + dvp] * dp[11]) + (vp[10 + dvp] * dp[12]) + (vp[9 + dvp] * dp[13]) + (vp[8 + dvp] * dp[14]) + (vp[7 + dvp] * dp[15]);
@@ -585,16 +582,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples7()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[7 + dvp] * dp[0]) + (vp[6 + dvp] * dp[1]) + (vp[5 + dvp] * dp[2]) + (vp[4 + dvp] * dp[3]) + (vp[3 + dvp] * dp[4]) + (vp[2 + dvp] * dp[5]) + (vp[1 + dvp] * dp[6]) + (vp[0 + dvp] * dp[7]) + (vp[15 + dvp] * dp[8]) + (vp[14 + dvp] * dp[9]) + (vp[13 + dvp] * dp[10]) + (vp[12 + dvp] * dp[11]) + (vp[11 + dvp] * dp[12]) + (vp[10 + dvp] * dp[13]) + (vp[9 + dvp] * dp[14]) + (vp[8 + dvp] * dp[15]);
@@ -608,16 +605,16 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples8()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[8 + dvp] * dp[0]) + (vp[7 + dvp] * dp[1]) + (vp[6 + dvp] * dp[2]) + (vp[5 + dvp] * dp[3]) + (vp[4 + dvp] * dp[4]) + (vp[3 + dvp] * dp[5]) + (vp[2 + dvp] * dp[6]) + (vp[1 + dvp] * dp[7]) + (vp[0 + dvp] * dp[8]) + (vp[15 + dvp] * dp[9]) + (vp[14 + dvp] * dp[10]) + (vp[13 + dvp] * dp[11]) + (vp[12 + dvp] * dp[12]) + (vp[11 + dvp] * dp[13]) + (vp[10 + dvp] * dp[14]) + (vp[9 + dvp] * dp[15]);
@@ -632,16 +629,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples9()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[9 + dvp] * dp[0]) + (vp[8 + dvp] * dp[1]) + (vp[7 + dvp] * dp[2]) + (vp[6 + dvp] * dp[3]) + (vp[5 + dvp] * dp[4]) + (vp[4 + dvp] * dp[5]) + (vp[3 + dvp] * dp[6]) + (vp[2 + dvp] * dp[7]) + (vp[1 + dvp] * dp[8]) + (vp[0 + dvp] * dp[9]) + (vp[15 + dvp] * dp[10]) + (vp[14 + dvp] * dp[11]) + (vp[13 + dvp] * dp[12]) + (vp[12 + dvp] * dp[13]) + (vp[11 + dvp] * dp[14]) + (vp[10 + dvp] * dp[15]);
@@ -656,16 +653,16 @@ namespace Cave.Media.Audio.MP3
 
         void compute_pcm_samples10()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[10 + dvp] * dp[0]) + (vp[9 + dvp] * dp[1]) + (vp[8 + dvp] * dp[2]) + (vp[7 + dvp] * dp[3]) + (vp[6 + dvp] * dp[4]) + (vp[5 + dvp] * dp[5]) + (vp[4 + dvp] * dp[6]) + (vp[3 + dvp] * dp[7]) + (vp[2 + dvp] * dp[8]) + (vp[1 + dvp] * dp[9]) + (vp[0 + dvp] * dp[10]) + (vp[15 + dvp] * dp[11]) + (vp[14 + dvp] * dp[12]) + (vp[13 + dvp] * dp[13]) + (vp[12 + dvp] * dp[14]) + (vp[11 + dvp] * dp[15]);
@@ -679,16 +676,16 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples11()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[11 + dvp] * dp[0]) + (vp[10 + dvp] * dp[1]) + (vp[9 + dvp] * dp[2]) + (vp[8 + dvp] * dp[3]) + (vp[7 + dvp] * dp[4]) + (vp[6 + dvp] * dp[5]) + (vp[5 + dvp] * dp[6]) + (vp[4 + dvp] * dp[7]) + (vp[3 + dvp] * dp[8]) + (vp[2 + dvp] * dp[9]) + (vp[1 + dvp] * dp[10]) + (vp[0 + dvp] * dp[11]) + (vp[15 + dvp] * dp[12]) + (vp[14 + dvp] * dp[13]) + (vp[13 + dvp] * dp[14]) + (vp[12 + dvp] * dp[15]);
@@ -702,16 +699,16 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples12()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[12 + dvp] * dp[0]) + (vp[11 + dvp] * dp[1]) + (vp[10 + dvp] * dp[2]) + (vp[9 + dvp] * dp[3]) + (vp[8 + dvp] * dp[4]) + (vp[7 + dvp] * dp[5]) + (vp[6 + dvp] * dp[6]) + (vp[5 + dvp] * dp[7]) + (vp[4 + dvp] * dp[8]) + (vp[3 + dvp] * dp[9]) + (vp[2 + dvp] * dp[10]) + (vp[1 + dvp] * dp[11]) + (vp[0 + dvp] * dp[12]) + (vp[15 + dvp] * dp[13]) + (vp[14 + dvp] * dp[14]) + (vp[13 + dvp] * dp[15]);
@@ -725,16 +722,16 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples13()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[13 + dvp] * dp[0]) + (vp[12 + dvp] * dp[1]) + (vp[11 + dvp] * dp[2]) + (vp[10 + dvp] * dp[3]) + (vp[9 + dvp] * dp[4]) + (vp[8 + dvp] * dp[5]) + (vp[7 + dvp] * dp[6]) + (vp[6 + dvp] * dp[7]) + (vp[5 + dvp] * dp[8]) + (vp[4 + dvp] * dp[9]) + (vp[3 + dvp] * dp[10]) + (vp[2 + dvp] * dp[11]) + (vp[1 + dvp] * dp[12]) + (vp[0 + dvp] * dp[13]) + (vp[15 + dvp] * dp[14]) + (vp[14 + dvp] * dp[15]);
@@ -748,16 +745,16 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples14()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 float pcm_sample;
 
                 pcm_sample = (vp[14 + dvp] * dp[0]) + (vp[13 + dvp] * dp[1]) + (vp[12 + dvp] * dp[2]) + (vp[11 + dvp] * dp[3]) + (vp[10 + dvp] * dp[4]) + (vp[9 + dvp] * dp[5]) + (vp[8 + dvp] * dp[6]) + (vp[7 + dvp] * dp[7]) + (vp[6 + dvp] * dp[8]) + (vp[5 + dvp] * dp[9]) + (vp[4 + dvp] * dp[10]) + (vp[3 + dvp] * dp[11]) + (vp[2 + dvp] * dp[12]) + (vp[1 + dvp] * dp[13]) + (vp[0 + dvp] * dp[14]) + (vp[15 + dvp] * dp[15]);
@@ -771,17 +768,17 @@ namespace Cave.Media.Audio.MP3
         }
         void compute_pcm_samples15()
         {
-            float[] vp = actual_v;
+            var vp = actual_v;
 
             // int inc = v_inc;
-            float[] tmpOut = m_PCMSamples;
-            int dvp = 0;
+            var tmpOut = m_PCMSamples;
+            var dvp = 0;
 
             // fat chance of having this loop unroll
-            for (int i = 0; i < 32; i++)
+            for (var i = 0; i < 32; i++)
             {
                 float pcm_sample;
-                float[] dp = MP3AudioConstants.SynthesisFilterValues[i];
+                var dp = MP3AudioConstants.SynthesisFilterValues[i];
                 pcm_sample = (vp[15 + dvp] * dp[0]) + (vp[14 + dvp] * dp[1]) + (vp[13 + dvp] * dp[2]) + (vp[12 + dvp] * dp[3]) + (vp[11 + dvp] * dp[4]) + (vp[10 + dvp] * dp[5]) + (vp[9 + dvp] * dp[6]) + (vp[8 + dvp] * dp[7]) + (vp[7 + dvp] * dp[8]) + (vp[6 + dvp] * dp[9]) + (vp[5 + dvp] * dp[10]) + (vp[4 + dvp] * dp[11]) + (vp[3 + dvp] * dp[12]) + (vp[2 + dvp] * dp[13]) + (vp[1 + dvp] * dp[14]) + (vp[0 + dvp] * dp[15]);
 
                 tmpOut[i] = pcm_sample;

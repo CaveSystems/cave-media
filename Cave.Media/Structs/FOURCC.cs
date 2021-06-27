@@ -17,20 +17,14 @@ namespace Cave.Media.Structs
         /// </summary>
         /// <param name="fcc">The four character code.</param>
         /// <returns>The four character code as string.</returns>
-        public static string ToString(uint fcc)
-        {
-            return new string(new char[] { (char)((fcc >> 0) & 0xFF), (char)((fcc >> 8) & 0xFF), (char)((fcc >> 16) & 0xFF), (char)((fcc >> 24) & 0xFF) });
-        }
+        public static string ToString(uint fcc) => new string(new char[] { (char)((fcc >> 0) & 0xFF), (char)((fcc >> 8) & 0xFF), (char)((fcc >> 16) & 0xFF), (char)((fcc >> 24) & 0xFF) });
 
         /// <summary>
         /// Gets the string of the <see cref="FOURCC"/> int.
         /// </summary>
         /// <param name="fcc">The four character code.</param>
         /// <returns>The four character code as string.</returns>
-        public static string ToString(int fcc)
-        {
-            return new string(new char[] { (char)((fcc >> 0) & 0xFF), (char)((fcc >> 8) & 0xFF), (char)((fcc >> 16) & 0xFF), (char)((fcc >> 24) & 0xFF) });
-        }
+        public static string ToString(int fcc) => new string(new char[] { (char)((fcc >> 0) & 0xFF), (char)((fcc >> 8) & 0xFF), (char)((fcc >> 16) & 0xFF), (char)((fcc >> 24) & 0xFF) });
 
         /// <summary>
         /// Gets the int of the <see cref="FOURCC"/> string.

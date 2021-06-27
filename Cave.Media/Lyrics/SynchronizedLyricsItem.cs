@@ -44,9 +44,9 @@ namespace Cave.Media.Lyrics
         public void Save(TimeSpan previousTime, DataWriter writer)
         {
             // save time in milliseconds since last slc
-            long lastMilliSecond = previousTime.Ticks / TimeSpan.TicksPerMillisecond;
-            long myMilliSecond = TimeCode.Ticks / TimeSpan.TicksPerMillisecond;
-            long diff = myMilliSecond - lastMilliSecond;
+            var lastMilliSecond = previousTime.Ticks / TimeSpan.TicksPerMillisecond;
+            var myMilliSecond = TimeCode.Ticks / TimeSpan.TicksPerMillisecond;
+            var diff = myMilliSecond - lastMilliSecond;
             if (diff <= 0 && myMilliSecond > 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(previousTime));
@@ -66,9 +66,6 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return StringExtensions.FormatTime(TimeCode) + " " + StringExtensions.Join(Commands, ", ");
-        }
+        public override string ToString() => StringExtensions.FormatTime(TimeCode) + " " + StringExtensions.Join(Commands, ", ");
     }
 }

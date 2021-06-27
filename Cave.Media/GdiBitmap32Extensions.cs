@@ -1,7 +1,4 @@
-﻿#if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -39,18 +36,11 @@ namespace Cave.Media
             {
                 return ((GdiBitmap32)other).Bitmap;
             }
-            using (var ms = new MemoryStream())
-            {
-                other.Save(ms);
-                ms.Position = 0;
-                return ToGdiBitmap(Image.FromStream(ms));
-            }
+            using var ms = new MemoryStream();
+            other.Save(ms);
+            ms.Position = 0;
+            return ToGdiBitmap(Image.FromStream(ms));
         }
     }
 }
 
-#else
-
-#error No code defined for the current framework or NETXX version define missing!
-
-#endif

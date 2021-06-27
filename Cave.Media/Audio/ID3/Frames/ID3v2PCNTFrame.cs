@@ -13,9 +13,9 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             counter = 0;
-            for (int i = 10; i < Data.Length; i++)
+            for (var i = 10; i < RawData.Length; i++)
             {
-                counter = (counter << 8) | Data[i];
+                counter = (counter << 8) | RawData[i];
             }
         }
 
@@ -48,9 +48,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] Counter.</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " " + Counter.ToString();
-        }
+        public override string ToString() => base.ToString() + " " + Counter.ToString();
     }
 }

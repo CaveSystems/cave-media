@@ -188,9 +188,6 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return $"ID3v2 Header Version {Version} Revision {Revision} [{BodySize}] {Flags}";
-        }
+        public override string ToString() => $"ID3v2 Header Version {Version} Revision {Revision} [{BodySize}] {Flags}";
     }
 }

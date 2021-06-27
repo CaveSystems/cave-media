@@ -24,10 +24,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <param name="type"></param>
             /// <param name="value"></param>
             /// <returns></returns>
-            public static Event FromTimeStamp(EventType type, long value)
-            {
-                return new Event(type, value, true);
-            }
+            public static Event FromTimeStamp(EventType type, long value) => new Event(type, value, true);
 
             /// <summary>
             /// Creates a new synchronised tempo event.
@@ -35,10 +32,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <param name="type"></param>
             /// <param name="value"></param>
             /// <returns></returns>
-            public static Event FromFrameNumber(EventType type, long value)
-            {
-                return new Event(type, value, true);
-            }
+            public static Event FromFrameNumber(EventType type, long value) => new Event(type, value, true);
 
             internal Event(EventType type, long value, bool isTimeStamp)
                 : base(value, isTimeStamp)
@@ -81,7 +75,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             bool isTimeStamp;
-            byte mode = Content[0];
+            var mode = Content[0];
             switch (mode)
             {
                 case 0: isTimeStamp = false; break;
@@ -89,7 +83,7 @@ namespace Cave.Media.Audio.ID3.Frames
                 default: throw new NotImplementedException(string.Format("Mode {0} is not implemented!", mode));
             }
             var l_Events = new List<Event>();
-            int i = 1;
+            var i = 1;
             while (i < Content.Length)
             {
                 ushort beat = Content[i++];
@@ -99,8 +93,8 @@ namespace Cave.Media.Audio.ID3.Frames
                 }
 
                 var type = (EventType)beat;
-                int value = 0;
-                for (int n = 0; n < 4; n++)
+                var value = 0;
+                for (var n = 0; n < 4; n++)
                 {
                     value = (value << 8) | Content[i++];
                 }

@@ -69,10 +69,7 @@ namespace Cave.Media.Audio
         /// Gets the name of the device.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
 
         /// <summary>
         /// Checks against another instance for equality.
@@ -89,9 +86,6 @@ namespace Cave.Media.Audio
         /// Gets the hashcode based on the name and configuration.
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode() ^ m_Configuration.GetHashCode();
-        }
+        public override int GetHashCode() => Name.GetHashCode() ^ m_Configuration.GetHashCode();
     }
 }

@@ -23,10 +23,7 @@ namespace Cave.Media
         /// <exception cref="ArgumentException">Thrown if the valuecount at the string does not match the needed valuecount.</exception>
         /// <exception cref="FormatException">Thrown if the specified string contains a value / values with an invalid format.</exception>
         /// <exception cref="OverflowException">Thrown if one of the values if smaller <see cref="float.MinValue"/> or greater <see cref="float.MaxValue"/>.</exception>
-        public static Vector4 Parse(string text)
-        {
-            return Parse(text, CultureInfo.InvariantCulture);
-        }
+        public static Vector4 Parse(string text) => Parse(text, CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Parses a string and returns a new <see cref="Vector4"/>.
@@ -41,9 +38,9 @@ namespace Cave.Media
         /// <exception cref="OverflowException">Thrown if one of the values if smaller <see cref="float.MinValue"/> or greater <see cref="float.MaxValue"/>.</exception>
         public static Vector4 Parse(string text, IFormatProvider cultureInfo)
         {
-            string[] strings = text.UnboxBrackets(true).Split(new char[] { ';', ',', '\t', ' ' });
-            float[] values = new float[strings.Length];
-            for (int i = 0; i < strings.Length; i++)
+            var strings = text.UnboxBrackets(true).Split(new char[] { ';', ',', '\t', ' ' });
+            var values = new float[strings.Length];
+            for (var i = 0; i < strings.Length; i++)
             {
                 values[i] = float.Parse(strings[i], cultureInfo);
             }
@@ -163,10 +160,7 @@ namespace Cave.Media
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Add(Vector4 first, Vector4 second)
-        {
-            return Create(first.X + second.X, first.Y + second.Y, first.Z + second.Z, first.W + second.W);
-        }
+        public static Vector4 Add(Vector4 first, Vector4 second) => Create(first.X + second.X, first.Y + second.Y, first.Z + second.Z, first.W + second.W);
 
         /// <summary>
         /// provides subtraction.
@@ -185,10 +179,7 @@ namespace Cave.Media
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Subtract(Vector4 first, Vector4 second)
-        {
-            return Create(first.X - second.X, first.Y - second.Y, first.Z - second.Z, first.W - second.W);
-        }
+        public static Vector4 Subtract(Vector4 first, Vector4 second) => Create(first.X - second.X, first.Y - second.Y, first.Z - second.Z, first.W - second.W);
 
         /// <summary>
         /// provides multiplication.
@@ -207,10 +198,7 @@ namespace Cave.Media
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Muliply(Vector4 first, float second)
-        {
-            return Create(first.X * second, first.Y * second, first.Z * second, first.W * second);
-        }
+        public static Vector4 Muliply(Vector4 first, float second) => Create(first.X * second, first.Y * second, first.Z * second, first.W * second);
 
         /// <summary>
         /// provides multiplication.
@@ -229,10 +217,7 @@ namespace Cave.Media
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static float Mulitly(Vector4 first, Vector4 second)
-        {
-            return (first.X * second.X) + (first.Y * second.Y) + (first.Z * second.Z) + (first.W * second.W);
-        }
+        public static float Mulitly(Vector4 first, Vector4 second) => (first.X * second.X) + (first.Y * second.Y) + (first.Z * second.Z) + (first.W * second.W);
 
         /// <summary>
         /// provides division.
@@ -251,10 +236,7 @@ namespace Cave.Media
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector4 Divide(Vector4 first, float second)
-        {
-            return Create(first.X / second, first.Y / second, first.Z / second, first.W / second);
-        }
+        public static Vector4 Divide(Vector4 first, float second) => Create(first.X / second, first.Y / second, first.Z / second, first.W / second);
         #endregion
 
         /// <summary>
@@ -289,30 +271,21 @@ namespace Cave.Media
         /// Retrieves the vector values as array.
         /// </summary>
         /// <returns>Returns the vector values as array.</returns>
-        public float[] ToArray()
-        {
-            return new float[] { X, Y, Z, W };
-        }
+        public float[] ToArray() => new float[] { X, Y, Z, W };
 
         /// <summary>
         /// Gets a string of the form '(x,y,z,w)'.
         /// The values are converted to strings using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <returns>Returns a string of the form '(x,y,z,w)'.</returns>
-        public override string ToString()
-        {
-            return ToString(CultureInfo.InvariantCulture);
-        }
+        public override string ToString() => ToString(CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Gets a string of the form '(x,y,z,w)'.
         /// </summary>
         /// <param name="cultureInfo">The <see cref="CultureInfo"/> for encoding the float values.</param>
         /// <returns>Returns a string of the form '(x,y,z,w)'.</returns>
-        public string ToString(IFormatProvider cultureInfo)
-        {
-            return string.Format("({0},{1},{2},{3})", X.ToString(cultureInfo), Y.ToString(cultureInfo), Z.ToString(cultureInfo), W.ToString(cultureInfo));
-        }
+        public string ToString(IFormatProvider cultureInfo) => string.Format("({0},{1},{2},{3})", X.ToString(cultureInfo), Y.ToString(cultureInfo), Z.ToString(cultureInfo), W.ToString(cultureInfo));
 
         /// <summary>
         /// Checks another <see cref="Vector4"/> for equality.
@@ -334,18 +307,12 @@ namespace Cave.Media
         /// Gets the hash code for this instance.
         /// </summary>
         /// <returns>Returns the hash code for this instance.</returns>
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
+        public override int GetHashCode() => ToString().GetHashCode();
 
         /// <summary>
         /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
-        public Vector4 Clone()
-        {
-            return Create(X, Y, Z, W);
-        }
+        public Vector4 Clone() => Create(X, Y, Z, W);
     }
 }

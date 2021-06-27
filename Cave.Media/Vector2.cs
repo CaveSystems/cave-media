@@ -21,10 +21,7 @@ namespace Cave.Media
         /// <exception cref="ArgumentException">Thrown if the valuecount at the string does not match the needed valuecount.</exception>
         /// <exception cref="FormatException">Thrown if the specified string contains a value / values with an invalid format.</exception>
         /// <exception cref="OverflowException">Thrown if one of the values if smaller <see cref="float.MinValue"/> or greater <see cref="float.MaxValue"/>.</exception>
-        public static Vector2 Parse(string text)
-        {
-            return Parse(text, CultureInfo.InvariantCulture);
-        }
+        public static Vector2 Parse(string text) => Parse(text, CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Parses a string and returns a new <see cref="Vector2"/>.
@@ -39,9 +36,9 @@ namespace Cave.Media
         /// <exception cref="OverflowException">Thrown if one of the values if smaller <see cref="float.MinValue"/> or greater <see cref="float.MaxValue"/>.</exception>
         public static Vector2 Parse(string text, IFormatProvider cultureInfo)
         {
-            string[] strings = text.UnboxBrackets(true).Split(new char[] { ';', ',', '\t', ' ' });
-            float[] values = new float[strings.Length];
-            for (int i = 0; i < strings.Length; i++)
+            var strings = text.UnboxBrackets(true).Split(new char[] { ';', ',', '\t', ' ' });
+            var values = new float[strings.Length];
+            for (var i = 0; i < strings.Length; i++)
             {
                 values[i] = float.Parse(strings[i], cultureInfo);
             }
@@ -109,134 +106,119 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Vector2"/> instances for equality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(Vector2 A, Vector2 B)
+        public static bool operator ==(Vector2 a, Vector2 b)
         {
-            return Equals(null, A) ? Equals(null, B) : A.Equals(B);
+            return Equals(null, a) ? Equals(null, b) : a.Equals(b);
         }
 
         /// <summary>
         /// Checks two <see cref="Vector2"/> instances for inequality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(Vector2 A, Vector2 B)
+        public static bool operator !=(Vector2 a, Vector2 b)
         {
-            return Equals(null, A) ? !Equals(null, B) : !A.Equals(B);
+            return Equals(null, a) ? !Equals(null, b) : !a.Equals(b);
         }
 
         /// <summary>
         /// Provides addition.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 operator +(Vector2 A, Vector2 B)
+        public static Vector2 operator +(Vector2 a, Vector2 b)
         {
-            return Create(A.X + B.X, A.Y + B.Y);
+            return Create(a.X + b.X, a.Y + b.Y);
         }
 
         /// <summary>
         /// Provides addition.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 Add(Vector2 A, Vector2 B)
+        public static Vector2 Add(Vector2 a, Vector2 b) => Create(a.X + b.X, a.Y + b.Y);
+
+        /// <summary>
+        /// Provides subtraction.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Vector2 operator -(Vector2 a, Vector2 b)
         {
-            return Create(A.X + B.X, A.Y + B.Y);
+            return Create(a.X - b.X, a.Y - b.Y);
         }
 
         /// <summary>
         /// Provides subtraction.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 operator -(Vector2 A, Vector2 B)
-        {
-            return Create(A.X - B.X, A.Y - B.Y);
-        }
+        public static Vector2 Subtract(Vector2 a, Vector2 b) => Create(a.X - b.X, a.Y - b.Y);
 
         /// <summary>
-        /// Provides subtraction.
+        /// Provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 Subtract(Vector2 A, Vector2 B)
+        public static Vector2 operator *(Vector2 a, float b)
         {
-            return Create(A.X - B.X, A.Y - B.Y);
+            return Create(a.X * b, a.Y * b);
         }
 
         /// <summary>
         /// Provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 operator *(Vector2 A, float B)
+        public static Vector2 Multiply(Vector2 a, float b) => Create(a.X * b, a.Y * b);
+
+        /// <summary>
+        /// Provides multiplication.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Vector2 operator *(Vector2 a, Vector2 b)
         {
-            return Create(A.X * B, A.Y * B);
+            return Create(a.X * b.X, a.Y * b.Y);
         }
 
         /// <summary>
         /// Provides multiplication.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 Multiply(Vector2 A, float B)
-        {
-            return Create(A.X * B, A.Y * B);
-        }
+        public static Vector2 Multiply(Vector2 a, Vector2 b) => Create(a.X * b.X, a.Y * b.Y);
 
         /// <summary>
-        /// Provides multiplication.
+        /// Provides division.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 operator *(Vector2 A, Vector2 B)
+        public static Vector2 operator /(Vector2 a, float b)
         {
-            return Create(A.X * B.X, A.Y * B.Y);
-        }
-
-        /// <summary>
-        /// Provides multiplication.
-        /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
-        /// <returns></returns>
-        public static Vector2 Multiply(Vector2 A, Vector2 B)
-        {
-            return Create(A.X * B.X, A.Y * B.Y);
+            return Create(a.X / b, a.Y / b);
         }
 
         /// <summary>
         /// Provides division.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector2 operator /(Vector2 A, float B)
-        {
-            return Create(A.X / B, A.Y / B);
-        }
-
-        /// <summary>
-        /// Provides division.
-        /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
-        /// <returns></returns>
-        public static Vector2 Divide(Vector2 A, float B)
-        {
-            return Create(A.X / B, A.Y / B);
-        }
+        public static Vector2 Divide(Vector2 a, float b) => Create(a.X / b, a.Y / b);
         #endregion
 
         /// <summary>
@@ -254,30 +236,21 @@ namespace Cave.Media
         /// Retrieves the vector values as array.
         /// </summary>
         /// <returns>Returns the vector values as array.</returns>
-        public float[] ToArray()
-        {
-            return new float[] { X, Y };
-        }
+        public float[] ToArray() => new float[] { X, Y };
 
         /// <summary>
         /// Gets a string of the form '(x,y)'.
         /// The values are converted to strings using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <returns>Returns a string of the form '(x,y)'.</returns>
-        public override string ToString()
-        {
-            return ToString(CultureInfo.InvariantCulture);
-        }
+        public override string ToString() => ToString(CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Gets a string of the form '(x,y)'.
         /// </summary>
         /// <param name="cultureInfo">The <see cref="CultureInfo"/> for encoding the float values.</param>
         /// <returns>Returns a string of the form '(x,y)'.</returns>
-        public string ToString(IFormatProvider cultureInfo)
-        {
-            return string.Format("({0},{1})", X.ToString(cultureInfo), Y.ToString(cultureInfo));
-        }
+        public string ToString(IFormatProvider cultureInfo) => string.Format("({0},{1})", X.ToString(cultureInfo), Y.ToString(cultureInfo));
 
         /// <summary>
         /// Checks another <see cref="Vector2"/> for equality.
@@ -299,10 +272,7 @@ namespace Cave.Media
         /// Gets the hash code for this instance.
         /// </summary>
         /// <returns>Returns the hash code for this instance.</returns>
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
+        public override int GetHashCode() => ToString().GetHashCode();
 
         #region ICloneable Member
 
@@ -310,10 +280,7 @@ namespace Cave.Media
         /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
-        public object Clone()
-        {
-            return Create(X, Y);
-        }
+        public object Clone() => Create(X, Y);
 
         #endregion
     }

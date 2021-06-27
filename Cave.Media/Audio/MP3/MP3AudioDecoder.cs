@@ -84,7 +84,7 @@ namespace Cave.Media.Audio.MP3
             MP3AudioFrame l_MP3Frame = null;
             while (l_MP3Frame == null)
             {
-                AudioFrame frame = source.GetNextFrame();
+                var frame = source.GetNextFrame();
 
                 // eof ?
                 if (frame == null)
@@ -143,7 +143,7 @@ namespace Cave.Media.Audio.MP3
             this.source = source;
 
             // get first audio frame
-            MP3AudioFrame l_MP3Frame = ReadNextAudioFrame();
+            var l_MP3Frame = ReadNextAudioFrame();
             if (l_MP3Frame.Header.Layer != MP3AudioFrameLayer.Layer3)
             {
                 throw new NotSupportedException("Source " + SourceName + ": Only Layer 3 Audio is supported!");
@@ -151,7 +151,7 @@ namespace Cave.Media.Audio.MP3
 
             // prepare decoder
             outputChannels = l_MP3Frame.Header.ChannelCount;
-            float[] isEqualizerFactors = equalizer.GetFactors();
+            var isEqualizerFactors = equalizer.GetFactors();
             filter1 = new MP3AudioSynthesisFilter(0, 32000.0f, isEqualizerFactors);
             if (outputChannels == 2)
             {
@@ -180,20 +180,20 @@ namespace Cave.Media.Audio.MP3
             {
                 while (true)
                 {
-                    AudioFrame l_Frame = ReadNextAudioFrame();
-                    if (l_Frame == null)
+                    AudioFrame frame = ReadNextAudioFrame();
+                    if (frame == null)
                     {
                         return null;
                     }
 
-                    if (DecodeFrame(l_Frame as MP3AudioFrame) && (outputBuffer.SampleCount > 0))
+                    if (DecodeFrame(frame as MP3AudioFrame) && (outputBuffer.SampleCount > 0))
                     {
                         break;
                     }
                 }
             }
 
-            IAudioData data = outputBuffer.GetAudioData();
+            var data = outputBuffer.GetAudioData();
             outputBuffer.Clear();
             return data;
         }

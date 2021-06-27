@@ -51,10 +51,7 @@ namespace Cave.Media
         /// <param name="age">The age.</param>
         /// <param name="cultureInfo">The culture information.</param>
         /// <exception cref="ArgumentNullException">cultureInfo.</exception>
-        public void SelectVoiceByHints(VoiceGender gender, VoiceAge age, CultureInfo cultureInfo)
-        {
-            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
-        }
+        public void SelectVoiceByHints(VoiceGender gender, VoiceAge age, CultureInfo cultureInfo) => this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
 
         /// <summary>Speaks the specified text.</summary>
         /// <param name="text">The text.</param>
@@ -63,8 +60,8 @@ namespace Cave.Media
             try
             {
                 Trace.WriteLine(string.Format("Speak: {0}", text));
-                string uri = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" + cultureInfo.Name + "&q=" + Uri.EscapeUriString(text);
-                string hash = Base32.Safe.Encode(uri.GetHashCode() * (long)text.Length);
+                var uri = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" + cultureInfo.Name + "&q=" + Uri.EscapeUriString(text);
+                var hash = Base32.Safe.Encode(uri.GetHashCode() * (long)text.Length);
 
                 lock (this)
                 {
@@ -76,7 +73,7 @@ namespace Cave.Media
                     Trace.WriteLine(string.Format("Request new google translation for {0}", text));
                     byte[] data;
                     {
-                        string fileName = Path.Combine(FilePath, hash + ".mp3");
+                        var fileName = Path.Combine(FilePath, hash + ".mp3");
                         if (File.Exists(fileName))
                         {
                             data = File.ReadAllBytes(fileName);
@@ -154,17 +151,15 @@ namespace Cave.Media
             try
             {
                 decoder.BeginDecode(s);
-                using (var data = new MemoryStream())
+                using var data = new MemoryStream();
+                var packet = decoder.Decode();
+                IAudioConfiguration config = packet;
+                while (packet != null)
                 {
-                    var packet = decoder.Decode();
-                    IAudioConfiguration config = packet;
-                    while (packet != null)
-                    {
-                        data.Write(packet.Data, 0, packet.Length);
-                        packet = decoder.Decode();
-                    }
-                    return new SoundFile(config, data.ToArray());
+                    data.Write(packet.Data, 0, packet.Length);
+                    packet = decoder.Decode();
                 }
+                return new SoundFile(config, data.ToArray());
             }
             finally
             {

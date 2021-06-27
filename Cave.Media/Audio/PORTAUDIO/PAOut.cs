@@ -38,7 +38,7 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         PAStreamCallbackResult Callback(IntPtr input, IntPtr output, uint frameCount, ref PAStreamCallbackTimeInfo timeInfo, PAStreamCallbackFlags statusFlags, IntPtr userData)
         {
-            int byteCount = (int)frameCount * Configuration.BytesPerTick;
+            var byteCount = (int)frameCount * Configuration.BytesPerTick;
             lock (syncRoot)
             {
                 // fill output buffer
@@ -46,7 +46,7 @@ namespace Cave.Media.Audio.PORTAUDIO
                 {
                     if (buffers.Count > 0)
                     {
-                        IAudioData audioData = buffers.Dequeue();
+                        var audioData = buffers.Dequeue();
                         if (Volume != 1)
                         {
                             audioData = audioData.ChangeVolume(Volume);
@@ -55,7 +55,7 @@ namespace Cave.Media.Audio.PORTAUDIO
                         streamData.Enqueue(audioData.Data, true);
                         continue;
                     }
-                    int silenceBytes = byteCount - streamData.Length;
+                    var silenceBytes = byteCount - streamData.Length;
                     bufferUnderflowCount++;
                     bytesQueued += silenceBytes;
                     streamData.Enqueue(new byte[silenceBytes], true);
@@ -105,7 +105,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             SamplesPerBuffer = Math.Max(1, configuration.SamplingRate / PA.BuffersPerSecond);
             BufferSize = configuration.BytesPerTick * SamplesPerBuffer;
             callbackDelegate = new PA.StreamCallbackDelegate(Callback);
-            PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_OpenStream(out streamHandle, IntPtr.Zero, ref l_OutputParameters, configuration.SamplingRate, (uint)SamplesPerBuffer, PAStreamFlags.ClipOff, callbackDelegate, IntPtr.Zero);
+            var l_ErrorCode = PA.SafeNativeMethods.Pa_OpenStream(out streamHandle, IntPtr.Zero, ref l_OutputParameters, configuration.SamplingRate, (uint)SamplesPerBuffer, PAStreamFlags.ClipOff, callbackDelegate, IntPtr.Zero);
             if (l_ErrorCode != PAErrorCode.NoError)
             {
                 throw new Exception(PA.GetErrorText(l_ErrorCode));
@@ -128,7 +128,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
 
             exit = false;
-            PAErrorCode errorCode = PA.SafeNativeMethods.Pa_StartStream(streamHandle);
+            var errorCode = PA.SafeNativeMethods.Pa_StartStream(streamHandle);
             if (errorCode != PAErrorCode.NoError)
             {
                 throw new Exception(PA.GetErrorText(errorCode));
@@ -148,7 +148,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
 
             exit = true;
-            PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_StopStream(streamHandle);
+            var l_ErrorCode = PA.SafeNativeMethods.Pa_StopStream(streamHandle);
             if (l_ErrorCode != PAErrorCode.NoError)
             {
                 throw new Exception(PA.GetErrorText(l_ErrorCode));
@@ -162,7 +162,7 @@ namespace Cave.Media.Audio.PORTAUDIO
             exit = true;
             if (streamHandle != IntPtr.Zero)
             {
-                PAErrorCode l_ErrorCode = PA.SafeNativeMethods.Pa_CloseStream(streamHandle);
+                var l_ErrorCode = PA.SafeNativeMethods.Pa_CloseStream(streamHandle);
                 if (l_ErrorCode != PAErrorCode.NoError)
                 {
                     Trace.WriteLine("Error Pa_CloseStream " + PA.GetErrorText(l_ErrorCode));

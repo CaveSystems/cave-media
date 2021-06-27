@@ -160,9 +160,9 @@ namespace Cave.Media.Audio.MP3
             // array of all huffcodtable headers
             // 0..31 Huffman code table 0..31
             // 32,33 count1-tables
-            int l_Level = 1 << ((4 * 8) - 1);
-            int l_Point = 0;
-            bool l_Success = false;
+            var l_Level = 1 << ((4 * 8) - 1);
+            var l_Point = 0;
+            var l_Success = false;
 
             /* table 0 needs no bits */
             if (TreeLength == 0)
@@ -202,7 +202,7 @@ namespace Cave.Media.Audio.MP3
 
                     l_Point += Tree[l_Point][0];
                 }
-                l_Level = l_Level >> 1;
+                l_Level >>= 1;
             }
             while ((l_Level != 0) || (l_Point < 0));
 

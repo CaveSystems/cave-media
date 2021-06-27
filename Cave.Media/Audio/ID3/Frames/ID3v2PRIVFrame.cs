@@ -11,10 +11,7 @@ namespace Cave.Media.Audio.ID3.Frames
         string owner;
         int startIndex;
 
-        void Parse()
-        {
-            startIndex = 1 + ID3v2Encoding.Parse(0, Content, 0, out owner);
-        }
+        void Parse() => startIndex = 1 + ID3v2Encoding.Parse(0, Content, 0, out owner);
 
         internal ID3v2PRIVFrame(ID3v2Frame frame)
             : base(frame)
@@ -53,7 +50,7 @@ namespace Cave.Media.Audio.ID3.Frames
                     Parse();
                 }
 
-                return new DataFrameReader(Data).Read(startIndex, Data.Length - startIndex);
+                return new DataFrameReader(RawData).Read(startIndex, RawData.Length - startIndex);
             }
         }
 
@@ -66,9 +63,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "Owner".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " \"" + Owner + '"';
-        }
+        public override string ToString() => base.ToString() + " \"" + Owner + '"';
     }
 }

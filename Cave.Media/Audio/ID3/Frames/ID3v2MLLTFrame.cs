@@ -36,9 +36,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "Not implemented".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " \"Not implemented\"";
-        }
+        public override string ToString() => base.ToString() + " \"Not implemented\"";
     }
 }

@@ -54,15 +54,9 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
         }
 
-        public static string GetErrorText(PAErrorCode errorCode)
-        {
-            return Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetErrorText(errorCode));
-        }
+        public static string GetErrorText(PAErrorCode errorCode) => Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetErrorText(errorCode));
 
-        public static PAHostApiInfo GetHostApiInfo(int hostApi)
-        {
-            return (PAHostApiInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetHostApiInfo(hostApi), typeof(PAHostApiInfo));
-        }
+        public static PAHostApiInfo GetHostApiInfo(int hostApi) => (PAHostApiInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetHostApiInfo(hostApi), typeof(PAHostApiInfo));
 
         public static PAHostErrorInfo LastHostErrorInfo
         {
@@ -74,14 +68,11 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         public static PADeviceInfo GetDeviceInfo(int dev)
         {
-            IntPtr value = SafeNativeMethods.Pa_GetDeviceInfo(dev);
+            var value = SafeNativeMethods.Pa_GetDeviceInfo(dev);
             return (PADeviceInfo)Marshal.PtrToStructure(value, typeof(PADeviceInfo));
         }
 
-        public static PAStreamInfo GetStreamInfo(IntPtr stream)
-        {
-            return (PAStreamInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetStreamInfo(stream), typeof(PAStreamInfo));
-        }
+        public static PAStreamInfo GetStreamInfo(IntPtr stream) => (PAStreamInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetStreamInfo(stream), typeof(PAStreamInfo));
 
         #endregion
 

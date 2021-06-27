@@ -112,7 +112,7 @@ namespace Cave.Media.Audio.ID3
                 throw new ArgumentNullException("Data");
             }
 
-            int l_Index = start;
+            var l_Index = start;
             while (l_Index < data.Length)
             {
                 if ((data[l_Index] == 0) && (data[l_Index + 1] == 0))
@@ -152,7 +152,7 @@ namespace Cave.Media.Audio.ID3
                 len = IndexOfNull16Bit(data, index) - index;
                 l_MarkerLength = 2;
             }
-            Encoding enc = Get(encoding);
+            var enc = Get(encoding);
             if (len < 0)
             {
                 len = data.Length - index;
@@ -180,7 +180,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static int GetLength8BitString(byte[] data, int index)
         {
-            int i = Array.IndexOf<byte>(data, 0, index);
+            var i = Array.IndexOf<byte>(data, 0, index);
             if (i < 0)
             {
                 throw new InvalidDataException(string.Format("Error while parsing 8 bit character stream!"));
@@ -197,7 +197,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public static int GetLength16BitString(byte[] data, int index)
         {
-            int i = IndexOfNull16Bit(data, index);
+            var i = IndexOfNull16Bit(data, index);
             if (i < 0)
             {
                 throw new InvalidDataException(string.Format("Error while parsing 16 bit character stream!"));

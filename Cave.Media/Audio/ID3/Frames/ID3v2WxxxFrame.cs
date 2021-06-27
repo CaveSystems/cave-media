@@ -14,7 +14,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             var encoding = (ID3v2EncodingType)Content[0];
-            int start = 1 + ID3v2Encoding.Parse(encoding, Content, 1, out description);
+            var start = 1 + ID3v2Encoding.Parse(encoding, Content, 1, out description);
             ID3v2Encoding.Parse(0, Content, start, out address);
         }
 
@@ -63,9 +63,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "Description":"URL".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " \"" + Description + "\":\"" + Address + '"';
-        }
+        public override string ToString() => base.ToString() + " \"" + Description + "\":\"" + Address + '"';
     }
 }

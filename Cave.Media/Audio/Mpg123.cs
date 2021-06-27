@@ -73,10 +73,7 @@ namespace Cave.Media.Audio
             }
         }
 
-        void UpdateFormat()
-        {
-            m_CurrentConfig = M123.SafeNativeMethods.mpg123_getformat(m_DecoderHandle);
-        }
+        void UpdateFormat() => m_CurrentConfig = M123.SafeNativeMethods.mpg123_getformat(m_DecoderHandle);
         #endregion
 
         /// <summary>Occurs when [decoding a frame].</summary>
@@ -171,18 +168,12 @@ namespace Cave.Media.Audio
 
         /// <summary>Starts the decoding process.</summary>
         /// <param name="fileName">Name of the file.</param>
-        public void BeginDecode(string fileName)
-        {
-            BeginDecode(new MP3Reader(fileName));
-        }
+        public void BeginDecode(string fileName) => BeginDecode(new MP3Reader(fileName));
 
         /// <summary>Starts the decoding process.</summary>
         /// <param name="sourceStream">The source Stream providing the encoded data.</param>
         /// <exception cref="Exception">Source  + SourceName + : Decoding already started!.</exception>
-        public void BeginDecode(Stream sourceStream)
-        {
-            BeginDecode(new MP3Reader(sourceStream));
-        }
+        public void BeginDecode(Stream sourceStream) => BeginDecode(new MP3Reader(sourceStream));
 
         /// <summary>Starts the decoding process.</summary>
         /// <param name="source">The source.</param>
@@ -218,8 +209,8 @@ namespace Cave.Media.Audio
             M123.CheckResult(M123.SafeNativeMethods.mpg123_format_none(m_DecoderHandle));
 
             // allow all mp3 native samplerates
-            M123.ENC mode = useFloatingPoint ? M123.ENC.FLOAT_32 : M123.ENC.SIGNED_16;
-            foreach (int sampleRate in M123.SafeNativeMethods.mpg123_rates())
+            var mode = useFloatingPoint ? M123.ENC.FLOAT_32 : M123.ENC.SIGNED_16;
+            foreach (var sampleRate in M123.SafeNativeMethods.mpg123_rates())
             {
                 M123.CheckResult(M123.SafeNativeMethods.mpg123_format(m_DecoderHandle, new IntPtr(sampleRate), M123.CHANNELCOUNT.STEREO, mode));
             }
@@ -235,9 +226,9 @@ namespace Cave.Media.Audio
         /// </summary>
         void BufferFrame()
         {
-            for (int i = 0; i < 1;)
+            for (var i = 0; i < 1;)
             {
-                AudioFrame frame = m_Source.GetNextFrame();
+                var frame = m_Source.GetNextFrame();
                 if (frame == null)
                 {
                     break;
@@ -272,7 +263,7 @@ namespace Cave.Media.Audio
             }
 
             var outBuffer = new FifoBuffer();
-            bool l_Loop = true;
+            var l_Loop = true;
             while (l_Loop)
             {
                 M123.RESULT result;

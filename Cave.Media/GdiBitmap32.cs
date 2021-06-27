@@ -1,5 +1,5 @@
-﻿#if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
+﻿//#if NETSTANDARD20
+//#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
 
 using System;
 using System.Drawing;
@@ -22,7 +22,7 @@ namespace Cave.Media
 
         ImageCodecInfo GetEncoder(ImageFormat format)
         {
-            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageEncoders())
+            foreach (var codec in ImageCodecInfo.GetImageEncoders())
             {
                 if (codec.FormatID == format.Guid)
                 {
@@ -48,7 +48,7 @@ namespace Cave.Media
                 throw new ArgumentException("Invalid image format!");
             }
 
-            this.Bitmap = bitmap;
+            Bitmap = bitmap;
             graphics = Graphics.FromImage(bitmap);
             graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -85,10 +85,7 @@ namespace Cave.Media
         /// <param name="x">The x position.</param>
         /// <param name="y">The y position.</param>
         /// <param name="translation">The translation.</param>
-        public override void Draw(Bitmap32 other, int x, int y, Translation? translation = null)
-        {
-            Draw(other, x, y, other.Width, other.Height, translation);
-        }
+        public override void Draw(Bitmap32 other, int x, int y, Translation? translation = null) => Draw(other, x, y, other.Width, other.Height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -97,10 +94,7 @@ namespace Cave.Media
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="translation">The translation.</param>
-        public override void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null)
-        {
-            Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
-        }
+        public override void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -109,10 +103,7 @@ namespace Cave.Media
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="translation">The translation.</param>
-        public override void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null)
-        {
-            Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
-        }
+        public override void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -121,10 +112,7 @@ namespace Cave.Media
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="translation">The translation.</param>
-        public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null)
-        {
-            Draw(other.ToBitmap32(), x, y, width, height, translation);
-        }
+        public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => Draw(other.ToBitmap32(), x, y, width, height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -137,8 +125,8 @@ namespace Cave.Media
         {
             if (translation.HasValue)
             {
-                float mx = Width / 2f;
-                float my = Height / 2f;
+                var mx = Width / 2f;
+                var my = Height / 2f;
                 graphics.TranslateTransform(mx, my);
                 if (translation.Value.Rotation != 0)
                 {
@@ -177,7 +165,7 @@ namespace Cave.Media
         /// <param name="quality">The quality.</param>
         protected internal void Save(Stream stream, ImageFormat format, int quality)
         {
-            ImageCodecInfo encoder = GetEncoder(format);
+            var encoder = GetEncoder(format);
             var encoderParams = new EncoderParameters(1);
             encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, quality);
             Bitmap.Save(stream, encoder, encoderParams);
@@ -213,32 +201,27 @@ namespace Cave.Media
         public override void Save(string fileName, int quality = 100)
         {
             ImageType type;
-            string extension = Path.GetExtension(fileName).ToLower();
+            var extension = Path.GetExtension(fileName).ToLower();
             switch (extension)
             {
                 case ".png": type = ImageType.Png; break;
                 case ".jpg": type = ImageType.Jpeg; break;
                 default: throw new Exception($"Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!");
             }
-            using (var file = File.Create(fileName))
-            {
-                Save(file, type, quality);
-            }
+            using var file = File.Create(fileName);
+            Save(file, type, quality);
         }
 
         /// <summary>
         /// Clear the image with the specified color.
         /// </summary>
         /// <param name="color"></param>
-        public override void Clear(ARGB color)
-        {
-            graphics.Clear(color);
-        }
+        public override void Clear(ARGB color) => graphics.Clear(color);
     }
 }
 
+/*
 #else
-
 #error No code defined for the current framework or NETXX version define missing!
-
 #endif
+*/

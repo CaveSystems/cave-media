@@ -76,29 +76,27 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <exception cref="NotSupportedException"></exception>
         public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, string mimeType, byte[] imageData)
         {
-            ID3v2EncodingType encoding = ID3v2Encoding.Select(header, description + mimeType);
+            var encoding = ID3v2Encoding.Select(header, description + mimeType);
 
             // header, encoding[1], mimeType+0, pitureType[1], description+0, data
-            byte[] descriptionBytes = ID3v2Encoding.GetBytes(encoding, description, true);
-            byte[] mimeTypeBytes = ID3v2Encoding.GetBytes(encoding, mimeType, true);
-            int contentSize = descriptionBytes.Length + mimeTypeBytes.Length + 1 + 1 + imageData.Length;
+            var descriptionBytes = ID3v2Encoding.GetBytes(encoding, description, true);
+            var mimeTypeBytes = ID3v2Encoding.GetBytes(encoding, mimeType, true);
+            var contentSize = descriptionBytes.Length + mimeTypeBytes.Length + 1 + 1 + imageData.Length;
             var frameHeader = ID3v2FrameHeader.Create(header, "APIC", flags, contentSize);
-            using (var ms = new MemoryStream())
+            using var ms = new MemoryStream();
+            var writer = new DataWriter(ms);
+            writer.Write(frameHeader.Data);
+            writer.Write((byte)encoding);
+            writer.Write(mimeTypeBytes);
+            writer.Write((byte)type);
+            writer.Write(descriptionBytes);
+            writer.Write(imageData);
+            if (frameHeader.HeaderSize + contentSize != ms.Position)
             {
-                var writer = new DataWriter(ms);
-                writer.Write(frameHeader.Data);
-                writer.Write((byte)encoding);
-                writer.Write(mimeTypeBytes);
-                writer.Write((byte)type);
-                writer.Write(descriptionBytes);
-                writer.Write(imageData);
-                if (frameHeader.HeaderSize + contentSize != ms.Position)
-                {
-                    throw new Exception();
-                }
-
-                return new ID3v2APICFrame(new ID3v2Frame(header, ms.ToArray()));
+                throw new Exception();
             }
+
+            return new ID3v2APICFrame(new ID3v2Frame(header, ms.ToArray()));
         }
 
         ID3v2PictureType pictureType;
@@ -110,7 +108,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             var encoding = (ID3v2EncodingType)Content[0];
-            int index = 1 + ID3v2Encoding.Parse(0, Content, 1, out mimeType);
+            var index = 1 + ID3v2Encoding.Parse(0, Content, 1, out mimeType);
             pictureType = (ID3v2PictureType)Content[index++];
             index += ID3v2Encoding.Parse(encoding, Content, index, out description);
             imageDataStart = index;
@@ -195,9 +193,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] MimeType "Description".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " " + MimeType + " \"" + Description + '"';
-        }
+        public override string ToString() => base.ToString() + " " + MimeType + " \"" + Description + '"';
     }
 }

@@ -26,7 +26,7 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Split()
         {
-            int index = Array.IndexOf<byte>(Content, 0);
+            var index = Array.IndexOf<byte>(Content, 0);
             owner = ID3v2Encoding.ISO88591.GetString(Content, 0, index);
             ufid = new byte[Content.Length - index - 1];
             Array.Copy(Content, index + 1, ufid, 0, ufid.Length);
@@ -82,9 +82,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] "Owner":HexUFID.</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " \"" + Owner + "\":" + HexUFID;
-        }
+        public override string ToString() => base.ToString() + " \"" + Owner + "\":" + HexUFID;
     }
 }

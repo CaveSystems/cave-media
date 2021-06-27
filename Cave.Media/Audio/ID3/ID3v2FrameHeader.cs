@@ -58,11 +58,11 @@ namespace Cave.Media.Audio.ID3
                 throw new ArgumentException("Invalid identifier!", nameof(id));
             }
 
-            byte[] data = ASCII.GetBytes(id + "      ");
-            ushort f = (ushort)flags.ToID3v2d4Flags();
+            var data = ASCII.GetBytes(id + "      ");
+            var f = (ushort)flags.ToID3v2d4Flags();
             data[9] = (byte)(f & 0xFF);
             data[8] = (byte)(f >> 8);
-            for (int i = 7; i >= 4; i--)
+            for (var i = 7; i >= 4; i--)
             {
                 data[i] = (byte)(contentSize & 0x7F);
                 contentSize >>= 7;
@@ -90,11 +90,11 @@ namespace Cave.Media.Audio.ID3
                 throw new ArgumentException("Invalid identifier!", nameof(id));
             }
 
-            byte[] data = ASCII.GetBytes(id + "      ");
-            ushort f = (ushort)flags.ToID3v2d3Flags();
+            var data = ASCII.GetBytes(id + "      ");
+            var f = (ushort)flags.ToID3v2d3Flags();
             data[9] = (byte)(f & 0xFF);
             data[8] = (byte)(f >> 8);
-            for (int i = 7; i >= 4; i--)
+            for (var i = 7; i >= 4; i--)
             {
                 data[i] = (byte)(contentSize & 0xFF);
                 contentSize >>= 8;
@@ -121,8 +121,8 @@ namespace Cave.Media.Audio.ID3
                 throw new ArgumentException("Invalid identifier!", nameof(id));
             }
 
-            byte[] data = ASCII.GetBytes(id + "  ");
-            for (int i = 5; i >= 3; i--)
+            var data = ASCII.GetBytes(id + "  ");
+            for (var i = 5; i >= 3; i--)
             {
                 data[i] = (byte)(contentSize & 0xFF);
                 contentSize >>= 8;
@@ -145,8 +145,8 @@ namespace Cave.Media.Audio.ID3
             ID = ASCII.GetCleanString(data, 0, 4);
             var flags = (ID3v2d4FrameFlags)((data[8] << 8) | data[9]);
             Flags = ID3v2FrameFlags.FromID3v2d4(flags);
-            int size = 0;
-            for (int i = 4; i < 8; i++)
+            var size = 0;
+            for (var i = 4; i < 8; i++)
             {
                 if (data[i] > 0x7F)
                 {
@@ -163,8 +163,8 @@ namespace Cave.Media.Audio.ID3
             ID = ASCII.GetString(data, 0, 4);
             var flags = (ID3v2d3FrameFlags)((data[8] << 8) | data[9]);
             Flags = ID3v2FrameFlags.FromID3v2d3(flags);
-            int size = 0;
-            for (int i = 4; i < 8; i++)
+            var size = 0;
+            for (var i = 4; i < 8; i++)
             {
                 size = (size << 8) | data[i];
             }
@@ -177,8 +177,8 @@ namespace Cave.Media.Audio.ID3
             HeaderSize = 6;
             ID = ASCII.GetString(data, 0, 3);
             Flags = new ID3v2FrameFlags();
-            int size = 0;
-            for (int i = 3; i < 6; i++)
+            var size = 0;
+            for (var i = 3; i < 6; i++)
             {
                 size = (size << 8) | data[i];
             }
@@ -246,9 +246,6 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return $"ID3v2.{TagHeader.Version}Frame {ID} [{ContentSize}]";
-        }
+        public override string ToString() => $"ID3v2.{TagHeader.Version}Frame {ID} [{ContentSize}]";
     }
 }

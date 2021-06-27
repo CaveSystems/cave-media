@@ -29,10 +29,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <param name="text">Lyrics.</param>
             /// <param name="value">Time in milli seconds.</param>
             /// <returns></returns>
-            public static Event FromTimeStamp(string text, long value)
-            {
-                return new Event(text, value, true);
-            }
+            public static Event FromTimeStamp(string text, long value) => new Event(text, value, true);
 
             /// <summary>
             /// Creates a new text event.
@@ -40,10 +37,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <param name="text">Lyrics.</param>
             /// <param name="value">Frame number.</param>
             /// <returns></returns>
-            public static Event FromFrameNumber(string text, long value)
-            {
-                return new Event(text, value, true);
-            }
+            public static Event FromFrameNumber(string text, long value) => new Event(text, value, true);
 
             internal Event(string text, long value, bool isTimeStamp)
                 : base(value, isTimeStamp)
@@ -121,7 +115,7 @@ namespace Cave.Media.Audio.ID3.Frames
             // timestamp
             bool isTimeStamp;
             {
-                byte mode = Content[4];
+                var mode = Content[4];
                 switch (mode)
                 {
                     case 0: isTimeStamp = false; break;
@@ -134,7 +128,7 @@ namespace Cave.Media.Audio.ID3.Frames
             contentType = (ContentType)Content[5];
 
             // read descriptor
-            int start = 6;
+            var start = 6;
             start += ID3v2Encoding.Parse(encoding, Content, start, out descriptor);
 
             // read events
@@ -144,7 +138,7 @@ namespace Cave.Media.Audio.ID3.Frames
                 string text;
                 start += ID3v2Encoding.Parse(encoding, Content, start, out text);
                 long value = 0;
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
                     value = (value << 8) | Content[start++];
                 }
@@ -235,9 +229,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] ContentType LNG:"Descriptor".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " " + Type.ToString() + " " + Language + ":\"" + Descriptor + '"';
-        }
+        public override string ToString() => base.ToString() + " " + Type.ToString() + " " + Language + ":\"" + Descriptor + '"';
     }
 }

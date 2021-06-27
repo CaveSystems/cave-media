@@ -23,10 +23,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <param name="type">The EventType.</param>
             /// <param name="value">The timestamp.</param>
             /// <returns>A new <see cref="Event"/> instance.</returns>
-            public static Event FromTimeStamp(EventType type, long value)
-            {
-                return new Event(type, value, true);
-            }
+            public static Event FromTimeStamp(EventType type, long value) => new Event(type, value, true);
 
             /// <summary>
             /// Creates a new event from a frame number value.
@@ -34,10 +31,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <param name="type">The EventType.</param>
             /// <param name="value">The frame number.</param>
             /// <returns>A new <see cref="Event"/> instance.</returns>
-            public static Event FromFrameNumber(EventType type, long value)
-            {
-                return new Event(type, value, true);
-            }
+            public static Event FromFrameNumber(EventType type, long value) => new Event(type, value, true);
 
             internal Event(EventType type, long value, bool isTimeStamp)
                 : base(value, isTimeStamp)
@@ -275,7 +269,7 @@ namespace Cave.Media.Audio.ID3.Frames
         void Parse()
         {
             bool isTimeStamp;
-            byte mode = Content[0];
+            var mode = Content[0];
             switch (mode)
             {
                 case 0: isTimeStamp = false; break;
@@ -283,12 +277,12 @@ namespace Cave.Media.Audio.ID3.Frames
                 default: throw new NotImplementedException(string.Format("Mode {0} is not implemented!", mode));
             }
             var events = new List<Event>();
-            int i = 1;
+            var i = 1;
             while (i < RawData.Length)
             {
                 var type = (EventType)RawData[i++];
-                int value = 0;
-                for (int n = 0; n < 4; n++)
+                var value = 0;
+                for (var n = 0; n < 4; n++)
                 {
                     value = (value << 8) | Content[i++];
                 }

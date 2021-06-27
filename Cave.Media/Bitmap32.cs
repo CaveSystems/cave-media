@@ -97,10 +97,7 @@ namespace Cave.Media
         /// <param name="x">The x position.</param>
         /// <param name="y">The y position.</param>
         /// <param name="translation">The translation.</param>
-        public virtual void Draw(Bitmap32 other, int x, int y, Translation? translation = null)
-        {
-            bitmap.Draw(other, x, y, other.Width, other.Height, translation);
-        }
+        public virtual void Draw(Bitmap32 other, int x, int y, Translation? translation = null) => bitmap.Draw(other, x, y, other.Width, other.Height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -109,10 +106,7 @@ namespace Cave.Media
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="translation">The translation.</param>
-        public virtual void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null)
-        {
-            bitmap.Draw(other, x, y, width, height, translation);
-        }
+        public virtual void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null) => bitmap.Draw(other, x, y, width, height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -121,10 +115,7 @@ namespace Cave.Media
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="translation">The translation.</param>
-        public virtual void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null)
-        {
-            bitmap.Draw(other, x, y, width, height, translation);
-        }
+        public virtual void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null) => bitmap.Draw(other, x, y, width, height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>
@@ -133,29 +124,20 @@ namespace Cave.Media
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="translation">The translation.</param>
-        public virtual void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null)
-        {
-            bitmap.Draw(other, x, y, width, height, translation);
-        }
+        public virtual void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => bitmap.Draw(other, x, y, width, height, translation);
 
         /// <summary>Saves the image to the specified stream.</summary>
         /// <param name="stream">The stream.</param>
         /// <param name="type">The type.</param>
         /// <param name="quality">The quality.</param>
         /// <exception cref="NotImplementedException"></exception>
-        public virtual void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100)
-        {
-            bitmap.Save(stream, type, quality);
-        }
+        public virtual void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100) => bitmap.Save(stream, type, quality);
 
         /// <summary>
         /// Clear the image with the specified color.
         /// </summary>
         /// <param name="color">The color.</param>
-        public virtual void Clear(ARGB color)
-        {
-            bitmap.Clear(color);
-        }
+        public virtual void Clear(ARGB color) => bitmap.Clear(color);
 
         /// <summary>Resizes the bitmap to the specified size.</summary>
         /// <remarks>This should be overloaded to speed up the resize.</remarks>
@@ -170,8 +152,8 @@ namespace Cave.Media
             float h = height;
             if (mode != ResizeMode.None)
             {
-                float fw = w / (float)Width;
-                float fh = h / (float)Height;
+                var fw = w / (float)Width;
+                var fh = h / (float)Height;
                 float f;
                 if (mode.HasFlag(ResizeMode.TouchFromInside))
                 {
@@ -184,8 +166,8 @@ namespace Cave.Media
                 w = Width * f;
                 h = Height * f;
             }
-            float x = (width - w) / 2;
-            float y = (height - h) / 2;
+            var x = (width - w) / 2;
+            var y = (height - h) / 2;
             result.Draw(this, x, y, w, h);
             return result;
         }
@@ -194,10 +176,7 @@ namespace Cave.Media
         /// <param name="fileName">Name of the file.</param>
         /// <param name="quality">The quality.</param>
         /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!.</exception>
-        public virtual void Save(string fileName, int quality = 100)
-        {
-            bitmap.Save(fileName, quality);
-        }
+        public virtual void Save(string fileName, int quality = 100) => bitmap.Save(fileName, quality);
 
         /// <summary>Gets the data.</summary>
         /// <value>The data.</value>
@@ -227,14 +206,12 @@ namespace Cave.Media
         {
             if ((Width + Height) / 2 > max)
             {
-                using (var bmp = Resize(max, max, ResizeMode.None))
-                {
-                    return bmp.DetectColors(max);
-                }
+                using var bmp = Resize(max, max, ResizeMode.None);
+                return bmp.DetectColors(max);
             }
 
             var colorCounters = new List<ColorCounter>();
-            for (int y = 0; y < Height; y++)
+            for (var y = 0; y < Height; y++)
             {
                 var data = Data.Data;
                 var colorDict = new Dictionary<ARGB, ColorCounter>();
@@ -242,7 +219,7 @@ namespace Cave.Media
                 {
                     fixed (int* p = &data[0])
                     {
-                        for (int i = 0; i < data.Length; i++)
+                        for (var i = 0; i < data.Length; i++)
                         {
                             ARGB color = p[i];
                             if (!colorDict.ContainsKey(color))
@@ -267,7 +244,7 @@ namespace Cave.Media
             }
             colorCounters.Sort();
             var colors = new List<ARGB>(colorCounters.Count);
-            for (int i = 0; i < colorCounters.Count; i++)
+            for (var i = 0; i < colorCounters.Count; i++)
             {
                 colors.Add(colorCounters[i].Color);
             }

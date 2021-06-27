@@ -124,9 +124,9 @@ namespace Cave.Media.OpenGL
             }
 
             var monitors = new Monitor[count];
-            int size = Marshal.SizeOf(typeof(IntPtr));
+            var size = Marshal.SizeOf(typeof(IntPtr));
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var ptr = Marshal.ReadIntPtr(array, i * size);
                 monitors[i] = new Monitor(ptr);
@@ -247,7 +247,7 @@ namespace Cave.Media.OpenGL
 
             var result = new VideoMode[count];
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 result[i] = array[i];
             }
@@ -590,9 +590,9 @@ namespace Cave.Media.OpenGL
 
             var imgs = new InternalImage[images.Length];
 
-            for (int i = 0; i < imgs.Length; i++)
+            for (var i = 0; i < imgs.Length; i++)
             {
-                int size = images[i].Width * images[i].Width * 4;
+                var size = images[i].Width * images[i].Width * 4;
 
                 imgs[i] = new InternalImage
                 {
@@ -612,7 +612,7 @@ namespace Cave.Media.OpenGL
 
             glfwSetWindowIcon(window.Ptr, images.Length, ptr);
 
-            for (int i = 0; i < imgs.Length; i++)
+            for (var i = 0; i < imgs.Length; i++)
             {
                 Marshal.FreeHGlobal(imgs[i].Pixels);
             }
@@ -1404,7 +1404,7 @@ namespace Cave.Media.OpenGL
         /// <seealso cref="CreateStandardCursor(CursorType)"/>
         public static unsafe Cursor CreateCursor(Image image, int xhot, int yhot)
         {
-            int size = image.Width * image.Width * 4;
+            var size = image.Width * image.Width * 4;
 
             var img = new InternalImage
             {
@@ -1670,7 +1670,7 @@ namespace Cave.Media.OpenGL
             Marshal.Copy(array, b, 0, n);
 
             var buttons = new bool[n];
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 buttons[i] = b[i] > 0;
             }

@@ -18,7 +18,7 @@ namespace Cave.Media.Audio
         protected internal AudioOut(IAudioDevice device, IAudioConfiguration configuration)
         {
             Device = device ?? throw new ArgumentNullException(nameof(device));
-            this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
         #endregion
 
@@ -81,10 +81,7 @@ namespace Cave.Media.Audio
 
         /// <summary>Writes the specified data to the device.</summary>
         /// <param name="data">The data.</param>
-        public void Write(byte[] data)
-        {
-            Write(new AudioData(Configuration.SamplingRate, Configuration.Format, Configuration.ChannelSetup, TimeBuffered, 0, 0, data));
-        }
+        public void Write(byte[] data) => Write(new AudioData(Configuration.SamplingRate, Configuration.Format, Configuration.ChannelSetup, TimeBuffered, 0, 0, data));
 
         /// <summary>
         /// Starts the device with the specified output configuration.

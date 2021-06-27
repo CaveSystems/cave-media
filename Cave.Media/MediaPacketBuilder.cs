@@ -19,25 +19,16 @@ namespace Cave.Media
 
         /// <summary>Adds a frame.</summary>
         /// <param name="frame">The frame.</param>
-        public void AddFrame(IVideoFrame frame)
-        {
-            m_Frames.Add(frame);
-        }
+        public void AddFrame(IVideoFrame frame) => m_Frames.Add(frame);
 
         /// <summary>Adds an audio data.</summary>
         /// <param name="data">The audio data.</param>
-        public void AddAudioData(IAudioData data)
-        {
-            m_AudioData.Add(data);
-        }
+        public void AddAudioData(IAudioData data) => m_AudioData.Add(data);
 
         /// <summary>
         /// Gets a MediaPacket.
         /// </summary>
         /// <returns>Returns a MediaPacket.</returns>
-        public IMediaPacket ToPacket()
-        {
-            return new MediaPacket(m_AudioData.ToArray(), m_Frames.ToArray());
-        }
+        public IMediaPacket ToPacket() => new MediaPacket(m_AudioData.ToArray(), m_Frames.ToArray());
     }
 }

@@ -40,9 +40,6 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Saves the content to the specified writer.</summary>
         /// <param name="writer">The writer.</param>
-        protected override void SaveContentTo(DataWriter writer)
-        {
-            writer.Write(ColorIndex);
-        }
+        protected override void SaveContentTo(DataWriter writer) => writer.Write(ColorIndex);
     }
 }

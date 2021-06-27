@@ -30,7 +30,7 @@ namespace Cave.Media.Audio
         {
             try
             {
-                PAErrorCode l_Error = PA.SafeNativeMethods.Pa_Initialize();
+                var l_Error = PA.SafeNativeMethods.Pa_Initialize();
                 m_Initialized = l_Error == PAErrorCode.NoError;
                 m_CheckErrorCode(l_Error);
             }
@@ -42,11 +42,11 @@ namespace Cave.Media.Audio
         {
             get
             {
-                int deviceCount = PA.SafeNativeMethods.Pa_GetDeviceCount();
+                var deviceCount = PA.SafeNativeMethods.Pa_GetDeviceCount();
                 var devices = new List<IAudioDevice>();
-                for (int i = 0; i < deviceCount; i++)
+                for (var i = 0; i < deviceCount; i++)
                 {
-                    PADeviceInfo l_DeviceInfo = PA.GetDeviceInfo(i);
+                    var l_DeviceInfo = PA.GetDeviceInfo(i);
                     if (l_DeviceInfo.MaxInputChannels > 0)
                     {
                         devices.Add(new PADevice(this, i));
@@ -70,11 +70,11 @@ namespace Cave.Media.Audio
         {
             get
             {
-                int deviceCount = PA.SafeNativeMethods.Pa_GetDeviceCount();
+                var deviceCount = PA.SafeNativeMethods.Pa_GetDeviceCount();
                 var devices = new List<IAudioDevice>();
-                for (int i = 0; i < deviceCount; i++)
+                for (var i = 0; i < deviceCount; i++)
                 {
-                    PADeviceInfo deviceInfo = PA.GetDeviceInfo(i);
+                    var deviceInfo = PA.GetDeviceInfo(i);
                     if (deviceInfo.MaxOutputChannels > 0)
                     {
                         devices.Add(new PADevice(this, i));
@@ -97,7 +97,7 @@ namespace Cave.Media.Audio
         {
             if (disposing)
             {
-                PAErrorCode l_Error = PA.SafeNativeMethods.Pa_Terminate();
+                var l_Error = PA.SafeNativeMethods.Pa_Terminate();
                 m_CheckErrorCode(l_Error);
                 m_Initialized = false;
             }

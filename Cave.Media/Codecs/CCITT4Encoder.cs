@@ -40,7 +40,7 @@ namespace Cave.Media.Codecs
             if (count > 63)
             {
                 // yes, find makeup to use
-                int l_MakeUpIndex = makeUpCodes.GetLength(0);
+                var l_MakeUpIndex = makeUpCodes.GetLength(0);
                 while (--l_MakeUpIndex > 0)
                 {
                     if (makeUpCodes[l_MakeUpIndex, 2] <= count)
@@ -59,7 +59,7 @@ namespace Cave.Media.Codecs
         byte[] Complete()
         {
             m_Writer.Flush();
-            byte[] result = m_Buffer.ToArray();
+            var result = m_Buffer.ToArray();
             m_Writer = null;
             m_Buffer.Dispose();
             m_Buffer = null;
@@ -74,7 +74,7 @@ namespace Cave.Media.Codecs
         public byte[] EncodeRow(byte[] data)
         {
             var reader = new BitStreamReader(new MemoryStream(data));
-            int counter = 0;
+            var counter = 0;
             Initialize();
 
             // iterate until stream ends

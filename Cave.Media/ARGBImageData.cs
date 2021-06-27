@@ -10,7 +10,6 @@ namespace Cave.Media
     /// </summary>
     public class ARGBImageData
     {
-#if !NETSTANDARD20
         /// <summary>
         /// Loads the specified bitmap.
         /// </summary>
@@ -33,7 +32,6 @@ namespace Cave.Media
             }
             return new ARGBImageData(bytes, bitmap.Width, bitmap.Height, stride);
         }
-#endif
 
         /// <summary>
         /// Gets the data of the image.
@@ -118,7 +116,7 @@ namespace Cave.Media
         {
             get
             {
-                byte[] data = new byte[Data.Length * 4];
+                var data = new byte[Data.Length * 4];
                 Buffer.BlockCopy(Data, 0, data, 0, data.Length);
                 return data;
             }
@@ -149,9 +147,9 @@ namespace Cave.Media
             var colorCounters = new List<ColorCounter>();
             {
                 var colorDict = new Dictionary<int, ColorCounter>();
-                for (int i = 0; i < Data.Length; i++)
+                for (var i = 0; i < Data.Length; i++)
                 {
-                    int color = Data[i];
+                    var color = Data[i];
                     if (!colorDict.ContainsKey(color))
                     {
                         colorDict.Add(color, new ColorCounter(color, 1));
@@ -164,7 +162,7 @@ namespace Cave.Media
                 colorCounters.AddRange(colorDict.Values);
             }
 
-            uint distance = 255000 / colorCount;
+            var distance = 255000 / colorCount;
             while (colorCounters.Count > colorCount)
             {
                 colorCounters.Sort();
@@ -173,8 +171,8 @@ namespace Cave.Media
             }
             colorCounters.Sort();
 
-            ARGB[] colors = new ARGB[colorCounters.Count];
-            for (int i = 0; i < colors.Length; i++)
+            var colors = new ARGB[colorCounters.Count];
+            for (var i = 0; i < colors.Length; i++)
             {
                 colors[i] = colorCounters[i].Color;
             }
@@ -198,17 +196,17 @@ namespace Cave.Media
             }
 
             var result = new ARGBImageData(width, height);
-            int targetIndex = 0;
-            int moveX = (Width << 10) / width;
-            int moveY = ((Height << 10) / height) - 1;
+            var targetIndex = 0;
+            var moveX = (Width << 10) / width;
+            var moveY = ((Height << 10) / height) - 1;
 
-            int tY = 0;
-            for (int y = 0; y < height; y++)
+            var tY = 0;
+            for (var y = 0; y < height; y++)
             {
-                int tX = 0;
-                for (int x = 0; x < width; x++)
+                var tX = 0;
+                for (var x = 0; x < width; x++)
                 {
-                    int sourceIndex = PositionToIndex(tX >> 10, tY >> 10);
+                    var sourceIndex = PositionToIndex(tX >> 10, tY >> 10);
                     result.Data[targetIndex++] = Data[sourceIndex];
                     tX += moveX;
                 }
@@ -233,17 +231,17 @@ namespace Cave.Media
             }
 
             var result = new ARGBImageData(width, height);
-            int w = Width;
-            int h = Height;
+            var w = Width;
+            var h = Height;
 
-            int targetIndex = 0;
-            for (int y = 0; y < height; y++)
+            var targetIndex = 0;
+            for (var y = 0; y < height; y++)
             {
-                int tY = y % h;
-                for (int x = 0; x < width; x++)
+                var tY = y % h;
+                for (var x = 0; x < width; x++)
                 {
-                    int tX = x % w;
-                    int sourceIndex = PositionToIndex(tX, tY);
+                    var tX = x % w;
+                    var sourceIndex = PositionToIndex(tX, tY);
                     result.Data[targetIndex++] = Data[sourceIndex];
                 }
             }
@@ -265,8 +263,8 @@ namespace Cave.Media
                 width = Width;
             }
 
-            bool l_TileY = height != Height;
-            bool l_TileX = width != Width;
+            var l_TileY = height != Height;
+            var l_TileX = width != Width;
 
             // only tile one direction at the moment ! maybe later...
             if (l_TileX && l_TileY)
@@ -276,58 +274,58 @@ namespace Cave.Media
 
             var result = new ARGBImageData(width, height);
 
-            int heightCenterTop = (height - Height) / 2;
+            var heightCenterTop = (height - Height) / 2;
             if (l_TileY)
             {
-                int heightCenterBottom = (height + Height) / 2;
+                var heightCenterBottom = (height + Height) / 2;
 
                 // fill top
-                int sourceIndex = PositionToIndex(0, 0);
-                for (int y = heightCenterTop; y >= 0; y--)
+                var sourceIndex = PositionToIndex(0, 0);
+                for (var y = heightCenterTop; y >= 0; y--)
                 {
-                    int targetIndex = result.PositionToIndex(0, y);
+                    var targetIndex = result.PositionToIndex(0, y);
                     Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
                 }
 
                 // fill bottom
                 sourceIndex = PositionToIndex(0, Height - 1);
-                for (int y = heightCenterBottom; y < height; y++)
+                for (var y = heightCenterBottom; y < height; y++)
                 {
-                    int targetIndex = result.PositionToIndex(0, y);
+                    var targetIndex = result.PositionToIndex(0, y);
                     Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
                 }
             }
 
-            int widthCenterLeft = (width - Width) / 2;
+            var widthCenterLeft = (width - Width) / 2;
             if (l_TileX)
             {
-                int widthCenterRight = (width + Width) / 2;
+                var widthCenterRight = (width + Width) / 2;
 
                 // fill left
-                for (int y = 0; y < Height; y++)
+                for (var y = 0; y < Height; y++)
                 {
-                    int sourceIndex = PositionToIndex(0, y);
-                    for (int x = widthCenterLeft; x >= 0; x--)
+                    var sourceIndex = PositionToIndex(0, y);
+                    for (var x = widthCenterLeft; x >= 0; x--)
                     {
-                        int targetIndex = result.PositionToIndex(x, y);
+                        var targetIndex = result.PositionToIndex(x, y);
                         result.Data[targetIndex] = Data[sourceIndex];
                     }
 
                     // fill right
                     sourceIndex = PositionToIndex(0, Height - 1);
-                    for (int x = widthCenterRight; x < width; x++)
+                    for (var x = widthCenterRight; x < width; x++)
                     {
-                        int targetIndex = result.PositionToIndex(x, y);
+                        var targetIndex = result.PositionToIndex(x, y);
                         result.Data[targetIndex] = Data[sourceIndex];
                     }
                 }
             }
 
             // copy center
-            for (int y = 0; y < Height; y++)
+            for (var y = 0; y < Height; y++)
             {
-                int sourceIndex = PositionToIndex(0, y);
-                int targetIndex = result.PositionToIndex(widthCenterLeft, y + heightCenterTop);
+                var sourceIndex = PositionToIndex(0, y);
+                var targetIndex = result.PositionToIndex(widthCenterLeft, y + heightCenterTop);
                 Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
             }
 
@@ -337,25 +335,19 @@ namespace Cave.Media
         /// <summary>
         /// Clears the bitmap with a specific color.
         /// </summary>
-        public void Clear(ARGB color)
-        {
-            Clear(color.AsInt32);
-        }
+        public void Clear(ARGB color) => Clear(color.AsInt32);
 
         /// <summary>
         /// Clears the bitmap with a specific value.
         /// </summary>
-        public void Clear(uint value)
-        {
-            Clear((int)value);
-        }
+        public void Clear(uint value) => Clear((int)value);
 
         /// <summary>
         /// Clears the bitmap with a specific value.
         /// </summary>
         public void Clear(int value)
         {
-            int index = Data.Length;
+            var index = Data.Length;
             while (index-- > 0)
             {
                 Data[index] = value;
@@ -380,27 +372,23 @@ namespace Cave.Media
         /// <summary>
         /// Retrieves a ARGB struct for the specified index.
         /// </summary>
-        public ARGB this[int X, int Y]
+        public ARGB this[int x, int y]
         {
             get
             {
-                return ARGB.FromValue(Data[PositionToIndex(X, Y)]);
+                return ARGB.FromValue(Data[PositionToIndex(x, y)]);
             }
             set
             {
-                Data[PositionToIndex(X, Y)] = value.AsInt32;
+                Data[PositionToIndex(x, y)] = value.AsInt32;
             }
         }
 
         /// <summary>
         /// Converts this instance to a bitmap32 instance.
         /// </summary>
-        public Bitmap32 ToBitmap32()
-        {
-            return Bitmap32.Loader.Create(this);
-        }
+        public Bitmap32 ToBitmap32() => Bitmap32.Loader.Create(this);
 
-#if !NETSTANDARD20
         /// <summary>
         /// Copies the image to the specified bitmapdata instance.
         /// </summary>
@@ -424,9 +412,9 @@ namespace Cave.Media
             if (imgData.Stride != Stride)
             {
                 Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", Stride, imgData.Stride));
-                IntPtr start = imgData.Scan0;
-                int index = 0;
-                for (int y = 0; y < Height; y++)
+                var start = imgData.Scan0;
+                var index = 0;
+                for (var y = 0; y < Height; y++)
                 {
                     Marshal.Copy(Data, index, start, Data.Length);
                     index += Stride;
@@ -458,7 +446,6 @@ namespace Cave.Media
             CopyToBitmap(result);
             return result;
         }
-#endif
     }
 }
 

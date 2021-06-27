@@ -16,16 +16,10 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Converts to the synchronized lyrics item.</summary>
         /// <returns></returns>
-        public SynchronizedLyricsItem ToSynchronizedLyricsItem()
-        {
-            return new SynchronizedLyricsItem(TimeCode, Commands);
-        }
+        public SynchronizedLyricsItem ToSynchronizedLyricsItem() => new SynchronizedLyricsItem(TimeCode, Commands);
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return StringExtensions.FormatTime(TimeCode) + " " + StringExtensions.Join(Commands, ", ");
-        }
+        public override string ToString() => StringExtensions.FormatTime(TimeCode) + " " + StringExtensions.Join(Commands, ", ");
     }
 }

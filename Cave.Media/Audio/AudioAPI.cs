@@ -13,7 +13,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioAPI[] GetAvailableAudioAPIs()
         {
-            List<IAudioAPI> apis = AppDom.GetTypes<IAudioAPI>();
+            var apis = AppDom.GetTypes<IAudioAPI>();
             apis.Sort();
             return apis.ToArray();
         }
@@ -24,7 +24,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioEncoder[] GetAvailableAudioEncoders()
         {
-            List<IAudioEncoder> encoder = AppDom.GetTypes<IAudioEncoder>();
+            var encoder = AppDom.GetTypes<IAudioEncoder>();
             encoder.Sort();
             return encoder.ToArray();
         }
@@ -35,7 +35,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioDecoder[] GetAvailableAudioDecoders()
         {
-            List<IAudioDecoder> decoder = AppDom.GetTypes<IAudioDecoder>();
+            var decoder = AppDom.GetTypes<IAudioDecoder>();
             decoder.Sort();
             return decoder.ToArray();
         }
@@ -98,9 +98,6 @@ namespace Cave.Media.Audio
         /// <returns>
         /// Ein Wert, der die relative Reihenfolge der verglichenen Objekte angibt.Der Rückgabewert hat folgende Bedeutung:Wert Bedeutung Kleiner als 0 (null) Dieses Objekt ist kleiner als der <paramref name="other" />-Parameter.Zero Dieses Objekt ist gleich <paramref name="other" />. Größer als 0 (null) Dieses Objekt ist größer als <paramref name="other" />.
         /// </returns>
-        public int CompareTo(IAudioAPI other)
-        {
-            return Preference.CompareTo(other.Preference);
-        }
+        public int CompareTo(IAudioAPI other) => Preference.CompareTo(other.Preference);
     }
 }

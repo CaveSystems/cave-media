@@ -41,10 +41,10 @@ namespace Cave.Media.Audio.MP3
         /// <param name="samples">The samples.</param>
         public void AddSamples(int channelNumber, float[] samples)
         {
-            int index = m_Index[channelNumber];
-            for (int i = 0; i < samples.Length; i++)
+            var index = m_Index[channelNumber];
+            for (var i = 0; i < samples.Length; i++)
             {
-                float value = samples[i];
+                var value = samples[i];
                 m_Buffer[index] = value;
                 index += 2;
             }
@@ -53,9 +53,6 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Retries the sample byte buffer as array.</summary>
         /// <returns></returns>
-        public IAudioData GetAudioData()
-        {
-            return new AudioData(m_SamplingRate, AudioChannelSetup.Stereo, m_Buffer, SampleCount);
-        }
+        public IAudioData GetAudioData() => new AudioData(m_SamplingRate, AudioChannelSetup.Stereo, m_Buffer, SampleCount);
     }
 }

@@ -16,10 +16,8 @@ namespace Cave.Media.Lyrics
         /// <returns></returns>
         public static SynchronizedLyrics ReadAllFrames(string fileName)
         {
-            using (Stream stream = File.OpenRead(fileName))
-            {
-                return ReadAllFrames(stream);
-            }
+            using Stream stream = File.OpenRead(fileName);
+            return ReadAllFrames(stream);
         }
 
         /// <summary>Reads all frames.</summary>
@@ -67,28 +65,25 @@ namespace Cave.Media.Lyrics
 
         void ParseLoadColorTable(SynchronizedLyricsItemBuilder sl, CdgPacket packet, bool higherTable)
         {
-            int offset = higherTable ? 8 : 0;
-            ARGB[] palette = new ARGB[8];
-            for (int i = 0; i < 8; i++)
+            var offset = higherTable ? 8 : 0;
+            var palette = new ARGB[8];
+            for (var i = 0; i < 8; i++)
             {
-                byte r = (byte)((packet.Data[i * 2] & 0x3C) << 2);
-                byte g = (byte)(((packet.Data[i * 2] & 0x03) << 6) | (packet.Data[(i * 2) + 1] & 0x30));
-                byte b = (byte)((packet.Data[(i * 2) + 1] & 0x0F) << 4);
+                var r = (byte)((packet.Data[i * 2] & 0x3C) << 2);
+                var g = (byte)(((packet.Data[i * 2] & 0x03) << 6) | (packet.Data[(i * 2) + 1] & 0x30));
+                var b = (byte)((packet.Data[(i * 2) + 1] & 0x0F) << 4);
                 palette[i] = ARGB.FromColor(r, g, b);
             }
             sl.Commands.Add(new SlcReplacePaletteColors((byte)offset, palette));
         }
 
-        void ParseDefineTransparentColor(SynchronizedLyricsItemBuilder sl, CdgPacket packet)
-        {
-            sl.Commands.Add(new SlcWithColorIndex(SynchronizedLyricsCommandType.SetTransparentColor, (byte)(packet.Data[0] & 0x0F)));
-        }
+        void ParseDefineTransparentColor(SynchronizedLyricsItemBuilder sl, CdgPacket packet) => sl.Commands.Add(new SlcWithColorIndex(SynchronizedLyricsCommandType.SetTransparentColor, (byte)(packet.Data[0] & 0x0F)));
 
         void ParseScroll(SynchronizedLyricsItemBuilder sl, CdgPacket packet, bool roll)
         {
-            int colorIndex = packet.Data[0] & 0x0F;
-            int cdgHScroll = packet.Data[1] & 0x3F;
-            int cdgVScroll = packet.Data[2] & 0x3F;
+            var colorIndex = packet.Data[0] & 0x0F;
+            var cdgHScroll = packet.Data[1] & 0x3F;
+            var cdgVScroll = packet.Data[2] & 0x3F;
 
             sbyte hScroll = 0;
             sbyte vScroll = 0;
@@ -118,8 +113,8 @@ namespace Cave.Media.Lyrics
                 }
             }
 
-            sbyte hOffset = (sbyte)((cdgHScroll & 0xF) % 6);
-            sbyte vOffset = (sbyte)((cdgVScroll & 0xF) % 12);
+            var hOffset = (sbyte)((cdgHScroll & 0xF) % 6);
+            var vOffset = (sbyte)((cdgVScroll & 0xF) % 12);
             if (hOffset != currentOffsetHorizontal || vOffset != currentOffsetVertical)
             {
                 sl.Commands.Add(new SlcScreenOffset(hOffset, vOffset));
@@ -131,26 +126,26 @@ namespace Cave.Media.Lyrics
         const int BufferHeight = 216;
         void ParseTileBlock(SynchronizedLyricsItemBuilder sl, CdgPacket packet, bool xor)
         {
-            byte color0 = (byte)(packet.Data[0] & 0x0F);
-            byte color1 = (byte)(packet.Data[1] & 0x0F);
-            int y = (packet.Data[2] & 0x1F) * 12;
-            int x = (packet.Data[3] & 0x3F) * 6;
-            int w = 6;
-            int h = 12;
+            var color0 = (byte)(packet.Data[0] & 0x0F);
+            var color1 = (byte)(packet.Data[1] & 0x0F);
+            var y = (packet.Data[2] & 0x1F) * 12;
+            var x = (packet.Data[3] & 0x3F) * 6;
+            var w = 6;
+            var h = 12;
             if (x + w > BufferWidth || y + h > BufferHeight)
             {
                 Trace.TraceError(string.Format("Subchannel decode error x={0} y={1}", x, y));
                 return;
             }
-            byte[] data = new byte[12];
+            var data = new byte[12];
             Array.Copy(packet.Data, 4, data, 0, 12);
-            SynchronizedLyricsCommandType cmd = xor ? SynchronizedLyricsCommandType.SetSprite2ColorsXOR : SynchronizedLyricsCommandType.SetSprite2Colors;
+            var cmd = xor ? SynchronizedLyricsCommandType.SetSprite2ColorsXOR : SynchronizedLyricsCommandType.SetSprite2Colors;
             sl.Commands.Add(new SlcSetSprite2Colors(cmd, w, h, x, y, color0, color1, data));
         }
 
         void ParseMemoryPreset(SynchronizedLyricsItemBuilder sl, CdgPacket packet)
         {
-            int repeat = packet.Data[1] & 0x0F;
+            var repeat = packet.Data[1] & 0x0F;
             if (repeat == 0)
             {
                 sl.Commands.Add(new SlcWithColorIndex(SynchronizedLyricsCommandType.ClearScreen, (byte)(packet.Data[0] & 0x0F)));

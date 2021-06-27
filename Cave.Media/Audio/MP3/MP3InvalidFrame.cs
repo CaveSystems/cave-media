@@ -10,10 +10,7 @@ namespace Cave.Media.Audio.MP3
     {
         FifoBuffer buffer = new FifoBuffer();
 
-        internal void Add(byte[] buffer)
-        {
-            this.buffer.Enqueue(buffer, false);
-        }
+        internal void Add(byte[] buffer) => this.buffer.Enqueue(buffer, false);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MP3InvalidFrame"/> class.
@@ -26,10 +23,7 @@ namespace Cave.Media.Audio.MP3
         /// Throws a NotSupportedException.
         /// </summary>
         /// <param name="reader">FrameReader to read from.</param>
-        public override bool Parse(DataFrameReader reader)
-        {
-            throw new NotSupportedException();
-        }
+        public override bool Parse(DataFrameReader reader) => throw new NotSupportedException();
 
         /// <summary>
         /// Gets an array with the data for this instance.

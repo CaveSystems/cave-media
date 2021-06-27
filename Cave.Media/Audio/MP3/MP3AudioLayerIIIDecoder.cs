@@ -29,10 +29,10 @@ namespace Cave.Media.Audio.MP3
 
         static float[] CreateT43()
         {
-            float[] t43 = new float[8192];
-            double d43 = 4.0 / 3.0;
+            var t43 = new float[8192];
+            var d43 = 4.0 / 3.0;
 
-            for (int i = 0; i < 8192; i++)
+            for (var i = 0; i < 8192; i++)
             {
                 t43[i] = (float)Math.Pow(i, d43);
             }
@@ -48,15 +48,15 @@ namespace Cave.Media.Audio.MP3
         internal static int[] Reorder(int[] scalefac_band)
         {
             // SZD: converted from LAME
-            int j = 0;
-            int[] ix = new int[576];
-            for (int sfb = 0; sfb < 13; sfb++)
+            var j = 0;
+            var ix = new int[576];
+            for (var sfb = 0; sfb < 13; sfb++)
             {
-                int start = scalefac_band[sfb];
-                int end = scalefac_band[sfb + 1];
-                for (int window = 0; window < 3; window++)
+                var start = scalefac_band[sfb];
+                var end = scalefac_band[sfb + 1];
+                for (var window = 0; window < 3; window++)
                 {
-                    for (int i = start; i < end; i++)
+                    for (var i = start; i < end; i++)
                     {
                         ix[(3 * i) + window] = j++;
                     }
@@ -155,7 +155,7 @@ namespace Cave.Media.Audio.MP3
             {
                 L = new int[23];
                 S = new int[3][];
-                for (int i = 0; i < 3; i++)
+                for (var i = 0; i < 3; i++)
                 {
                     S[i] = new int[13];
                 }
@@ -233,31 +233,31 @@ namespace Cave.Media.Audio.MP3
 
             is1d = new int[(SBLIMIT * SSLIMIT) + 4];
             ro = new float[2][][];
-            for (int i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
                 ro[i] = new float[SBLIMIT][];
-                for (int i2 = 0; i2 < SBLIMIT; i2++)
+                for (var i2 = 0; i2 < SBLIMIT; i2++)
                 {
                     ro[i][i2] = new float[SSLIMIT];
                 }
             }
             lr = new float[2][][];
-            for (int i3 = 0; i3 < 2; i3++)
+            for (var i3 = 0; i3 < 2; i3++)
             {
                 lr[i3] = new float[SBLIMIT][];
-                for (int i4 = 0; i4 < SBLIMIT; i4++)
+                for (var i4 = 0; i4 < SBLIMIT; i4++)
                 {
                     lr[i3][i4] = new float[SSLIMIT];
                 }
             }
             out1d = new float[SBLIMIT * SSLIMIT];
             prevblck = new float[2][];
-            for (int i5 = 0; i5 < 2; i5++)
+            for (var i5 = 0; i5 < 2; i5++)
             {
                 prevblck[i5] = new float[SBLIMIT * SSLIMIT];
             }
             k = new float[2][];
-            for (int i6 = 0; i6 < 2; i6++)
+            for (var i6 = 0; i6 < 2; i6++)
             {
                 k[i6] = new float[SBLIMIT * SSLIMIT];
             }
@@ -269,27 +269,27 @@ namespace Cave.Media.Audio.MP3
 
             // L3TABLE INIT
             sfBandIndex = new SBI[9]; // SZD: MPEG2.5 +3 indices
-            int[] l0 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
-            int[] s0 = new int[] { 0, 4, 8, 12, 18, 24, 32, 42, 56, 74, 100, 132, 174, 192 };
-            int[] l1 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 114, 136, 162, 194, 232, 278, 330, 394, 464, 540, 576 };
-            int[] s1 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 136, 180, 192 };
-            int[] l2 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
-            int[] s2 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 134, 174, 192 };
+            var l0 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
+            var s0 = new int[] { 0, 4, 8, 12, 18, 24, 32, 42, 56, 74, 100, 132, 174, 192 };
+            var l1 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 114, 136, 162, 194, 232, 278, 330, 394, 464, 540, 576 };
+            var s1 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 136, 180, 192 };
+            var l2 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
+            var s2 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 134, 174, 192 };
 
-            int[] l3 = new int[] { 0, 4, 8, 12, 16, 20, 24, 30, 36, 44, 52, 62, 74, 90, 110, 134, 162, 196, 238, 288, 342, 418, 576 };
-            int[] s3 = new int[] { 0, 4, 8, 12, 16, 22, 30, 40, 52, 66, 84, 106, 136, 192 };
-            int[] l4 = new int[] { 0, 4, 8, 12, 16, 20, 24, 30, 36, 42, 50, 60, 72, 88, 106, 128, 156, 190, 230, 276, 330, 384, 576 };
-            int[] s4 = new int[] { 0, 4, 8, 12, 16, 22, 28, 38, 50, 64, 80, 100, 126, 192 };
-            int[] l5 = new int[] { 0, 4, 8, 12, 16, 20, 24, 30, 36, 44, 54, 66, 82, 102, 126, 156, 194, 240, 296, 364, 448, 550, 576 };
-            int[] s5 = new int[] { 0, 4, 8, 12, 16, 22, 30, 42, 58, 78, 104, 138, 180, 192 };
+            var l3 = new int[] { 0, 4, 8, 12, 16, 20, 24, 30, 36, 44, 52, 62, 74, 90, 110, 134, 162, 196, 238, 288, 342, 418, 576 };
+            var s3 = new int[] { 0, 4, 8, 12, 16, 22, 30, 40, 52, 66, 84, 106, 136, 192 };
+            var l4 = new int[] { 0, 4, 8, 12, 16, 20, 24, 30, 36, 42, 50, 60, 72, 88, 106, 128, 156, 190, 230, 276, 330, 384, 576 };
+            var s4 = new int[] { 0, 4, 8, 12, 16, 22, 28, 38, 50, 64, 80, 100, 126, 192 };
+            var l5 = new int[] { 0, 4, 8, 12, 16, 20, 24, 30, 36, 44, 54, 66, 82, 102, 126, 156, 194, 240, 296, 364, 448, 550, 576 };
+            var s5 = new int[] { 0, 4, 8, 12, 16, 22, 30, 42, 58, 78, 104, 138, 180, 192 };
 
             // SZD: MPEG2.5
-            int[] l6 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
-            int[] s6 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 134, 174, 192 };
-            int[] l7 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
-            int[] s7 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 134, 174, 192 };
-            int[] l8 = new int[] { 0, 12, 24, 36, 48, 60, 72, 88, 108, 132, 160, 192, 232, 280, 336, 400, 476, 566, 568, 570, 572, 574, 576 };
-            int[] s8 = new int[] { 0, 8, 16, 24, 36, 52, 72, 96, 124, 160, 162, 164, 166, 192 };
+            var l6 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
+            var s6 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 134, 174, 192 };
+            var l7 = new int[] { 0, 6, 12, 18, 24, 30, 36, 44, 54, 66, 80, 96, 116, 140, 168, 200, 238, 284, 336, 396, 464, 522, 576 };
+            var s7 = new int[] { 0, 4, 8, 12, 18, 26, 36, 48, 62, 80, 104, 134, 174, 192 };
+            var l8 = new int[] { 0, 12, 24, 36, 48, 60, 72, 88, 108, 132, 160, 192, 232, 280, 336, 400, 476, 566, 568, 570, 572, 574, 576 };
+            var s8 = new int[] { 0, 8, 16, 24, 36, 52, 72, 96, 124, 160, 162, 164, 166, 192 };
 
             sfBandIndex[0] = new SBI(l0, s0);
             sfBandIndex[1] = new SBI(l1, s1);
@@ -309,7 +309,7 @@ namespace Cave.Media.Audio.MP3
             {
                 // SZD: generate LUT
                 reorderTable = new int[9][];
-                for (int i = 0; i < 9; i++)
+                for (var i = 0; i < 9; i++)
                 {
                     reorderTable[i] = Reorder(sfBandIndex[i].S);
                 }
@@ -364,9 +364,9 @@ namespace Cave.Media.Audio.MP3
                 firstChannel = lastChannel = 0;
             }
 
-            for (int ch = 0; ch < 2; ch++)
+            for (var ch = 0; ch < 2; ch++)
             {
-                for (int j = 0; j < 576; j++)
+                for (var j = 0; j < 576; j++)
                 {
                     prevblck[ch][j] = 0.0f;
                 }
@@ -383,9 +383,9 @@ namespace Cave.Media.Audio.MP3
         public void Reset()
         {
             frameStart = 0;
-            for (int ch = 0; ch < 2; ch++)
+            for (var ch = 0; ch < 2; ch++)
             {
-                for (int j = 0; j < 576; j++)
+                for (var j = 0; j < 576; j++)
                 {
                     prevblck[ch][j] = 0.0f;
                 }
@@ -400,8 +400,8 @@ namespace Cave.Media.Audio.MP3
         /// <exception cref="NotImplementedException">MP3AudioFrameVersion {0} is not implemented.</exception>
         public void DecodeFrame(MP3AudioFrame frame)
         {
-            MP3AudioFrameHeader frameHeader = frame.Header;
-            int nSlots = frameHeader.Slots;
+            var frameHeader = frame.Header;
+            var nSlots = frameHeader.Slots;
             int flush_main;
             int gr, ch, ss, sb, sb18;
             int main_data_end;
@@ -700,10 +700,10 @@ namespace Cave.Media.Audio.MP3
         void GetScaleFactors(int ch, int gr)
         {
             int sfb, window;
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
-            int scale_comp = gr_info.ScaleFactorCompress;
-            int length0 = slen[0][scale_comp];
-            int length1 = slen[1][scale_comp];
+            var gr_info = sideInfo.CH[ch].GR[gr];
+            var scale_comp = gr_info.ScaleFactorCompress;
+            var length0 = slen[0][scale_comp];
+            var length1 = slen[1][scale_comp];
 
             if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
             {
@@ -831,9 +831,9 @@ namespace Cave.Media.Audio.MP3
 
             int m;
             int blocktypenumber;
-            int blocknumber = 0;
+            var blocknumber = 0;
 
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
+            var gr_info = sideInfo.CH[ch].GR[gr];
 
             scalefac_comp = gr_info.ScaleFactorCompress;
 
@@ -926,9 +926,9 @@ namespace Cave.Media.Audio.MP3
             // why 45, not 54? -> bug
             // for (int x = 0; x < 45; x++)                m_ScaleFactorBuffer[x] = 0;
             m = 0;
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                for (int j = 0; j < nrOfSfbBlock[blocknumber][blocktypenumber][i]; j++)
+                for (var j = 0; j < nrOfSfbBlock[blocknumber][blocktypenumber][i]; j++)
                 {
                     scaleFactorBuffer[m] = (newSlen[i] == 0) ? 0 : bitReserve.ReadBits(newSlen[i]);
                     m++;
@@ -942,9 +942,9 @@ namespace Cave.Media.Audio.MP3
 
         void GetLsfScaleFactors(MP3AudioFrameHeader header, int ch, int gr)
         {
-            int m = 0;
+            var m = 0;
             int sfb, window;
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
+            var gr_info = sideInfo.CH[ch].GR[gr];
 
             GetLsfScaleData(header, ch, gr);
 
@@ -1009,7 +1009,7 @@ namespace Cave.Media.Audio.MP3
             v[0] = 0;
             w[0] = 0;
 
-            int part2_3_end = part2Start + sideInfo.CH[ch].GR[gr].Part23Length;
+            var part2_3_end = part2Start + sideInfo.CH[ch].GR[gr].Part23Length;
             int num_bits;
             int region1Start;
             int region2Start;
@@ -1045,7 +1045,7 @@ namespace Cave.Media.Audio.MP3
             index = 0;
 
             // Read bigvalues area
-            for (int i = 0; i < (sideInfo.CH[ch].GR[gr].BigValues << 1); i += 2)
+            for (var i = 0; i < (sideInfo.CH[ch].GR[gr].BigValues << 1); i += 2)
             {
                 if (i < region1Start)
                 {
@@ -1138,14 +1138,14 @@ namespace Cave.Media.Audio.MP3
 
         void DequantizeSample(float[][] xr, int ch, int gr)
         {
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
-            int cb = 0;
+            var gr_info = sideInfo.CH[ch].GR[gr];
+            var cb = 0;
             int next_cb_boundary;
-            int cb_begin = 0;
-            int cb_width = 0;
+            var cb_begin = 0;
+            var cb_width = 0;
             int index = 0, t_index, j;
             float g_gain;
-            float[][] xr_1d = xr;
+            var xr_1d = xr;
 
             // choose correct scalefactor band per block type, initalize boundary
             if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
@@ -1174,15 +1174,15 @@ namespace Cave.Media.Audio.MP3
             for (j = 0; j < nonzero[ch]; j++)
             {
                 // Modif E.B 02/22/99
-                int reste = j % SSLIMIT;
-                int quotien = (j - reste) / SSLIMIT;
+                var reste = j % SSLIMIT;
+                var quotien = (j - reste) / SSLIMIT;
                 if (is1d[j] == 0)
                 {
                     xr_1d[quotien][reste] = 0.0f;
                 }
                 else
                 {
-                    int abv = is1d[j];
+                    var abv = is1d[j];
                     if (is1d[j] > 0)
                     {
                         xr_1d[quotien][reste] = g_gain * t43[abv];
@@ -1198,8 +1198,8 @@ namespace Cave.Media.Audio.MP3
             for (j = 0; j < nonzero[ch]; j++)
             {
                 // Modif E.B 02/22/99
-                int reste = j % SSLIMIT;
-                int quotien = (j - reste) / SSLIMIT;
+                var reste = j % SSLIMIT;
+                var quotien = (j - reste) / SSLIMIT;
 
                 if (index == next_cb_boundary)
                 {
@@ -1256,7 +1256,7 @@ namespace Cave.Media.Audio.MP3
                     /*            xr[sb][ss] *= pow(2.0, ((-2.0 * gr_info.subblock_gain[t_index])
                     -(0.5 * (1.0 + gr_info.scalefac_scale)
                     * scalefac[ch].s[t_index][cb]))); */
-                    int idx = scaleFactors[ch].S[t_index][cb] << gr_info.ScaleFactorScale;
+                    var idx = scaleFactors[ch].S[t_index][cb] << gr_info.ScaleFactorScale;
                     idx += gr_info.SubBlockGain[t_index] << 2;
 
                     xr_1d[quotien][reste] *= twoToNegativeHalfPow[idx];
@@ -1267,14 +1267,14 @@ namespace Cave.Media.Audio.MP3
                     /*                xr[sb][ss] *= pow(2.0, -0.5 * (1.0+gr_info.scalefac_scale)
                     * (scalefac[ch].l[cb]
                     + gr_info.preflag * pretab[cb])); */
-                    int idx = scaleFactors[ch].L[cb];
+                    var idx = scaleFactors[ch].L[cb];
 
                     if (gr_info.Preflag != 0)
                     {
                         idx += pretab[cb];
                     }
 
-                    idx = idx << gr_info.ScaleFactorScale;
+                    idx <<= gr_info.ScaleFactorScale;
                     xr_1d[quotien][reste] *= twoToNegativeHalfPow[idx];
                 }
                 index++;
@@ -1283,8 +1283,8 @@ namespace Cave.Media.Audio.MP3
             for (j = nonzero[ch]; j < 576; j++)
             {
                 // Modif E.B 02/22/99
-                int reste = j % SSLIMIT;
-                int quotien = (j - reste) / SSLIMIT;
+                var reste = j % SSLIMIT;
+                var quotien = (j - reste) / SSLIMIT;
                 if (reste < 0)
                 {
                     reste = 0;
@@ -1303,12 +1303,12 @@ namespace Cave.Media.Audio.MP3
 
         void Reorder(float[][] xr, int ch, int gr)
         {
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
+            var gr_info = sideInfo.CH[ch].GR[gr];
             int freq, freq3;
             int index;
             int sfb, sfb_start, sfb_lines;
             int src_line, des_line;
-            float[][] xr_1d = xr;
+            var xr_1d = xr;
 
             if ((gr_info.WindowSwitchingFlag != 0) && (gr_info.BlockType == 2))
             {
@@ -1323,15 +1323,15 @@ namespace Cave.Media.Audio.MP3
                     for (index = 0; index < 36; index++)
                     {
                         // Modif E.B 02/22/99
-                        int reste = index % SSLIMIT;
-                        int quotien = (index - reste) / SSLIMIT;
+                        var reste = index % SSLIMIT;
+                        var quotien = (index - reste) / SSLIMIT;
                         out1d[index] = xr_1d[quotien][reste];
                     }
 
                     // REORDERING FOR REST SWITCHED SHORT
                     for (sfb = 3, sfb_start = sfBandIndex[sfreq].S[3], sfb_lines = sfBandIndex[sfreq].S[4] - sfb_start; sfb < 13; sfb++, sfb_start = sfBandIndex[sfreq].S[sfb], sfb_lines = sfBandIndex[sfreq].S[sfb + 1] - sfb_start)
                     {
-                        int sfb_start3 = (sfb_start << 2) - sfb_start;
+                        var sfb_start3 = (sfb_start << 2) - sfb_start;
 
                         for (freq = 0, freq3 = 0; freq < sfb_lines; freq++, freq3 += 3)
                         {
@@ -1339,8 +1339,8 @@ namespace Cave.Media.Audio.MP3
                             des_line = sfb_start3 + freq3;
 
                             // Modif E.B 02/22/99
-                            int reste = src_line % SSLIMIT;
-                            int quotien = (src_line - reste) / SSLIMIT;
+                            var reste = src_line % SSLIMIT;
+                            var quotien = (src_line - reste) / SSLIMIT;
 
                             out1d[des_line] = xr_1d[quotien][reste];
                             src_line += sfb_lines;
@@ -1365,9 +1365,9 @@ namespace Cave.Media.Audio.MP3
                     // pure short
                     for (index = 0; index < 576; index++)
                     {
-                        int j = reorderTable[sfreq][index];
-                        int reste = j % SSLIMIT;
-                        int quotien = (j - reste) / SSLIMIT;
+                        var j = reorderTable[sfreq][index];
+                        var reste = j % SSLIMIT;
+                        var quotien = (j - reste) / SSLIMIT;
                         out1d[index] = xr_1d[quotien][reste];
                     }
                 }
@@ -1378,8 +1378,8 @@ namespace Cave.Media.Audio.MP3
                 for (index = 0; index < 576; index++)
                 {
                     // Modif E.B 02/22/99
-                    int reste = index % SSLIMIT;
-                    int quotien = (index - reste) / SSLIMIT;
+                    var reste = index % SSLIMIT;
+                    var quotien = (index - reste) / SSLIMIT;
                     out1d[index] = xr_1d[quotien][reste];
                 }
             }
@@ -1404,23 +1404,23 @@ namespace Cave.Media.Audio.MP3
             }
             else
             {
-                GRInfo gr_info = sideInfo.CH[0].GR[gr];
+                var gr_info = sideInfo.CH[0].GR[gr];
                 int mode_ext = header.ModeExtension;
 
                 int sfb;
                 int i;
                 int lines, temp, temp2;
 
-                bool ms_stereo = false;
-                bool i_stereo = false;
+                var ms_stereo = false;
+                var i_stereo = false;
 
                 if (header.Channels == MP3AudioFrameChannels.JointStereo)
                 {
                     ms_stereo = (header.ModeExtension & 0x2) != 0;
                     i_stereo = (header.ModeExtension & 0x1) != 0;
                 }
-                bool lsf = (header.Version == MP3AudioFrameVersion.Version2) || (header.Version == MP3AudioFrameVersion.Version25);
-                int io_type = gr_info.ScaleFactorCompress & 1;
+                var lsf = (header.Version == MP3AudioFrameVersion.Version2) || (header.Version == MP3AudioFrameVersion.Version25);
+                var io_type = gr_info.ScaleFactorCompress & 1;
 
                 // initialization
                 for (i = 0; i < 576; i++)
@@ -1436,9 +1436,9 @@ namespace Cave.Media.Audio.MP3
                     {
                         if (gr_info.MixedBlockFlag != 0)
                         {
-                            int max_sfb = 0;
+                            var max_sfb = 0;
 
-                            for (int j = 0; j < 3; j++)
+                            for (var j = 0; j < 3; j++)
                             {
                                 int sfbcnt;
                                 sfbcnt = 2;
@@ -1589,7 +1589,7 @@ namespace Cave.Media.Audio.MP3
                         else
                         {
                             // if (gr_info.mixed_block_flag)
-                            for (int j = 0; j < 3; j++)
+                            for (var j = 0; j < 3; j++)
                             {
                                 int sfbcnt;
                                 sfbcnt = -1;
@@ -1796,7 +1796,7 @@ namespace Cave.Media.Audio.MP3
         void Antialias(int ch, int gr)
         {
             int sb18, ss, sb18lim;
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
+            var gr_info = sideInfo.CH[ch].GR[gr];
 
             // 31 alias-reduction operations between each pair of sub-bands
             // with 8 butterflies between each pair
@@ -1818,10 +1818,10 @@ namespace Cave.Media.Audio.MP3
             {
                 for (ss = 0; ss < 8; ss++)
                 {
-                    int src_idx1 = sb18 + 17 - ss;
-                    int src_idx2 = sb18 + 18 + ss;
-                    float bu = out1d[src_idx1];
-                    float bd = out1d[src_idx2];
+                    var src_idx1 = sb18 + 17 - ss;
+                    var src_idx2 = sb18 + 18 + ss;
+                    var bu = out1d[src_idx1];
+                    var bd = out1d[src_idx2];
                     out1d[src_idx1] = (bu * cs[ss]) - (bd * ca[ss]);
                     out1d[src_idx2] = (bd * cs[ss]) + (bu * ca[ss]);
                 }
@@ -1832,7 +1832,7 @@ namespace Cave.Media.Audio.MP3
         {
             int bt;
             int sb18;
-            GRInfo gr_info = sideInfo.CH[ch].GR[gr];
+            var gr_info = sideInfo.CH[ch].GR[gr];
             float[] tsOut;
 
             float[][] prvblk;
@@ -1844,14 +1844,14 @@ namespace Cave.Media.Audio.MP3
                 tsOut = out1d;
 
                 // Modif E.B 02/22/99
-                for (int cc = 0; cc < 18; cc++)
+                for (var cc = 0; cc < 18; cc++)
                 {
                     tsOutCopy[cc] = tsOut[cc + sb18];
                 }
 
                 InvMdct(tsOutCopy, rawout, bt);
 
-                for (int cc = 0; cc < 18; cc++)
+                for (var cc = 0; cc < 18; cc++)
                 {
                     tsOut[cc + sb18] = tsOutCopy[cc];
                 }
@@ -1902,9 +1902,9 @@ namespace Cave.Media.Audio.MP3
 
         void DoDownmix()
         {
-            for (int sb = 0; sb < SSLIMIT; sb++)
+            for (var sb = 0; sb < SSLIMIT; sb++)
             {
-                for (int ss = 0; ss < SSLIMIT; ss += 3)
+                for (var ss = 0; ss < SSLIMIT; ss += 3)
                 {
                     lr[0][sb][ss] = (lr[0][sb][ss] + lr[1][sb][ss]) * 0.5f;
                     lr[0][sb][ss + 1] = (lr[0][sb][ss + 1] + lr[1][sb][ss + 1]) * 0.5f;
@@ -1976,7 +1976,7 @@ namespace Cave.Media.Audio.MP3
                 out_Renamed[35] = 0.0f;
                 */
 
-                int six_i = 0;
+                var six_i = 0;
 
                 for (i = 0; i < 3; i++)
                 {
@@ -2018,7 +2018,7 @@ namespace Cave.Media.Audio.MP3
                     tmpf_5 *= 0.517638090f;
 
                     // Output butterflies on 2 3 point IDCT's (for 6 point IDCT)
-                    float save = tmpf_0;
+                    var save = tmpf_0;
                     tmpf_0 += tmpf_5;
                     tmpf_5 = save - tmpf_5;
                     save = tmpf_1;
@@ -2123,8 +2123,8 @@ namespace Cave.Media.Audio.MP3
                 // 9 point IDCT on even indices
 
                 // 5 points on odd indices (not realy an IDCT)
-                float i00 = in_Renamed[0] + in_Renamed[0];
-                float iip12 = i00 + in_Renamed[12];
+                var i00 = in_Renamed[0] + in_Renamed[0];
+                var iip12 = i00 + in_Renamed[12];
 
                 tmp0 = iip12 + (in_Renamed[4] * 1.8793852415718f) + (in_Renamed[8] * 1.532088886238f) + (in_Renamed[16] * 0.34729635533386f);
                 tmp1 = i00 + in_Renamed[4] - in_Renamed[8] - in_Renamed[12] - in_Renamed[12] - in_Renamed[16];
@@ -2133,7 +2133,7 @@ namespace Cave.Media.Audio.MP3
                 tmp4 = in_Renamed[0] - in_Renamed[4] + in_Renamed[8] - in_Renamed[12] + in_Renamed[16];
 
                 // 4 points on even indices
-                float i66_ = in_Renamed[6] * 1.732050808f; // Sqrt[3]
+                var i66_ = in_Renamed[6] * 1.732050808f; // Sqrt[3]
 
                 tmp0_ = (in_Renamed[2] * 1.9696155060244f) + i66_ + (in_Renamed[10] * 1.2855752193731f) + (in_Renamed[14] * 0.68404028665134f);
                 tmp1_ = (in_Renamed[2] - in_Renamed[10] - in_Renamed[14]) * 1.732050808f;
@@ -2142,8 +2142,8 @@ namespace Cave.Media.Audio.MP3
 
                 // 9 point IDCT on odd indices
                 // 5 points on odd indices (not realy an IDCT)
-                float i0 = in_Renamed[0 + 1] + in_Renamed[0 + 1];
-                float i0p12 = i0 + in_Renamed[12 + 1];
+                var i0 = in_Renamed[0 + 1] + in_Renamed[0 + 1];
+                var i0p12 = i0 + in_Renamed[12 + 1];
 
                 tmp0o = i0p12 + (in_Renamed[4 + 1] * 1.8793852415718f) + (in_Renamed[8 + 1] * 1.532088886238f) + (in_Renamed[16 + 1] * 0.34729635533386f);
                 tmp1o = i0 + in_Renamed[4 + 1] - in_Renamed[8 + 1] - in_Renamed[12 + 1] - in_Renamed[12 + 1] - in_Renamed[16 + 1];
@@ -2152,7 +2152,7 @@ namespace Cave.Media.Audio.MP3
                 tmp4o = (in_Renamed[0 + 1] - in_Renamed[4 + 1] + in_Renamed[8 + 1] - in_Renamed[12 + 1] + in_Renamed[16 + 1]) * 0.707106781f; // Twiddled
 
                 // 4 points on even indices
-                float i6_ = in_Renamed[6 + 1] * 1.732050808f; // Sqrt[3]
+                var i6_ = in_Renamed[6 + 1] * 1.732050808f; // Sqrt[3]
 
                 tmp0_o = (in_Renamed[2 + 1] * 1.9696155060244f) + i6_ + (in_Renamed[10 + 1] * 1.2855752193731f) + (in_Renamed[14 + 1] * 0.68404028665134f);
                 tmp1_o = (in_Renamed[2 + 1] - in_Renamed[10 + 1] - in_Renamed[14 + 1]) * 1.732050808f;

@@ -6,8 +6,8 @@ namespace Cave.Media.Audio.ID3
     {
         public static int Int32(byte[] data, int start)
         {
-            int value = 0;
-            for (int i = 0; i < 4; i++)
+            var value = 0;
+            for (var i = 0; i < 4; i++)
             {
                 value <<= 7;
                 value |= data[start + i];
@@ -18,8 +18,8 @@ namespace Cave.Media.Audio.ID3
         public static byte[] Buffer(byte[] data)
         {
             var buffer = new List<byte>(data.Length);
-            bool unsync = false;
-            foreach (byte b in data)
+            var unsync = false;
+            foreach (var b in data)
             {
                 if (unsync)
                 {
@@ -41,11 +41,11 @@ namespace Cave.Media.Audio.ID3
 
         public static byte[] Reader(DataFrameReader reader, int start, int unsyncedLength)
         {
-            byte[] result = new byte[unsyncedLength];
-            int n = start;
-            for (int i = 0; i < result.Length; i++)
+            var result = new byte[unsyncedLength];
+            var n = start;
+            for (var i = 0; i < result.Length; i++)
             {
-                byte b = reader.ReadByte(n++);
+                var b = reader.ReadByte(n++);
                 if (b != 0xFF)
                 {
                     result[i] = b;

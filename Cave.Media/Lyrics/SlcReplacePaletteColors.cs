@@ -13,8 +13,8 @@ namespace Cave.Media.Lyrics
         {
             ColorIndex = reader.ReadByte();
             int count = reader.ReadByte();
-            ARGB[] pal = new ARGB[count];
-            for (int i = 0; i < count; i++)
+            var pal = new ARGB[count];
+            for (var i = 0; i < count; i++)
             {
                 pal[i] = reader.ReadUInt32();
             }
@@ -32,7 +32,7 @@ namespace Cave.Media.Lyrics
         {
             writer.Write(ColorIndex);
             writer.Write((byte)PaletteUpdate.Length);
-            foreach (ARGB value in PaletteUpdate)
+            foreach (var value in PaletteUpdate)
             {
                 writer.Write(value.AsUInt32);
             }

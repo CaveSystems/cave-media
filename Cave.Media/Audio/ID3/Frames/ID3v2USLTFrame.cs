@@ -17,7 +17,7 @@ namespace Cave.Media.Audio.ID3.Frames
         {
             var encoding = (ID3v2EncodingType)Content[0];
             language = ID3v2Encoding.ISO88591.GetString(Content, 1, 3);
-            int start = 4 + ID3v2Encoding.Parse(encoding, Content, 4, out descriptor);
+            var start = 4 + ID3v2Encoding.Parse(encoding, Content, 4, out descriptor);
             string text;
             ID3v2Encoding.Parse(encoding, Content, start, out text);
             lines = text.Split('\n');
@@ -84,9 +84,6 @@ namespace Cave.Media.Audio.ID3.Frames
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length] LNG:"Descriptor".</returns>
-        public override string ToString()
-        {
-            return base.ToString() + " " + Language + ":\"" + Descriptor + '"';
-        }
+        public override string ToString() => base.ToString() + " " + Language + ":\"" + Descriptor + '"';
     }
 }

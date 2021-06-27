@@ -44,7 +44,7 @@ namespace Cave.Media.Audio.MP3
             }
 
             m_Buffer = new byte[(buffer.Length - offset) * 8];
-            for (int i = offset; i < buffer.Length; i++)
+            for (var i = offset; i < buffer.Length; i++)
             {
                 WriteByte(buffer[i]);
             }
@@ -72,8 +72,8 @@ namespace Cave.Media.Audio.MP3
         {
             unchecked
             {
-                int value = 0;
-                for (int i = 0; i < count; i++)
+                var value = 0;
+                for (var i = 0; i < count; i++)
                 {
                     value <<= 1;
                     if (m_Buffer[ReadPosition++] != 0)
@@ -96,7 +96,7 @@ namespace Cave.Media.Audio.MP3
         {
             unchecked
             {
-                byte result = m_Buffer[ReadPosition++];
+                var result = m_Buffer[ReadPosition++];
                 if (ReadPosition >= m_Buffer.Length)
                 {
                     ReadPosition = 0;

@@ -31,10 +31,7 @@ namespace Cave.Media.OpenGL
             /// <returns>
             ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
-            public override bool Equals(object obj)
-            {
-                return obj is Cursor ? Equals((Cursor)obj) : false;
-            }
+            public override bool Equals(object obj) => obj is Cursor ? Equals((Cursor)obj) : false;
 
             /// <summary>Determines whether the specified <see cref="object" />, is equal to this instance.</summary>
             /// <param name="obj">The <see cref="Cursor" /> to compare with this instance.</param>
@@ -198,10 +195,7 @@ namespace Cave.Media.OpenGL
             /// <returns>
             ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
-            public override bool Equals(object obj)
-            {
-                return obj is Monitor ? Equals((Monitor)obj) : false;
-            }
+            public override bool Equals(object obj) => obj is Monitor ? Equals((Monitor)obj) : false;
 
             /// <summary>Determines whether the specified <see cref="Monitor" />, is equal to this instance.</summary>
             /// <param name="obj">The <see cref="Monitor" /> to compare with this instance.</param>
@@ -281,10 +275,7 @@ namespace Cave.Media.OpenGL
             /// <returns>
             ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
-            public override bool Equals(object obj)
-            {
-                return obj is VideoMode ? Equals((VideoMode)obj) : false;
-            }
+            public override bool Equals(object obj) => obj is VideoMode ? Equals((VideoMode)obj) : false;
 
             /// <summary>Determines whether the specified <see cref="VideoMode" />, is equal to this instance.</summary>
             /// <param name="obj">The <see cref="VideoMode" /> to compare with this instance.</param>
@@ -322,7 +313,7 @@ namespace Cave.Media.OpenGL
             {
                 unchecked
                 {
-                    int hash = 17;
+                    var hash = 17;
                     hash = (hash * 23) + Width.GetHashCode();
                     hash = (hash * 23) + Height.GetHashCode();
                     hash = (hash * 23) + RedBits.GetHashCode();
@@ -375,10 +366,7 @@ namespace Cave.Media.OpenGL
             /// <returns>
             ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
             /// </returns>
-            public override bool Equals(object obj)
-            {
-                return obj is Window ? Equals((Window)obj) : false;
-            }
+            public override bool Equals(object obj) => obj is Window ? Equals((Window)obj) : false;
 
             /// <summary>Determines whether the specified <see cref="Window" />, is equal to this instance.</summary>
             /// <param name="obj">The <see cref="Window" /> to compare with this instance.</param>

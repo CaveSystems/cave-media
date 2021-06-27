@@ -22,8 +22,8 @@ namespace Cave.Media.Video
         /// <param name="name">Name of the Object.</param>
         public RenderSprite(IRenderer renderer, string name)
         {
-            Name = name ?? throw new ArgumentNullException("name");
-            Renderer = renderer ?? throw new ArgumentNullException("renderer");
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Renderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
             Alpha = 1;
             Scale = Vector3.Create(1, 1, 1);
             Visible = true;
@@ -104,10 +104,7 @@ namespace Cave.Media.Video
         /// <param name="height">The height of the object in pixel.</param>
         /// <param name="mode">resize mode for the scaling.</param>
         /// <returns>the new scale.</returns>
-        public Vector3 ScaleFromSize(float width = 0, float height = 0, ResizeMode mode = ResizeMode.None)
-        {
-            return ScaleFromSizeNorm(width / Renderer.Resolution.X, height / Renderer.Resolution.Y);
-        }
+        public Vector3 ScaleFromSize(float width = 0, float height = 0, ResizeMode mode = ResizeMode.None) => ScaleFromSizeNorm(width / Renderer.Resolution.X, height / Renderer.Resolution.Y);
 
         /// <summary>
         /// Gets the <see cref="Scale"/> from a specific size (0..1).
@@ -124,7 +121,7 @@ namespace Cave.Media.Video
                 return Vector3.Create(width, height, 0);
             }
             float x = 1f, y = 1f;
-            float fbAspect = Renderer.Resolution.X / Renderer.Resolution.Y;
+            var fbAspect = Renderer.Resolution.X / Renderer.Resolution.Y;
             if (TextureSize != Vector2.Empty)
             {
                 fbAspect = fbAspect * (width / height) / (TextureSize.X / TextureSize.Y);

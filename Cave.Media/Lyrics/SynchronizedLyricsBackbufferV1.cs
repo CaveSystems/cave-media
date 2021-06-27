@@ -15,12 +15,12 @@ namespace Cave.Media.Lyrics
         const int ScreenWidth = BufferWidth - 12;
         const int ScreenHeight = BufferHeight - 24;
 
-        byte[] m_Buffer = new byte[BufferSize];
-        ARGB[] m_Palette = new ARGB[256];
-        byte m_TransparentColor;
-        byte m_ClearColor;
-        sbyte m_OffsetHorizontal;
-        sbyte m_OffsetVertical;
+        byte[] buffer = new byte[BufferSize];
+        ARGB[] palette = new ARGB[256];
+        byte transparentColor;
+        byte clearColor;
+        sbyte offsetHorizontal;
+        sbyte offsetVertical;
 
         /// <summary>Gets or sets the global alpha value (0 = transparent, 255 = opaque).</summary>
         /// <value>The alpha.</value>
@@ -53,7 +53,7 @@ namespace Cave.Media.Lyrics
         /// <param name="sl">The sl.</param>
         public void Play(SynchronizedLyricsItem sl)
         {
-            foreach (ISynchronizedLyricsCommand cmd in sl.Commands)
+            foreach (var cmd in sl.Commands)
             {
                 Play(cmd);
             }
@@ -88,7 +88,7 @@ namespace Cave.Media.Lyrics
 
         private void ScreenScroll(SlcScreenScroll cmd)
         {
-            int targetOffset = 0;
+            var targetOffset = 0;
             targetOffset += cmd.Horizontal;
             targetOffset += cmd.Vertical * BufferWidth;
 
@@ -100,32 +100,32 @@ namespace Cave.Media.Lyrics
             if (targetOffset > 0)
             {
                 // target offset > 0 : need to move from last to first pixel
-                for (int target = BufferSize - 1; target >= 0; target--)
+                for (var target = BufferSize - 1; target >= 0; target--)
                 {
-                    int source = target - targetOffset;
+                    var source = target - targetOffset;
                     if (source >= 0)
                     {
-                        m_Buffer[target] = m_Buffer[source];
+                        buffer[target] = buffer[source];
                     }
                     else
                     {
-                        m_Buffer[target] = cmd.ColorIndex;
+                        buffer[target] = cmd.ColorIndex;
                     }
                 }
             }
             else
             {
                 // target offset < 0 : need to move from first to last pixel
-                for (int target = 0; target < BufferSize; target++)
+                for (var target = 0; target < BufferSize; target++)
                 {
-                    int source = target - targetOffset;
+                    var source = target - targetOffset;
                     if (source < BufferSize)
                     {
-                        m_Buffer[target] = m_Buffer[source];
+                        buffer[target] = buffer[source];
                     }
                     else
                     {
-                        m_Buffer[target] = cmd.ColorIndex;
+                        buffer[target] = cmd.ColorIndex;
                     }
                 }
             }
@@ -134,44 +134,44 @@ namespace Cave.Media.Lyrics
 
         private void SetScreenOffset(SlcScreenOffset cmd)
         {
-            m_OffsetHorizontal = cmd.Horizontal;
-            m_OffsetVertical = cmd.Vertical;
+            offsetHorizontal = cmd.Horizontal;
+            offsetVertical = cmd.Vertical;
             Invalidate();
         }
 
         private void ReplacePaletteColors(SlcReplacePaletteColors cmd)
         {
             int i = cmd.ColorIndex;
-            foreach (ARGB color in cmd.PaletteUpdate)
+            foreach (var color in cmd.PaletteUpdate)
             {
-                m_Palette[i++] = color;
+                palette[i++] = color;
             }
         }
 
         private void SetSprite2Colors(SlcSetSprite2Colors cmd)
         {
-            byte[] colors = new byte[] { cmd.Color0, cmd.Color1 };
+            var colors = new byte[] { cmd.Color0, cmd.Color1 };
 
-            int bufferOffset = cmd.X + (cmd.Y * BufferWidth);
-            int b = 0;
-            for (int y = 0; y < cmd.Height; y++)
+            var bufferOffset = cmd.X + (cmd.Y * BufferWidth);
+            var b = 0;
+            for (var y = 0; y < cmd.Height; y++)
             {
                 // start at highest bit
-                int shift = cmd.Width % 8;
-                byte current = cmd.BitArray[b];
+                var shift = cmd.Width % 8;
+                var current = cmd.BitArray[b];
 
-                for (int x = 0; x < cmd.Width; x++)
+                for (var x = 0; x < cmd.Width; x++)
                 {
                     if (--shift < 0)
                     {
                         shift = 7;
                         b++;
                     }
-                    int color = (current >> shift) & 1;
+                    var color = (current >> shift) & 1;
                     switch (cmd.Type)
                     {
-                        case SynchronizedLyricsCommandType.SetSprite2Colors: m_Buffer[bufferOffset + x] = colors[color]; break;
-                        case SynchronizedLyricsCommandType.SetSprite2ColorsXOR: m_Buffer[bufferOffset + x] ^= colors[color]; break;
+                        case SynchronizedLyricsCommandType.SetSprite2Colors: buffer[bufferOffset + x] = colors[color]; break;
+                        case SynchronizedLyricsCommandType.SetSprite2ColorsXOR: buffer[bufferOffset + x] ^= colors[color]; break;
                     }
                 }
                 bufferOffset += BufferWidth;
@@ -182,31 +182,31 @@ namespace Cave.Media.Lyrics
 
         private void SetTransparentColor(SlcWithColorIndex cmd)
         {
-            m_TransparentColor = cmd.ColorIndex;
+            transparentColor = cmd.ColorIndex;
             Invalidate();
         }
 
         private void ReplacePaletteColor(SlcReplacePaletteColor cmd)
         {
-            m_Palette[cmd.ColorIndex] = cmd.ColorValue;
+            palette[cmd.ColorIndex] = cmd.ColorValue;
             Invalidate();
         }
 
         private void ClearScreen(SlcWithColorIndex cmd)
         {
-            m_ClearColor = cmd.ColorIndex;
+            clearColor = cmd.ColorIndex;
             if (TransparentColorOverride)
             {
-                for (int i = 0; i < BufferSize; i++)
+                for (var i = 0; i < BufferSize; i++)
                 {
-                    m_Buffer[i] = m_TransparentColor;
+                    buffer[i] = transparentColor;
                 }
             }
             else
             {
-                for (int i = 0; i < BufferSize; i++)
+                for (var i = 0; i < BufferSize; i++)
                 {
-                    m_Buffer[i] = m_ClearColor;
+                    buffer[i] = clearColor;
                 }
             }
             Invalidate();
@@ -219,7 +219,6 @@ namespace Cave.Media.Lyrics
         /// <summary>Invalidates this instance.</summary>
         public void Invalidate()
         {
-            Updated = true;
 #if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
             skBitmap?.Dispose();
             skBitmap = null;
@@ -227,7 +226,6 @@ namespace Cave.Media.Lyrics
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
-
 #if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
             bitmap?.Dispose();
             bitmap = null;
@@ -235,28 +233,30 @@ namespace Cave.Media.Lyrics
 #else
 #error No code defined for the current framework or NETXX version define missing!
 #endif
+            Updated = true;
         }
+
 
         ARGBImageData ToImage()
         {
-            int w = BufferWidth - 12;
-            int h = BufferHeight - 24;
+            var w = BufferWidth - 12;
+            var h = BufferHeight - 24;
             var data = new ARGBImageData(w, h);
-            int targetOffset = 0;
-            int sourceOffset = (BufferWidth * (12 + m_OffsetVertical)) + m_OffsetHorizontal + 6;
-            for (int y = 0; y < h; y++)
+            var targetOffset = 0;
+            var sourceOffset = (BufferWidth * (12 + offsetVertical)) + offsetHorizontal + 6;
+            for (var y = 0; y < h; y++)
             {
-                for (int x = 0; x < w; x++)
+                for (var x = 0; x < w; x++)
                 {
-                    byte colorIndex = m_Buffer[sourceOffset + x];
+                    var colorIndex = buffer[sourceOffset + x];
                     ARGB color;
-                    if (TransparentColorOverride && ((colorIndex == m_TransparentColor) || (colorIndex == m_ClearColor)))
+                    if (TransparentColorOverride && ((colorIndex == transparentColor) || (colorIndex == clearColor)))
                     {
                         color = TransparentColorValue;
                     }
                     else
                     {
-                        color = m_Palette[colorIndex];
+                        color = palette[colorIndex];
                         color.Alpha = GlobalAlpha;
                     }
                     data[targetOffset++] = color;

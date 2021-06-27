@@ -16,18 +16,12 @@ namespace Cave.Media.Lyrics
         /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified file.</summary>
         /// <param name="fileName">Name of the file.</param>
         /// <returns></returns>
-        public static SynchronizedLyrics FromFile(string fileName)
-        {
-            return FromData(File.ReadAllBytes(fileName));
-        }
+        public static SynchronizedLyrics FromFile(string fileName) => FromData(File.ReadAllBytes(fileName));
 
         /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified data.</summary>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        public static SynchronizedLyrics FromData(byte[] data)
-        {
-            return FromStream(new MemoryStream(data));
-        }
+        public static SynchronizedLyrics FromData(byte[] data) => FromStream(new MemoryStream(data));
 
         /// <summary>Creates a new <see cref="SynchronizedLyrics"/> instance by parsing the specified stream.</summary>
         /// <param name="stream">The stream.</param>
@@ -50,14 +44,14 @@ namespace Cave.Media.Lyrics
 
             while (reader.Available > 0)
             {
-                long milliSecondDistance = reader.Read7BitEncodedInt64();
+                var milliSecondDistance = reader.Read7BitEncodedInt64();
                 milliSecond += milliSecondDistance;
 
                 var item = new SynchronizedLyricsItemBuilder();
                 item.TimeCode = new TimeSpan(milliSecond * TimeSpan.TicksPerMillisecond);
                 while (true)
                 {
-                    ISynchronizedLyricsCommand command = SynchronizedLyricsCommand.Parse(reader);
+                    var command = SynchronizedLyricsCommand.Parse(reader);
                     if (command == null)
                     {
                         break;
@@ -106,17 +100,11 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Gibt einen Enumerator zurück, der die Auflistung durchläuft.</summary>
         /// <returns>Ein <see cref="T:System.Collections.Generic.IEnumerator`1" />, der zum Durchlaufen der Auflistung verwendet werden kann.</returns>
-        public IEnumerator<SynchronizedLyricsItem> GetEnumerator()
-        {
-            return m_Items.GetEnumerator();
-        }
+        public IEnumerator<SynchronizedLyricsItem> GetEnumerator() => m_Items.GetEnumerator();
 
         /// <summary>Gibt einen Enumerator zurück, der eine Auflistung durchläuft.</summary>
         /// <returns>Ein <see cref="T:System.Collections.IEnumerator" />-Objekt, das zum Durchlaufen der Auflistung verwendet werden kann.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return m_Items.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => m_Items.GetEnumerator();
 
         /// <summary>Saves the whole instance to the specified stream.</summary>
         /// <param name="stream">The stream.</param>
@@ -125,8 +113,8 @@ namespace Cave.Media.Lyrics
             var writer = new DataWriter(stream);
             writer.Write("SLT");
             writer.Write7BitEncoded32(1);
-            TimeSpan timeCode = TimeSpan.Zero;
-            foreach (SynchronizedLyricsItem item in m_Items)
+            var timeCode = TimeSpan.Zero;
+            foreach (var item in m_Items)
             {
                 item.Save(timeCode, writer);
                 timeCode = item.TimeCode;
@@ -137,11 +125,9 @@ namespace Cave.Media.Lyrics
         /// <returns></returns>
         public byte[] ToArray()
         {
-            using (var ms = new MemoryStream())
-            {
-                Save(ms);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            Save(ms);
+            return ms.ToArray();
         }
 
         /// <summary>Plays forward from <see cref="Position"/> to the specified timeCode.</summary>
@@ -151,7 +137,7 @@ namespace Cave.Media.Lyrics
         {
             for (; m_CurrentPosition < m_Items.Count; m_CurrentPosition++)
             {
-                SynchronizedLyricsItem item = m_Items[m_CurrentPosition];
+                var item = m_Items[m_CurrentPosition];
                 if (item.TimeCode > timeCode)
                 {
                     break;

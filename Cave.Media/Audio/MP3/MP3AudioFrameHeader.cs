@@ -109,7 +109,7 @@ namespace Cave.Media.Audio.MP3
         static uint GetUint(byte[] value)
         {
             uint u = 0;
-            for (int i = 0; i < 4; i++) { u = (u << 8) | value[i]; }
+            for (var i = 0; i < 4; i++) { u = (u << 8) | value[i]; }
             return u;
         }
 
@@ -239,39 +239,33 @@ namespace Cave.Media.Audio.MP3
                     default: throw new NotSupportedException(string.Format("Layer {0} not supported!", Layer));
                     case MP3AudioFrameLayer.Layer1:
                     case MP3AudioFrameLayer.Layer2:
+                    {
                         return 0;
-
+                    }
                     case MP3AudioFrameLayer.Layer3:
-                        int channelBytes = 0;
-                        int l_FrameSize = Length;
-                        switch (Version)
+                    {
+                        var channelBytes = 0;
+                        var frameSize = Length;
+                        channelBytes = Version switch
                         {
-                            default: throw new NotSupportedException(string.Format("Version {0} not supported!", Version));
-                            case MP3AudioFrameVersion.Version1:
-                                channelBytes = Channels == MP3AudioFrameChannels.Mono ? 17 : 32;
-                                break;
-
-                            case MP3AudioFrameVersion.Version2:
-                            case MP3AudioFrameVersion.Version25:
-                                channelBytes = Channels == MP3AudioFrameChannels.Mono ? 9 : 17;
-                                break;
-                        }
+                            MP3AudioFrameVersion.Version1 => Channels == MP3AudioFrameChannels.Mono ? 17 : 32,
+                            MP3AudioFrameVersion.Version2 or MP3AudioFrameVersion.Version25 => Channels == MP3AudioFrameChannels.Mono ? 9 : 17,
+                            _ => throw new NotSupportedException(string.Format("Version {0} not supported!", Version)),
+                        };
                         if (!Protection)
                         {
-                            return l_FrameSize - channelBytes - 4;
+                            return frameSize - channelBytes - 4;
                         }
 
-                        return l_FrameSize - channelBytes - 4 - 2;
+                        return frameSize - channelBytes - 4 - 2;
+                    }
                 }
             }
         }
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return "MP3FrameHeader " + Version + " " + Layer + " " + BitRate + " kBit " + SamplingRate + " Hz " + Channels + " " + Length + " bytes (pad " + (Padding ? 1 : 0) + ", crc " + (Protection ? 2 : 0) + ")";
-        }
+        public override string ToString() => "MP3FrameHeader " + Version + " " + Layer + " " + BitRate + " kBit " + SamplingRate + " Hz " + Channels + " " + Length + " bytes (pad " + (Padding ? 1 : 0) + ", crc " + (Protection ? 2 : 0) + ")";
 
     }
 }

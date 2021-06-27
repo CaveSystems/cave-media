@@ -19,7 +19,7 @@ namespace Cave.Media.Audio.ID3
         {
             Stream stream = File.OpenRead(fileName);
             stream.Seek(-128, SeekOrigin.End);
-            byte[] buffer = new byte[128];
+            var buffer = new byte[128];
             stream.Read(buffer, 0, 128);
             var result = new ID3v1(buffer);
             stream.Close();
@@ -98,7 +98,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         void ParseData()
         {
-            string str = encoding.GetString(data);
+            var str = encoding.GetString(data);
             if (str.Substring(0, 3) != "TAG")
             {
                 throw new InvalidDataException(string.Format("TAG header not found!"));
@@ -117,7 +117,7 @@ namespace Cave.Media.Audio.ID3
             {
                 comment = ASCII.Clean(str, 97, 30).TrimEnd();
             }
-            byte l_Genre = data[127];
+            var l_Genre = data[127];
             if (l_Genre < Genres.Length)
             {
                 genre = Genres[l_Genre];
@@ -281,7 +281,7 @@ namespace Cave.Media.Audio.ID3
                         stringBuilder.Append(comment.ForceLength(30, string.Empty, "\0"));
                     }
                     stringBuilder.Append("\0");
-                    byte[] data = encoding.GetBytes(stringBuilder.ToString());
+                    var data = encoding.GetBytes(stringBuilder.ToString());
                     if (data.Length != 128)
                     {
                         throw new Exception(string.Format("Encoding for the TAG is invalid and does not return one byte for one character!"));
@@ -330,11 +330,11 @@ namespace Cave.Media.Audio.ID3
             stream.Seek(-128, SeekOrigin.End);
 
             // save position for replace
-            long l_Position = stream.Position;
+            var l_Position = stream.Position;
             try
             {
                 // try to load existing tag
-                byte[] buffer = new byte[128];
+                var buffer = new byte[128];
                 stream.Read(buffer, 0, 128);
                 var result = new ID3v1(buffer);
 

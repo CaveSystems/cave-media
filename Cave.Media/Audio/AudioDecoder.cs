@@ -20,10 +20,7 @@ namespace Cave.Media.Audio
     {
         /// <summary>Called when [decoding a frame].</summary>
         /// <param name="frame">The frame.</param>
-        protected virtual void OnDecoding(AudioFrame frame)
-        {
-            Decoding?.Invoke(this, new AudioFrameEventArgs(frame));
-        }
+        protected virtual void OnDecoding(AudioFrame frame) => Decoding?.Invoke(this, new AudioFrameEventArgs(frame));
 
         /// <summary>Gets the description of the decoder.</summary>
         public abstract string Description { get; }
@@ -63,17 +60,11 @@ namespace Cave.Media.Audio
 
         /// <summary>Starts the decoding process.</summary>
         /// <param name="fileName">Name of the file.</param>
-        public void BeginDecode(string fileName)
-        {
-            BeginDecode(new MP3Reader(fileName));
-        }
+        public void BeginDecode(string fileName) => BeginDecode(new MP3Reader(fileName));
 
         /// <summary>Starts the decoding process.</summary>
         /// <param name="sourceStream">The source Stream providing the encoded data.</param>
         /// <exception cref="Exception">Source  + SourceName + : Decoding already started!.</exception>
-        public void BeginDecode(Stream sourceStream)
-        {
-            BeginDecode(new MP3Reader(sourceStream));
-        }
+        public void BeginDecode(Stream sourceStream) => BeginDecode(new MP3Reader(sourceStream));
     }
 }

@@ -21,7 +21,7 @@ namespace Cave.Media.Audio.ID3
         public byte[] ToArray()
         {
             var buffer = new FifoBuffer();
-            ID3v2HeaderFlags flags = ID3v2HeaderFlags.None;
+            var flags = ID3v2HeaderFlags.None;
             /* we do not like extended headers so we won't write them
             if (m_ExtendedHeader != null)
             {
@@ -29,11 +29,11 @@ namespace Cave.Media.Audio.ID3
                 flags |= ID3v2HeaderFlags.ExtendedHeader;
             }
             */
-            foreach (ID3v2Frame frame in frames)
+            foreach (var frame in frames)
             {
                 buffer.Enqueue(frame.RawData, true);
             }
-            int bodySize = buffer.Length;
+            var bodySize = buffer.Length;
 
             // no one likes footers so we won't write them
             var header = new ID3v2Header(Header.Version, Header.Revision, flags, bodySize);
@@ -52,15 +52,14 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         string GetTextFrameText(string frameID)
         {
-            foreach (ID3v2Frame l_Frame in frames)
+            foreach (var frame in frames)
             {
-                if (l_Frame.ID != frameID)
+                if (frame.ID != frameID)
                 {
                     continue;
                 }
 
-                var textFrame = l_Frame as ID3v2TextFrame;
-                if (textFrame != null)
+                if (frame is ID3v2TextFrame textFrame)
                 {
                     return textFrame.Text;
                 }
@@ -76,7 +75,7 @@ namespace Cave.Media.Audio.ID3
         public bool TryGetFrame<T>(string id, out T frame)
             where T : ID3v2Frame
         {
-            foreach (ID3v2Frame f in frames)
+            foreach (var f in frames)
             {
                 if (id != null && !string.Equals(f.ID, id, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -101,7 +100,7 @@ namespace Cave.Media.Audio.ID3
             where T : ID3v2Frame
         {
             var result = new List<T>();
-            foreach (ID3v2Frame f in frames)
+            foreach (var f in frames)
             {
                 if (id != null && !string.Equals(f.ID, id, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -122,7 +121,7 @@ namespace Cave.Media.Audio.ID3
         /// <returns></returns>
         public bool TryGetTXXXFrame(string name, out ID3v2TXXXFrame frame)
         {
-            foreach (ID3v2Frame f in frames)
+            foreach (var f in frames)
             {
                 frame = f as ID3v2TXXXFrame;
                 if (frame == null)
@@ -143,16 +142,13 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Adds a new frame.</summary>
         /// <param name="frame">The frame.</param>
-        public void AddFrame(ID3v2Frame frame)
-        {
-            frames.Add(frame);
-        }
+        public void AddFrame(ID3v2Frame frame) => frames.Add(frame);
 
         /// <summary>Replaces the first frame with the same ID or adds a new one.</summary>
         /// <param name="frame">The frame.</param>
         public void ReplaceFrame(ID3v2Frame frame)
         {
-            for (int i = 0; i < frames.Count; i++)
+            for (var i = 0; i < frames.Count; i++)
             {
                 if (string.Equals(frames[i].ID, frame.ID, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -167,7 +163,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="id">The identifier.</param>
         public void RemoveFrames(string id)
         {
-            foreach (ID3v2Frame frame in frames.ToArray())
+            foreach (var frame in frames.ToArray())
             {
                 if (string.Equals(frame.ID, id, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -180,10 +176,9 @@ namespace Cave.Media.Audio.ID3
         /// <param name="name">The name.</param>
         public void RemoveTXXXFrames(string name)
         {
-            foreach (ID3v2Frame frame in frames.ToArray())
+            foreach (var frame in frames.ToArray())
             {
-                var txxxframe = frame as ID3v2TXXXFrame;
-                if (txxxframe == null)
+                if (frame is not ID3v2TXXXFrame txxxframe)
                 {
                     continue;
                 }
@@ -213,17 +208,11 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Removes the frame.</summary>
         /// <param name="frame">The frame.</param>
-        public void RemoveFrame(ID3v2Frame frame)
-        {
-            frames.Remove(frame);
-        }
+        public void RemoveFrame(ID3v2Frame frame) => frames.Remove(frame);
 
         /// <summary>Removes the frame at the given index.</summary>
         /// <param name="index">The index.</param>
-        public void RemoveFrameAt(int index)
-        {
-            frames.RemoveAt(index);
-        }
+        public void RemoveFrameAt(int index) => frames.RemoveAt(index);
 
         /// <summary>Gets or sets the <see cref="ID3v2Frame"/> at the specified index.</summary>
         /// <value>The <see cref="ID3v2Frame"/>.</value>
@@ -245,7 +234,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                return TryGetTXXXFrame("albummood", out ID3v2TXXXFrame mood)
+                return TryGetTXXXFrame("albummood", out var mood)
                     ? mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                     : (new string[0]);
             }
@@ -253,7 +242,7 @@ namespace Cave.Media.Audio.ID3
             {
                 RemoveTXXXFrames("albummood");
                 var items = new Set<string>();
-                foreach (string item in value)
+                foreach (var item in value)
                 {
                     items.Include(item.ToLower().Trim());
                 }
@@ -269,17 +258,17 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                string str = GetTextFrameText("TCON");
+                var str = GetTextFrameText("TCON");
                 if (str == null)
                 {
                     return new string[0];
                 }
 
-                string[] parts = str.Split('(', '/');
+                var parts = str.Split('(', '/');
                 var result = new List<string>();
-                for (int i = 0; i < parts.Length; i++)
+                for (var i = 0; i < parts.Length; i++)
                 {
-                    int n = i + 1;
+                    var n = i + 1;
                     if ((n < parts.Length) && (parts[i] == string.Empty))
                     {
                         parts[n] = "(" + parts[n];
@@ -293,7 +282,7 @@ namespace Cave.Media.Audio.ID3
                             case "RX": result.Add("Remix"); continue;
                             case "CR": result.Add("Cover"); continue;
                         }
-                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out uint l_GenreCode))
+                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out var l_GenreCode))
                         {
                             if (l_GenreCode < ID3v1.Genres.Length)
                             {
@@ -316,7 +305,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                return TryGetTXXXFrame("Acoustid Id", out ID3v2TXXXFrame acoustid) ? (BinaryGuid)new Guid(acoustid.Value) : null;
+                return TryGetTXXXFrame("Acoustid Id", out var acoustid) ? (BinaryGuid)new Guid(acoustid.Value) : null;
             }
             set
             {
@@ -332,7 +321,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                return TryGetTXXXFrame("MusicBrainz Artist Id", out ID3v2TXXXFrame frame) ? (BinaryGuid)new Guid(frame.Value.Split(';', ',', '/', ' ')[0]) : null;
+                return TryGetTXXXFrame("MusicBrainz Artist Id", out var frame) ? (BinaryGuid)new Guid(frame.Value.Split(';', ',', '/', ' ')[0]) : null;
             }
             set
             {
@@ -348,7 +337,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                return TryGetTXXXFrame("MusicBrainz Album Id", out ID3v2TXXXFrame frame) ? (BinaryGuid)new Guid(frame.Value) : null;
+                return TryGetTXXXFrame("MusicBrainz Album Id", out var frame) ? (BinaryGuid)new Guid(frame.Value) : null;
             }
             set
             {
@@ -364,7 +353,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                return TryGetTXXXFrame("MusicBrainz Release Group Id", out ID3v2TXXXFrame frame) ? (BinaryGuid)new Guid(frame.Value) : null;
+                return TryGetTXXXFrame("MusicBrainz Release Group Id", out var frame) ? (BinaryGuid)new Guid(frame.Value) : null;
             }
             set
             {
@@ -380,7 +369,7 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                foreach (ID3v2APICFrame frame in GetFrames<ID3v2APICFrame>("APIC"))
+                foreach (var frame in GetFrames<ID3v2APICFrame>("APIC"))
                 {
                     if (frame.PictureType == ID3v2PictureType.CoverFront)
                     {
@@ -396,7 +385,7 @@ namespace Cave.Media.Audio.ID3
         /// <param name="imageData">The image data.</param>
         public void SetCoverFront(string mimeType, byte[] imageData)
         {
-            foreach (ID3v2APICFrame frame in GetFrames<ID3v2APICFrame>("APIC"))
+            foreach (var frame in GetFrames<ID3v2APICFrame>("APIC"))
             {
                 if (frame.PictureType == ID3v2PictureType.CoverFront)
                 {
@@ -416,9 +405,9 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                int year = 0;
+                var year = 0;
                 {
-                    string yyyy = GetTextFrameText("TYER");
+                    var yyyy = GetTextFrameText("TYER");
                     if ((yyyy != null) && (yyyy.Length == 4))
                     {
                         int.TryParse(yyyy, out year);
@@ -429,10 +418,10 @@ namespace Cave.Media.Audio.ID3
                     return default;
                 }
 
-                int hour = 0;
-                int min = 0;
+                var hour = 0;
+                var min = 0;
                 {
-                    string hHmm = GetTextFrameText("TIME");
+                    var hHmm = GetTextFrameText("TIME");
                     if ((hHmm != null) && (hHmm.Length == 4))
                     {
                         int.TryParse(hHmm.Substring(0, 2), out hour);
@@ -440,10 +429,10 @@ namespace Cave.Media.Audio.ID3
                     }
                 }
 
-                int day = 1;
-                int month = 1;
+                var day = 1;
+                var month = 1;
                 {
-                    string ddMM = GetTextFrameText("TDAT");
+                    var ddMM = GetTextFrameText("TDAT");
                     if ((ddMM != null) && (ddMM.Length == 4))
                     {
                         int.TryParse(ddMM.Substring(0, 2), out day);
@@ -550,11 +539,11 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                int result = 0;
-                string track = Track;
+                var result = 0;
+                var track = Track;
                 if (track != null)
                 {
-                    int index = track.IndexOf('/');
+                    var index = track.IndexOf('/');
                     if (index > 0)
                     {
                         int.TryParse(track.Substring(0, index), out result);
@@ -568,14 +557,14 @@ namespace Cave.Media.Audio.ID3
             }
             set
             {
-                string track = Track;
+                var track = Track;
                 if (string.IsNullOrEmpty(track))
                 {
                     track = value.ToString();
                 }
                 else
                 {
-                    string[] parts = track.Split('/');
+                    var parts = track.Split('/');
                     track = value.ToString();
                     if (parts.Length > 1)
                     {
@@ -592,11 +581,11 @@ namespace Cave.Media.Audio.ID3
         {
             get
             {
-                int result = 0;
-                string track = Track;
+                var result = 0;
+                var track = Track;
                 if (track != null)
                 {
-                    int index = track.IndexOf('/');
+                    var index = track.IndexOf('/');
                     if (index > 0)
                     {
                         int.TryParse(track.Substring(index + 1), out result);
@@ -606,14 +595,14 @@ namespace Cave.Media.Audio.ID3
             }
             set
             {
-                string track = Track;
+                var track = Track;
                 if (string.IsNullOrEmpty(track))
                 {
                     track = "0/" + value;
                 }
                 else
                 {
-                    string[] parts = track.Split('/');
+                    var parts = track.Split('/');
                     track = parts[0] + "/" + value;
                 }
                 Track = track;
@@ -649,7 +638,7 @@ namespace Cave.Media.Audio.ID3
             }
             Header = tag.Header;
             frames.Clear();
-            foreach (ID3v2Frame frame in tag.Frames)
+            foreach (var frame in tag.Frames)
             {
                 frames.Add(frame);
             }
@@ -730,17 +719,17 @@ namespace Cave.Media.Audio.ID3
                 Date = tag.Date;
             }
 
-            if ((tag.MusicBrainzAlbumId != default(Guid)) && (MusicBrainzAlbumId == default(Guid)))
+            if ((tag.MusicBrainzAlbumId != null) && (MusicBrainzAlbumId == null))
             {
                 MusicBrainzAlbumId = tag.MusicBrainzAlbumId;
             }
 
-            if ((tag.MusicBrainzArtistId != default(Guid)) && (MusicBrainzArtistId == default(Guid)))
+            if ((tag.MusicBrainzArtistId != null) && (MusicBrainzArtistId == null))
             {
                 MusicBrainzArtistId = tag.MusicBrainzArtistId;
             }
 
-            if ((tag.MusicBrainzReleaseGroupId != default(Guid)) && (MusicBrainzReleaseGroupId == default(Guid)))
+            if ((tag.MusicBrainzReleaseGroupId != null) && (MusicBrainzReleaseGroupId == null))
             {
                 MusicBrainzArtistId = tag.MusicBrainzReleaseGroupId;
             }
@@ -769,7 +758,7 @@ namespace Cave.Media.Audio.ID3
         {
             var result = new StringBuilder();
             result.Append(base.ToString());
-            foreach (ID3v2Frame frame in frames)
+            foreach (var frame in frames)
             {
                 result.AppendLine();
                 result.Append(frame.ToString());

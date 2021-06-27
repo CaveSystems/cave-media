@@ -53,7 +53,7 @@ namespace Cave.Media.Audio.OPENAL
                 OAL.SafeNativeMethods.CheckError();
                 OAL.SafeNativeMethods.alDeleteBuffers(bufferIDs.Length, bufferIDs);
                 OAL.SafeNativeMethods.CheckError();
-                foreach (int bufferID in bufferIDs)
+                foreach (var bufferID in bufferIDs)
                 {
                     m_BytesPassed += m_Buffers[bufferID].Length;
                     if (!m_Buffers.Remove(bufferID))
@@ -71,8 +71,8 @@ namespace Cave.Media.Audio.OPENAL
 
         private void StartChecked(bool isStartup)
         {
-            int state = 0;
-            for (int tryNumber = 0; tryNumber < 10 && m_Buffers.Count > 0; tryNumber++)
+            var state = 0;
+            for (var tryNumber = 0; tryNumber < 10 && m_Buffers.Count > 0; tryNumber++)
             {
                 OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
                 OAL.SafeNativeMethods.CheckError();
@@ -100,8 +100,8 @@ namespace Cave.Media.Audio.OPENAL
 
         private void StopChecked()
         {
-            int state = 0;
-            for (int tryNumber = 0; tryNumber < 10 && m_Playing; tryNumber++)
+            var state = 0;
+            for (var tryNumber = 0; tryNumber < 10 && m_Playing; tryNumber++)
             {
                 OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_SOURCE_STATE, out state);
                 OAL.SafeNativeMethods.CheckError();
@@ -189,9 +189,9 @@ namespace Cave.Media.Audio.OPENAL
                 {
                     OAL.SafeNativeMethods.alcMakeContextCurrent(m_Device.Context);
                     StopPlayback();
-                    foreach (int bufferID in m_Buffers.Keys)
+                    foreach (var bufferID in m_Buffers.Keys)
                     {
-                        int b = bufferID;
+                        var b = bufferID;
                         OAL.SafeNativeMethods.alSourceUnqueueBuffers(m_Source, 1, ref b);
                         OAL.SafeNativeMethods.alDeleteBuffers(1, ref b);
                         if (OAL.SafeNativeMethods.alGetError() != OAL.AL_NO_ERROR)
@@ -308,7 +308,7 @@ namespace Cave.Media.Audio.OPENAL
                 lock (OAL.SyncRoot)
                 {
                     UnqueuePlayedBuffers();
-                    int position = 0;
+                    var position = 0;
                     OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_BYTE_OFFSET, out position);
                     return m_BytesPassed + position;
                 }
@@ -323,7 +323,7 @@ namespace Cave.Media.Audio.OPENAL
                 lock (OAL.SyncRoot)
                 {
                     UnqueuePlayedBuffers();
-                    int position = 0;
+                    var position = 0;
                     OAL.SafeNativeMethods.alGetSourcei(m_Source, OAL.AL_BYTE_OFFSET, out position);
                     return m_BytesQueued - m_BytesPassed - position;
                 }

@@ -65,7 +65,7 @@ namespace Cave.Media.Audio.MP3
                 throw new ArgumentOutOfRangeException();
             }
 
-            for (int i = 0; i < bands; i++)
+            for (var i = 0; i < bands; i++)
             {
                 values[i] = Limit(itemstings[i]);
             }
@@ -75,7 +75,7 @@ namespace Cave.Media.Audio.MP3
         /// </summary>
         public void Reset()
         {
-            for (int i = 0; i < bands; i++)
+            for (var i = 0; i < bands; i++)
             {
                 values[i] = 0.0f;
             }
@@ -106,7 +106,7 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public float GetFactor(int band)
         {
-            float value = values[band];
+            var value = values[band];
             return value == BandNotPresent ? 0.0f : (float)Math.Pow(2.0, value);
         }
 
@@ -117,8 +117,8 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public float[] GetFactors()
         {
-            float[] result = new float[bands];
-            for (int i = 0; i < bands; i++)
+            var result = new float[bands];
+            for (var i = 0; i < bands; i++)
             {
                 result[i] = GetFactor(i);
             }

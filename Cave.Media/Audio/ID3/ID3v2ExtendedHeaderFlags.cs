@@ -10,8 +10,8 @@ namespace Cave.Media.Audio.ID3
     {
         static byte[] ReadFlag(byte[] data, ref int i)
         {
-            byte len = data[i];
-            byte[] l_Data = new byte[len];
+            var len = data[i];
+            var l_Data = new byte[len];
             Array.Copy(data, i, l_Data, 0, len);
             i += len;
             return l_Data;
@@ -19,19 +19,19 @@ namespace Cave.Media.Audio.ID3
 
         static void SkipFlag(byte[] data, ref int i)
         {
-            byte len = data[i];
+            var len = data[i];
             i += len;
         }
 
         static byte[] ReadCRC32(byte[] data, ref int i)
         {
-            byte[] buffer = ReadFlag(data, ref i);
+            var buffer = ReadFlag(data, ref i);
             if (buffer.Length != 5)
             {
                 throw new InvalidDataException(string.Format("Invalid CRC32 data!"));
             }
 
-            for (int n = 0; n < 5; n++)
+            for (var n = 0; n < 5; n++)
             {
                 if ((buffer[i] & 0x80) != 0)
                 {
@@ -39,7 +39,7 @@ namespace Cave.Media.Audio.ID3
                 }
             }
 
-            byte[] result = new byte[4];
+            var result = new byte[4];
             result[0] = (byte)((buffer[0] << 4) | ((buffer[1] >> 3) & 0xF));
             result[1] = (byte)((buffer[1] << 5) | ((buffer[2] >> 2) & 0x1F));
             result[2] = (byte)((buffer[2] << 6) | ((buffer[3] >> 1) & 0x3F));
@@ -59,14 +59,14 @@ namespace Cave.Media.Audio.ID3
                 throw new ArgumentNullException("ExtendedHeader");
             }
 
-            int index = 10;
-            int l_ExtFlags = (extendedHeader[4] << 8) | extendedHeader[5];
+            var index = 10;
+            var l_ExtFlags = (extendedHeader[4] << 8) | extendedHeader[5];
 
             // crc present?
             if ((l_ExtFlags & 0x8000) != 0)
             {
-                byte[] cRC32 = new byte[4];
-                for (int i = 0; i < 4; i++)
+                var cRC32 = new byte[4];
+                for (var i = 0; i < 4; i++)
                 {
                     cRC32[i] = extendedHeader[index++];
                 }
@@ -92,7 +92,7 @@ namespace Cave.Media.Audio.ID3
                 throw new InvalidDataException(string.Format("Invalid number of flag bytes!"));
             }
 
-            int i = 6;
+            var i = 6;
 
             // flag 1000 0000
             if ((extendedHeader[5] & 0x80) != 0)
@@ -101,7 +101,7 @@ namespace Cave.Media.Audio.ID3
             }
 
             // flag 0100 0000
-            bool l_TagIsUpdate = (extendedHeader[5] & 0x40) != 0;
+            var l_TagIsUpdate = (extendedHeader[5] & 0x40) != 0;
             if (l_TagIsUpdate)
             {
                 SkipFlag(extendedHeader, ref i);
@@ -126,7 +126,7 @@ namespace Cave.Media.Audio.ID3
             }
             else
             {
-                byte[] bytes = ReadFlag(extendedHeader, ref i);
+                var bytes = ReadFlag(extendedHeader, ref i);
                 if (bytes.Length != 1)
                 {
                     throw new InvalidDataException(string.Format("Invalid data length"));
@@ -136,7 +136,7 @@ namespace Cave.Media.Audio.ID3
             }
 
             // read unknown flags (0000 xxxx)
-            for (int n = 0x08; n != 0; n = n >> 1)
+            for (var n = 0x08; n != 0; n >>= 1)
             {
                 SkipFlag(extendedHeader, ref i);
             }

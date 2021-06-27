@@ -16,15 +16,15 @@ namespace Cave.Media
         /// <returns></returns>
         public static List<ColorCounter> Reduce(List<ColorCounter> colorCounters, ref uint distance)
         {
-            uint nextDistance = uint.MaxValue;
+            var nextDistance = uint.MaxValue;
             var result = new List<ColorCounter>();
-            for (int x = 0; x < colorCounters.Count; x++)
+            for (var x = 0; x < colorCounters.Count; x++)
             {
-                ColorCounter c1 = colorCounters[x];
-                for (int y = colorCounters.Count - 1; y > x; y--)
+                var c1 = colorCounters[x];
+                for (var y = colorCounters.Count - 1; y > x; y--)
                 {
-                    ColorCounter c2 = colorCounters[y];
-                    uint dist = (uint)Math.Abs(c1.Color.CompareTo(c2.Color));
+                    var c2 = colorCounters[y];
+                    var dist = (uint)Math.Abs(c1.Color.CompareTo(c2.Color));
                     if (dist <= distance)
                     {
                         c1.Count += c2.Count;
@@ -71,15 +71,12 @@ namespace Cave.Media
         /// <returns></returns>
         public int CompareTo(ColorCounter other)
         {
-            int check = -Count.CompareTo(other.Count);
+            var check = -Count.CompareTo(other.Count);
             return check != 0 ? check : Color.CompareTo(other.Color);
         }
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return Color.ToHexString() + ", " + Count.ToString();
-        }
+        public override string ToString() => Color.ToHexString() + ", " + Count.ToString();
     }
 }

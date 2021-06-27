@@ -24,15 +24,15 @@ namespace Cave.Media.Audio
         public static SoundFile Read(Stream stream)
         {
             var reader = new DataReader(stream, endian: EndianType.BigEndian);
-            int header = reader.ReadInt32();
+            var header = reader.ReadInt32();
             if (header != 0x2e736e64)
             {
                 throw new InvalidDataException();
             }
 
-            int dataOffset = reader.ReadInt32();
-            int dataSize = reader.ReadInt32();
-            int format = reader.ReadInt32();
+            var dataOffset = reader.ReadInt32();
+            var dataSize = reader.ReadInt32();
+            var format = reader.ReadInt32();
             AudioSampleFormat sampleFormat;
             switch (format)
             {
@@ -44,17 +44,17 @@ namespace Cave.Media.Audio
                 case 7: sampleFormat = AudioSampleFormat.Double; break;
                 default: throw new NotSupportedException("Unsupported sample format!");
             }
-            int sampleRate = reader.ReadInt32();
-            int channels = reader.ReadInt32();
+            var sampleRate = reader.ReadInt32();
+            var channels = reader.ReadInt32();
             var config = new AudioConfiguration(sampleRate, sampleFormat, channels);
-            string comment = reader.ReadZeroTerminatedString(64 * 1024);
+            var comment = reader.ReadZeroTerminatedString(64 * 1024);
             while ((reader.BaseStream.Position % 8) != 0)
             {
                 reader.ReadByte();
             }
 
-            int max = Math.Min(dataSize, (int)(reader.BaseStream.Length - reader.BaseStream.Position));
-            byte[] data = reader.ReadBytes(max);
+            var max = Math.Min(dataSize, (int)(reader.BaseStream.Length - reader.BaseStream.Position));
+            var data = reader.ReadBytes(max);
 
             if (BitConverter.IsLittleEndian)
             {
@@ -86,10 +86,8 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static SoundFile Read(string fileName)
         {
-            using (FileStream fs = File.OpenRead(fileName))
-            {
-                return Read(fs);
-            }
+            using var fs = File.OpenRead(fileName);
+            return Read(fs);
         }
 
         /// <summary>Initializes a new instance of the <see cref="SoundFile"/> class.</summary>
@@ -118,11 +116,9 @@ namespace Cave.Media.Audio
         /// <param name="volume">The volume.</param>
         public void Play(IAudioDevice device, float volume = 1)
         {
-            using (var audioOut = device.CreateAudioOut(Config))
-            {
-                audioOut.Volume = volume;
-                Play(audioOut);
-            }
+            using var audioOut = device.CreateAudioOut(Config);
+            audioOut.Volume = volume;
+            Play(audioOut);
         }
 
         /// <summary>Plays the specified audio out.</summary>
@@ -143,11 +139,9 @@ namespace Cave.Media.Audio
         /// <param name="fileName">Name of the file.</param>
         public void Save(string fileName)
         {
-            using (FileStream fs = File.OpenWrite(fileName))
-            {
-                Save(fs);
-                fs.Close();
-            }
+            using var fs = File.OpenWrite(fileName);
+            Save(fs);
+            fs.Close();
         }
 
         /// <summary>Saves the sound file to the specified stream.</summary>

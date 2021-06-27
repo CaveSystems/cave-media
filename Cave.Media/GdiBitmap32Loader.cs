@@ -22,23 +22,15 @@ namespace Cave.Media
         /// <summary>Creates a bitmap instance from the specified data.</summary>
         public Bitmap32 Create(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            {
-                return FromStream(ms);
-            }
+            using var ms = new MemoryStream(data);
+            return FromStream(ms);
         }
 
         /// <summary>Creates a new bitmap instance.</summary>
-        public Bitmap32 Create(int width, int height)
-        {
-            return new GdiBitmap32(width, height);
-        }
+        public Bitmap32 Create(int width, int height) => new GdiBitmap32(width, height);
 
         /// <summary>Creates a bitmap instance from the specified data.</summary>
-        public Bitmap32 Create(ARGBImageData data)
-        {
-            return new GdiBitmap32(data);
-        }
+        public Bitmap32 Create(ARGBImageData data) => new GdiBitmap32(data);
 
         /// <summary>
         /// Creates a new bitmap instance.
@@ -51,43 +43,35 @@ namespace Cave.Media
         public Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
         {
             SizeF size;
-            using (var b = new Bitmap(1, 1))
+            using var b = new Bitmap(1, 1);
+            var emSize = fontSize / 4f * 3f;
+            var font = fontName == null ? new Font(FontFamily.GenericSansSerif, fontSize, GraphicsUnit.Point) : new Font(fontName, fontSize, GraphicsUnit.Point);
+            using (font)
             {
-                float emSize = fontSize / 4f * 3f;
-                var font = fontName == null ? new Font(FontFamily.GenericSansSerif, fontSize, GraphicsUnit.Point) : new Font(fontName, fontSize, GraphicsUnit.Point);
-                using (font)
+                using (var g = Graphics.FromImage(b))
                 {
-                    using (var g = Graphics.FromImage(b))
-                    {
-                        size = g.MeasureString(text, font);
-                    }
-                    var result = new Bitmap((int)size.Width + 1, (int)size.Height + 1, PixelFormat.Format32bppArgb);
-                    using (var g = Graphics.FromImage(result))
-                    {
-                        g.TextRenderingHint = TextRenderingHint.AntiAlias;
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.CompositingMode = CompositingMode.SourceOver;
-                        g.CompositingQuality = CompositingQuality.HighQuality;
-                        g.SmoothingMode = SmoothingMode.HighQuality;
-                        g.Clear(backColor);
-                        g.DrawString(text, font, new SolidBrush(foreColor), 0, 0);
-                    }
-                    return new GdiBitmap32(result);
+                    size = g.MeasureString(text, font);
                 }
+                var result = new Bitmap((int)size.Width + 1, (int)size.Height + 1, PixelFormat.Format32bppArgb);
+                using (var g = Graphics.FromImage(result))
+                {
+                    g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.CompositingMode = CompositingMode.SourceOver;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.Clear(backColor);
+                    g.DrawString(text, font, new SolidBrush(foreColor), 0, 0);
+                }
+                return new GdiBitmap32(result);
             }
         }
 
         /// <summary>Creates a bitmap instance from the specified file.</summary>
-        public Bitmap32 FromFile(string fileName)
-        {
-            return new GdiBitmap32(Image.FromFile(fileName));
-        }
+        public Bitmap32 FromFile(string fileName) => new GdiBitmap32(Image.FromFile(fileName));
 
         /// <summary>Creates a bitmap instance from the specified stream.</summary>
-        public Bitmap32 FromStream(Stream stream)
-        {
-            return new GdiBitmap32(Image.FromStream(stream));
-        }
+        public Bitmap32 FromStream(Stream stream) => new GdiBitmap32(Image.FromStream(stream));
     }
 }
 

@@ -32,10 +32,7 @@ namespace Cave.Media.Audio.ID3
 
         #region parser functions
 
-        bool ParseVersion2(DataFrameReader reader)
-        {
-            throw new NotImplementedException("TODO");
-        }
+        bool ParseVersion2(DataFrameReader reader) => throw new NotImplementedException("TODO");
 
         bool ParseVersion3(DataFrameReader reader)
         {
@@ -45,9 +42,9 @@ namespace Cave.Media.Audio.ID3
             }
 
             // calc size
-            byte[] sizeBytes = reader.Read(0, 4);
-            int size = 0;
-            for (int i = 0; i < 4; i++)
+            var sizeBytes = reader.Read(0, 4);
+            var size = 0;
+            for (var i = 0; i < 4; i++)
             {
                 size = (size << 8) | sizeBytes[i];
             }
@@ -75,7 +72,7 @@ namespace Cave.Media.Audio.ID3
             }
 
             // calc size
-            int size = ID3v2DeUnsync.Int32(reader.Read(0, 4), 0);
+            var size = ID3v2DeUnsync.Int32(reader.Read(0, 4), 0);
 
             // get data
             if (!reader.EnsureBuffer(size))

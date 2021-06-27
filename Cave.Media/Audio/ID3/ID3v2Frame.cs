@@ -74,20 +74,14 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         /// <param name="data">The data to be decompressed.</param>
         /// <returns>Retruns decompressed data.</returns>
-        protected byte[] Decompress(byte[] data)
-        {
-            throw new NotSupportedException("ID3v2 Compressed Data is not jet supported!");
-        }
+        protected byte[] Decompress(byte[] data) => throw new NotSupportedException("ID3v2 Compressed Data is not jet supported!");
 
         /// <summary>
         /// Provides decryption.
         /// </summary>
         /// <param name="data">The data to be decompressed.</param>
         /// <returns>Retruns decrypted data.</returns>
-        protected byte[] Decrypt(byte[] data)
-        {
-            throw new NotSupportedException("ID3v2 Encrypted Data is not jet supported!");
-        }
+        protected byte[] Decrypt(byte[] data) => throw new NotSupportedException("ID3v2 Encrypted Data is not jet supported!");
 
         void ParseVersion3(DataFrameReader reader)
         {
@@ -130,9 +124,6 @@ namespace Cave.Media.Audio.ID3
 
         #endregion
 
-        [Obsolete]
-        protected byte[] Data => RawData;
-
         #region public properties
 
         /// <summary>Gets or sets the frame header.</summary>
@@ -169,18 +160,12 @@ namespace Cave.Media.Audio.ID3
         /// Gets a string describing this frame.
         /// </summary>
         /// <returns>ID[Length].</returns>
-        public override string ToString()
-        {
-            return Header.ToString();
-        }
+        public override string ToString() => Header.ToString();
 
         /// <summary>
         /// Gets the hashcode for this instance.
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return RawData.GetHashCode();
-        }
+        public override int GetHashCode() => RawData.GetHashCode();
     }
 }

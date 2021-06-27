@@ -33,7 +33,7 @@ namespace Cave.Media
                 throw new FormatException();
             }
 
-            string[] vectors = text.Substring(2, text.Length - 4).Split(new string[] { "), (" }, StringSplitOptions.None);
+            var vectors = text.Substring(2, text.Length - 4).Split(new string[] { "), (" }, StringSplitOptions.None);
             if (vectors.Length != 4)
             {
                 throw new FormatException();
@@ -206,8 +206,8 @@ namespace Cave.Media
         /// <returns>Returns a rotation <see cref="Matrix4"/>.</returns>
         public static Matrix4 RotationX(float radians)
         {
-            float cos = (float)Math.Cos(radians);
-            float sin = (float)Math.Sin(radians);
+            var cos = (float)Math.Cos(radians);
+            var sin = (float)Math.Sin(radians);
             return Create(1, 0, 0, 0, 0, cos, -sin, 0, 0, sin, cos, 0, 0, 0, 0, 1);
         }
 
@@ -218,8 +218,8 @@ namespace Cave.Media
         /// <returns>Returns a rotation <see cref="Matrix4"/>.</returns>
         public static Matrix4 RotationY(float radians)
         {
-            float cos = (float)Math.Cos(radians);
-            float sin = (float)Math.Sin(radians);
+            var cos = (float)Math.Cos(radians);
+            var sin = (float)Math.Sin(radians);
             return Create(cos, 0, -sin, 0, 0, 1, 0, 0, sin, 0, cos, 0, 0, 0, 0, 1);
         }
 
@@ -230,8 +230,8 @@ namespace Cave.Media
         /// <returns>Returns a rotation <see cref="Matrix4"/>.</returns>
         public static Matrix4 RotationZ(float radians)
         {
-            float cos = (float)Math.Cos(radians);
-            float sin = (float)Math.Sin(radians);
+            var cos = (float)Math.Cos(radians);
+            var sin = (float)Math.Sin(radians);
             return Create(cos, sin, 0, 0, -sin, cos, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         }
 
@@ -242,10 +242,7 @@ namespace Cave.Media
         /// <param name="Y">the y scaling factor.</param>
         /// <param name="Z">the z scaling factor.</param>
         /// <returns>Returns a scaling <see cref="Matrix4"/>.</returns>
-        public static Matrix4 Scaling(float X, float Y, float Z)
-        {
-            return Create(X, 0, 0, 0, 0, Y, 0, 0, 0, 0, Z, 0, 0, 0, 0, 1);
-        }
+        public static Matrix4 Scaling(float X, float Y, float Z) => Create(X, 0, 0, 0, 0, Y, 0, 0, 0, 0, Z, 0, 0, 0, 0, 1);
 
         /// <summary>
         /// Gets a translation matrix.
@@ -254,10 +251,7 @@ namespace Cave.Media
         /// <param name="Y">the y translation.</param>
         /// <param name="Z">the z translation.</param>
         /// <returns>Returns a translation <see cref="Matrix4"/>.</returns>
-        public static Matrix4 Translation(float X, float Y, float Z)
-        {
-            return Create(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, X, Y, Z, 1);
-        }
+        public static Matrix4 Translation(float X, float Y, float Z) => Create(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, X, Y, Z, 1);
 
         /// <summary>
         /// Provides the Identity(Einheits-)matrix.
@@ -520,7 +514,7 @@ namespace Cave.Media
         /// <param name="value">The value to be set.</param>
         public void SetAll(float value)
         {
-            for (int i = 0; i < 4 * 4; i++)
+            for (var i = 0; i < 4 * 4; i++)
             {
                 this[i] = value;
             }
@@ -535,7 +529,7 @@ namespace Cave.Media
         public Matrix4 Multiply(float value)
         {
             var result = (Matrix4)Clone();
-            for (int i = 0; i < 16; i++)
+            for (var i = 0; i < 16; i++)
             {
                 this[i] *= value;
             }
@@ -576,7 +570,7 @@ namespace Cave.Media
         public Matrix4 Add(Matrix4 matrix)
         {
             var result = (Matrix4)Clone();
-            for (int i = 0; i < 16; i++)
+            for (var i = 0; i < 16; i++)
             {
                 result[i] += matrix[i];
             }
@@ -588,10 +582,7 @@ namespace Cave.Media
         /// </summary>
         /// <param name="vector">The translation <see cref="Vector3"/>.</param>
         /// <returns>Returns a translated <see cref="Matrix4"/>.</returns>
-        public Matrix4 Translate(Vector3 vector)
-        {
-            return Create(v11, v12, v13, 0, v21, v22, v23, 0, v31, v32, v33, 0, v41 + vector.X, v42 + vector.Y, v43 + vector.Z, v44);
-        }
+        public Matrix4 Translate(Vector3 vector) => Create(v11, v12, v13, 0, v21, v22, v23, 0, v31, v32, v33, 0, v41 + vector.X, v42 + vector.Y, v43 + vector.Z, v44);
 
         /// <summary>
         /// Checks another <see cref="Matrix4"/> for equality with this one.
@@ -606,7 +597,7 @@ namespace Cave.Media
             }
 
             var other = (Matrix4)obj;
-            for (int i = 0; i < 16; i++)
+            for (var i = 0; i < 16; i++)
             {
                 if (other[i] != this[i])
                 {
@@ -628,7 +619,7 @@ namespace Cave.Media
         {
             var result = new StringBuilder();
             result.Append("[");
-            for (int y = 0; y < 4; y++)
+            for (var y = 0; y < 4; y++)
             {
                 if (y > 0)
                 {
@@ -636,7 +627,7 @@ namespace Cave.Media
                 }
 
                 result.Append("(");
-                for (int x = 0; x < 4; x++)
+                for (var x = 0; x < 4; x++)
                 {
                     if (x > 0)
                     {
@@ -655,10 +646,7 @@ namespace Cave.Media
         /// Gets a hash code for this instance.
         /// </summary>
         /// <returns>Returns a hash code for this object.</returns>
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
+        public override int GetHashCode() => ToString().GetHashCode();
 
         #region ICloneable Member
 
@@ -666,10 +654,7 @@ namespace Cave.Media
         /// Gets a copy of this object.
         /// </summary>
         /// <returns>Returns a copy of this object.</returns>
-        public Matrix4 Clone()
-        {
-            return Create(v11, v12, v13, v14, v21, v22, v23, v24, v31, v32, v33, v34, v41, v42, v43, v44);
-        }
+        public Matrix4 Clone() => Create(v11, v12, v13, v14, v21, v22, v23, v24, v31, v32, v33, v34, v41, v42, v43, v44);
 
         #endregion
     }

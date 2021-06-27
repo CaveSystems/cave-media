@@ -15,9 +15,9 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Parse()
         {
-            Encoding encoding = ID3v2Encoding.Get((ID3v2EncodingType)Content[0]);
-            string[] strings = encoding.GetString(RawData, 1, Content.Length - 1).Split('\0');
-            int i = 0;
+            var encoding = ID3v2Encoding.Get((ID3v2EncodingType)Content[0]);
+            var strings = encoding.GetString(RawData, 1, Content.Length - 1).Split('\0');
+            var i = 0;
             var list = new List<ID3v2Contributor>();
             while (i < strings.Length)
             {

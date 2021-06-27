@@ -89,7 +89,7 @@ namespace Cave.Media.Audio.OPENAL
         {
             API = api ?? throw new ArgumentNullException("API");
             Name = name ?? throw new ArgumentNullException("Name");
-            string[] l_Devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
+            var l_Devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
             if (Array.IndexOf(l_Devices, name) < 0)
             {
                 throw new ArgumentException(string.Format("Device Name {0} not found!", name), "DeviceName");
@@ -108,11 +108,11 @@ namespace Cave.Media.Audio.OPENAL
                 }
 
                 var configs = new List<AudioConfiguration>();
-                foreach (int sampleRate in new int[] { 8000, 11025, 16000, 22050, 32000, 44100, 48000, 64000, 96000 })
+                foreach (var sampleRate in new int[] { 8000, 11025, 16000, 22050, 32000, 44100, 48000, 64000, 96000 })
                 {
-                    foreach (AudioChannelSetup setup in new AudioChannelSetup[] { AudioChannelSetup.Mono, AudioChannelSetup.Stereo })
+                    foreach (var setup in new AudioChannelSetup[] { AudioChannelSetup.Mono, AudioChannelSetup.Stereo })
                     {
-                        foreach (AudioSampleFormat format in new AudioSampleFormat[] { AudioSampleFormat.Float, AudioSampleFormat.Int16, })
+                        foreach (var format in new AudioSampleFormat[] { AudioSampleFormat.Float, AudioSampleFormat.Int16, })
                         {
                             configs.Add(new AudioConfiguration(sampleRate, format, setup));
                         }
@@ -132,7 +132,7 @@ namespace Cave.Media.Audio.OPENAL
             {
                 lock (OAL.SyncRoot)
                 {
-                    IntPtr l_Device = OAL.SafeNativeMethods.alcOpenDevice(Name);
+                    var l_Device = OAL.SafeNativeMethods.alcOpenDevice(Name);
                     if (l_Device != IntPtr.Zero)
                     {
                         OAL.SafeNativeMethods.alcCloseDevice(l_Device);
@@ -150,7 +150,7 @@ namespace Cave.Media.Audio.OPENAL
             {
                 lock (OAL.SyncRoot)
                 {
-                    IntPtr l_Device = OAL.SafeNativeMethods.alcCaptureOpenDevice(Name, 44100, OAL.AL_FORMAT_MONO16, 44100 * 4 / OAL.BuffersPerSecond);
+                    var l_Device = OAL.SafeNativeMethods.alcCaptureOpenDevice(Name, 44100, OAL.AL_FORMAT_MONO16, 44100 * 4 / OAL.BuffersPerSecond);
                     if (l_Device != IntPtr.Zero)
                     {
                         OAL.SafeNativeMethods.alcCaptureCloseDevice(l_Device);
@@ -189,9 +189,6 @@ namespace Cave.Media.Audio.OPENAL
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>Returns the name of the device.</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
     }
 }

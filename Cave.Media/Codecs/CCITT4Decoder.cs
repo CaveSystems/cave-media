@@ -47,7 +47,7 @@ namespace Cave.Media.Codecs
                 if (state == 0)
                 {
                     // white makeup search
-                    for (int i = 0; i < WhiteMakeUpCodes.GetLength(0); i++)
+                    for (var i = 0; i < WhiteMakeUpCodes.GetLength(0); i++)
                     {
                         if ((WhiteMakeUpCodes[i, 1] == currentBitLength) &&
                             (WhiteMakeUpCodes[i, 0] == currentValue))
@@ -65,7 +65,7 @@ namespace Cave.Media.Codecs
                 if ((int)state <= 1)
                 {
                     // white termination search
-                    for (int i = 0; i < WhiteTerminatingCodes.GetLength(0); i++)
+                    for (var i = 0; i < WhiteTerminatingCodes.GetLength(0); i++)
                     {
                         if ((WhiteTerminatingCodes[i, 1] == currentBitLength) &&
                             (WhiteTerminatingCodes[i, 0] == currentValue))
@@ -83,7 +83,7 @@ namespace Cave.Media.Codecs
                 if ((int)state == 2)
                 {
                     // black makeup search
-                    for (int i = 0; i < BlackMakeUpCodes.GetLength(0); i++)
+                    for (var i = 0; i < BlackMakeUpCodes.GetLength(0); i++)
                     {
                         if ((BlackMakeUpCodes[i, 1] == currentBitLength) &&
                             (BlackMakeUpCodes[i, 0] == currentValue))
@@ -101,7 +101,7 @@ namespace Cave.Media.Codecs
                 if ((int)state >= 2)
                 {
                     // black termination search
-                    for (int i = 0; i < BlackTerminatingCodes.GetLength(0); i++)
+                    for (var i = 0; i < BlackTerminatingCodes.GetLength(0); i++)
                     {
                         if ((BlackTerminatingCodes[i, 1] == currentBitLength) &&
                             (BlackTerminatingCodes[i, 0] == currentValue))
