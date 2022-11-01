@@ -214,94 +214,48 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Gets a value indicating whether this <see cref="ISynchronizedLyricsBackbuffer" /> was updated by a play command.</summary>
         /// <value><c>true</c> if updated; otherwise, <c>false</c>.</value>
-        public bool Updated { get; private set; }
+        public bool Updated => imageData == null;
 
         /// <summary>Invalidates this instance.</summary>
         public void Invalidate()
         {
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
-            skBitmap?.Dispose();
-            skBitmap = null;
-#elif NET20 || NET35 || NET40 || !SKIA
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
-            bitmap?.Dispose();
-            bitmap = null;
-#elif NETSTANDARD20
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-            Updated = true;
+            imageData = null;
         }
 
+        ARGBImageData imageData;
 
-        ARGBImageData ToImage()
+        /// <inheritdoc />
+        public ARGBImageData ToImage()
         {
-            var w = BufferWidth - 12;
-            var h = BufferHeight - 24;
-            var data = new ARGBImageData(w, h);
-            var targetOffset = 0;
-            var sourceOffset = (BufferWidth * (12 + offsetVertical)) + offsetHorizontal + 6;
-            for (var y = 0; y < h; y++)
+            if (imageData == null)
             {
-                for (var x = 0; x < w; x++)
+                var w = BufferWidth - 12;
+                var h = BufferHeight - 24;
+                var data = new ARGBImageData(w, h);
+                var targetOffset = 0;
+                var sourceOffset = (BufferWidth * (12 + offsetVertical)) + offsetHorizontal + 6;
+                for (var y = 0; y < h; y++)
                 {
-                    var colorIndex = buffer[sourceOffset + x];
-                    ARGB color;
-                    if (TransparentColorOverride && ((colorIndex == transparentColor) || (colorIndex == clearColor)))
+                    for (var x = 0; x < w; x++)
                     {
-                        color = TransparentColorValue;
+                        var colorIndex = buffer[sourceOffset + x];
+                        ARGB color;
+                        if (TransparentColorOverride && ((colorIndex == transparentColor) || (colorIndex == clearColor)))
+                        {
+                            color = TransparentColorValue;
+                        }
+                        else
+                        {
+                            color = palette[colorIndex];
+                            color.Alpha = GlobalAlpha;
+                        }
+                        data[targetOffset++] = color;
+                        sourceOffset += BufferWidth;
                     }
-                    else
-                    {
-                        color = palette[colorIndex];
-                        color.Alpha = GlobalAlpha;
-                    }
-                    data[targetOffset++] = color;
-                    sourceOffset += BufferWidth;
                 }
+                imageData = data;
             }
-            return data;
+            return imageData;
         }
-
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
-        SkiaSharp.SKBitmap skBitmap;
-
-        /// <summary>
-        /// Copies the image to the specified bitmapdata instance
-        /// </summary>
-        public SkiaSharp.SKBitmap ToSKBitmap()
-        {
-            if (Updated || skBitmap == null)
-            {
-                skBitmap = ToImage().ToSKBitmap();
-            }
-            return skBitmap;
-        }
-#elif NET20 || NET35 || NET40 || !SKIA
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
-        Bitmap bitmap;
-
-        /// <summary>
-        /// Copies the image to the specified bitmapdata instance.
-        /// </summary>
-        public Bitmap ToBitmap()
-        {
-            if (Updated || bitmap == null)
-            {
-                bitmap = ToImage().ToGdiBitmap();
-            }
-            return bitmap;
-        }
-#elif NETSTANDARD20
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
     }
 }
