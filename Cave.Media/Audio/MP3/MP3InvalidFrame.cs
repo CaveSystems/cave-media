@@ -29,36 +29,21 @@ namespace Cave.Media.Audio.MP3
         /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
-        public override byte[] Data
-        {
-            get
-            {
-                return buffer.ToArray();
-            }
-        }
+        public override byte[] Data => buffer.ToArray();
 
         /// <summary>
         /// Length of the frame in bytes.
         /// </summary>
-        public override int Length
-        {
-            get
-            {
-                return buffer.Length;
-            }
-        }
+        public override int Length => buffer.Length;
 
         /// <summary>
         /// Returns false (invalid data is as long as the garbage read).
         /// </summary>
-        public override bool IsFixedLength { get { return false; } }
+        public override bool IsFixedLength => false;
 
         /// <summary>
         /// Returns false.
         /// </summary>
-        public override bool IsValid
-        {
-            get { return false; }
-        }
+        public override bool IsValid => false;
     }
 }

@@ -42,7 +42,7 @@ namespace Cave.Media.Video
             }
         }
 
-        public int Texture { get => texture; }
+        public int Texture => texture;
 
         public override bool IsStreamingTexture { get; protected set; }
         public override Vector2 TextureSize { get; protected set; }

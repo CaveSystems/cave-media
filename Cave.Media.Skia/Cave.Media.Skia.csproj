@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net40;net45;net50;net60</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;net45;net50;net60</TargetFrameworks>
         <!--project-->
         <RootNamespace>Cave.Media</RootNamespace>
         <AssemblyOriginatorKeyFile>cave-media.snk</AssemblyOriginatorKeyFile>
-        <Product>CaveSystems Media Library</Product>
+        <Product>CaveSystems Media Skia Library</Product>
         <PackageTags>CaveSystems Media Audio Video OpenGL OpenAL PortAudio</PackageTags>
         <Description>CaveSystems Media Library. This packages contains methods for audio, video, image and color handling.</Description>
         <PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
@@ -18,18 +18,12 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     
-    <ItemGroup>
-      <PackageReference Include="Cave.Extensions" Version="2.1.13" />
-      <PackageReference Include="Cave.IO" Version="2.1.5" />
-      <PackageReference Include="Cave.Net" Version="2.1.6" />
+	<ItemGroup>
+      <PackageReference Include="SkiaSharp" Version="1.68.0" />
     </ItemGroup>
     
-    <ItemGroup>
-        <Content Include="Cave.Media.dll.config">
-            <Pack>true</Pack>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <Link>Cave.Media.dll.config</Link>
-        </Content>
-    </ItemGroup>
-    
+	<ItemGroup>
+	  <ProjectReference Include="..\Cave.Media\Cave.Media.csproj" />
+	</ItemGroup>
+
 </Project>

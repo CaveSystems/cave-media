@@ -43,11 +43,7 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Gets a value indicating whether this instance is empty.</summary>
         /// <value><c>true</c> if this instance is empty; otherwise, <c>false</c>.</value>
-        public bool IsEmpty
-        {
-            get
-            {
-                return !Unsynchronisation
+        public bool IsEmpty => !Unsynchronisation
                     && !DataLengthIndicator
                     && !TagAlterPreservation
                     && !FileAlterPreservation
@@ -55,8 +51,6 @@ namespace Cave.Media.Audio.ID3
                     && !GroupingIdentity
                     && !Encryption
                     && !Compression;
-            }
-        }
 
         /// <summary>
         /// <para>

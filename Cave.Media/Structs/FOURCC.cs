@@ -1,5 +1,5 @@
 #pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning disable SA1310 // Field names should not contain underscore
+#pragma warning disable CA1707 // Field names should not contain underscore
 
 using System;
 
@@ -352,5 +352,3 @@ namespace Cave.Media.Structs
     }
 }
 
-#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning restore SA1310 // Field names should not contain underscore

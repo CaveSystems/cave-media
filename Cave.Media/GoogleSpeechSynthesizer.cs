@@ -33,10 +33,7 @@ namespace Cave.Media
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName
-        {
-            get { return "GoogleSpeechSynthesizer"; }
-        }
+        public string LogSourceName => "GoogleSpeechSynthesizer";
 
         /// <summary>Gets the file path where audio files are stored.</summary>
         /// <value>The file path where audio files are stored.</value>
@@ -60,7 +57,7 @@ namespace Cave.Media
             try
             {
                 Trace.WriteLine(string.Format("Speak: {0}", text));
-                var uri = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" + cultureInfo.Name + "&q=" + Uri.EscapeUriString(text);
+                var uri = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" + cultureInfo.Name + "&q=" + Uri.EscapeDataString(text);
                 var hash = Base32.Safe.Encode(uri.GetHashCode() * (long)text.Length);
 
                 lock (this)

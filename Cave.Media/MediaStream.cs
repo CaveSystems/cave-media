@@ -26,9 +26,6 @@ namespace Cave.Media
         /// <summary>
         /// Gets the ID of the stream.
         /// </summary>
-        public int ID
-        {
-            get { return m_ID; }
-        }
+        public int ID => m_ID;
     }
 }

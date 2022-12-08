@@ -149,7 +149,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Gets/sets the ID3v2 revision used.
         /// </summary>
-        public byte Revision { get { return m_Revision; } }
+        public byte Revision => m_Revision;
 
         /// <summary>
         /// Gets/sets the ID3v2 revision used.
@@ -163,28 +163,28 @@ namespace Cave.Media.Audio.ID3
         /// (representing up to 256MB) are used in the size description to avoid
         /// the introducuction of 'false syncsignals'.
         /// </summary>
-        public int BodySize { get { return m_BodySize; } }
+        public int BodySize => m_BodySize;
 
         /// <summary>Gets the size of the header.</summary>
         /// <value>The size of the header.</value>
-        public int HeaderSize { get { return 10; } }
+        public int HeaderSize => 10;
         #endregion
 
         /// <summary>
         /// returns 10.
         /// </summary>
-        public override int Length { get { return 10; } }
+        public override int Length => 10;
 
         /// <summary>
         /// Gets an array with the data for this instance.
         /// </summary>
         /// <returns></returns>
-        public override byte[] Data { get { return (byte[])m_Data.Clone(); } }
+        public override byte[] Data => (byte[])m_Data.Clone();
 
         /// <summary>
         /// Returns true (header length is fixed).
         /// </summary>
-        public override bool IsFixedLength { get { return true; } }
+        public override bool IsFixedLength => true;
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>

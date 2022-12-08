@@ -12,9 +12,6 @@ namespace Cave.Media
 
         public IAudioData[] AudioData { get; private set; }
 
-        public IVideoFrame[] Frames
-        {
-            get { return m_Frames; }
-        }
+        public IVideoFrame[] Frames => m_Frames;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Cave.Media.Audio.ID3
+﻿#pragma warning disable CA1707 // Field names should not contain underscore
+
+namespace Cave.Media.Audio.ID3
 {
     /// <summary>
     /// ID3 v2 text encodings.

@@ -2,10 +2,11 @@
     
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1;net20;net35;net40;net45;net50;net60</TargetFrameworks>
+        <TargetPlatformIdentifier>windows</TargetPlatformIdentifier>
         <!--project-->
         <RootNamespace>Cave.Media</RootNamespace>
         <AssemblyOriginatorKeyFile>cave-media.snk</AssemblyOriginatorKeyFile>
-        <Product>CaveSystems Media Library</Product>
+        <Product>CaveSystems Media Windows Gdi Library</Product>
         <PackageTags>CaveSystems Media Audio Video OpenGL OpenAL PortAudio</PackageTags>
         <Description>CaveSystems Media Library. This packages contains methods for audio, video, image and color handling.</Description>
         <PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
@@ -18,18 +19,32 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     
-    <ItemGroup>
-      <PackageReference Include="Cave.Extensions" Version="2.1.13" />
-      <PackageReference Include="Cave.IO" Version="2.1.5" />
-      <PackageReference Include="Cave.Net" Version="2.1.6" />
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <PackageReference Include="System.Drawing.Common">
+        <Version>7.0.0</Version>
+      </PackageReference>
+    </ItemGroup>
+    
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+      <PackageReference Include="System.Drawing.Common">
+        <Version>7.0.0</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net50'">
+      <PackageReference Include="System.Drawing.Common">
+        <Version>6.0.0</Version>
+      </PackageReference>
+    </ItemGroup>
+    
+    <ItemGroup Condition="'$(TargetFramework)' == 'net60'">
+      <PackageReference Include="System.Drawing.Common">
+        <Version>7.0.0</Version>
+      </PackageReference>
     </ItemGroup>
     
     <ItemGroup>
-        <Content Include="Cave.Media.dll.config">
-            <Pack>true</Pack>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <Link>Cave.Media.dll.config</Link>
-        </Content>
+      <ProjectReference Include="..\Cave.Media\Cave.Media.csproj" />
     </ItemGroup>
     
 </Project>

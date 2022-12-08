@@ -8,22 +8,22 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// No restrictions at all, this one makes sense.
         /// </summary>
-        public static ID3v2ImageSize None { get { return null; } }
+        public static ID3v2ImageSize None => null;
 
         /// <summary>
         /// All images are smaller than 256x256.
         /// </summary>
-        public static ID3v2ImageSize SizeVar256 { get { return new ID3v2ImageSize(256, 256, false); } }
+        public static ID3v2ImageSize SizeVar256 => new ID3v2ImageSize(256, 256, false);
 
         /// <summary>
         /// All images are smaller than 64x64.
         /// </summary>
-        public static ID3v2ImageSize SizeVar64 { get { return new ID3v2ImageSize(64, 64, false); } }
+        public static ID3v2ImageSize SizeVar64 => new ID3v2ImageSize(64, 64, false);
 
         /// <summary>
         /// All images have the size 64x64.
         /// </summary>
-        public static ID3v2ImageSize SizeFixed64 { get { return new ID3v2ImageSize(64, 64, true); } }
+        public static ID3v2ImageSize SizeFixed64 => new ID3v2ImageSize(64, 64, true);
 
         ID3v2ImageSize(int width, int height, bool isFixed)
         {

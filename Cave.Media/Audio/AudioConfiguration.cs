@@ -66,10 +66,7 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Gets the number of channels.
         /// </summary>
-        public int Channels
-        {
-            get { return (int)ChannelSetup; }
-        }
+        public int Channels => (int)ChannelSetup;
 
         /// <summary>
         /// Gets the bytes per sample (one channel).

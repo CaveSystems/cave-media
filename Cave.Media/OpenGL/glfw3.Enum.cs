@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable 1591
 #pragma warning disable SA1602 // Enumeration items must be documented
@@ -486,6 +487,7 @@ namespace Cave.Media.OpenGL
         /// <summary>
         /// Joysticks.
         /// </summary>
+        [SuppressMessage("Naming", "CA1712")]
         public enum Joystick
         {
             Joystick1 = 0,

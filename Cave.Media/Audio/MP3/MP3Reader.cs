@@ -44,7 +44,7 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return "MP3Reader"; } }
+        public string LogSourceName => "MP3Reader";
 
         #region Buffer search and frame header detection
 
@@ -68,7 +68,7 @@ namespace Cave.Media.Audio.MP3
 
             public MatchType Match { get; private set; }
 
-            public int Index { get { return m_Index - Length; } }
+            public int Index => m_Index - Length;
 
             public int Length { get; private set; }
 

@@ -23,7 +23,7 @@ namespace Cave.Media.Audio
         /// <summary>Gets the preference value.</summary>
         /// <value>Constant value = +10.</value>
         /// <remarks>Small values represent a higher priority.</remarks>
-        public override int Preference { get { return +10; } }
+        public override int Preference => +10;
 
         /// <summary>Initializes a new instance of the <see cref="PortAudio"/> class.</summary>
         public PortAudio()
@@ -57,13 +57,7 @@ namespace Cave.Media.Audio
         }
 
         /// <summary>Determines if the API is available.</summary>
-        public override bool IsAvailable
-        {
-            get
-            {
-                return m_Initialized;
-            }
-        }
+        public override bool IsAvailable => m_Initialized;
 
         /// <summary>Gets all available output devices.</summary>
         public override IAudioDevice[] OutputDevices

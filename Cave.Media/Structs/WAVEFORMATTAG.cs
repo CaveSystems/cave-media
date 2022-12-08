@@ -1,9 +1,12 @@
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Cave.Media.Structs
 {
     /// <summary>
     /// Provides the wave data format.
     /// </summary>
+    [SuppressMessage("Naming", "CA1707")]
     public enum WAVEFORMATTAG : ushort
     {
         /// <summary>

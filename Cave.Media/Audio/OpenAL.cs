@@ -20,7 +20,7 @@ namespace Cave.Media.Audio
         /// <summary>Gets the preference value.</summary>
         /// <value>Constant value = -10.</value>
         /// <remarks>Small values represent a higher priority.</remarks>
-        public override int Preference { get { return -10; } }
+        public override int Preference => -10;
 
         /// <summary>Determines if the API is available.</summary>
         /// <exception cref="NotSupportedException">Invalid bit size!.</exception>

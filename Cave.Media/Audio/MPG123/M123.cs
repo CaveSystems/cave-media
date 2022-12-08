@@ -21,6 +21,7 @@
     A non-GPL license for this library is not available.
 */
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,6 +29,8 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using Cave.IO;
+
+#pragma warning disable CA1707 // Field names should not contain underscore
 
 namespace Cave.Media.Audio.MPG123
 {
@@ -43,7 +46,7 @@ namespace Cave.Media.Audio.MPG123
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return "MPG123"; } }
+        public string LogSourceName => "MPG123";
 
         #region enums
 
@@ -739,7 +742,7 @@ namespace Cave.Media.Audio.MPG123
         {
             /// <summary>Gets the name of the log source.</summary>
             /// <value>The name of the log source.</value>
-            public string LogSourceName { get { return "MPG123_PARS"; } }
+            public string LogSourceName => "MPG123_PARS";
 
             /// <summary>
             /// Gets the handle.
@@ -777,13 +780,7 @@ namespace Cave.Media.Audio.MPG123
             /// <summary>
             /// Gets whether the handle is valid or not.
             /// </summary>
-            public bool Valid
-            {
-                get
-                {
-                    return Handle != IntPtr.Zero;
-                }
-            }
+            public bool Valid => Handle != IntPtr.Zero;
 
             #region IDisposable Member
 
@@ -947,7 +944,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="error">Result.</param>
             /// <returns>Returns a non-NULL pointer when successful. </returns>
             [DllImport(NATIVE_LIBRARY, CharSet = CharSet.Ansi, ThrowOnUnmappableChar = true, BestFitMapping = false, CallingConvention = CallingConvention.Cdecl)]
-            public static extern IntPtr mpg123_new([MarshalAs(UnmanagedType.LPStr)]string decoderName, out RESULT error);
+            public static extern IntPtr mpg123_new([MarshalAs(UnmanagedType.LPStr)] string decoderName, out RESULT error);
 
             /// <summary>
             /// Delete handle, mh is either a valid mpg123 handle or NULL.
@@ -1043,7 +1040,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="decoderName"></param>
             /// <returns></returns>
             [DllImport(NATIVE_LIBRARY, CharSet = CharSet.Ansi, ThrowOnUnmappableChar = true, BestFitMapping = false, CallingConvention = CallingConvention.Cdecl)]
-            public static extern RESULT mpg123_decoder(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)]string decoderName);
+            public static extern RESULT mpg123_decoder(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string decoderName);
 
             /// <summary>
             /// Get the currently active decoder engine name. The active decoder engine can vary depening on output constraints, mostly non-resampling, integer output is accelerated via 3DNow &amp; Co. but for other modes a fallback engine kicks in. Note that this can return a decoder that is ony active in the hidden and not available as decoder choice from the outside.
@@ -1196,7 +1193,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="path"></param>
             /// <returns></returns>
             [DllImport(NATIVE_LIBRARY, CharSet = CharSet.Ansi, ThrowOnUnmappableChar = true, BestFitMapping = false, CallingConvention = CallingConvention.Cdecl)]
-            public static extern RESULT mpg123_open(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)]string path);
+            public static extern RESULT mpg123_open(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
             /// <summary>
             /// Use an already opened file descriptor as the bitstream input mpg123_close() will _not_ close the file descriptor.
@@ -1339,7 +1336,7 @@ namespace Cave.Media.Audio.MPG123
             #region mpg123 advanced parameter API
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_parnew", CharSet = CharSet.Ansi, ThrowOnUnmappableChar = true, BestFitMapping = false, CallingConvention = CallingConvention.Cdecl)]
-            static extern IntPtr m_mpg123_parnew(ref IntPtr pars, [MarshalAs(UnmanagedType.LPStr)]string decoder, out IntPtr error);
+            static extern IntPtr m_mpg123_parnew(ref IntPtr pars, [MarshalAs(UnmanagedType.LPStr)] string decoder, out IntPtr error);
 
             /// <summary>
             /// Create a handle with preset parameters.
@@ -1348,7 +1345,7 @@ namespace Cave.Media.Audio.MPG123
             /// <param name="decoder"></param>
             /// <param name="handle"></param>
             /// <returns></returns>
-            public static RESULT mpg123_parnew(M123_PARS preset, [MarshalAs(UnmanagedType.LPStr)]string decoder, out IntPtr handle)
+            public static RESULT mpg123_parnew(M123_PARS preset, [MarshalAs(UnmanagedType.LPStr)] string decoder, out IntPtr handle)
             {
                 if (!preset.Valid)
                 {

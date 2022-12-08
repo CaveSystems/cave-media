@@ -46,25 +46,13 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         #region interopped functions
 
-        public static string VersionText
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetVersionText());
-            }
-        }
+        public static string VersionText => Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetVersionText());
 
         public static string GetErrorText(PAErrorCode errorCode) => Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetErrorText(errorCode));
 
         public static PAHostApiInfo GetHostApiInfo(int hostApi) => (PAHostApiInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetHostApiInfo(hostApi), typeof(PAHostApiInfo));
 
-        public static PAHostErrorInfo LastHostErrorInfo
-        {
-            get
-            {
-                return (PAHostErrorInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetLastHostErrorInfo(), typeof(PAHostErrorInfo));
-            }
-        }
+        public static PAHostErrorInfo LastHostErrorInfo => (PAHostErrorInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetLastHostErrorInfo(), typeof(PAHostErrorInfo));
 
         public static PADeviceInfo GetDeviceInfo(int dev)
         {
@@ -165,7 +153,7 @@ namespace Cave.Media.Audio.PORTAUDIO
 
             [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
             [SuppressUnmanagedCodeSecurity]
-            public static extern PAErrorCode Pa_SetStreamFinishedCallback(ref IntPtr stream, [MarshalAs(UnmanagedType.FunctionPtr)]StreamFinishedCallbackDelegate streamFinishedCallback);
+            public static extern PAErrorCode Pa_SetStreamFinishedCallback(ref IntPtr stream, [MarshalAs(UnmanagedType.FunctionPtr)] StreamFinishedCallbackDelegate streamFinishedCallback);
 
             [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
             [SuppressUnmanagedCodeSecurity]

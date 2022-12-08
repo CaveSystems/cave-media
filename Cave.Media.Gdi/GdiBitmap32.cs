@@ -1,13 +1,9 @@
-﻿//#if NETSTANDARD20
-//#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
-using Cave.IO;
 
 namespace Cave.Media
 {
@@ -35,7 +31,7 @@ namespace Cave.Media
         /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="data"></param>
         public GdiBitmap32(ARGBImageData data)
-            : this(data.ToGdiBitmap())
+            : this(data.ToBitmap())
         {
         }
 
@@ -68,10 +64,7 @@ namespace Cave.Media
         /// <param name="width">Width in pixel.</param>
         /// <param name="height">Height in pixel.</param>
         public GdiBitmap32(int width, int height)
-            : this(new Bitmap(width, height, PixelFormat.Format32bppArgb))
-        {
-            graphics.Clear(Color.Transparent);
-        }
+            : this(new Bitmap(width, height, PixelFormat.Format32bppArgb)) => graphics.Clear(Color.Transparent);
 
         /// <summary>Initializes a new instance of the <see cref="GdiBitmap32"/> class.</summary>
         /// <param name="image"></param>
@@ -176,15 +169,17 @@ namespace Cave.Media
         /// </summary>
         public override void Dispose()
         {
+            base.Dispose();
             graphics?.Dispose();
             graphics = null;
             Bitmap?.Dispose();
             Bitmap = null;
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>Gets the data.</summary>
         /// <value>The data.</value>
-        public override ARGBImageData Data => ARGBImageData.Load(Bitmap);
+        public override ARGBImageData Data => Bitmap.ToARGBImageData();
 
         /// <summary>Gets the width.</summary>
         /// <value>The width.</value>
@@ -200,14 +195,13 @@ namespace Cave.Media
         /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!.</exception>
         public override void Save(string fileName, int quality = 100)
         {
-            ImageType type;
             var extension = Path.GetExtension(fileName).ToLower();
-            switch (extension)
+            var type = extension switch
             {
-                case ".png": type = ImageType.Png; break;
-                case ".jpg": type = ImageType.Jpeg; break;
-                default: throw new Exception($"Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!");
-            }
+                ".png" => ImageType.Png,
+                ".jpg" => ImageType.Jpeg,
+                _ => throw new Exception($"Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!"),
+            };
             using var file = File.Create(fileName);
             Save(file, type, quality);
         }
@@ -219,9 +213,3 @@ namespace Cave.Media
         public override void Clear(ARGB color) => graphics.Clear(color);
     }
 }
-
-/*
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-*/

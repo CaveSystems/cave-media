@@ -376,7 +376,7 @@ namespace Cave.Media.OpenGL
             public bool Equals(Window obj) => Ptr == obj.Ptr;
 
             /// <summary>Determines whether the specified <see cref="Window" />, is valid.</summary>
-            public bool IsValid { get => Ptr != IntPtr.Zero; }
+            public bool IsValid => Ptr != IntPtr.Zero;
 
             /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
             /// <returns>A <see cref="string" /> that represents this instance.</returns>

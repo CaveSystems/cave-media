@@ -81,7 +81,7 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return "Mpg123"; } }
+        public string LogSourceName => "Mpg123";
 
         #region IAudioDecoder Member
 
@@ -109,47 +109,27 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Gets the description for the lame encoder.
         /// </summary>
-        public string Description
-        {
-            get
-            {
-                return
-                    "This is the fast and Free (LGPL license) real time MPEG Audio Layer 1, 2 and 3 decoding library." + Environment.NewLine +
+        public string Description => "This is the fast and Free (LGPL license) real time MPEG Audio Layer 1, 2 and 3 decoding library." + Environment.NewLine +
                     "It uses floating point or integer math, along with several special optimizations (3DNow, SSE, ARM, ...) to make it most efficient.";
-            }
-        }
 
         /// <summary>
         /// Gets the featurelist of the mpg123 decoder.
         /// </summary>
-        public string Features
-        {
-            get
-            {
-                return
-                    "Very fast mpeg audio decoder." + Environment.NewLine +
+        public string Features => "Very fast mpeg audio decoder." + Environment.NewLine +
                     "Really efficient with a growing number of assembler optimizations (pentium, MMX, AltiVec, ...)" + Environment.NewLine +
                     "MPEG1,2 and 2.5 layer III decoding." + Environment.NewLine +
                     "CBR (constant bitrate) and two types of variable bitrate, VBR and ABR.";
-            }
-        }
 
         /// <summary>
         /// Returns the mpeg 1,2,2.5 layer 3 mime types.
         /// </summary>
-        public string[] MimeTypes
-        {
-            get
-            {
-                return new string[]
+        public string[] MimeTypes => new string[]
                 {
                     "audio/mpeg",
                     "audio/mpeg3",
                     "audio/x-mpeg",
                     "audio/x-mpeg3",
                 };
-            }
-        }
 
         /// <summary>Gets the name of the source currently beeing decoded. This is used for error messages.</summary>
         public string SourceName { get; set; }
@@ -157,10 +137,7 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Gets the encoder name.
         /// </summary>
-        public string Name
-        {
-            get { return "MPG123"; }
-        }
+        public string Name => "MPG123";
 
         FifoBuffer m_DecodeFifoBuffer;
         TimeSpan m_CurrentTimeStamp = TimeSpan.Zero;

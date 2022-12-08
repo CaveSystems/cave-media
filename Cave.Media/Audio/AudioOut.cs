@@ -183,7 +183,7 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Gets the time passed since starting this queue.
         /// </summary>
-        public long TicksPassed { get { return BytesPassed / Configuration.BytesPerTick; } }
+        public long TicksPassed => BytesPassed / Configuration.BytesPerTick;
 
         /// <summary>
         /// Gets the current state of the device.
@@ -193,16 +193,16 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Gets the time buffered (time to play until queue gets empty).
         /// </summary>
-        public TimeSpan TimeBuffered { get { return TimeSpan.FromSeconds((double)BytesBuffered / (Configuration.BytesPerTick * Configuration.SamplingRate)); } }
+        public TimeSpan TimeBuffered => TimeSpan.FromSeconds((double)BytesBuffered / (Configuration.BytesPerTick * Configuration.SamplingRate));
 
         /// <summary>
         /// Gets the time passed since starting this queue.
         /// </summary>
-        public TimeSpan TimePassed { get { return TimeSpan.FromSeconds(TicksPassed / (double)Configuration.SamplingRate); } }
+        public TimeSpan TimePassed => TimeSpan.FromSeconds(TicksPassed / (double)Configuration.SamplingRate);
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return "AudioOut: " + Device.Name; } }
+        public string LogSourceName => "AudioOut: " + Device.Name;
         #endregion
     }
 }

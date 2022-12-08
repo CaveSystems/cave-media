@@ -335,22 +335,10 @@ namespace Cave.Media.Audio.OPENAL
         public override long BufferUnderflowCount => m_BufferUnderflowCount;
 
         /// <summary>Gets the latency of the queue.</summary>
-        public override TimeSpan Latency
-        {
-            get
-            {
-                return new TimeSpan(TimeSpan.TicksPerSecond / Configuration.SamplingRate);
-            }
-        }
+        public override TimeSpan Latency => new TimeSpan(TimeSpan.TicksPerSecond / Configuration.SamplingRate);
 
         /// <summary>Gets whether the IAudioQueue supports 3D positioning or not (only supported on mono streams).</summary>
-        public override bool Supports3D
-        {
-            get
-            {
-                return Configuration.Channels == 1;
-            }
-        }
+        public override bool Supports3D => Configuration.Channels == 1;
 
         /// <summary>Writes a buffer to the device.</summary>
         /// <param name="audioData">The buffer.</param>

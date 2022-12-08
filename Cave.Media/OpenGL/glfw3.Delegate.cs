@@ -1,5 +1,7 @@
 using System.Runtime.InteropServices;
 
+#pragma warning disable CS0618
+
 namespace Cave.Media.OpenGL
 {
     public static partial class glfw3

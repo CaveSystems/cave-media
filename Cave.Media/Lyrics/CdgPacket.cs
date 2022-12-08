@@ -31,19 +31,10 @@ namespace Cave.Media.Lyrics
         /// <value>
         /// <c>true</c> if this instance is CDG packet; otherwise, <c>false</c>.
         /// </value>
-        public bool IsCdgPacket
-        {
-            get { return (Command & CDG_COMMAND_MASK) == CDG_COMMAND_VALUE; }
-        }
+        public bool IsCdgPacket => (Command & CDG_COMMAND_MASK) == CDG_COMMAND_VALUE;
 
         /// <summary>Gets the instruction.</summary>
         /// <value>The instruction.</value>
-        public CdgInstruction Instruction
-        {
-            get
-            {
-                return IsCdgPacket ? (CdgInstruction)(InstructionCode & CDG_COMMAND_MASK) : CdgInstruction.Unknown;
-            }
-        }
+        public CdgInstruction Instruction => IsCdgPacket ? (CdgInstruction)(InstructionCode & CDG_COMMAND_MASK) : CdgInstruction.Unknown;
     }
 }

@@ -248,13 +248,7 @@ namespace Cave.Media
         /// Gets a normalized version of the vector. (Length near 1.0f watch out for rounding errors!).
         /// </summary>
         /// <returns>Returns the normalized version of this vector.</returns>
-        public Vector4 Normalized
-        {
-            get
-            {
-                return W != 1.0f ? Create(X * W / Length, Y * W / Length, Z * W / Length, 1) : Create(X / Length, Y / Length, Z / Length, 1);
-            }
-        }
+        public Vector4 Normalized => W != 1.0f ? Create(X * W / Length, Y * W / Length, Z * W / Length, 1) : Create(X / Length, Y / Length, Z / Length, 1);
 
         /// <summary>
         /// Gets a <see cref="Vector3"/> instance.

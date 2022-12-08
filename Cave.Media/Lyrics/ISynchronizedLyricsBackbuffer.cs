@@ -11,31 +11,13 @@ namespace Cave.Media.Lyrics
         /// <value>The alpha.</value>
         byte GlobalAlpha { get; set; }
 
-#if NET20 || NET35 || NET40 || !SKIA
-#elif SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
-        /// <summary>Gets the current backbuffer.</summary>
-        /// <value>The backbuffer.</value>
-        /// <remarks>
-        /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
-        /// Do not save references to this across play calls!
-        /// </remarks>
-        SkiaSharp.SKBitmap ToSKBitmap();
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-
-#if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
         /// <summary>Gets the current backbuffer.</summary>
         /// <value>The backbuffer.</value>
         /// <remarks>
         /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
         /// Do not save references to this across play calls!.
         /// </remarks>
-        Bitmap ToBitmap();
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
+        Bitmap32 ToBitmap();
 
         /// <summary>Gets the size of the screen.</summary>
         /// <value>The size of the screen.</value>

@@ -129,18 +129,12 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Size of the extended header.
         /// </summary>
-        public override int Length
-        {
-            get
-            {
-                return m_Data.Length;
-            }
-        }
+        public override int Length => m_Data.Length;
 
         /// <summary>
         /// Returns false (extended header may vary in size).
         /// </summary>
-        public override bool IsFixedLength { get { return false; } }
+        public override bool IsFixedLength => false;
 
         #endregion
 

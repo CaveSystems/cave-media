@@ -96,7 +96,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Gets the items.</summary>
         /// <value>The items.</value>
-        public ICollection<SynchronizedLyricsItem> Items { get { return m_Items.AsReadOnly(); } }
+        public ICollection<SynchronizedLyricsItem> Items => m_Items.AsReadOnly();
 
         /// <summary>Gibt einen Enumerator zurück, der die Auflistung durchläuft.</summary>
         /// <returns>Ein <see cref="T:System.Collections.Generic.IEnumerator`1" />, der zum Durchlaufen der Auflistung verwendet werden kann.</returns>

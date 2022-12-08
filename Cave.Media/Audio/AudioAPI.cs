@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Cave.Media.Audio
 {
     /// <summary>
@@ -13,7 +11,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioAPI[] GetAvailableAudioAPIs()
         {
-            var apis = AppDom.GetTypes<IAudioAPI>();
+            var apis = AppDom.GetInstances<IAudioAPI>(true);
             apis.Sort();
             return apis.ToArray();
         }
@@ -24,7 +22,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioEncoder[] GetAvailableAudioEncoders()
         {
-            var encoder = AppDom.GetTypes<IAudioEncoder>();
+            var encoder = AppDom.GetInstances<IAudioEncoder>(true);
             encoder.Sort();
             return encoder.ToArray();
         }
@@ -35,7 +33,7 @@ namespace Cave.Media.Audio
         /// <returns></returns>
         public static IAudioDecoder[] GetAvailableAudioDecoders()
         {
-            var decoder = AppDom.GetTypes<IAudioDecoder>();
+            var decoder = AppDom.GetInstances<IAudioDecoder>(true);
             decoder.Sort();
             return decoder.ToArray();
         }
@@ -59,25 +57,13 @@ namespace Cave.Media.Audio
         /// Gets the default output device.
         /// </summary>
         /// <returns>Returns the default output device.</returns>
-        public virtual IAudioDevice DefaultOutputDevice
-        {
-            get
-            {
-                return OutputDevices.Length == 0 ? null : OutputDevices[0];
-            }
-        }
+        public virtual IAudioDevice DefaultOutputDevice => OutputDevices.Length == 0 ? null : OutputDevices[0];
 
         /// <summary>
         /// Gets the default input device.
         /// </summary>
         /// <returns>Returns the default input device.</returns>
-        public virtual IAudioDevice DefaultInputDevice
-        {
-            get
-            {
-                return InputDevices.Length == 0 ? null : InputDevices[0];
-            }
-        }
+        public virtual IAudioDevice DefaultInputDevice => InputDevices.Length == 0 ? null : InputDevices[0];
 
         /// <summary>
         /// Gets all available output devices.

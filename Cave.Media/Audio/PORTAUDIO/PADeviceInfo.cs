@@ -47,33 +47,15 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         /// <summary>Gets the name UTF8.</summary>
         /// <value>The name UTF8.</value>
-        public string NameUtf8
-        {
-            get
-            {
-                return MarshalStruct.ReadUtf8(m_NamePtr);
-            }
-        }
+        public string NameUtf8 => MarshalStruct.ReadUtf8(m_NamePtr);
 
         /// <summary>Gets the name ANSI.</summary>
         /// <value>The name ANSI.</value>
-        public string NameAnsi
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(m_NamePtr);
-            }
-        }
+        public string NameAnsi => Marshal.PtrToStringAnsi(m_NamePtr);
 
         /// <summary>Gets the name unicode.</summary>
         /// <value>The name unicode.</value>
-        public string NameUnicode
-        {
-            get
-            {
-                return Marshal.PtrToStringUni(m_NamePtr);
-            }
-        }
+        public string NameUnicode => Marshal.PtrToStringUni(m_NamePtr);
 
         /// <summary>Returns a <see cref="string" /> that represents this instance.</summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>

@@ -15,7 +15,7 @@ namespace Cave.Media.Video
         static int initCount = 0;
 
         #region private variables
-        
+
         bool disposedValue = false;
         glfw3.WindowCloseFunc funcWindowClose;
         glfw3.FramebufferSizeFunc funcWindowChange;

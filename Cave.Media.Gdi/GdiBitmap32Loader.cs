@@ -1,14 +1,9 @@
-﻿#if NETSTANDARD20
-#elif NET20 || NET35 || NET40 || NET45 || NET46 || NET47
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
-using System.Text;
 
 namespace Cave.Media
 {
@@ -74,9 +69,3 @@ namespace Cave.Media
         public Bitmap32 FromStream(Stream stream) => new GdiBitmap32(Image.FromStream(stream));
     }
 }
-
-#else
-
-#error No code defined for the current framework or NETXX version define missing!
-
-#endif

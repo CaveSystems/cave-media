@@ -216,22 +216,10 @@ namespace Cave.Media.Audio.PORTAUDIO
         }
 
         /// <summary>Gets the latency of the queue.</summary>
-        public override TimeSpan Latency
-        {
-            get
-            {
-                return new TimeSpan(SamplesPerBuffer * TimeSpan.TicksPerSecond / Configuration.SamplingRate);
-            }
-        }
+        public override TimeSpan Latency => new TimeSpan(SamplesPerBuffer * TimeSpan.TicksPerSecond / Configuration.SamplingRate);
 
         /// <summary>Gets whether the IAudioQueue supports 3D positioning or not.</summary>
-        public override bool Supports3D
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool Supports3D => false;
 
         /// <summary>Gets or sets the volume.</summary>
         /// <value>The volume in range 0..1.</value>

@@ -10,15 +10,17 @@ namespace Cave.Media
     /// </summary>
     public class Bitmap32 : IDisposable, IBitmap32
     {
+        static IBitmap32Loader loader;
+
         /// <summary>
         /// Provides the default loader.
         /// </summary>
-        public static IBitmap32Loader Loader;
+        public static IBitmap32Loader Loader { get => loader ??= FindLoader(); set => loader = value ?? throw new ArgumentNullException(nameof(value)); }
 
-        static Bitmap32()
+        static IBitmap32Loader FindLoader()
         {
-            var loaders = AppDom.GetTypes<IBitmap32Loader>();
-            Loader = loaders.FirstOrDefault();
+            var loaders = AppDom.GetInstances<IBitmap32Loader>(true);
+            return loaders.FirstOrDefault();
         }
 
         IBitmap32 bitmap;
@@ -197,6 +199,7 @@ namespace Cave.Media
         {
             bitmap?.Dispose();
             bitmap = null;
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>Detects the most common colors.</summary>

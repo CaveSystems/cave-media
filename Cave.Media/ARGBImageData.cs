@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Cave.Media
@@ -13,24 +12,17 @@ namespace Cave.Media
         /// <summary>
         /// Loads the specified bitmap.
         /// </summary>
-        /// <param name="bitmap">The bitmap.</param>
+        /// <param name="scan0">The start of the bitmap data.</param>
+        /// <param name="height">The height in scanlines</param>
+        /// <param name="stride">The number of bytes per scanline</param>
+        /// <param name="width">The number of pixels per line</param>
         /// <returns></returns>
-        internal static ARGBImageData Load(System.Drawing.Bitmap bitmap)
+        public static ARGBImageData Load(IntPtr scan0, int stride, int width, int height)
         {
-            byte[] bytes;
-            var data = bitmap.LockBits(new System.Drawing.Rectangle(System.Drawing.Point.Empty, bitmap.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            int stride;
-            try
-            {
-                stride = data.Stride;
-                bytes = new byte[Math.Abs(data.Stride * data.Height)];
-                Marshal.Copy(data.Scan0, bytes, 0, bytes.Length);
-            }
-            finally
-            {
-                bitmap.UnlockBits(data);
-            }
-            return new ARGBImageData(bytes, bitmap.Width, bitmap.Height, stride);
+            if (stride < width) throw new ArgumentOutOfRangeException(nameof(stride));
+            var bytes = new byte[Math.Abs(stride * height)];
+            Marshal.Copy(scan0, bytes, 0, bytes.Length);
+            return new ARGBImageData(bytes, width, height, stride);
         }
 
         /// <summary>
@@ -388,64 +380,6 @@ namespace Cave.Media
         /// Converts this instance to a bitmap32 instance.
         /// </summary>
         public Bitmap32 ToBitmap32() => Bitmap32.Loader.Create(this);
-
-        /// <summary>
-        /// Copies the image to the specified bitmapdata instance.
-        /// </summary>
-        public void CopyTo32BitBitmapData(System.Drawing.Imaging.BitmapData imgData)
-        {
-            if (imgData.Width != Width)
-            {
-                throw new ArgumentException(string.Format("Width is not compatible!"));
-            }
-
-            if (imgData.Height != Height)
-            {
-                throw new ArgumentException(string.Format("Height is not compatible!"));
-            }
-
-            if (imgData.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-            {
-                throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
-            }
-
-            if (imgData.Stride != Stride)
-            {
-                Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", Stride, imgData.Stride));
-                var start = imgData.Scan0;
-                var index = 0;
-                for (var y = 0; y < Height; y++)
-                {
-                    Marshal.Copy(Data, index, start, Data.Length);
-                    index += Stride;
-                    start = new IntPtr(start.ToInt64() + imgData.Stride);
-                }
-            }
-            else
-            {
-                Marshal.Copy(Data, 0, imgData.Scan0, Data.Length);
-            }
-        }
-
-        /// <summary>
-        /// Copies the image to the specified bitmap.
-        /// </summary>
-        public void CopyToBitmap(System.Drawing.Bitmap img)
-        {
-            var data = img.LockBits(new System.Drawing.Rectangle(System.Drawing.Point.Empty, img.Size), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            CopyTo32BitBitmapData(data);
-            img.UnlockBits(data);
-        }
-
-        /// <summary>
-        /// Creates a new bitmap from the image.
-        /// </summary>
-        public System.Drawing.Bitmap ToGdiBitmap()
-        {
-            var result = new System.Drawing.Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            CopyToBitmap(result);
-            return result;
-        }
     }
 }
 

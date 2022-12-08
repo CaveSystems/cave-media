@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Cave.Media.Structs
 {
@@ -6,6 +7,7 @@ namespace Cave.Media.Structs
     /// Provides common speaker positions.
     /// </summary>
     [Flags]
+    [SuppressMessage("Naming", "CA1707")]
     public enum SPEAKER_POSITIONS : uint
     {
         /// <summary>

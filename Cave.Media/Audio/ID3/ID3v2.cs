@@ -273,15 +273,9 @@ namespace Cave.Media.Audio.ID3
         /// <value>
         /// The mood.
         /// </value>
-        public string[] Moods
-        {
-            get
-            {
-                return TryGetTXXXFrame("albummood", out var mood)
+        public string[] Moods => TryGetTXXXFrame("albummood", out var mood)
                     ? mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                     : (new string[0]);
-            }
-        }
 
         /// <summary>
         /// AcoustID.org Id.
@@ -597,13 +591,7 @@ namespace Cave.Media.Audio.ID3
 
         /// <summary>Gets or sets the lyrics.</summary>
         /// <value>The lyrics.</value>
-        public SynchronizedLyrics Lyrics
-        {
-            get
-            {
-                return TryGetFrame("XSLT", out ID3v2XSLTFrame frame) ? SynchronizedLyrics.FromData(frame.Content) : null;
-            }
-        }
+        public SynchronizedLyrics Lyrics => TryGetFrame("XSLT", out ID3v2XSLTFrame frame) ? SynchronizedLyrics.FromData(frame.Content) : null;
 
         /// <summary>
         /// Gets an array with the data for this instance.

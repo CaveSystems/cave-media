@@ -48,7 +48,7 @@ namespace Cave.Media.Audio.ID3.Frames
             /// <summary>
             /// Beats per minute after this event occured.
             /// </summary>
-            public int BeatsPerMinute { get { return (int)Type; } }
+            public int BeatsPerMinute => (int)Type;
         }
         #endregion
 

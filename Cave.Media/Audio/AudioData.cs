@@ -330,13 +330,7 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the playtime of this buffer in seconds.</summary>
         /// <value>The playtime in seconds.</value>
-        public float Seconds
-        {
-            get
-            {
-                return (float)data.Length / (BytesPerTick * SamplingRate);
-            }
-        }
+        public float Seconds => (float)data.Length / (BytesPerTick * SamplingRate);
 
         /// <summary>Gets the sample count (for all channels).</summary>
         /// <value>The sample count (for all channels).</value>
@@ -344,20 +338,14 @@ namespace Cave.Media.Audio
 
         /// <summary>Gets the length of the audio data in bytes.</summary>
         /// <value>The length in bytes.</value>
-        public int Length { get { return data.Length; } }
+        public int Length => data.Length;
 
         /// <summary>
         /// Gets the buffer containing the data (check <see cref="IAudioConfiguration.Format"/>,
         /// <see cref="IAudioConfiguration.SamplingRate"/> and <see cref="IAudioConfiguration.Channels"/>
         /// for more informations.
         /// </summary>
-        public byte[] Data
-        {
-            get
-            {
-                return (byte[])data.Clone();
-            }
-        }
+        public byte[] Data => (byte[])data.Clone();
 
         /// <summary>
         /// Stream index (&lt;0 = invalid or unknown index)<br/>
@@ -368,42 +356,7 @@ namespace Cave.Media.Audio
         /// <summary>
         /// Channel number (&lt;0 = invalid or unknown index).
         /// </summary>
-        public int ChannelNumber {
-/* Nicht gemergte Änderung aus Projekt "Cave.Media (net47)"
-Vor:
-            get { return m_ChannelNumber; }
-Nach:
-            get; private set; }
-*/
-
-/* Nicht gemergte Änderung aus Projekt "Cave.Media (net46)"
-Vor:
-            get { return m_ChannelNumber; }
-Nach:
-            get; private set; }
-*/
-
-/* Nicht gemergte Änderung aus Projekt "Cave.Media (net20)"
-Vor:
-            get { return m_ChannelNumber; }
-Nach:
-            get; private set; }
-*/
-
-/* Nicht gemergte Änderung aus Projekt "Cave.Media (net45)"
-Vor:
-            get { return m_ChannelNumber; }
-Nach:
-            get; private set; }
-*/
-
-/* Nicht gemergte Änderung aus Projekt "Cave.Media (net35)"
-Vor:
-            get { return m_ChannelNumber; }
-Nach:
-            get; private set; }
-*/
- get; private set; }
+        public int ChannelNumber { get; private set; }
 
         /// <summary>
         /// Gets the start time.
@@ -413,15 +366,7 @@ Nach:
         /// <summary>
         /// Gets the duration.
         /// </summary>
-        public TimeSpan Duration
-        {
-            get
-            {
-                return data.LongLength == 0
-                    ? TimeSpan.Zero
-                    : new TimeSpan(data.LongLength / BytesPerTick * TimeSpan.TicksPerSecond / SamplingRate);
-            }
-        }
+        public TimeSpan Duration => data.LongLength == 0 ? TimeSpan.Zero : new TimeSpan(data.LongLength / BytesPerTick * TimeSpan.TicksPerSecond / SamplingRate);
 
         #endregion
 

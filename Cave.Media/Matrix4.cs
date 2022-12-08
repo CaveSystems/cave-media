@@ -256,13 +256,7 @@ namespace Cave.Media
         /// <summary>
         /// Provides the Identity(Einheits-)matrix.
         /// </summary>
-        public static Matrix4 Identity
-        {
-            get
-            {
-                return Create(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-            }
-        }
+        public static Matrix4 Identity => Create(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         #endregion
 
         #region operators

@@ -20,7 +20,7 @@ namespace Cave.Media.Audio.MP3
 
         /// <summary>Gets the sample count.</summary>
         /// <value>The sample count.</value>
-        public int SampleCount { get { return m_Index[0]; } }
+        public int SampleCount => m_Index[0];
 
         /// <summary>Initializes a new instance of the <see cref="MP3AudioStereoBuffer"/> class.</summary>
         public MP3AudioStereoBuffer(int samplingRate)

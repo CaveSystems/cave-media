@@ -210,13 +210,7 @@ namespace Cave.Media
         /// <summary>
         /// Gets the Identity(Einheits-)matrix.
         /// </summary>
-        public static Matrix3 Identity
-        {
-            get
-            {
-                return Create(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
-            }
-        }
+        public static Matrix3 Identity => Create(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f);
         #endregion
 
         #region operators

@@ -21,47 +21,28 @@ namespace Cave.Media.Audio.MP3
         public override string SourceName { get; set; }
 
         /// <summary>Gets the description of the decoder.</summary>
-        public override string Description
-        {
-            get
-            {
-                return
-                    "Full managed Mpeg Layer 3 Audio Decoder based on the source of libmpg123 and JLayer\n" +
+        public override string Description => "Full managed Mpeg Layer 3 Audio Decoder based on the source of libmpg123 and JLayer\n" +
                     "This decoder uses float calculations for the whole decoding process.\n" +
                     "On arm devices or machines lacking decent vfp support this might be slow!";
-            }
-        }
 
         /// <summary>Gets the features list.</summary>
-        public override string Features
-        {
-            get
-            {
-                return "Managed Mpeg Audio decoder for Layer III";
-            }
-        }
+        public override string Features => "Managed Mpeg Audio decoder for Layer III";
 
         /// <summary>Gets the mime types the decoder is able to handle.</summary>
-        public override string[] MimeTypes
-        {
-            get
-            {
-                return new string[] { "audio/mpeg", "audio/mp3", "audio/mpeg3", "audio/x-mpeg-3", };
-            }
-        }
+        public override string[] MimeTypes => new string[] { "audio/mpeg", "audio/mp3", "audio/mpeg3", "audio/x-mpeg-3", };
 
         /// <summary>Gets the decoder name.</summary>
-        public override string Name { get { return "MP3AudioDecoder"; } }
+        public override string Name => "MP3AudioDecoder";
 
         /// <summary>Gets the name of the log source.</summary>
         /// <value>The name of the log source.</value>
-        public string LogSourceName { get { return Name; } }
+        public string LogSourceName => Name;
 
         /// <summary>Gets a value indicating whether this decoder is available on this platform/installation or not.</summary>
         /// <value>
         /// <c>true</c> if this instance is available; otherwise, <c>false</c>.
         /// </value>
-        public override bool IsAvailable { get { return true; } }
+        public override bool IsAvailable => true;
 
         IFrameSource source;
         MP3AudioStereoBuffer outputBuffer;

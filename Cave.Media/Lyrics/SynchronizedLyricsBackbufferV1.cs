@@ -28,7 +28,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Gets the size of the screen.</summary>
         /// <value>The size of the screen.</value>
-        public Size ScreenSize { get { return new Size(ScreenWidth, ScreenHeight); } }
+        public Size ScreenSize => new Size(ScreenWidth, ScreenHeight);
 
         /// <summary>Gets or sets a value indicating whether [to use transparent color override].</summary>
         /// <value>
@@ -219,20 +219,8 @@ namespace Cave.Media.Lyrics
         /// <summary>Invalidates this instance.</summary>
         public void Invalidate()
         {
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
-            skBitmap?.Dispose();
-            skBitmap = null;
-#elif NET20 || NET35 || NET40 || !SKIA
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
             bitmap?.Dispose();
             bitmap = null;
-#elif NETSTANDARD20
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
             Updated = true;
         }
 
@@ -266,42 +254,18 @@ namespace Cave.Media.Lyrics
             return data;
         }
 
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET47)
-        SkiaSharp.SKBitmap skBitmap;
-
-        /// <summary>
-        /// Copies the image to the specified bitmapdata instance
-        /// </summary>
-        public SkiaSharp.SKBitmap ToSKBitmap()
-        {
-            if (Updated || skBitmap == null)
-            {
-                skBitmap = ToImage().ToSKBitmap();
-            }
-            return skBitmap;
-        }
-#elif NET20 || NET35 || NET40 || !SKIA
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-
-#if NET20 || NET35 || NET40 || NET45 || NET46 || NET47
-        Bitmap bitmap;
+        Bitmap32 bitmap;
 
         /// <summary>
         /// Copies the image to the specified bitmapdata instance.
         /// </summary>
-        public Bitmap ToBitmap()
+        public Bitmap32 ToBitmap()
         {
             if (Updated || bitmap == null)
             {
-                bitmap = ToImage().ToGdiBitmap();
+                bitmap = ToImage().ToBitmap32();
             }
             return bitmap;
         }
-#elif NETSTANDARD20
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
     }
 }

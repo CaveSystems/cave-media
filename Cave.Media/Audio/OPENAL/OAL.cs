@@ -5,6 +5,7 @@
 */
 #endregion
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Cave.Media.Audio.OPENAL
     /// <summary>
     /// Allows access to the open al native functions.
     /// </summary>
+    [SuppressMessage("Naming", "CA1707")]
     public static class OAL
     {
         /// <summary>The native library name (windows openal.dll, linux libopenal.so.x, macos libopenal.dylib.</summary>

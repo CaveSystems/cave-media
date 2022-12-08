@@ -34,37 +34,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// </summary>
     public sealed class ID3v2APICFrame : ID3v2Frame
     {
-#if SKIA && (NETSTANDARD20 || NET45 || NET46 || NET471)
-        /// <summary>
-        /// Creates a new header.
-        /// </summary>
-        /// <param name="header">The tag header.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="image">The image.</param>
-        /// <param name="imageFormat">The image format.</param>
-        /// <param name="quality">The quality.</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static ID3v2APICFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string description, ID3v2PictureType type, 
-            SkiaSharp.SKImage image, SkiaSharp.SKEncodedImageFormat imageFormat = SkiaSharp.SKEncodedImageFormat.Jpeg, int quality = 99)
-        {
-            var data = image.Encode(imageFormat, quality);
-            string mimeType;
-            switch (imageFormat)
-            {
-                case SkiaSharp.SKEncodedImageFormat.Jpeg: mimeType = MimeTypes.FromExtension(".jpg"); break;
-                case SkiaSharp.SKEncodedImageFormat.Png: mimeType = MimeTypes.FromExtension(".png"); break;
-                default: throw new ArgumentOutOfRangeException(string.Format("ImageFormat {0} not suppoerted!", imageFormat));
-            }
-            return Create(header, flags, description, type, mimeType, data.ToArray());
-        }
-#elif NET20 || NET35 || NET40 || !SKIA
-#else
-#error No code defined for the current framework or NETXX version define missing!
-#endif
-
         /// <summary>Creates the specified header.</summary>
         /// <param name="header">The header.</param>
         /// <param name="flags">The flags.</param>

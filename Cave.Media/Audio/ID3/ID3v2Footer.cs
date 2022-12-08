@@ -161,7 +161,7 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// returns 10.
         /// </summary>
-        public override int Length { get { return 10; } }
+        public override int Length => 10;
 
         /// <summary>
         /// Gets an array with the data for this instance.
@@ -203,6 +203,6 @@ namespace Cave.Media.Audio.ID3
         /// <summary>
         /// Returns true.
         /// </summary>
-        public override bool IsFixedLength { get { return true; } }
+        public override bool IsFixedLength => true;
     }
 }

@@ -1,5 +1,7 @@
 using System;
 
+#pragma warning disable CA1707 // Field names should not contain underscore
+
 namespace Cave.Media.Structs
 {
     /// <summary>

@@ -24,7 +24,7 @@ namespace Cave.Media.Audio.ID3
         }
 
         /// <summary>Gets the number of bytes currently available for reading.</summary>
-        public int Available { get { return m_Reader.Available; } }
+        public int Available => m_Reader.Available;
 
         /// <summary>
         /// Gets the current <see cref="ID3v2ReaderState"/>.
