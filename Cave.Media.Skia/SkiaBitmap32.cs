@@ -228,12 +228,27 @@ namespace Cave.Media
         }
 
         /// <inheritdoc />
+        public override void MakeTransparent()
+        {
+            var result = new SKBitmap(bitmap.Width, bitmap.Height);
+            using (var canvas = new SKCanvas(result))
+            using (var paint = new SKPaint())
+            using (var colorFilter = SKColorFilter.CreateBlendMode(bitmap.GetPixel(0, 0), SKBlendMode.DstIn))
+            {
+                paint.ColorFilter = colorFilter;
+                canvas.DrawBitmap(bitmap, 0, 0, paint);
+            }
+            bitmap.Dispose();
+            bitmap = result;
+        }
+
+        /// <inheritdoc />
         public override void MakeTransparent(ARGB color)
         {
             var result = new SKBitmap(bitmap.Width, bitmap.Height);
             using (var canvas = new SKCanvas(result))
             using (var paint = new SKPaint())
-            using (var colorFilter = SKColorFilter.CreateBlendMode(new SKColor(color.AsUInt32), SkiaSharp.SKBlendMode.DstIn))
+            using (var colorFilter = SKColorFilter.CreateBlendMode(new SKColor(color.AsUInt32), SKBlendMode.DstIn))
             {
                 paint.ColorFilter = colorFilter;
                 canvas.DrawBitmap(bitmap, 0, 0, paint);

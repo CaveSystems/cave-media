@@ -193,6 +193,9 @@ namespace Cave.Media
         public virtual int Height => bitmap.Height;
 
         /// <inheritdoc />
+        public virtual void MakeTransparent() => bitmap.MakeTransparent();
+
+        /// <inheritdoc />
         public virtual void MakeTransparent(ARGB color) => bitmap.MakeTransparent(color);
 
         /// <summary>

@@ -85,9 +85,10 @@ namespace Cave.Media
         /// <param name="color"></param>
         void Clear(ARGB color);
 
-        /// <summary>
-        /// Sets the specified color to transparent.
-        /// </summary>
+        /// <summary>Makes the bitmap transparent by blending the color of the top left pixel</summary>
+        void MakeTransparent();
+
+        /// <summary>Sets the specified color to transparent.</summary>
         /// <param name="color">Color to set transparent.</param>
         void MakeTransparent(ARGB color);
     }

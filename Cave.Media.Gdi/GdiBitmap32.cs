@@ -211,5 +211,11 @@ namespace Cave.Media
         /// </summary>
         /// <param name="color"></param>
         public override void Clear(ARGB color) => graphics.Clear(color);
+
+        /// <inheritdoc />
+        public override void MakeTransparent() => Bitmap.MakeTransparent();
+
+        /// <inheritdoc />
+        public override void MakeTransparent(ARGB color) => Bitmap.MakeTransparent(color);
     }
 }
