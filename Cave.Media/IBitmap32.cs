@@ -84,5 +84,11 @@ namespace Cave.Media
         /// </summary>
         /// <param name="color"></param>
         void Clear(ARGB color);
+
+        /// <summary>
+        /// Sets the specified color to transparent.
+        /// </summary>
+        /// <param name="color">Color to set transparent.</param>
+        void MakeTransparent(ARGB color);
     }
 }

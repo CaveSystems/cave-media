@@ -6,6 +6,9 @@ using System.Drawing.Imaging;
 
 namespace Cave.Media;
 
+/// <summary>
+/// Provides extensions to the <see cref="ARGBImageData"/> class.
+/// </summary>
 public static class ARGBImageDataExtension
 {
     /// <summary>
