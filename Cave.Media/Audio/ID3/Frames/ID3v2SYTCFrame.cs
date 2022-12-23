@@ -82,7 +82,7 @@ namespace Cave.Media.Audio.ID3.Frames
                 case 1: isTimeStamp = true; break;
                 default: throw new NotImplementedException(string.Format("Mode {0} is not implemented!", mode));
             }
-            var l_Events = new List<Event>();
+            var events = new List<Event>();
             var i = 1;
             while (i < Content.Length)
             {
@@ -99,7 +99,7 @@ namespace Cave.Media.Audio.ID3.Frames
                     value = (value << 8) | Content[i++];
                 }
 
-                l_Events.Add(new Event(type, value, isTimeStamp));
+                events.Add(new Event(type, value, isTimeStamp));
             }
         }
 

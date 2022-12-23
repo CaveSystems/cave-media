@@ -87,14 +87,8 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         public float this[int band]
         {
-            get
-            {
-                return values[band];
-            }
-            set
-            {
-                values[band] = Limit(value);
-            }
+            get => values[band];
+            set => values[band] = Limit(value);
         }
 
         /// <summary>

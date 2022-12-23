@@ -89,8 +89,8 @@ namespace Cave.Media.Audio.OPENAL
         {
             API = api ?? throw new ArgumentNullException("API");
             Name = name ?? throw new ArgumentNullException("Name");
-            var l_Devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
-            if (Array.IndexOf(l_Devices, name) < 0)
+            var devices = OAL.SafeNativeMethods.alcGetStringv(IntPtr.Zero, OAL.ALC_ALL_DEVICES_SPECIFIER);
+            if (Array.IndexOf(devices, name) < 0)
             {
                 throw new ArgumentException(string.Format("Device Name {0} not found!", name), "DeviceName");
             }
@@ -132,10 +132,10 @@ namespace Cave.Media.Audio.OPENAL
             {
                 lock (OAL.SyncRoot)
                 {
-                    var l_Device = OAL.SafeNativeMethods.alcOpenDevice(Name);
-                    if (l_Device != IntPtr.Zero)
+                    var device = OAL.SafeNativeMethods.alcOpenDevice(Name);
+                    if (device != IntPtr.Zero)
                     {
-                        OAL.SafeNativeMethods.alcCloseDevice(l_Device);
+                        OAL.SafeNativeMethods.alcCloseDevice(device);
                         return true;
                     }
                     return false;
@@ -150,10 +150,10 @@ namespace Cave.Media.Audio.OPENAL
             {
                 lock (OAL.SyncRoot)
                 {
-                    var l_Device = OAL.SafeNativeMethods.alcCaptureOpenDevice(Name, 44100, OAL.AL_FORMAT_MONO16, 44100 * 4 / OAL.BuffersPerSecond);
-                    if (l_Device != IntPtr.Zero)
+                    var device = OAL.SafeNativeMethods.alcCaptureOpenDevice(Name, 44100, OAL.AL_FORMAT_MONO16, 44100 * 4 / OAL.BuffersPerSecond);
+                    if (device != IntPtr.Zero)
                     {
-                        OAL.SafeNativeMethods.alcCaptureCloseDevice(l_Device);
+                        OAL.SafeNativeMethods.alcCaptureCloseDevice(device);
                         return true;
                     }
                     return false;

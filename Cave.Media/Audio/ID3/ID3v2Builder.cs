@@ -232,12 +232,9 @@ namespace Cave.Media.Audio.ID3
         /// </value>
         public string[] Moods
         {
-            get
-            {
-                return TryGetTXXXFrame("albummood", out var mood)
+            get => TryGetTXXXFrame("albummood", out var mood)
                     ? mood.Value.Split(new char[] { ';', ',', '/', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                     : (new string[0]);
-            }
             set
             {
                 RemoveTXXXFrames("albummood");
@@ -282,11 +279,11 @@ namespace Cave.Media.Audio.ID3
                             case "RX": result.Add("Remix"); continue;
                             case "CR": result.Add("Cover"); continue;
                         }
-                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out var l_GenreCode))
+                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out var genreCode))
                         {
-                            if (l_GenreCode < ID3v1.Genres.Length)
+                            if (genreCode < ID3v1.Genres.Length)
                             {
-                                result.Add(ID3v1.Genres[l_GenreCode]);
+                                result.Add(ID3v1.Genres[genreCode]);
                                 continue;
                             }
                         }
@@ -303,10 +300,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public BinaryGuid AcousticGuid
         {
-            get
-            {
-                return TryGetTXXXFrame("Acoustid Id", out var acoustid) ? (BinaryGuid)new Guid(acoustid.Value) : null;
-            }
+            get => TryGetTXXXFrame("Acoustid Id", out var acoustid) ? (BinaryGuid)new Guid(acoustid.Value) : null;
             set
             {
                 RemoveTXXXFrames("Acoustid Id");
@@ -319,10 +313,7 @@ namespace Cave.Media.Audio.ID3
         /// <value>The music brainz artist identifier.</value>
         public BinaryGuid MusicBrainzArtistId
         {
-            get
-            {
-                return TryGetTXXXFrame("MusicBrainz Artist Id", out var frame) ? (BinaryGuid)new Guid(frame.Value.Split(';', ',', '/', ' ')[0]) : null;
-            }
+            get => TryGetTXXXFrame("MusicBrainz Artist Id", out var frame) ? (BinaryGuid)new Guid(frame.Value.Split(';', ',', '/', ' ')[0]) : null;
             set
             {
                 RemoveTXXXFrames("MusicBrainz Artist Id");
@@ -335,10 +326,7 @@ namespace Cave.Media.Audio.ID3
         /// <value>The music brainz album identifier.</value>
         public BinaryGuid MusicBrainzAlbumId
         {
-            get
-            {
-                return TryGetTXXXFrame("MusicBrainz Album Id", out var frame) ? (BinaryGuid)new Guid(frame.Value) : null;
-            }
+            get => TryGetTXXXFrame("MusicBrainz Album Id", out var frame) ? (BinaryGuid)new Guid(frame.Value) : null;
             set
             {
                 RemoveTXXXFrames("MusicBrainz Album Id");
@@ -351,10 +339,7 @@ namespace Cave.Media.Audio.ID3
         /// <value>The music brainz release group identifier.</value>
         public BinaryGuid MusicBrainzReleaseGroupId
         {
-            get
-            {
-                return TryGetTXXXFrame("MusicBrainz Release Group Id", out var frame) ? (BinaryGuid)new Guid(frame.Value) : null;
-            }
+            get => TryGetTXXXFrame("MusicBrainz Release Group Id", out var frame) ? (BinaryGuid)new Guid(frame.Value) : null;
             set
             {
                 RemoveTXXXFrames("MusicBrainz Release Group Id");
@@ -613,10 +598,7 @@ namespace Cave.Media.Audio.ID3
         /// <value>The lyrics.</value>
         public SynchronizedLyrics Lyrics
         {
-            get
-            {
-                return TryGetFrame("XSLT", out ID3v2XSLTFrame frame) ? SynchronizedLyrics.FromData(frame.Content) : null;
-            }
+            get => TryGetFrame("XSLT", out ID3v2XSLTFrame frame) ? SynchronizedLyrics.FromData(frame.Content) : null;
             set
             {
                 var frame = ID3v2XSLTFrame.Create(Header, new ID3v2FrameFlags(), value.ToArray());

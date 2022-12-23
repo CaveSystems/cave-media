@@ -30,9 +30,9 @@ namespace Cave.Media.Audio
         {
             try
             {
-                var l_Error = PA.SafeNativeMethods.Pa_Initialize();
-                m_Initialized = l_Error == PAErrorCode.NoError;
-                m_CheckErrorCode(l_Error);
+                var error = PA.SafeNativeMethods.Pa_Initialize();
+                m_Initialized = error == PAErrorCode.NoError;
+                m_CheckErrorCode(error);
             }
             catch { }
         }
@@ -46,8 +46,8 @@ namespace Cave.Media.Audio
                 var devices = new List<IAudioDevice>();
                 for (var i = 0; i < deviceCount; i++)
                 {
-                    var l_DeviceInfo = PA.GetDeviceInfo(i);
-                    if (l_DeviceInfo.MaxInputChannels > 0)
+                    var deviceInfo = PA.GetDeviceInfo(i);
+                    if (deviceInfo.MaxInputChannels > 0)
                     {
                         devices.Add(new PADevice(this, i));
                     }
@@ -91,8 +91,8 @@ namespace Cave.Media.Audio
         {
             if (disposing)
             {
-                var l_Error = PA.SafeNativeMethods.Pa_Terminate();
-                m_CheckErrorCode(l_Error);
+                var error = PA.SafeNativeMethods.Pa_Terminate();
+                m_CheckErrorCode(error);
                 m_Initialized = false;
             }
         }

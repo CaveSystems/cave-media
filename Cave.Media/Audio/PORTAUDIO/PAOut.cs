@@ -83,32 +83,32 @@ namespace Cave.Media.Audio.PORTAUDIO
         internal PAOut(IAudioDevice dev, IAudioConfiguration configuration)
             : base(dev, configuration)
         {
-            var l_OutputParameters = default(PAStreamParameters);
+            var outputParameters = default(PAStreamParameters);
             switch (configuration.ChannelSetup)
             {
                 case AudioChannelSetup.Mono:
                 case AudioChannelSetup.Stereo:
-                    l_OutputParameters.ChannelCount = configuration.Channels; break;
+                    outputParameters.ChannelCount = configuration.Channels; break;
                 default: throw new NotSupportedException(string.Format("Audio channel setup {0} not supported!", configuration.ChannelSetup));
             }
             switch (configuration.Format)
             {
-                case AudioSampleFormat.Float: l_OutputParameters.SampleFormat = PASampleFormat.Float32; break;
-                case AudioSampleFormat.Int8: l_OutputParameters.SampleFormat = PASampleFormat.Int8; break;
-                case AudioSampleFormat.Int16: l_OutputParameters.SampleFormat = PASampleFormat.Int16; break;
-                case AudioSampleFormat.Int24: l_OutputParameters.SampleFormat = PASampleFormat.Int24; break;
-                case AudioSampleFormat.Int32: l_OutputParameters.SampleFormat = PASampleFormat.Int32; break;
+                case AudioSampleFormat.Float: outputParameters.SampleFormat = PASampleFormat.Float32; break;
+                case AudioSampleFormat.Int8: outputParameters.SampleFormat = PASampleFormat.Int8; break;
+                case AudioSampleFormat.Int16: outputParameters.SampleFormat = PASampleFormat.Int16; break;
+                case AudioSampleFormat.Int24: outputParameters.SampleFormat = PASampleFormat.Int24; break;
+                case AudioSampleFormat.Int32: outputParameters.SampleFormat = PASampleFormat.Int32; break;
                 default: throw new NotSupportedException(string.Format("Audio format {0} not supported!", configuration.Format));
             }
-            l_OutputParameters.Device = ((PADevice)dev).DeviceIndex;
+            outputParameters.Device = ((PADevice)dev).DeviceIndex;
 
             SamplesPerBuffer = Math.Max(1, configuration.SamplingRate / PA.BuffersPerSecond);
             BufferSize = configuration.BytesPerTick * SamplesPerBuffer;
             callbackDelegate = new PA.StreamCallbackDelegate(Callback);
-            var l_ErrorCode = PA.SafeNativeMethods.Pa_OpenStream(out streamHandle, IntPtr.Zero, ref l_OutputParameters, configuration.SamplingRate, (uint)SamplesPerBuffer, PAStreamFlags.ClipOff, callbackDelegate, IntPtr.Zero);
-            if (l_ErrorCode != PAErrorCode.NoError)
+            var errorCode = PA.SafeNativeMethods.Pa_OpenStream(out streamHandle, IntPtr.Zero, ref outputParameters, configuration.SamplingRate, (uint)SamplesPerBuffer, PAStreamFlags.ClipOff, callbackDelegate, IntPtr.Zero);
+            if (errorCode != PAErrorCode.NoError)
             {
-                throw new Exception(PA.GetErrorText(l_ErrorCode));
+                throw new Exception(PA.GetErrorText(errorCode));
             }
         }
         #endregion
@@ -148,10 +148,10 @@ namespace Cave.Media.Audio.PORTAUDIO
             }
 
             exit = true;
-            var l_ErrorCode = PA.SafeNativeMethods.Pa_StopStream(streamHandle);
-            if (l_ErrorCode != PAErrorCode.NoError)
+            var errorCode = PA.SafeNativeMethods.Pa_StopStream(streamHandle);
+            if (errorCode != PAErrorCode.NoError)
             {
-                throw new Exception(PA.GetErrorText(l_ErrorCode));
+                throw new Exception(PA.GetErrorText(errorCode));
             }
         }
 
@@ -162,10 +162,10 @@ namespace Cave.Media.Audio.PORTAUDIO
             exit = true;
             if (streamHandle != IntPtr.Zero)
             {
-                var l_ErrorCode = PA.SafeNativeMethods.Pa_CloseStream(streamHandle);
-                if (l_ErrorCode != PAErrorCode.NoError)
+                var errorCode = PA.SafeNativeMethods.Pa_CloseStream(streamHandle);
+                if (errorCode != PAErrorCode.NoError)
                 {
-                    Trace.WriteLine("Error Pa_CloseStream " + PA.GetErrorText(l_ErrorCode));
+                    Trace.WriteLine("Error Pa_CloseStream " + PA.GetErrorText(errorCode));
                 }
                 streamHandle = IntPtr.Zero;
             }

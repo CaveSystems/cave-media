@@ -28,7 +28,7 @@ namespace Cave.Media
         /// <summary>
         /// Gets the data of the image.
         /// </summary>
-        public int[] Data { get; }
+        public int[] Pixels { get; }
 
         /// <summary>
         /// Gets the stride (bytes per line) of the image.
@@ -52,7 +52,7 @@ namespace Cave.Media
         /// <param name="height">The height.</param>
         public ARGBImageData(int width, int height)
         {
-            Data = new int[width * height];
+            Pixels = new int[width * height];
             Width = width;
             Height = height;
             Stride = width * 4;
@@ -73,7 +73,7 @@ namespace Cave.Media
                 throw new ArgumentOutOfRangeException();
             }
 
-            Data = data;
+            Pixels = data;
             Width = width;
             Height = height;
             Stride = stride;
@@ -94,8 +94,8 @@ namespace Cave.Media
                 throw new ArgumentOutOfRangeException();
             }
 
-            Data = new int[data.Length / 4];
-            Buffer.BlockCopy(data, 0, Data, 0, data.Length);
+            Pixels = new int[data.Length / 4];
+            Buffer.BlockCopy(data, 0, Pixels, 0, data.Length);
             Width = width;
             Height = height;
             Stride = stride;
@@ -104,14 +104,11 @@ namespace Cave.Media
         /// <summary>
         /// Gets the raw data (stride * width).
         /// </summary>
-        public byte[] Raw
+        public byte[] GetBytes()
         {
-            get
-            {
-                var data = new byte[Data.Length * 4];
-                Buffer.BlockCopy(Data, 0, data, 0, data.Length);
-                return data;
-            }
+            var data = new byte[Pixels.Length * 4];
+            Buffer.BlockCopy(Pixels, 0, data, 0, data.Length);
+            return data;
         }
 
         /// <summary>
@@ -139,9 +136,9 @@ namespace Cave.Media
             var colorCounters = new List<ColorCounter>();
             {
                 var colorDict = new Dictionary<int, ColorCounter>();
-                for (var i = 0; i < Data.Length; i++)
+                for (var i = 0; i < Pixels.Length; i++)
                 {
-                    var color = Data[i];
+                    var color = Pixels[i];
                     if (!colorDict.ContainsKey(color))
                     {
                         colorDict.Add(color, new ColorCounter(color, 1));
@@ -199,7 +196,7 @@ namespace Cave.Media
                 for (var x = 0; x < width; x++)
                 {
                     var sourceIndex = PositionToIndex(tX >> 10, tY >> 10);
-                    result.Data[targetIndex++] = Data[sourceIndex];
+                    result.Pixels[targetIndex++] = Pixels[sourceIndex];
                     tX += moveX;
                 }
                 tY += moveY;
@@ -234,7 +231,7 @@ namespace Cave.Media
                 {
                     var tX = x % w;
                     var sourceIndex = PositionToIndex(tX, tY);
-                    result.Data[targetIndex++] = Data[sourceIndex];
+                    result.Pixels[targetIndex++] = Pixels[sourceIndex];
                 }
             }
             return result;
@@ -255,11 +252,11 @@ namespace Cave.Media
                 width = Width;
             }
 
-            var l_TileY = height != Height;
-            var l_TileX = width != Width;
+            var tileY = height != Height;
+            var tileX = width != Width;
 
             // only tile one direction at the moment ! maybe later...
-            if (l_TileX && l_TileY)
+            if (tileX && tileY)
             {
                 throw new NotSupportedException();
             }
@@ -267,7 +264,7 @@ namespace Cave.Media
             var result = new ARGBImageData(width, height);
 
             var heightCenterTop = (height - Height) / 2;
-            if (l_TileY)
+            if (tileY)
             {
                 var heightCenterBottom = (height + Height) / 2;
 
@@ -276,7 +273,7 @@ namespace Cave.Media
                 for (var y = heightCenterTop; y >= 0; y--)
                 {
                     var targetIndex = result.PositionToIndex(0, y);
-                    Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
+                    Array.Copy(Pixels, sourceIndex, result.Pixels, targetIndex, Width);
                 }
 
                 // fill bottom
@@ -284,12 +281,12 @@ namespace Cave.Media
                 for (var y = heightCenterBottom; y < height; y++)
                 {
                     var targetIndex = result.PositionToIndex(0, y);
-                    Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
+                    Array.Copy(Pixels, sourceIndex, result.Pixels, targetIndex, Width);
                 }
             }
 
             var widthCenterLeft = (width - Width) / 2;
-            if (l_TileX)
+            if (tileX)
             {
                 var widthCenterRight = (width + Width) / 2;
 
@@ -300,7 +297,7 @@ namespace Cave.Media
                     for (var x = widthCenterLeft; x >= 0; x--)
                     {
                         var targetIndex = result.PositionToIndex(x, y);
-                        result.Data[targetIndex] = Data[sourceIndex];
+                        result.Pixels[targetIndex] = Pixels[sourceIndex];
                     }
 
                     // fill right
@@ -308,7 +305,7 @@ namespace Cave.Media
                     for (var x = widthCenterRight; x < width; x++)
                     {
                         var targetIndex = result.PositionToIndex(x, y);
-                        result.Data[targetIndex] = Data[sourceIndex];
+                        result.Pixels[targetIndex] = Pixels[sourceIndex];
                     }
                 }
             }
@@ -318,7 +315,7 @@ namespace Cave.Media
             {
                 var sourceIndex = PositionToIndex(0, y);
                 var targetIndex = result.PositionToIndex(widthCenterLeft, y + heightCenterTop);
-                Array.Copy(Data, sourceIndex, result.Data, targetIndex, Width);
+                Array.Copy(Pixels, sourceIndex, result.Pixels, targetIndex, Width);
             }
 
             return result;
@@ -339,10 +336,10 @@ namespace Cave.Media
         /// </summary>
         public void Clear(int value)
         {
-            var index = Data.Length;
+            var index = Pixels.Length;
             while (index-- > 0)
             {
-                Data[index] = value;
+                Pixels[index] = value;
             }
         }
 
@@ -351,14 +348,8 @@ namespace Cave.Media
         /// </summary>
         public ARGB this[int index]
         {
-            get
-            {
-                return ARGB.FromValue(Data[index]);
-            }
-            set
-            {
-                Data[index] = value.AsInt32;
-            }
+            get => Pixels[index];
+            set => Pixels[index] = value.AsInt32;
         }
 
         /// <summary>
@@ -366,14 +357,8 @@ namespace Cave.Media
         /// </summary>
         public ARGB this[int x, int y]
         {
-            get
-            {
-                return ARGB.FromValue(Data[PositionToIndex(x, y)]);
-            }
-            set
-            {
-                Data[PositionToIndex(x, y)] = value.AsInt32;
-            }
+            get => Pixels[PositionToIndex(x, y)];
+            set => Pixels[PositionToIndex(x, y)] = value.AsInt32;
         }
 
         /// <summary>

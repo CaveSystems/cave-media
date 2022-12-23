@@ -112,15 +112,15 @@ namespace Cave.Media.Audio.ID3
                 throw new ArgumentNullException("Data");
             }
 
-            var l_Index = start;
-            while (l_Index < data.Length)
+            var index = start;
+            while (index < data.Length)
             {
-                if ((data[l_Index] == 0) && (data[l_Index + 1] == 0))
+                if ((data[index] == 0) && (data[index + 1] == 0))
                 {
-                    return l_Index;
+                    return index;
                 }
 
-                l_Index += 2;
+                index += 2;
             }
             return -1;
         }
@@ -141,22 +141,22 @@ namespace Cave.Media.Audio.ID3
             }
 
             int len;
-            int l_MarkerLength;
+            int markerLength;
             if (Is8Bit(encoding))
             {
                 len = Array.IndexOf<byte>(data, 0, index) - index;
-                l_MarkerLength = 1;
+                markerLength = 1;
             }
             else
             {
                 len = IndexOfNull16Bit(data, index) - index;
-                l_MarkerLength = 2;
+                markerLength = 2;
             }
             var enc = Get(encoding);
             if (len < 0)
             {
                 len = data.Length - index;
-                l_MarkerLength = 0;
+                markerLength = 0;
                 if (len == 0)
                 {
                     text = string.Empty;
@@ -169,7 +169,7 @@ namespace Cave.Media.Audio.ID3
                 text = text.Substring(ASCII.Strings.UTF8BOM.Length);
             }
 
-            return len + l_MarkerLength;
+            return len + markerLength;
         }
 
         /// <summary>

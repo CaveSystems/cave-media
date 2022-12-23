@@ -160,9 +160,9 @@ namespace Cave.Media.Audio.MP3
             // array of all huffcodtable headers
             // 0..31 Huffman code table 0..31
             // 32,33 count1-tables
-            var l_Level = 1 << ((4 * 8) - 1);
-            var l_Point = 0;
-            var l_Success = false;
+            var level = 1 << ((4 * 8) - 1);
+            var point = 0;
+            var success = false;
 
             /* table 0 needs no bits */
             if (TreeLength == 0)
@@ -174,37 +174,37 @@ namespace Cave.Media.Audio.MP3
             /* Lookup in Huffman table. */
             do
             {
-                if (Tree[l_Point][0] == 0)
+                if (Tree[point][0] == 0)
                 {
                     /*end of tree*/
-                    x[0] = Tree[l_Point][1] >> 4;
-                    y[0] = Tree[l_Point][1] & 0xf;
-                    l_Success = true;
+                    x[0] = Tree[point][1] >> 4;
+                    y[0] = Tree[point][1] & 0xf;
+                    success = true;
                     break;
                 }
 
                 // hget1bit() is called thousands of times, and so needs to be ultra fast.
                 if (br.ReadBit())
                 {
-                    while (Tree[l_Point][1] >= MXOFF)
+                    while (Tree[point][1] >= MXOFF)
                     {
-                        l_Point += Tree[l_Point][1];
+                        point += Tree[point][1];
                     }
 
-                    l_Point += Tree[l_Point][1];
+                    point += Tree[point][1];
                 }
                 else
                 {
-                    while (Tree[l_Point][0] >= MXOFF)
+                    while (Tree[point][0] >= MXOFF)
                     {
-                        l_Point += Tree[l_Point][0];
+                        point += Tree[point][0];
                     }
 
-                    l_Point += Tree[l_Point][0];
+                    point += Tree[point][0];
                 }
-                l_Level >>= 1;
+                level >>= 1;
             }
-            while ((l_Level != 0) || (l_Point < 0));
+            while ((level != 0) || (point < 0));
 
             /* Process sign encodings for quadruples tables. */
             if (TableNumber == 32 || TableNumber == 33)
@@ -285,7 +285,7 @@ namespace Cave.Media.Audio.MP3
                     }
                 }
             }
-            return l_Success;
+            return success;
         }
     }
 }

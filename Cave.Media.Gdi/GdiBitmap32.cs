@@ -73,38 +73,16 @@ namespace Cave.Media
         {
         }
 
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="translation">The translation.</param>
+        /// <inheritdoc/>
         public override void Draw(Bitmap32 other, int x, int y, Translation? translation = null) => Draw(other, x, y, other.Width, other.Height, translation);
 
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="translation">The translation.</param>
+        /// <inheritdoc/>
         public override void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
 
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="translation">The translation.</param>
+        /// <inheritdoc/>
         public override void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
 
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="translation">The translation.</param>
+        /// <inheritdoc/>
         public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => Draw(other.ToBitmap32(), x, y, width, height, translation);
 
         /// <summary>Draws the specified image ontop of this one.</summary>
@@ -138,10 +116,7 @@ namespace Cave.Media
             }
         }
 
-        /// <summary>Saves the image to the specified stream.</summary>
-        /// <param name="stream">The stream.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="quality">The quality.</param>
+        /// <inheritdoc/>
         public override void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100)
         {
             switch (type)
@@ -164,9 +139,7 @@ namespace Cave.Media
             Bitmap.Save(stream, encoder, encoderParams);
         }
 
-        /// <summary>
-        /// Disposes the image.
-        /// </summary>
+        /// <inheritdoc/>
         public override void Dispose()
         {
             base.Dispose();
@@ -177,22 +150,16 @@ namespace Cave.Media
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>Gets the data.</summary>
-        /// <value>The data.</value>
-        public override ARGBImageData Data => Bitmap.ToARGBImageData();
+        /// <inheritdoc/>
+        public override ARGBImageData GetImageData() => Bitmap.ToARGBImageData();
 
-        /// <summary>Gets the width.</summary>
-        /// <value>The width.</value>
+        /// <inheritdoc/>
         public override int Width => Bitmap.Width;
 
-        /// <summary>Gets the height.</summary>
-        /// <value>The height.</value>
+        /// <inheritdoc/>
         public override int Height => Bitmap.Height;
 
-        /// <summary>Saves the image to the specified stream.</summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="quality">The quality.</param>
-        /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!.</exception>
+        /// <inheritdoc/>
         public override void Save(string fileName, int quality = 100)
         {
             var extension = Path.GetExtension(fileName).ToLower();
@@ -206,10 +173,7 @@ namespace Cave.Media
             Save(file, type, quality);
         }
 
-        /// <summary>
-        /// Clear the image with the specified color.
-        /// </summary>
-        /// <param name="color"></param>
+        /// <inheritdoc/>
         public override void Clear(ARGB color) => graphics.Clear(color);
 
         /// <inheritdoc />

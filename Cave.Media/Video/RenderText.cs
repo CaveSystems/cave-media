@@ -61,10 +61,7 @@ namespace Cave.Media.Video
         /// </summary>
         public BoxAlignment Alignment
         {
-            get
-            {
-                return alignment;
-            }
+            get => alignment;
 
             set
             {

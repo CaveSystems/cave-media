@@ -170,8 +170,8 @@ namespace Cave.Media
         public static Matrix3 RotationX(float radians)
         {
             var cos = (float)Math.Cos(radians);
-            var l_Sin = (float)Math.Sin(radians);
-            return Create(1, 0, 0, 0, cos, -l_Sin, 0, l_Sin, cos);
+            var sin = (float)Math.Sin(radians);
+            return Create(1, 0, 0, 0, cos, -sin, 0, sin, cos);
         }
 
         /// <summary>
@@ -182,8 +182,8 @@ namespace Cave.Media
         public static Matrix3 RotationY(float radians)
         {
             var cos = (float)Math.Cos(radians);
-            var l_Sin = (float)Math.Sin(radians);
-            return Create(cos, 0, -l_Sin, 0, 1, 0, l_Sin, 0, cos);
+            var sin = (float)Math.Sin(radians);
+            return Create(cos, 0, -sin, 0, 1, 0, sin, 0, cos);
         }
 
         /// <summary>

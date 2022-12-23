@@ -62,8 +62,8 @@ namespace Cave.Media.Audio.MP3
         /// <returns></returns>
         MP3AudioFrame ReadNextAudioFrame()
         {
-            MP3AudioFrame l_MP3Frame = null;
-            while (l_MP3Frame == null)
+            MP3AudioFrame mp3Frame = null;
+            while (mp3Frame == null)
             {
                 var frame = source.GetNextFrame();
 
@@ -74,9 +74,9 @@ namespace Cave.Media.Audio.MP3
                 }
 
                 OnDecoding(frame);
-                l_MP3Frame = frame as MP3AudioFrame;
+                mp3Frame = frame as MP3AudioFrame;
             }
-            return l_MP3Frame;
+            return mp3Frame;
         }
 
         /// <summary>
@@ -124,14 +124,14 @@ namespace Cave.Media.Audio.MP3
             this.source = source;
 
             // get first audio frame
-            var l_MP3Frame = ReadNextAudioFrame();
-            if (l_MP3Frame.Header.Layer != MP3AudioFrameLayer.Layer3)
+            var mp3Frame = ReadNextAudioFrame();
+            if (mp3Frame.Header.Layer != MP3AudioFrameLayer.Layer3)
             {
                 throw new NotSupportedException("Source " + SourceName + ": Only Layer 3 Audio is supported!");
             }
 
             // prepare decoder
-            outputChannels = l_MP3Frame.Header.ChannelCount;
+            outputChannels = mp3Frame.Header.ChannelCount;
             var isEqualizerFactors = equalizer.GetFactors();
             filter1 = new MP3AudioSynthesisFilter(0, 32000.0f, isEqualizerFactors);
             if (outputChannels == 2)
@@ -139,11 +139,11 @@ namespace Cave.Media.Audio.MP3
                 filter2 = new MP3AudioSynthesisFilter(1, 32000.0f, isEqualizerFactors);
             }
 
-            samplingRate = l_MP3Frame.Header.SamplingRate;
+            samplingRate = mp3Frame.Header.SamplingRate;
             outputBuffer = new MP3AudioStereoBuffer(samplingRate);
-            frameDecoder = new MP3AudioLayerIIIDecoder(l_MP3Frame.Header, filter1, filter2, outputBuffer, (int)MP3AudioOutputMode.Both);
+            frameDecoder = new MP3AudioLayerIIIDecoder(mp3Frame.Header, filter1, filter2, outputBuffer, (int)MP3AudioOutputMode.Both);
 
-            DecodeFrame(l_MP3Frame);
+            DecodeFrame(mp3Frame);
         }
 
         /// <summary>Closes this instance and the underlying stream.</summary>

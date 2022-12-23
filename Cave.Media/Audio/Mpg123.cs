@@ -240,8 +240,8 @@ namespace Cave.Media.Audio
             }
 
             var outBuffer = new FifoBuffer();
-            var l_Loop = true;
-            while (l_Loop)
+            var loop = true;
+            while (loop)
             {
                 M123.RESULT result;
                 result = M123.SafeNativeMethods.mpg123_decode(m_DecoderHandle, m_DecodeFifoBuffer, outBuffer, 8192);
@@ -250,7 +250,7 @@ namespace Cave.Media.Audio
                     case M123.RESULT.NEED_MORE:
                         if (outBuffer.Length > 0)
                         {
-                            l_Loop = false;
+                            loop = false;
                             break;
                         }
                         BufferFrame();

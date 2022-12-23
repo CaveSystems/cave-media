@@ -33,9 +33,9 @@ namespace Cave.Media
             var bitmap = SKBitmap.FromImage(SKImage.Create(imgInfo));
             IntPtr len;
             var ptr = bitmap.GetPixels(out len);
-            var byteLen = imageData.Data.Length * 4;
+            var byteLen = imageData.Pixels.Length * 4;
             if (len.ToInt32() != byteLen) throw new Exception("Invalid length!");
-            Marshal.Copy(imageData.Data, 0, ptr, imageData.Data.Length);
+            Marshal.Copy(imageData.Pixels, 0, ptr, imageData.Pixels.Length);
             return bitmap;
         }
     }

@@ -57,7 +57,7 @@ namespace Cave.Media.Video
             renderer.CheckErrors("BindTexture");
 
             Trace.TraceInformation("retrieve raw pixels...");
-            var pixels = image.Data.Data;
+            var pixels = image.GetImageData().Pixels;
 
             Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
             gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
@@ -71,7 +71,7 @@ namespace Cave.Media.Video
             renderer.CheckErrors("BindTexture");
 
             Trace.TraceInformation("retrieve raw pixels...");
-            var pixels = image.Data.Data;
+            var pixels = image.GetImageData().Pixels;
 
             Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
             gl2.TexSubImage2D(GL._TEXTURE_2D, 0, 0, 0, image.Width, image.Height, GL._BGRA, GL._UNSIGNED_BYTE, pixels);

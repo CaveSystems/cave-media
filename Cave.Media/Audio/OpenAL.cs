@@ -90,10 +90,10 @@ namespace Cave.Media.Audio
                     var result = new List<IAudioDevice>(devices.Length);
                     for (var i = 0; i < devices.Length; i++)
                     {
-                        var l_Device = new OALDevice(this, devices[i]);
-                        if (l_Device.SupportsPlayback)
+                        var device = new OALDevice(this, devices[i]);
+                        if (device.SupportsPlayback)
                         {
-                            result.Add(l_Device);
+                            result.Add(device);
                         }
                     }
                     return result.ToArray();

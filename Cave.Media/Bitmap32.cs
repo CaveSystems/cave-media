@@ -174,22 +174,16 @@ namespace Cave.Media
             return result;
         }
 
-        /// <summary>Saves the image to the specified stream.</summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="quality">The quality.</param>
-        /// <exception cref="Exception">Invalid extension {extension} use Save(Stream, ImageType, Quality) instead!.</exception>
+        /// <inheritdoc />
         public virtual void Save(string fileName, int quality = 100) => bitmap.Save(fileName, quality);
 
-        /// <summary>Gets the data.</summary>
-        /// <value>The data.</value>
-        public virtual ARGBImageData Data => bitmap.Data;
+        /// <inheritdoc />
+        public virtual ARGBImageData GetImageData() => bitmap.GetImageData();
 
-        /// <summary>Gets the width.</summary>
-        /// <value>The width.</value>
+        /// <inheritdoc />
         public virtual int Width => bitmap.Width;
 
-        /// <summary>Gets the height.</summary>
-        /// <value>The height.</value>
+        /// <inheritdoc />
         public virtual int Height => bitmap.Height;
 
         /// <inheritdoc />
@@ -198,9 +192,7 @@ namespace Cave.Media
         /// <inheritdoc />
         public virtual void MakeTransparent(ARGB color) => bitmap.MakeTransparent(color);
 
-        /// <summary>
-        /// Disposes the image.
-        /// </summary>
+        /// <inheritdoc />
         public virtual void Dispose()
         {
             bitmap?.Dispose();
@@ -208,9 +200,7 @@ namespace Cave.Media
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>Detects the most common colors.</summary>
-        /// <param name="max">The maximum number of colors to retrieve.</param>
-        /// <returns>Returns an array of <see cref="T:Cave.Media.ARGB" /> values.</returns>
+        /// <inheritdoc />
         public IList<ARGB> DetectColors(int max)
         {
             if ((Width + Height) / 2 > max)
@@ -222,24 +212,18 @@ namespace Cave.Media
             var colorCounters = new List<ColorCounter>();
             for (var y = 0; y < Height; y++)
             {
-                var data = Data.Data;
+                var pixels = GetImageData().Pixels;
                 var colorDict = new Dictionary<ARGB, ColorCounter>();
-                unsafe
+                for (var i = 0; i < pixels.Length; i++)
                 {
-                    fixed (int* p = &data[0])
+                    var color = pixels[i];
+                    if (!colorDict.ContainsKey(color))
                     {
-                        for (var i = 0; i < data.Length; i++)
-                        {
-                            ARGB color = p[i];
-                            if (!colorDict.ContainsKey(color))
-                            {
-                                colorDict.Add(color, new ColorCounter(color, 1));
-                            }
-                            else
-                            {
-                                colorDict[color].Count++;
-                            }
-                        }
+                        colorDict.Add(color, new ColorCounter(color, 1));
+                    }
+                    else
+                    {
+                        colorDict[color].Count++;
                     }
                 }
                 colorCounters.AddRange(colorDict.Values);

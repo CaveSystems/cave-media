@@ -132,7 +132,7 @@ namespace Cave.Media.Audio.ID3.Frames
             start += ID3v2Encoding.Parse(encoding, Content, start, out descriptor);
 
             // read events
-            var l_Events = new List<Event>();
+            var events = new List<Event>();
             while (start < Content.Length)
             {
                 string text;
@@ -143,9 +143,9 @@ namespace Cave.Media.Audio.ID3.Frames
                     value = (value << 8) | Content[start++];
                 }
 
-                l_Events.Add(new Event(text, value, isTimeStamp));
+                events.Add(new Event(text, value, isTimeStamp));
             }
-            events = l_Events.ToArray();
+            this.events = events.ToArray();
 
             parsed = true;
         }

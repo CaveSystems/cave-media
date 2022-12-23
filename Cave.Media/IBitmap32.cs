@@ -17,9 +17,8 @@ namespace Cave.Media
         /// <value>The width.</value>
         int Width { get; }
 
-        /// <summary>Gets the data.</summary>
-        /// <value>The data.</value>
-        ARGBImageData Data { get; }
+        /// <summary>Gets the image data.</summary>
+        ARGBImageData GetImageData();
 
         /// <summary>Draws the specified image ontop of this one.</summary>
         /// <param name="other">The image to draw.</param>

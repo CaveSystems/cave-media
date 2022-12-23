@@ -117,14 +117,14 @@ namespace Cave.Media.Audio.ID3
             {
                 comment = ASCII.Clean(str, 97, 30).TrimEnd();
             }
-            var l_Genre = data[127];
-            if (l_Genre < Genres.Length)
+            var genre = data[127];
+            if (genre < Genres.Length)
             {
-                genre = Genres[l_Genre];
+                this.genre = Genres[genre];
             }
             else
             {
-                genre = null;
+                this.genre = null;
             }
         }
 
@@ -330,7 +330,7 @@ namespace Cave.Media.Audio.ID3
             stream.Seek(-128, SeekOrigin.End);
 
             // save position for replace
-            var l_Position = stream.Position;
+            var position = stream.Position;
             try
             {
                 // try to load existing tag
@@ -339,7 +339,7 @@ namespace Cave.Media.Audio.ID3
                 var result = new ID3v1(buffer);
 
                 // success -> replace
-                stream.Position = l_Position;
+                stream.Position = position;
             }
             catch
             {

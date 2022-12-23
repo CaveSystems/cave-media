@@ -118,7 +118,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public ID3v2ExtendedHeaderFlags Flags
         {
-            get { return m_Flags; }
+            get => m_Flags;
             set
             {
                 m_Flags = value;

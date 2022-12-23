@@ -106,7 +106,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public byte Version
         {
-            get { return m_Version; }
+            get => m_Version;
             set
             {
                 m_Version = value;
@@ -119,7 +119,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public byte Revision
         {
-            get { return m_Revision; }
+            get => m_Revision;
             set
             {
                 m_Revision = value;
@@ -132,7 +132,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public ID3v2HeaderFlags Flags
         {
-            get { return m_Flags; }
+            get => m_Flags;
             set
             {
                 m_Flags = value;
@@ -149,7 +149,7 @@ namespace Cave.Media.Audio.ID3
         /// </summary>
         public int BodySize
         {
-            get { return m_BodySize; }
+            get => m_BodySize;
             set
             {
                 m_BodySize = value;

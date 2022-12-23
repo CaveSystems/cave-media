@@ -19,15 +19,15 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         static string GetName(int devIndex)
         {
-            var l_DeviceInfo = PA.GetDeviceInfo(devIndex);
-            var l_HostApiInfo = PA.GetHostApiInfo(l_DeviceInfo.HostApi);
+            var deviceInfo = PA.GetDeviceInfo(devIndex);
+            var hostApiInfo = PA.GetHostApiInfo(deviceInfo.HostApi);
 
             // by default use utf-8, but mme uses ansi
-            switch (l_HostApiInfo.Type)
+            switch (hostApiInfo.Type)
             {
-                case PAHostApiTypeId.MME: return "PortAudio " + l_HostApiInfo.NameUtf8 + ": " + l_DeviceInfo.NameAnsi;
+                case PAHostApiTypeId.MME: return "PortAudio " + hostApiInfo.NameUtf8 + ": " + deviceInfo.NameAnsi;
             }
-            return "PortAudio " + l_HostApiInfo.NameUtf8 + ": " + l_DeviceInfo.NameUtf8;
+            return "PortAudio " + hostApiInfo.NameUtf8 + ": " + deviceInfo.NameUtf8;
         }
 
         static IAudioDeviceCapabilities GetCapabilities(int devNumber)
@@ -64,8 +64,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         {
             get
             {
-                var l_DeviceInfo = PA.GetDeviceInfo(DeviceIndex);
-                return l_DeviceInfo.MaxOutputChannels > 0;
+                var deviceInfo = PA.GetDeviceInfo(DeviceIndex);
+                return deviceInfo.MaxOutputChannels > 0;
             }
         }
 
@@ -74,8 +74,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         {
             get
             {
-                var l_DeviceInfo = PA.GetDeviceInfo(DeviceIndex);
-                return l_DeviceInfo.MaxInputChannels > 0;
+                var deviceInfo = PA.GetDeviceInfo(DeviceIndex);
+                return deviceInfo.MaxInputChannels > 0;
             }
         }
 

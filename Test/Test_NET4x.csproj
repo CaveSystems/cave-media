@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net45;net46;net47;net48</TargetFrameworks>
+        <IsPackable>false</IsPackable>
+        <ApplicationIcon />
+        <OutputType>Exe</OutputType>
+        <StartupObject>Test.Program</StartupObject>
+        <RootNamespace>Test</RootNamespace>
+        <AssemblyName>Test</AssemblyName>
+        <NoWarn>IDE0130;CS1591;CA1806;CA1825;</NoWarn>
+        <Prefer32Bit>false</Prefer32Bit>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Cave.Media\Cave.Media.csproj" />
+        <ProjectReference Include="..\Cave.Media.Gdi\Cave.Media.Gdi.csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' != 'net45' AND '$(TargetFramework)' != 'net46'">
+        <ProjectReference Include="..\Cave.Media.Skia\Cave.Media.Skia.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+        <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.0.0" />
+    </ItemGroup>
+
+</Project>

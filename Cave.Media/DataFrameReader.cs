@@ -67,10 +67,10 @@ namespace Cave.Media
 
             if (m_EndOfStream > 0)
             {
-                var l_Readable = (int)(m_EndOfStream - BufferEndPosition);
-                if (size > l_Readable)
+                var readable = (int)(m_EndOfStream - BufferEndPosition);
+                if (size > readable)
                 {
-                    size = l_Readable;
+                    size = readable;
                 }
 
                 if (size == 0)
@@ -79,10 +79,10 @@ namespace Cave.Media
                 }
             }
 
-            var l_Left = size;
-            while (l_Left > 0)
+            var left = size;
+            while (left > 0)
             {
-                var buffer = new byte[Math.Min(16 * 1024, l_Left)];
+                var buffer = new byte[Math.Min(16 * 1024, left)];
                 var len = m_Stream.Read(buffer, 0, buffer.Length);
                 if (len == 0)
                 {
@@ -106,7 +106,7 @@ namespace Cave.Media
                 }
                 BufferLength += len;
                 BufferEndPosition += len;
-                l_Left -= len;
+                left -= len;
             }
 
             if (m_ReadBufferNode == null)
@@ -115,7 +115,7 @@ namespace Cave.Media
                 m_ReadBufferPosition = 0;
             }
 
-            return size - l_Left;
+            return size - left;
         }
 
         /// <summary>
@@ -124,10 +124,10 @@ namespace Cave.Media
         /// <param name="lenght">The minimum length available for reading.</param>
         public bool EnsureBuffer(int lenght)
         {
-            var l_Needed = lenght - Available;
-            if (l_Needed > 0)
+            var needed = lenght - Available;
+            if (needed > 0)
             {
-                FillBuffer(l_Needed);
+                FillBuffer(needed);
             }
 
             return Available >= lenght;
@@ -186,14 +186,14 @@ namespace Cave.Media
             var result = new byte[count];
             Move(index, out var bufferPosition, out var bufferNode);
 
-            var l_Offset = 0;
+            var offset = 0;
             while (count > 0)
             {
                 var buffer = bufferNode.Value;
                 var blockSize = Math.Min(buffer.Length - bufferPosition, count);
-                Array.Copy(buffer, bufferPosition, result, l_Offset, blockSize);
+                Array.Copy(buffer, bufferPosition, result, offset, blockSize);
                 count -= blockSize;
-                l_Offset += blockSize;
+                offset += blockSize;
                 bufferPosition += blockSize;
                 if (bufferPosition == buffer.Length)
                 {

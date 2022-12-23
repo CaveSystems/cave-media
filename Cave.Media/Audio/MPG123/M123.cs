@@ -1352,9 +1352,9 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                var l_PresetHandle = preset.Handle;
+                var presetHandle = preset.Handle;
                 IntPtr result;
-                handle = m_mpg123_parnew(ref l_PresetHandle, decoder, out result);
+                handle = m_mpg123_parnew(ref presetHandle, decoder, out result);
                 return (RESULT)result.ToInt32();
             }
 
@@ -1369,11 +1369,11 @@ namespace Cave.Media.Audio.MPG123
             public static RESULT mpg123_new_pars(out M123_PARS preset)
             {
                 IntPtr resultCode;
-                var l_Preset = m_mpg123_new_pars(out resultCode);
+                var pars = m_mpg123_new_pars(out resultCode);
                 var result = (RESULT)resultCode.ToInt32();
                 if (result == RESULT.OK)
                 {
-                    preset = new M123_PARS(l_Preset);
+                    preset = new M123_PARS(pars);
                 }
                 else
                 {
@@ -1396,8 +1396,8 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                var l_PresetHandle = preset.Handle;
-                m_mpg123_delete_pars(ref l_PresetHandle);
+                var presetHandle = preset.Handle;
+                m_mpg123_delete_pars(ref presetHandle);
                 preset.Disposed();
             }
 
@@ -1416,8 +1416,8 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                var l_PresetHandle = preset.Handle;
-                return m_mpg123_fmt_none(ref l_PresetHandle);
+                var presetHandle = preset.Handle;
+                return m_mpg123_fmt_none(ref presetHandle);
             }
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_fmt_all", CallingConvention = CallingConvention.Cdecl)]
@@ -1435,8 +1435,8 @@ namespace Cave.Media.Audio.MPG123
                     throw new ArgumentException(string.Format("Preset invalid!"));
                 }
 
-                var l_PresetHandle = preset.Handle;
-                return m_mpg123_fmt_all(ref l_PresetHandle);
+                var presetHandle = preset.Handle;
+                return m_mpg123_fmt_all(ref presetHandle);
             }
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_fmt", CallingConvention = CallingConvention.Cdecl)]
@@ -1450,10 +1450,10 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_fmt(M123_PARS preset, IAudioConfiguration config)
             {
-                var l_PresetHandle = preset.Handle;
+                var presetHandle = preset.Handle;
                 var channelConfig = GetChannelConfig(config);
-                var l_Encoding = GetEncoding(config);
-                return m_mpg123_fmt(ref l_PresetHandle, new IntPtr(config.SamplingRate), channelConfig, l_Encoding);
+                var encoding = GetEncoding(config);
+                return m_mpg123_fmt(ref presetHandle, new IntPtr(config.SamplingRate), channelConfig, encoding);
             }
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_fmt_support", CallingConvention = CallingConvention.Cdecl)]
@@ -1467,9 +1467,9 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static bool mpg123_fmt_support(M123_PARS preset, IAudioConfiguration config)
             {
-                var l_PresetHandle = preset.Handle;
-                var l_Encoding = GetEncoding(config);
-                var availableChannelConfig = m_mpg123_fmt_support(ref l_PresetHandle, new IntPtr(config.SamplingRate), l_Encoding);
+                var presetHandle = preset.Handle;
+                var encoding = GetEncoding(config);
+                var availableChannelConfig = m_mpg123_fmt_support(ref presetHandle, new IntPtr(config.SamplingRate), encoding);
                 var channelConfig = GetChannelConfig(config);
                 return (availableChannelConfig & channelConfig) == channelConfig;
             }
@@ -1487,8 +1487,8 @@ namespace Cave.Media.Audio.MPG123
             /// <returns></returns>
             public static RESULT mpg123_par(M123_PARS preset, PARAMS type, int value, double floatValue)
             {
-                var l_PresetHandle = preset.Handle;
-                return m_mpg123_par(ref l_PresetHandle, type, new IntPtr(value), floatValue);
+                var presetHandle = preset.Handle;
+                return m_mpg123_par(ref presetHandle, type, new IntPtr(value), floatValue);
             }
 
             [DllImport(NATIVE_LIBRARY, EntryPoint = "mpg123_getpar", CallingConvention = CallingConvention.Cdecl)]

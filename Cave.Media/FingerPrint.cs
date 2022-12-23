@@ -20,7 +20,7 @@ namespace Cave.Media
         public static FingerPrint Create(IBitmap32 bitmap)
         {
             using var thumb = bitmap.Resize(32, 32, ResizeMode.TouchFromInside);
-            var data = thumb.Data;
+            var data = thumb.GetImageData();
             using var ms = new MemoryStream();
             // calculate fingerprint and distance matrix
             var writer = new BitStreamWriter(ms);
@@ -28,8 +28,9 @@ namespace Cave.Media
             {
                 int x = 0, y = 0;
                 ARGB last = 0;
-                foreach (ARGB pixel in data.Data)
+                foreach (var val in data.Pixels)
                 {
+                    ARGB pixel = val;
                     if (++x > 15)
                     {
                         x = 0;
@@ -73,12 +74,6 @@ namespace Cave.Media
                 blocks[i] = blockValue;
             }
 
-            /*
-            uint b1 = (uint)(uint.MaxValue * (distanceMatrix[0] + distanceMatrix[1]  + distanceMatrix[4] + distanceMatrix[5]) /4);
-            uint b2 = (uint)(uint.MaxValue * (distanceMatrix[3] + distanceMatrix[2]  + distanceMatrix[7] + distanceMatrix[6]) / 4);
-            uint b3 = (uint)(uint.MaxValue * (distanceMatrix[12] + distanceMatrix[13]  + distanceMatrix[8]  + distanceMatrix[9]) / 4);
-            uint b4 = (uint)(uint.MaxValue * (distanceMatrix[15] + distanceMatrix[14]  + distanceMatrix[11] + distanceMatrix[10]) / 4);
-            */
             return new FingerPrint(32, blocks, ms.ToArray());
         }
 

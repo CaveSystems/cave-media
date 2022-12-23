@@ -40,16 +40,16 @@ namespace Cave.Media.Codecs
             if (count > 63)
             {
                 // yes, find makeup to use
-                var l_MakeUpIndex = makeUpCodes.GetLength(0);
-                while (--l_MakeUpIndex > 0)
+                var makeUpIndex = makeUpCodes.GetLength(0);
+                while (--makeUpIndex > 0)
                 {
-                    if (makeUpCodes[l_MakeUpIndex, 2] <= count)
+                    if (makeUpCodes[makeUpIndex, 2] <= count)
                     {
                         break;
                     }
                 }
-                m_Writer.WriteBits(makeUpCodes[l_MakeUpIndex, 0], makeUpCodes[l_MakeUpIndex, 1]);
-                count -= makeUpCodes[l_MakeUpIndex, 2];
+                m_Writer.WriteBits(makeUpCodes[makeUpIndex, 0], makeUpCodes[makeUpIndex, 1]);
+                count -= makeUpCodes[makeUpIndex, 2];
             }
 
             // write termination

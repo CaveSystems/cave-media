@@ -515,11 +515,11 @@ namespace Cave.Media.Audio.ID3
                             case "RX": result.Add("Remix"); continue;
                             case "CR": result.Add("Cover"); continue;
                         }
-                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out var l_GenreCode))
+                        if (uint.TryParse(parts[i].Substring(1, parts[i].Length - 2), out var genreCode))
                         {
-                            if (l_GenreCode < ID3v1.Genres.Length)
+                            if (genreCode < ID3v1.Genres.Length)
                             {
-                                result.Add(ID3v1.Genres[l_GenreCode]);
+                                result.Add(ID3v1.Genres[genreCode]);
                                 continue;
                             }
                         }

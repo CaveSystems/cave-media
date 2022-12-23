@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    
+
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1;net45;net50;net60</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net47;net50;net60</TargetFrameworks>
         <!--project-->
         <RootNamespace>Cave.Media</RootNamespace>
         <AssemblyOriginatorKeyFile>cave-media.snk</AssemblyOriginatorKeyFile>
@@ -17,13 +17,13 @@
         <NeutralLanguage />
         <DelaySign>false</DelaySign>
     </PropertyGroup>
-    
-	<ItemGroup>
-      <PackageReference Include="SkiaSharp" Version="1.68.0" />
+
+    <ItemGroup>
+        <PackageReference Include="SkiaSharp" Version="2.88.3" />
     </ItemGroup>
-    
-	<ItemGroup>
-	  <ProjectReference Include="..\Cave.Media\Cave.Media.csproj" />
-	</ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Cave.Media\Cave.Media.csproj" />
+    </ItemGroup>
 
 </Project>

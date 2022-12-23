@@ -15,20 +15,20 @@ namespace Cave.Media.Audio.ID3
         /// <param name="value"></param>
         public static ID3v2ExtendedHeaderRestrictions FromID3v24(byte value)
         {
-            ID3v2ImageSize l_ImageSize;
+            ID3v2ImageSize imageSize;
             var size = (ID3v2ExtendedHeaderSizeRestriction)(value >> 6);
             var textEncoding = (value & 0x20) != 0;
             var textLength = (ID3v2ExtendedHeaderTextRestriction)((value >> 3) & 0x03);
-            var l_ImageEncoding = (value & 0x4) != 0;
+            var imageEncoding = (value & 0x4) != 0;
             switch (value & 0x03)
             {
-                case 0: l_ImageSize = ID3v2ImageSize.None; break;
-                case 1: l_ImageSize = ID3v2ImageSize.SizeVar256; break;
-                case 2: l_ImageSize = ID3v2ImageSize.SizeVar64; break;
-                case 3: l_ImageSize = ID3v2ImageSize.SizeFixed64; break;
+                case 0: imageSize = ID3v2ImageSize.None; break;
+                case 1: imageSize = ID3v2ImageSize.SizeVar256; break;
+                case 2: imageSize = ID3v2ImageSize.SizeVar64; break;
+                case 3: imageSize = ID3v2ImageSize.SizeFixed64; break;
                 default: throw new InvalidDataException();
             }
-            return new ID3v2ExtendedHeaderRestrictions(size, textEncoding, textLength, l_ImageEncoding, l_ImageSize);
+            return new ID3v2ExtendedHeaderRestrictions(size, textEncoding, textLength, imageEncoding, imageSize);
         }
 
         /// <summary>

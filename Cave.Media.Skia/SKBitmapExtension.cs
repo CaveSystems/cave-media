@@ -18,7 +18,7 @@ namespace Cave.Media
         /// <param name="quality">The quality.</param>
         public static void Save(this SKBitmap bitmap, string fileName, SKEncodedImageFormat format = SKEncodedImageFormat.Png, int quality = 100)
         {
-            using (var img = SKImage.FromBitmap(bitmap)) Save(img, fileName, format, quality);
+            using var img = SKImage.FromBitmap(bitmap); Save(img, fileName, format, quality);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Cave.Media
         /// <param name="quality">The quality.</param>
         public static void Save(this SKBitmap bitmap, Stream stream, SKEncodedImageFormat format = SKEncodedImageFormat.Png, int quality = 100)
         {
-            using (var img = SKImage.FromBitmap(bitmap)) Save(img, stream, format, quality);
+            using var img = SKImage.FromBitmap(bitmap); Save(img, stream, format, quality);
         }
 
         /// <summary>
@@ -42,10 +42,8 @@ namespace Cave.Media
         /// <param name="quality">The quality.</param>
         public static void Save(this SKImage image, string fileName, SKEncodedImageFormat format = SKEncodedImageFormat.Png, int quality = 100)
         {
-            using (var file = File.Create(fileName))
-            {
-                Save(image, file, format, quality);
-            }
+            using var file = File.Create(fileName);
+            Save(image, file, format, quality);
         }
 
         /// <summary>
@@ -59,10 +57,8 @@ namespace Cave.Media
         public static void Save(this SKImage image, Stream stream, SKEncodedImageFormat format = SKEncodedImageFormat.Png, int quality = 100)
         {
             if (quality < 1 || quality > 100) throw new ArgumentOutOfRangeException(nameof(quality));
-            using (var data = image.Encode(format, quality))
-            {
-                data.SaveTo(stream);
-            }
+            using var data = image.Encode(format, quality);
+            data.SaveTo(stream);
         }
     }
 }

@@ -38,14 +38,14 @@ public static class ARGBImageDataExtension
             var index = 0;
             for (var y = 0; y < source.Height; y++)
             {
-                Marshal.Copy(source.Data, index, start, source.Data.Length);
+                Marshal.Copy(source.Pixels, index, start, source.Pixels.Length);
                 index += source.Stride;
                 start = new IntPtr(start.ToInt64() + target.Stride);
             }
         }
         else
         {
-            Marshal.Copy(source.Data, 0, target.Scan0, source.Data.Length);
+            Marshal.Copy(source.Pixels, 0, target.Scan0, source.Pixels.Length);
         }
     }
 

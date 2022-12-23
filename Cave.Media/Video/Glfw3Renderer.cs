@@ -296,10 +296,7 @@ namespace Cave.Media.Video
         /// </summary>
         public ResizeMode AspectCorrection
         {
-            get
-            {
-                return aspectCorrection;
-            }
+            get => aspectCorrection;
             set
             {
                 aspectCorrection = value;

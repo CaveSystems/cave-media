@@ -11,10 +11,10 @@ namespace Cave.Media.Audio.ID3
         static byte[] ReadFlag(byte[] data, ref int i)
         {
             var len = data[i];
-            var l_Data = new byte[len];
-            Array.Copy(data, i, l_Data, 0, len);
+            var result = new byte[len];
+            Array.Copy(data, i, result, 0, len);
             i += len;
-            return l_Data;
+            return result;
         }
 
         static void SkipFlag(byte[] data, ref int i)
@@ -60,10 +60,10 @@ namespace Cave.Media.Audio.ID3
             }
 
             var index = 10;
-            var l_ExtFlags = (extendedHeader[4] << 8) | extendedHeader[5];
+            var extFlags = (extendedHeader[4] << 8) | extendedHeader[5];
 
             // crc present?
-            if ((l_ExtFlags & 0x8000) != 0)
+            if ((extFlags & 0x8000) != 0)
             {
                 var cRC32 = new byte[4];
                 for (var i = 0; i < 4; i++)
@@ -101,8 +101,8 @@ namespace Cave.Media.Audio.ID3
             }
 
             // flag 0100 0000
-            var l_TagIsUpdate = (extendedHeader[5] & 0x40) != 0;
-            if (l_TagIsUpdate)
+            var tagIsUpdate = (extendedHeader[5] & 0x40) != 0;
+            if (tagIsUpdate)
             {
                 SkipFlag(extendedHeader, ref i);
             }
@@ -119,10 +119,10 @@ namespace Cave.Media.Audio.ID3
             }
 
             // flag 0001 0000
-            ID3v2ExtendedHeaderRestrictions l_TagRestrictions;
+            ID3v2ExtendedHeaderRestrictions tagRestrictions;
             if ((extendedHeader[5] & 0x10) == 0)
             {
-                l_TagRestrictions = null;
+                tagRestrictions = null;
             }
             else
             {
@@ -132,7 +132,7 @@ namespace Cave.Media.Audio.ID3
                     throw new InvalidDataException(string.Format("Invalid data length"));
                 }
 
-                l_TagRestrictions = ID3v2ExtendedHeaderRestrictions.FromID3v24(bytes[0]);
+                tagRestrictions = ID3v2ExtendedHeaderRestrictions.FromID3v24(bytes[0]);
             }
 
             // read unknown flags (0000 xxxx)
@@ -145,7 +145,7 @@ namespace Cave.Media.Audio.ID3
                 throw new InvalidDataException(string.Format("Unexpected additional data at flag!"));
             }
 
-            return new ID3v2ExtendedHeaderFlags(l_TagIsUpdate, cRC32, l_TagRestrictions);
+            return new ID3v2ExtendedHeaderFlags(tagIsUpdate, cRC32, tagRestrictions);
         }
 
         /// <summary>
