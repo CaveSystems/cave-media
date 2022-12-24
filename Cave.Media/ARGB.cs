@@ -867,11 +867,11 @@ namespace Cave.Media
 
         /// <summary>Provides a html color string.</summary>
         /// <returns>color as hex string in html format.</returns>
-        public string ToHtmlColor() => string.Format("#{0:X}", AsUInt32 & 0xFFFFFF);
+        public string ToHtmlColor() => string.Format("#{0:X6}", AsUInt32 & 0xFFFFFF);
 
         /// <summary>Provides a default hexadecimal string starting with 0x.</summary>
         /// <returns>color as hex string.</returns>
-        public string ToHexString() => string.Format("0x{0:X}", AsUInt32);
+        public string ToHexString() => string.Format("0x{0:X8}", AsUInt32);
 
         /// <summary>(Re-)sets a bit at the specified index.</summary>
         /// <param name="bitIndex">the bit index.</param>
