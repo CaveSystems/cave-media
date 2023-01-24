@@ -105,5 +105,46 @@ namespace Cave.Media.OpenGL
                 PositionNorm = positionNorm;
             }
         }
+
+        /// <summary>
+        /// glfw3 key event args, sent when a key is pressed or released
+        /// </summary>
+        public class KeyEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Gets the key that triggered this event.
+            /// </summary>
+            public KeyCode Key { get; private set; }
+
+            /// <summary>
+            /// Gets the system specific scancode of the key that triggered this event.
+            /// </summary>
+            public int ScanCode { get; private set; }
+
+            /// <summary>
+            /// Gets the input state <see cref="InputState"/> of the button when the event was triggered.
+            /// </summary>
+            public InputState State { get; private set; }
+
+            /// <summary>
+            /// Gets additional keys that were pressed when the event was triggered.
+            /// </summary>
+            public KeyMods Mods { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="KeyEventArgs"/> class.
+            /// </summary>
+            /// <param name="key">Keyname</param>
+            /// <param name="scancode">Scancode</param>
+            /// <param name="state">Key and button actions</param>
+            /// <param name="mods">Modifier flags</param>
+            public KeyEventArgs(KeyCode key, int scancode, InputState state, KeyMods mods)
+            {
+                Key = key;
+                ScanCode = scancode;
+                State = state;
+                Mods = mods;
+            }
+        }
     }
 }
