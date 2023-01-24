@@ -5,22 +5,22 @@ namespace Cave.Media.OpenGL
     public static partial class glfw3
     {
         /// <summary>
-        /// glfw3 size event args, z.B. window resize.
+        /// glfw3 size event args, sent on window resize
         /// </summary>
         public class SizeEventArgs : EventArgs
         {
             /// <summary>
-            /// the width.
+            /// Gets the window width
             /// </summary>
             public int Width { get; private set; }
 
             /// <summary>
-            /// the height.
+            /// Gets the window height
             /// </summary>
             public int Height { get; private set; }
 
             /// <summary>
-            /// constructor.
+            /// Initializes a new instance of the <see cref="SizeEventArgs"/> class.
             /// </summary>
             /// <param name="width"></param>
             /// <param name="height"></param>
@@ -32,7 +32,7 @@ namespace Cave.Media.OpenGL
         }
 
         /// <summary>
-        /// glfw3 mouse button event args send when a mouse button event (down, up) occured.
+        /// glfw3 mouse button event args, sent when a mouse button event (down, up) occured
         /// </summary>
         public class MouseButtonEventArgs : EventArgs
         {
@@ -76,6 +76,33 @@ namespace Cave.Media.OpenGL
                 Button = button;
                 State = state;
                 Mods = mods;
+            }
+        }
+
+        /// <summary>
+        /// glfw3 cursor move event args, sent when the cursor is moved over the window
+        /// </summary>
+        public class CursorPosEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Gets mouse cursor position in window coordinates (<see cref="Vector2"/> in range [0,0;width,height]).
+            /// </summary>
+            public Vector2 Position { get; private set; }
+
+            /// <summary>
+            /// Gets mouse cursor position in normalized window coordinates (<see cref="Vector2"/> in range [0,0;1,1]).
+            /// </summary>
+            public Vector2 PositionNorm { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CursorPosEventArgs"/> class.
+            /// </summary>
+            /// <param name="position"></param>
+            /// <param name="positionNorm"></param>
+            public CursorPosEventArgs(Vector2 position, Vector2 positionNorm)
+            {
+                Position = position;
+                PositionNorm = positionNorm;
             }
         }
     }
