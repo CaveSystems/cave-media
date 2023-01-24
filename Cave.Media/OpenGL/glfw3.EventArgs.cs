@@ -107,6 +107,26 @@ namespace Cave.Media.OpenGL
         }
 
         /// <summary>
+        /// glfw3 scroll event args, sent when window is scrolled
+        /// </summary>
+        public class ScrollEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Gets the scroll offset (<see cref="Vector2"/>).
+            /// </summary>
+            public Vector2 Offset { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ScrollEventArgs"/> class.
+            /// </summary>
+            /// <param name="offset"></param>
+            public ScrollEventArgs(Vector2 offset)
+            {
+                Offset = offset;
+            }
+        }
+
+        /// <summary>
         /// glfw3 key event args, sent when a key is pressed or released
         /// </summary>
         public class KeyEventArgs : EventArgs
