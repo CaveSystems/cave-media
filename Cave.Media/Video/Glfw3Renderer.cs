@@ -21,6 +21,7 @@ namespace Cave.Media.Video
         glfw3.FramebufferSizeFunc funcWindowChange;
         glfw3.MouseButtonFunc funcMouseButtonChange;
         glfw3.CursorPosFunc funcCursorPosChange;
+        glfw3.KeyFunc funcKeyEvent;
 
         ResizeMode aspectCorrection = ResizeMode.None;
 
@@ -205,6 +206,10 @@ namespace Cave.Media.Video
             CursorPosChanged?.Invoke(this, new glfw3.CursorPosEventArgs(mousePosition, mousePositionNorm));
         }
 
+        private void KeyChange(glfw3.Window window, glfw3.KeyCode key, int scancode, glfw3.InputState state, glfw3.KeyMods mods)
+        {
+            KeyEvent?.Invoke(this, new glfw3.KeyEventArgs(key, scancode, state, mods));
+        }
 
         void PrepareFramebuffer()
         {
@@ -300,6 +305,11 @@ namespace Cave.Media.Video
         /// Provides a callback for cursor position change events
         /// </summary>
         public event EventHandler<glfw3.CursorPosEventArgs> CursorPosChanged;
+
+        /// <summary>
+        /// Provides a callback for key events
+        /// </summary>
+        public event EventHandler<glfw3.KeyEventArgs> KeyEvent;
 
         /// <summary>
         /// Gets the resolution of the backbuffer.
@@ -445,6 +455,7 @@ namespace Cave.Media.Video
             glfw3.SetWindowCloseCallback(Window, funcWindowClose = new glfw3.WindowCloseFunc(WindowClose));
             glfw3.SetMouseButtonCallback(Window, funcMouseButtonChange = new glfw3.MouseButtonFunc(MouseButtonChange));
             glfw3.SetCursorPosCallback(Window, funcCursorPosChange = new glfw3.CursorPosFunc(CursorPosChange));
+            glfw3.SetKeyCallback(Window, funcKeyEvent = new glfw3.KeyFunc(KeyChange));
 
             gl2.GetIntegerv(GL._MAX_TEXTURE_SIZE, out var maxTextureSize);
             CheckErrors("GL_MAX_TEXTURE_SIZE");
