@@ -1591,7 +1591,7 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window whose callback to set.</param>
         /// <param name="callback">The new callback, or <c>null</c> to remove the currently set
         /// callback.</param>
-        public static void SetScrollCallback(Window window, CursorPosFunc callback) => glfwSetScrollCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
+        public static void SetScrollCallback(Window window, ScrollFunc callback) => glfwSetScrollCallback(window.Ptr, Marshal.GetFunctionPointerForDelegate(callback));
 
         [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
         [SuppressUnmanagedCodeSecurity]
