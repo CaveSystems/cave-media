@@ -206,7 +206,7 @@ namespace Cave.Media.Video
             CursorPosChanged?.Invoke(this, new glfw3.CursorPosEventArgs(mousePosition, mousePositionNorm));
         }
 
-        private void KeyChange(glfw3.Window window, glfw3.KeyCode key, int scancode, glfw3.InputState state, glfw3.KeyMods mods)
+        private void KeyEventTriggered(glfw3.Window window, glfw3.KeyCode key, int scancode, glfw3.InputState state, glfw3.KeyMods mods)
         {
             KeyEvent?.Invoke(this, new glfw3.KeyEventArgs(key, scancode, state, mods));
         }
@@ -455,7 +455,7 @@ namespace Cave.Media.Video
             glfw3.SetWindowCloseCallback(Window, funcWindowClose = new glfw3.WindowCloseFunc(WindowClose));
             glfw3.SetMouseButtonCallback(Window, funcMouseButtonChange = new glfw3.MouseButtonFunc(MouseButtonChange));
             glfw3.SetCursorPosCallback(Window, funcCursorPosChange = new glfw3.CursorPosFunc(CursorPosChange));
-            glfw3.SetKeyCallback(Window, funcKeyEvent = new glfw3.KeyFunc(KeyChange));
+            glfw3.SetKeyCallback(Window, funcKeyEvent = new glfw3.KeyFunc(KeyEventTriggered));
 
             gl2.GetIntegerv(GL._MAX_TEXTURE_SIZE, out var maxTextureSize);
             CheckErrors("GL_MAX_TEXTURE_SIZE");
