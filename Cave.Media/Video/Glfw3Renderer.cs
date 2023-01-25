@@ -456,7 +456,7 @@ namespace Cave.Media.Video
                         throw new Exception("No window available!");
                     }
                     glfw3.GetMonitorPos(device.Monitor, out var x, out var y);
-                    glfw3.SetWindowMonitor(Window, glfw3.Monitor.None, x + (width / 4), y + (height / 4), width / 2, height / 2, 60);
+                    glfw3.SetWindowMonitor(Window, glfw3.Monitor.None, 100, 100, width, height, 60);
                     break;
                 }
                 default: throw new Exception(string.Format("Unknown mode {0}", mode));
