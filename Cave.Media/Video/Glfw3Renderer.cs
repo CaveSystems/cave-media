@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using Cave.Media.OpenGL;
@@ -58,7 +59,7 @@ namespace Cave.Media.Video
             CheckErrors("CompileShader");
 
             var resultString = new StringBuilder(short.MaxValue);
-            gl2.GetShaderInfoLog(shader, short.MaxValue, out var length, resultString);
+            gl2.GetShaderInfoLog(shader, short.MaxValue, out _, resultString);
             CheckErrors("GetShaderInfoLog");
 
             gl2.GetShaderiv(shader, GL._COMPILE_STATUS, out var result);
@@ -96,7 +97,7 @@ namespace Cave.Media.Video
             CheckErrors("LinkProgram");
 
             var resultString = new StringBuilder(short.MaxValue);
-            gl2.GetProgramInfoLog(ShaderProgram, short.MaxValue, out var length, resultString);
+            gl2.GetProgramInfoLog(ShaderProgram, short.MaxValue, out _, resultString);
             gl2.GetProgramiv(ShaderProgram, GL._LINK_STATUS, out var result);
             if (result != (int)GL._TRUE)
             {
@@ -549,7 +550,7 @@ namespace Cave.Media.Video
                 throw new InvalidOperationException("Not initialized!");
             }
             glfw3.MakeContextCurrent(Window);
-            foreach (Glfw3Sprite s in sprites)
+            foreach (var s in sprites.Cast<Glfw3Sprite>())
             {
                 if (s.Visible)
                 {
@@ -565,6 +566,31 @@ namespace Cave.Media.Video
                     gl2.DrawArrays(GL._TRIANGLE_STRIP, 0, 4);
                 }
             }
+        }
+
+        /// <summary>
+        /// calculates projected coordinates (-1..1) from window coordinates (pixels)
+        /// </summary>
+        /// <param name="windowCoordinates"></param>
+        /// <returns></returns>
+        public Vector2 CalculateProjectionCoordinates(Vector2 windowCoordinates)
+        {
+            var x = ((2f * windowCoordinates.X / Resolution.X) - 1f) * aspectCorrectionVector.X;
+            var y = ((2f * windowCoordinates.Y / Resolution.Y) - 1f) * aspectCorrectionVector.Y;
+            return Vector2.Create(x, -y);
+        }
+
+        /// <summary>
+        /// calculates window coordinates (pixels) from projected coordinates (-1..1)
+        /// </summary>
+        /// <param name="projectionCoordinates"></param>
+        /// <returns></returns>
+        public Vector2 CalculateWindowCoordinates(Vector2 projectionCoordinates)
+        {
+            var x = Resolution.X * 0.5f * ((projectionCoordinates.X / aspectCorrectionVector.X) + 1f);
+            var y = Resolution.Y * 0.5f * ((-projectionCoordinates.Y / aspectCorrectionVector.Y) + 1f);
+            return Vector2.Create(x, y);
+
         }
 
         #region IDisposable Support
