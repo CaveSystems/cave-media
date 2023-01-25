@@ -25,6 +25,7 @@ namespace Cave.Media.Video
         glfw3.KeyFunc funcKeyEvent;
 
         ResizeMode aspectCorrection = ResizeMode.None;
+        Vector2 aspectCorrectionVector = Vector2.Create(1f, 1f);
 
         #endregion
 
@@ -234,41 +235,39 @@ namespace Cave.Media.Video
                 throw new InvalidOperationException("Not initialized!");
             }
             glfw3.MakeContextCurrent(Window);
-            float hb = 1f, vb = 1f;
             var aspect = Resolution.X / Resolution.Y;
             switch (aspectCorrection)
             {
                 case ResizeMode.None:
-                    gl2.LoadIdentity();
-                    gl2.Ortho(-1, 1, -1, 1, 0, -100);
+                    aspectCorrectionVector.X = 1f;
+                    aspectCorrectionVector.Y = 1f;
                     break;
                 case ResizeMode.TouchFromInside:
                     if (aspect > 1)
                     {
-                        hb = aspect;
+                        aspectCorrectionVector.X = aspect;
                     }
                     if (aspect < 1)
                     {
-                        vb = 1f / aspect;
+                        aspectCorrectionVector.Y = 1f / aspect;
                     }
-                    gl2.LoadIdentity();
-                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
                     break;
                 case ResizeMode.TouchFromOutside:
                     if (aspect > 1)
                     {
-                        vb = 1 / aspect;
+                        aspectCorrectionVector.Y = 1 / aspect;
                     }
                     if (aspect < 1)
                     {
-                        hb = aspect;
+                        aspectCorrectionVector.X = aspect;
                     }
-                    gl2.LoadIdentity();
-                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
                     break;
                 default:
                     throw new NotImplementedException("unknown aspect correction mode!");
             }
+            gl2.LoadIdentity();
+            gl2.Ortho(-aspectCorrectionVector.X, aspectCorrectionVector.X, -aspectCorrectionVector.Y, aspectCorrectionVector.Y, 0, -100);
+
         }
 
         #endregion
