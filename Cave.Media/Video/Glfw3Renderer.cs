@@ -33,17 +33,18 @@ namespace Cave.Media.Video
         #region internal properties
 
         internal glfw3.Window Window { get; private set; }
-        internal int ShaderProgram { get; private set; }
-        internal int ShaderVertexPosition { get; private set; }
-        internal int ShaderTextureCoordinates { get; private set; }
-        internal int ShaderTextureData { get; private set; }
-        internal int ShaderTint { get; private set; }
-        internal int ShaderAlpha { get; private set; }
-        internal int ShaderTranslation { get; private set; }
-        internal int ShaderCenterPoint { get; private set; }
-        internal int ShaderRotation { get; private set; }
-        internal int ShaderScale { get; private set; }
-
+        internal int ShaderProgramId { get; private set; }
+        internal int ShaderVertexPositionId { get; private set; }
+        internal int ShaderTextureCoordinatesId { get; private set; }
+        internal int ShaderTextureDataId { get; private set; }
+        internal int ShaderTintId { get; private set; }
+        internal int ShaderAlphaId { get; private set; }
+        internal int ShaderTranslationId { get; private set; }
+        internal int ShaderCenterPointId { get; private set; }
+        internal int ShaderRotationId { get; private set; }
+        internal int ShaderScaleId { get; private set; }
+        internal int WorldTranslationId { get; private set; }
+        internal int WorldScaleId { get; private set; }
         #endregion
 
         #region private functions
@@ -86,19 +87,19 @@ namespace Cave.Media.Video
             }
 
             Trace.TraceInformation("Linking Shaders...");
-            ShaderProgram = gl2.CreateProgram();
-            gl2.AttachShader(ShaderProgram, vertexShader);
+            ShaderProgramId = gl2.CreateProgram();
+            gl2.AttachShader(ShaderProgramId, vertexShader);
             CheckErrors("AttachShader vertexShader");
 
-            gl2.AttachShader(ShaderProgram, fragmentShader);
+            gl2.AttachShader(ShaderProgramId, fragmentShader);
             CheckErrors("AttachShader fragmentShader");
 
-            gl2.LinkProgram(ShaderProgram);
+            gl2.LinkProgram(ShaderProgramId);
             CheckErrors("LinkProgram");
 
             var resultString = new StringBuilder(short.MaxValue);
-            gl2.GetProgramInfoLog(ShaderProgram, short.MaxValue, out _, resultString);
-            gl2.GetProgramiv(ShaderProgram, GL._LINK_STATUS, out var result);
+            gl2.GetProgramInfoLog(ShaderProgramId, short.MaxValue, out _, resultString);
+            gl2.GetProgramiv(ShaderProgramId, GL._LINK_STATUS, out var result);
             if (result != (int)GL._TRUE)
             {
                 throw new Exception(string.Format("Program link failed: {0}", resultString));
@@ -111,16 +112,18 @@ namespace Cave.Media.Video
             gl2.DeleteShader(fragmentShader);
             CheckErrors("DeleteShader fragmentShader");
 
-            gl2.UseProgram(ShaderProgram);
-            ShaderVertexPosition = gl2.GetAttribLocation(ShaderProgram, "shaderVertexPosition");
-            ShaderTextureCoordinates = gl2.GetAttribLocation(ShaderProgram, "shaderTextureCoordinates");
-            ShaderTextureData = gl2.GetUniformLocation(ShaderProgram, "shaderTextureData");
-            ShaderTint = gl2.GetUniformLocation(ShaderProgram, "shaderTint");
-            ShaderAlpha = gl2.GetUniformLocation(ShaderProgram, "shaderAlpha");
-            ShaderTranslation = gl2.GetUniformLocation(ShaderProgram, "shaderTranslation");
-            ShaderCenterPoint = gl2.GetUniformLocation(ShaderProgram, "shaderCenterPoint");
-            ShaderRotation = gl2.GetUniformLocation(ShaderProgram, "shaderRotation");
-            ShaderScale = gl2.GetUniformLocation(ShaderProgram, "shaderScale");
+            gl2.UseProgram(ShaderProgramId);
+            ShaderVertexPositionId = gl2.GetAttribLocation(ShaderProgramId, "shaderVertexPosition");
+            ShaderTextureCoordinatesId = gl2.GetAttribLocation(ShaderProgramId, "shaderTextureCoordinates");
+            ShaderTextureDataId = gl2.GetUniformLocation(ShaderProgramId, "shaderTextureData");
+            ShaderTintId = gl2.GetUniformLocation(ShaderProgramId, "shaderTint");
+            ShaderAlphaId = gl2.GetUniformLocation(ShaderProgramId, "shaderAlpha");
+            ShaderTranslationId = gl2.GetUniformLocation(ShaderProgramId, "shaderTranslation");
+            ShaderCenterPointId = gl2.GetUniformLocation(ShaderProgramId, "shaderCenterPoint");
+            ShaderRotationId = gl2.GetUniformLocation(ShaderProgramId, "shaderRotation");
+            ShaderScaleId = gl2.GetUniformLocation(ShaderProgramId, "shaderScale");
+            WorldTranslationId = gl2.GetUniformLocation(ShaderProgramId, "worldTranslation");
+            WorldScaleId = gl2.GetUniformLocation(ShaderProgramId, "worldScale");
             CheckErrors("UseProgram");
         }
 
@@ -135,11 +138,11 @@ namespace Cave.Media.Video
                 // send vertices data to opengl
                 // ! 2nd paramater is length of array in bytes, send as IntPtr (not pointer of size variable)
                 gl2.BufferData(GL._ARRAY_BUFFER, new IntPtr(2 * 4 * 4), quad, GL._STATIC_DRAW);
-                gl2.EnableVertexAttribArray(ShaderVertexPosition);
+                gl2.EnableVertexAttribArray(ShaderVertexPositionId);
 
                 // hint opengl at structure of data in bound buffer to use as vertex attribute
                 // attribute index,  3 values / vertex, type float, no normalization, no stride, no offset
-                gl2.VertexAttribPointer(ShaderVertexPosition, 2, GL._FLOAT, 0, 0, null);
+                gl2.VertexAttribPointer(ShaderVertexPositionId, 2, GL._FLOAT, 0, 0, null);
             }
 
             {
@@ -149,11 +152,11 @@ namespace Cave.Media.Video
                 // send vertices data to opengl
                 // ! 2nd paramater is length of array in bytes, send as IntPtr (not pointer of size variable)
                 gl2.BufferData(GL._ARRAY_BUFFER, new IntPtr(2 * 4 * 4), texture, GL._STATIC_DRAW);
-                gl2.EnableVertexAttribArray(ShaderTextureCoordinates);
+                gl2.EnableVertexAttribArray(ShaderTextureCoordinatesId);
 
                 // hint opengl at structure of data in bound buffer to use as vertex attribute
                 // attribute index,  3 values / vertex, type float, no normalization, no stride, no offset
-                gl2.VertexAttribPointer(ShaderTextureCoordinates, 2, GL._FLOAT, 0, 0, null);
+                gl2.VertexAttribPointer(ShaderTextureCoordinatesId, 2, GL._FLOAT, 0, 0, null);
             }
         }
 
@@ -281,6 +284,8 @@ namespace Cave.Media.Video
         {
             Name = "Glfw3Renderer";
             Description = "OpenGL 2.1 Renderer using glfw3.";
+            WorldTranslation = Vector2.Empty;
+            WorldScale = Vector2.Create(1, 1);
             if (glfw3.Init())
             {
                 IsAvailable = true;
@@ -327,6 +332,16 @@ namespace Cave.Media.Video
         /// Gets the resolution of the backbuffer.
         /// </summary>
         public Vector2 Resolution { get; private set; }
+
+        /// <summary>
+        /// Provides a worldwide translation vector
+        /// </summary>
+        public Vector2 WorldTranslation { get; set; }
+
+        /// <summary>
+        /// Provides a worldwide scaling vector (zoom)
+        /// </summary>
+        public Vector2 WorldScale { get; set; }
 
         /// <summary>
         /// Gets or sets the aspect correction mode to use.
@@ -550,19 +565,22 @@ namespace Cave.Media.Video
                 throw new InvalidOperationException("Not initialized!");
             }
             glfw3.MakeContextCurrent(Window);
+            gl2.Uniform3fv(WorldTranslationId, Vector3.Create(WorldTranslation.X, WorldTranslation.Y, 0));
+            gl2.Uniform3fv(WorldScaleId, Vector3.Create(WorldScale.X, WorldScale.Y, 0));
+
             foreach (var s in sprites.Cast<Glfw3Sprite>())
             {
                 if (s.Visible)
                 {
                     gl2.BindTexture(GL._TEXTURE_2D, s.Texture);
 
-                    gl2.Uniform3fv(ShaderTranslation, s.Position);
-                    gl2.Uniform3fv(ShaderCenterPoint, Vector3.Create(s.CenterPoint.X, -s.CenterPoint.Y, s.CenterPoint.Z));
-                    gl2.Uniform3fv(ShaderRotation, s.Rotation);
-                    gl2.Uniform3fv(ShaderScale, s.Scale);
+                    gl2.Uniform3fv(ShaderTranslationId, s.Position);
+                    gl2.Uniform3fv(ShaderCenterPointId, Vector3.Create(s.CenterPoint.X, -s.CenterPoint.Y, s.CenterPoint.Z));
+                    gl2.Uniform3fv(ShaderRotationId, s.Rotation);
+                    gl2.Uniform3fv(ShaderScaleId, s.Scale);
 
-                    gl2.Uniform1f(ShaderAlpha, s.Alpha);
-                    gl2.Uniform4f(ShaderTint, s.Tint.RedFloat, s.Tint.GreenFloat, s.Tint.BlueFloat, s.Tint.AlphaFloat);
+                    gl2.Uniform1f(ShaderAlphaId, s.Alpha);
+                    gl2.Uniform4f(ShaderTintId, s.Tint.RedFloat, s.Tint.GreenFloat, s.Tint.BlueFloat, s.Tint.AlphaFloat);
                     gl2.DrawArrays(GL._TRIANGLE_STRIP, 0, 4);
                 }
             }
@@ -575,8 +593,8 @@ namespace Cave.Media.Video
         /// <returns></returns>
         public Vector2 CalculateProjectionCoordinates(Vector2 windowCoordinates)
         {
-            var x = ((2f * windowCoordinates.X / Resolution.X) - 1f) * aspectCorrectionVector.X;
-            var y = ((2f * windowCoordinates.Y / Resolution.Y) - 1f) * aspectCorrectionVector.Y;
+            var x = (((2f * windowCoordinates.X / Resolution.X) - 1f) * aspectCorrectionVector.X / WorldScale.X) - WorldTranslation.X;
+            var y = (((2f * windowCoordinates.Y / Resolution.Y) - 1f) * aspectCorrectionVector.Y / WorldScale.Y) + WorldTranslation.Y;
             return Vector2.Create(x, -y);
         }
 

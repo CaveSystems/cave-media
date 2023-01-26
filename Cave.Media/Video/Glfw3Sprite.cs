@@ -121,7 +121,7 @@ namespace Cave.Media.Video
             renderer.CheckErrors("CopyTexImage2D");
 
             Trace.TraceInformation("bind texture to attribute...");
-            gl2.Uniform1i(renderer.ShaderTextureData, 0);
+            gl2.Uniform1i(renderer.ShaderTextureDataId, 0);
             renderer.CheckErrors("Uniform1i");
 
             TextureSize = Vector2.Create(w, h);
