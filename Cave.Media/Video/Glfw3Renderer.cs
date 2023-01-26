@@ -605,8 +605,8 @@ namespace Cave.Media.Video
         /// <returns></returns>
         public Vector2 CalculateWindowCoordinates(Vector2 projectionCoordinates)
         {
-            var x = Resolution.X * 0.5f * ((projectionCoordinates.X / aspectCorrectionVector.X) + 1f);
-            var y = Resolution.Y * 0.5f * ((-projectionCoordinates.Y / aspectCorrectionVector.Y) + 1f);
+            var x = Resolution.X * 0.5f * (((projectionCoordinates.X + WorldTranslation.X) * WorldScale.X / aspectCorrectionVector.X) + 1f);
+            var y = Resolution.Y * 0.5f * (((-projectionCoordinates.Y - WorldTranslation.Y) * WorldScale.Y / aspectCorrectionVector.Y) + 1f);
             return Vector2.Create(x, y);
 
         }
