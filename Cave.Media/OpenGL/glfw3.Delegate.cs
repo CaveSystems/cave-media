@@ -128,7 +128,7 @@ namespace Cave.Media.OpenGL
         /// <param name="window">The window that received the event.</param>
         /// <param name="xoffset">The scroll offset along the x-axis.</param>
         /// <param name="yoffset">The scroll offset along the y-axis.</param>
-        /// <seealso cref="SetScrollCallback(Window, CursorPosFunc)"/>
+        /// <seealso cref="SetScrollCallback(Window, ScrollFunc)"/>
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void ScrollFunc([MarshalAs(UnmanagedType.Struct)] Window window, double xoffset, double yoffset);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using Cave.Media.OpenGL;
@@ -20,24 +21,30 @@ namespace Cave.Media.Video
         glfw3.WindowCloseFunc funcWindowClose;
         glfw3.FramebufferSizeFunc funcWindowChange;
         glfw3.MouseButtonFunc funcMouseButtonChange;
+        glfw3.CursorPosFunc funcCursorPosChange;
+        glfw3.ScrollFunc funcScrollEvent;
+        glfw3.KeyFunc funcKeyEvent;
+
         ResizeMode aspectCorrection = ResizeMode.None;
+        Vector2 aspectCorrectionVector = Vector2.Create(1f, 1f);
 
         #endregion
 
         #region internal properties
 
         internal glfw3.Window Window { get; private set; }
-        internal int ShaderProgram { get; private set; }
-        internal int ShaderVertexPosition { get; private set; }
-        internal int ShaderTextureCoordinates { get; private set; }
-        internal int ShaderTextureData { get; private set; }
-        internal int ShaderTint { get; private set; }
-        internal int ShaderAlpha { get; private set; }
-        internal int ShaderTranslation { get; private set; }
-        internal int ShaderCenterPoint { get; private set; }
-        internal int ShaderRotation { get; private set; }
-        internal int ShaderScale { get; private set; }
-
+        internal int ShaderProgramId { get; private set; }
+        internal int ShaderVertexPositionId { get; private set; }
+        internal int ShaderTextureCoordinatesId { get; private set; }
+        internal int ShaderTextureDataId { get; private set; }
+        internal int ShaderTintId { get; private set; }
+        internal int ShaderAlphaId { get; private set; }
+        internal int ShaderTranslationId { get; private set; }
+        internal int ShaderCenterPointId { get; private set; }
+        internal int ShaderRotationId { get; private set; }
+        internal int ShaderScaleId { get; private set; }
+        internal int WorldTranslationId { get; private set; }
+        internal int WorldScaleId { get; private set; }
         #endregion
 
         #region private functions
@@ -53,7 +60,7 @@ namespace Cave.Media.Video
             CheckErrors("CompileShader");
 
             var resultString = new StringBuilder(short.MaxValue);
-            gl2.GetShaderInfoLog(shader, short.MaxValue, out var length, resultString);
+            gl2.GetShaderInfoLog(shader, short.MaxValue, out _, resultString);
             CheckErrors("GetShaderInfoLog");
 
             gl2.GetShaderiv(shader, GL._COMPILE_STATUS, out var result);
@@ -80,19 +87,19 @@ namespace Cave.Media.Video
             }
 
             Trace.TraceInformation("Linking Shaders...");
-            ShaderProgram = gl2.CreateProgram();
-            gl2.AttachShader(ShaderProgram, vertexShader);
+            ShaderProgramId = gl2.CreateProgram();
+            gl2.AttachShader(ShaderProgramId, vertexShader);
             CheckErrors("AttachShader vertexShader");
 
-            gl2.AttachShader(ShaderProgram, fragmentShader);
+            gl2.AttachShader(ShaderProgramId, fragmentShader);
             CheckErrors("AttachShader fragmentShader");
 
-            gl2.LinkProgram(ShaderProgram);
+            gl2.LinkProgram(ShaderProgramId);
             CheckErrors("LinkProgram");
 
             var resultString = new StringBuilder(short.MaxValue);
-            gl2.GetProgramInfoLog(ShaderProgram, short.MaxValue, out var length, resultString);
-            gl2.GetProgramiv(ShaderProgram, GL._LINK_STATUS, out var result);
+            gl2.GetProgramInfoLog(ShaderProgramId, short.MaxValue, out _, resultString);
+            gl2.GetProgramiv(ShaderProgramId, GL._LINK_STATUS, out var result);
             if (result != (int)GL._TRUE)
             {
                 throw new Exception(string.Format("Program link failed: {0}", resultString));
@@ -105,16 +112,18 @@ namespace Cave.Media.Video
             gl2.DeleteShader(fragmentShader);
             CheckErrors("DeleteShader fragmentShader");
 
-            gl2.UseProgram(ShaderProgram);
-            ShaderVertexPosition = gl2.GetAttribLocation(ShaderProgram, "shaderVertexPosition");
-            ShaderTextureCoordinates = gl2.GetAttribLocation(ShaderProgram, "shaderTextureCoordinates");
-            ShaderTextureData = gl2.GetUniformLocation(ShaderProgram, "shaderTextureData");
-            ShaderTint = gl2.GetUniformLocation(ShaderProgram, "shaderTint");
-            ShaderAlpha = gl2.GetUniformLocation(ShaderProgram, "shaderAlpha");
-            ShaderTranslation = gl2.GetUniformLocation(ShaderProgram, "shaderTranslation");
-            ShaderCenterPoint = gl2.GetUniformLocation(ShaderProgram, "shaderCenterPoint");
-            ShaderRotation = gl2.GetUniformLocation(ShaderProgram, "shaderRotation");
-            ShaderScale = gl2.GetUniformLocation(ShaderProgram, "shaderScale");
+            gl2.UseProgram(ShaderProgramId);
+            ShaderVertexPositionId = gl2.GetAttribLocation(ShaderProgramId, "shaderVertexPosition");
+            ShaderTextureCoordinatesId = gl2.GetAttribLocation(ShaderProgramId, "shaderTextureCoordinates");
+            ShaderTextureDataId = gl2.GetUniformLocation(ShaderProgramId, "shaderTextureData");
+            ShaderTintId = gl2.GetUniformLocation(ShaderProgramId, "shaderTint");
+            ShaderAlphaId = gl2.GetUniformLocation(ShaderProgramId, "shaderAlpha");
+            ShaderTranslationId = gl2.GetUniformLocation(ShaderProgramId, "shaderTranslation");
+            ShaderCenterPointId = gl2.GetUniformLocation(ShaderProgramId, "shaderCenterPoint");
+            ShaderRotationId = gl2.GetUniformLocation(ShaderProgramId, "shaderRotation");
+            ShaderScaleId = gl2.GetUniformLocation(ShaderProgramId, "shaderScale");
+            WorldTranslationId = gl2.GetUniformLocation(ShaderProgramId, "worldTranslation");
+            WorldScaleId = gl2.GetUniformLocation(ShaderProgramId, "worldScale");
             CheckErrors("UseProgram");
         }
 
@@ -129,11 +138,11 @@ namespace Cave.Media.Video
                 // send vertices data to opengl
                 // ! 2nd paramater is length of array in bytes, send as IntPtr (not pointer of size variable)
                 gl2.BufferData(GL._ARRAY_BUFFER, new IntPtr(2 * 4 * 4), quad, GL._STATIC_DRAW);
-                gl2.EnableVertexAttribArray(ShaderVertexPosition);
+                gl2.EnableVertexAttribArray(ShaderVertexPositionId);
 
                 // hint opengl at structure of data in bound buffer to use as vertex attribute
                 // attribute index,  3 values / vertex, type float, no normalization, no stride, no offset
-                gl2.VertexAttribPointer(ShaderVertexPosition, 2, GL._FLOAT, 0, 0, null);
+                gl2.VertexAttribPointer(ShaderVertexPositionId, 2, GL._FLOAT, 0, 0, null);
             }
 
             {
@@ -143,11 +152,11 @@ namespace Cave.Media.Video
                 // send vertices data to opengl
                 // ! 2nd paramater is length of array in bytes, send as IntPtr (not pointer of size variable)
                 gl2.BufferData(GL._ARRAY_BUFFER, new IntPtr(2 * 4 * 4), texture, GL._STATIC_DRAW);
-                gl2.EnableVertexAttribArray(ShaderTextureCoordinates);
+                gl2.EnableVertexAttribArray(ShaderTextureCoordinatesId);
 
                 // hint opengl at structure of data in bound buffer to use as vertex attribute
                 // attribute index,  3 values / vertex, type float, no normalization, no stride, no offset
-                gl2.VertexAttribPointer(ShaderTextureCoordinates, 2, GL._FLOAT, 0, 0, null);
+                gl2.VertexAttribPointer(ShaderTextureCoordinatesId, 2, GL._FLOAT, 0, 0, null);
             }
         }
 
@@ -196,6 +205,24 @@ namespace Cave.Media.Video
             MouseButtonChanged?.Invoke(this, new glfw3.MouseButtonEventArgs(mousePosition, mousePositionNorm, button, state, mods));
         }
 
+        private void CursorPosChange(glfw3.Window window, double xpos, double ypos)
+        {
+            var mousePosition = Vector2.Create((float)xpos, (float)ypos);
+            var mousePositionNorm = Vector2.Create(mousePosition.X / Resolution.X, mousePosition.Y / Resolution.Y);
+            CursorPosChanged?.Invoke(this, new glfw3.CursorPosEventArgs(mousePosition, mousePositionNorm));
+        }
+
+        private void ScrollEventTriggered(glfw3.Window window, double xoffset, double yoffset)
+        {
+            var scrollOffset = Vector2.Create((float)xoffset, (float)yoffset);
+            ScrollEvent?.Invoke(this, new glfw3.ScrollEventArgs(scrollOffset));
+        }
+
+        private void KeyEventTriggered(glfw3.Window window, glfw3.KeyCode key, int scancode, glfw3.InputState state, glfw3.KeyMods mods)
+        {
+            KeyEvent?.Invoke(this, new glfw3.KeyEventArgs(key, scancode, state, mods));
+        }
+
         void PrepareFramebuffer()
         {
             glfw3.GetFramebufferSize(Window, out var w, out var h);
@@ -212,41 +239,39 @@ namespace Cave.Media.Video
                 throw new InvalidOperationException("Not initialized!");
             }
             glfw3.MakeContextCurrent(Window);
-            float hb = 1f, vb = 1f;
             var aspect = Resolution.X / Resolution.Y;
             switch (aspectCorrection)
             {
                 case ResizeMode.None:
-                    gl2.LoadIdentity();
-                    gl2.Ortho(-1, 1, -1, 1, 0, -100);
+                    aspectCorrectionVector.X = 1f;
+                    aspectCorrectionVector.Y = 1f;
                     break;
                 case ResizeMode.TouchFromInside:
                     if (aspect > 1)
                     {
-                        hb = aspect;
+                        aspectCorrectionVector.X = aspect;
                     }
                     if (aspect < 1)
                     {
-                        vb = 1f / aspect;
+                        aspectCorrectionVector.Y = 1f / aspect;
                     }
-                    gl2.LoadIdentity();
-                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
                     break;
                 case ResizeMode.TouchFromOutside:
                     if (aspect > 1)
                     {
-                        vb = 1 / aspect;
+                        aspectCorrectionVector.Y = 1 / aspect;
                     }
                     if (aspect < 1)
                     {
-                        hb = aspect;
+                        aspectCorrectionVector.X = aspect;
                     }
-                    gl2.LoadIdentity();
-                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
                     break;
                 default:
                     throw new NotImplementedException("unknown aspect correction mode!");
             }
+            gl2.LoadIdentity();
+            gl2.Ortho(-aspectCorrectionVector.X, aspectCorrectionVector.X, -aspectCorrectionVector.Y, aspectCorrectionVector.Y, 0, -100);
+
         }
 
         #endregion
@@ -259,6 +284,8 @@ namespace Cave.Media.Video
         {
             Name = "Glfw3Renderer";
             Description = "OpenGL 2.1 Renderer using glfw3.";
+            WorldTranslation = Vector2.Empty;
+            WorldScale = Vector2.Create(1, 1);
             if (glfw3.Init())
             {
                 IsAvailable = true;
@@ -287,9 +314,34 @@ namespace Cave.Media.Video
         public event EventHandler<glfw3.SizeEventArgs> FrameBufferChanged;
 
         /// <summary>
+        /// Provides a callback for cursor position change events
+        /// </summary>
+        public event EventHandler<glfw3.CursorPosEventArgs> CursorPosChanged;
+
+        /// <summary>
+        /// Provides a callback for cursor position change events
+        /// </summary>
+        public event EventHandler<glfw3.ScrollEventArgs> ScrollEvent;
+
+        /// <summary>
+        /// Provides a callback for key events
+        /// </summary>
+        public event EventHandler<glfw3.KeyEventArgs> KeyEvent;
+
+        /// <summary>
         /// Gets the resolution of the backbuffer.
         /// </summary>
         public Vector2 Resolution { get; private set; }
+
+        /// <summary>
+        /// Provides a worldwide translation vector
+        /// </summary>
+        public Vector2 WorldTranslation { get; set; }
+
+        /// <summary>
+        /// Provides a worldwide scaling vector (zoom)
+        /// </summary>
+        public Vector2 WorldScale { get; set; }
 
         /// <summary>
         /// Gets or sets the aspect correction mode to use.
@@ -419,7 +471,7 @@ namespace Cave.Media.Video
                         throw new Exception("No window available!");
                     }
                     glfw3.GetMonitorPos(device.Monitor, out var x, out var y);
-                    glfw3.SetWindowMonitor(Window, glfw3.Monitor.None, x + (width / 4), y + (height / 4), width / 2, height / 2, 60);
+                    glfw3.SetWindowMonitor(Window, glfw3.Monitor.None, 100, 100, width, height, 60);
                     break;
                 }
                 default: throw new Exception(string.Format("Unknown mode {0}", mode));
@@ -429,6 +481,9 @@ namespace Cave.Media.Video
             glfw3.SetFramebufferSizeCallback(Window, funcWindowChange = new glfw3.FramebufferSizeFunc(WindowChange));
             glfw3.SetWindowCloseCallback(Window, funcWindowClose = new glfw3.WindowCloseFunc(WindowClose));
             glfw3.SetMouseButtonCallback(Window, funcMouseButtonChange = new glfw3.MouseButtonFunc(MouseButtonChange));
+            glfw3.SetCursorPosCallback(Window, funcCursorPosChange = new glfw3.CursorPosFunc(CursorPosChange));
+            glfw3.SetScrollCallback(Window, funcScrollEvent = new glfw3.ScrollFunc(ScrollEventTriggered));
+            glfw3.SetKeyCallback(Window, funcKeyEvent = new glfw3.KeyFunc(KeyEventTriggered));
 
             gl2.GetIntegerv(GL._MAX_TEXTURE_SIZE, out var maxTextureSize);
             CheckErrors("GL_MAX_TEXTURE_SIZE");
@@ -450,6 +505,7 @@ namespace Cave.Media.Video
             PrepareFramebuffer();
             Trace.TraceInformation("Initialized {0} using {1} resolution {2}x{3} using OpenGL {4} Shader {5}", parent, flags, width, height, gl2.GetString(GL._VERSION), gl2.GetString(GL._SHADING_LANGUAGE_VERSION));
         }
+
 
         /// <summary>
         /// Sets the size of the underlying glfw3 window.
@@ -509,22 +565,50 @@ namespace Cave.Media.Video
                 throw new InvalidOperationException("Not initialized!");
             }
             glfw3.MakeContextCurrent(Window);
-            foreach (Glfw3Sprite s in sprites)
+            gl2.Uniform3fv(WorldTranslationId, Vector3.Create(WorldTranslation.X, WorldTranslation.Y, 0));
+            gl2.Uniform3fv(WorldScaleId, Vector3.Create(WorldScale.X, WorldScale.Y, 0));
+
+            foreach (var s in sprites.Cast<Glfw3Sprite>())
             {
                 if (s.Visible)
                 {
                     gl2.BindTexture(GL._TEXTURE_2D, s.Texture);
 
-                    gl2.Uniform3fv(ShaderTranslation, s.Position);
-                    gl2.Uniform3fv(ShaderCenterPoint, Vector3.Create(s.CenterPoint.X, -s.CenterPoint.Y, s.CenterPoint.Z));
-                    gl2.Uniform3fv(ShaderRotation, s.Rotation);
-                    gl2.Uniform3fv(ShaderScale, s.Scale);
+                    gl2.Uniform3fv(ShaderTranslationId, s.Position);
+                    gl2.Uniform3fv(ShaderCenterPointId, Vector3.Create(s.CenterPoint.X, -s.CenterPoint.Y, s.CenterPoint.Z));
+                    gl2.Uniform3fv(ShaderRotationId, s.Rotation);
+                    gl2.Uniform3fv(ShaderScaleId, s.Scale);
 
-                    gl2.Uniform1f(ShaderAlpha, s.Alpha);
-                    gl2.Uniform4f(ShaderTint, s.Tint.RedFloat, s.Tint.GreenFloat, s.Tint.BlueFloat, s.Tint.AlphaFloat);
+                    gl2.Uniform1f(ShaderAlphaId, s.Alpha);
+                    gl2.Uniform4f(ShaderTintId, s.Tint.RedFloat, s.Tint.GreenFloat, s.Tint.BlueFloat, s.Tint.AlphaFloat);
                     gl2.DrawArrays(GL._TRIANGLE_STRIP, 0, 4);
                 }
             }
+        }
+
+        /// <summary>
+        /// calculates projected coordinates (-1..1) from window coordinates (pixels)
+        /// </summary>
+        /// <param name="windowCoordinates"></param>
+        /// <returns></returns>
+        public Vector2 CalculateProjectionCoordinates(Vector2 windowCoordinates)
+        {
+            var x = (((2f * windowCoordinates.X / Resolution.X) - 1f) * aspectCorrectionVector.X / WorldScale.X) - WorldTranslation.X;
+            var y = (((2f * windowCoordinates.Y / Resolution.Y) - 1f) * aspectCorrectionVector.Y / WorldScale.Y) + WorldTranslation.Y;
+            return Vector2.Create(x, -y);
+        }
+
+        /// <summary>
+        /// calculates window coordinates (pixels) from projected coordinates (-1..1)
+        /// </summary>
+        /// <param name="projectionCoordinates"></param>
+        /// <returns></returns>
+        public Vector2 CalculateWindowCoordinates(Vector2 projectionCoordinates)
+        {
+            var x = Resolution.X * 0.5f * (((projectionCoordinates.X + WorldTranslation.X) * WorldScale.X / aspectCorrectionVector.X) + 1f);
+            var y = Resolution.Y * 0.5f * (((-projectionCoordinates.Y - WorldTranslation.Y) * WorldScale.Y / aspectCorrectionVector.Y) + 1f);
+            return Vector2.Create(x, y);
+
         }
 
         #region IDisposable Support

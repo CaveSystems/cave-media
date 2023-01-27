@@ -6,9 +6,12 @@ uniform vec3 shaderRotation;
 uniform vec3 shaderTranslation;
 uniform vec3 shaderCenterPoint;
 uniform vec3 shaderScale;
+uniform vec3 worldTranslation;
+uniform vec3 worldScale;
 
 varying vec2 TextureCoordinates;
 
+// calculate rotation matrix
 mat3 angleVec (vec3 angles)
 {
     vec3 s = sin(radians(angles*360));
@@ -18,10 +21,13 @@ mat3 angleVec (vec3 angles)
 
 void main(void)
 {
-    //calculate scale, then multiply with rotation matrix
-	vec3 newPos = vec3(shaderVertexPosition.xy, 0) - shaderCenterPoint;
+    // translate with center point offset
+    vec3 newPos = vec3(shaderVertexPosition.xy, 0) - shaderCenterPoint;
+    // rotate ans scale
     newPos = newPos * angleVec(shaderRotation) * vec3(shaderScale.xy, 0);
-	//add translation and set
-    gl_Position = gl_ProjectionMatrix * vec4(newPos + shaderTranslation, 1);
+    // translate and apply world translation ans scaling
+    newPos = (newPos + shaderTranslation + worldTranslation) * worldScale;
+    // project position
+    gl_Position = gl_ProjectionMatrix * vec4(newPos, 1);
     TextureCoordinates = shaderTextureCoordinates;
 }
