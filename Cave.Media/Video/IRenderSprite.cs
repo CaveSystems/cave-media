@@ -106,6 +106,12 @@ namespace Cave.Media.Video
         void LoadTexture(Bitmap32 bitmap);
 
         /// <summary>
+        /// Loads a new texture from image data.
+        /// </summary>
+        /// <param name="data">The image data to load.</param>
+        void LoadTexture(ARGBImageData data);
+
+        /// <summary>
         /// Clears the texture bitmap.
         /// </summary>
         void DeleteTexture();

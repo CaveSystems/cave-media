@@ -47,7 +47,7 @@ namespace Cave.Media.Video
         public override bool IsStreamingTexture { get; protected set; }
         public override Vector2 TextureSize { get; protected set; }
 
-        private void LoadNewTexture(Bitmap32 image)
+        private void LoadNewTexture(ARGBImageData data)
         {
             DeleteTexture();
             CreateTexture();
@@ -57,51 +57,57 @@ namespace Cave.Media.Video
             renderer.CheckErrors("BindTexture");
 
             Trace.TraceInformation("retrieve raw pixels...");
-            var pixels = image.GetImageData().Pixels;
+            var pixels = data.Pixels;
 
-            Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
-            gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, image.Width, image.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+            Trace.TraceInformation("set texture data {0}x{1} [{2}]...", data.Width, data.Height, pixels.Length);
+            gl2.TexImage2D(GL._TEXTURE_2D, 0, GL._RGBA, data.Width, data.Height, 0, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
             renderer.CheckErrors("TexImage2D");
         }
 
-        private void UpdateTexture(Bitmap32 image)
+        private void UpdateTexture(ARGBImageData data)
         {
             Trace.TraceInformation("Updating Texture...");
             gl2.BindTexture(GL._TEXTURE_2D, texture);
             renderer.CheckErrors("BindTexture");
 
             Trace.TraceInformation("retrieve raw pixels...");
-            var pixels = image.GetImageData().Pixels;
+            var pixels = data.Pixels;
 
-            Trace.TraceInformation("set texture data {0}x{1} [{2}]...", image.Width, image.Height, pixels.Length);
-            gl2.TexSubImage2D(GL._TEXTURE_2D, 0, 0, 0, image.Width, image.Height, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
+            Trace.TraceInformation("set texture data {0}x{1} [{2}]...", data.Width, data.Height, pixels.Length);
+            gl2.TexSubImage2D(GL._TEXTURE_2D, 0, 0, 0, data.Width, data.Height, GL._BGRA, GL._UNSIGNED_BYTE, pixels);
             renderer.CheckErrors("TexSubImage2D");
         }
 
-        public override void LoadTexture(Bitmap32 image)
+        public override void LoadTexture(ARGBImageData data)
         {
             if (renderer.MaxTextureSize > 0)
             {
-                if (image.Width > renderer.MaxTextureSize)
+                if (data.Width > renderer.MaxTextureSize)
                 {
                     throw new Exception(string.Format("Maximum pixel size exceeded! Width > {0}", renderer.MaxTextureSize));
                 }
-                if (image.Height > renderer.MaxTextureSize)
+                if (data.Height > renderer.MaxTextureSize)
                 {
                     throw new Exception(string.Format("Maximum pixel size exceeded! Height > {0}", renderer.MaxTextureSize));
                 }
             }
 
-            if ((TextureSize.X > 0) && (TextureSize.Y > 0) && (TextureSize.X == image.Width) && (TextureSize.Y == image.Height))
+            if ((TextureSize.X > 0) && (TextureSize.Y > 0) && (TextureSize.X == data.Width) && (TextureSize.Y == data.Height))
             {
-                UpdateTexture(image);
+                UpdateTexture(data);
             }
             else
             {
-                LoadNewTexture(image);
+                LoadNewTexture(data);
             }
 
-            TextureSize = Vector2.Create(image.Width, image.Height);
+            TextureSize = Vector2.Create(data.Width, data.Height);
+        }
+
+
+        public override void LoadTexture(Bitmap32 image)
+        {
+            LoadTexture(image.GetImageData());
         }
 
         public override void LoadTextureFromBackbuffer()

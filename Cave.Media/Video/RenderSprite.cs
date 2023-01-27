@@ -212,6 +212,13 @@ namespace Cave.Media.Video
         public abstract void LoadTexture(Bitmap32 bitmap);
 
         /// <summary>
+        /// Loads a new texture from image data.
+        /// </summary>
+        /// <param name="data">The image data to load.</param>
+        public abstract void LoadTexture(ARGBImageData data);
+
+
+        /// <summary>
         /// Loads a texture copied from the current backbuffer.
         /// </summary>
         public abstract void LoadTextureFromBackbuffer();
