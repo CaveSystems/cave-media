@@ -6,162 +6,160 @@ using Cave.Media.Audio;
 using Cave.Media.Audio.MP3;
 using Cave.Net;
 
-namespace Cave.Media
+namespace Cave.Media;
+
+/// <summary>Provides a <see cref="ISpeechSynthesizer"/> implementation for Google Translate to Speech.</summary>
+/// <remarks>
+/// Do not use this to frequent because you will get blocked by google if you do. We cache all downloaded audio files to reduce calls to the google api.
+/// </remarks>
+/// <seealso cref="ISpeechSynthesizer"/>
+public class GoogleSpeechSynthesizer : ISpeechSynthesizer
 {
-    /// <summary>
-    /// Provides a <see cref="ISpeechSynthesizer"/> implementation for Google Translate to Speech.
-    /// </summary>
-    /// <remarks>Do not use this to frequent because you will get blocked by google if you do.
-    /// We cache all downloaded audio files to reduce calls to the google api.</remarks>
-    /// <seealso cref="ISpeechSynthesizer" />
-    public class GoogleSpeechSynthesizer : ISpeechSynthesizer
+    CultureInfo cultureInfo;
+    IAudioDevice device;
+
+    /// <summary>Initializes a new instance of the <see cref="GoogleSpeechSynthesizer"/> class.</summary>
+    /// <param name="device">The device.</param>
+    public GoogleSpeechSynthesizer(IAudioDevice device)
     {
-        CultureInfo cultureInfo;
-        IAudioDevice device;
+        var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        FilePath = Path.Combine(folder, "GoogleSpeechSynthesizer");
+        Directory.CreateDirectory(FilePath);
+        cultureInfo = CultureInfo.CurrentCulture;
+        this.device = device;
+        Trace.WriteLine(string.Format("Using <green>GoogleSpeechSynthesizer <default>Cache: <cyan>{0}<default> Device: {1}", FilePath, device));
+    }
 
-        /// <summary>Initializes a new instance of the <see cref="GoogleSpeechSynthesizer"/> class.</summary>
-        /// <param name="device">The device.</param>
-        public GoogleSpeechSynthesizer(IAudioDevice device)
+    /// <summary>Gets the name of the log source.</summary>
+    /// <value>The name of the log source.</value>
+    public string LogSourceName => "GoogleSpeechSynthesizer";
+
+    /// <summary>Gets the file path where audio files are stored.</summary>
+    /// <value>The file path where audio files are stored.</value>
+    public string FilePath { get; }
+
+    /// <summary>Gets or sets the volume.</summary>
+    /// <value>The volume.</value>
+    public float Volume { get; set; } = 1;
+
+    /// <summary>Selects a voice with a specific gender, age, and locale.</summary>
+    /// <param name="gender">The gender.</param>
+    /// <param name="age">The age.</param>
+    /// <param name="cultureInfo">The culture information.</param>
+    /// <exception cref="ArgumentNullException">cultureInfo.</exception>
+    public void SelectVoiceByHints(VoiceGender gender, VoiceAge age, CultureInfo cultureInfo) => this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+
+    /// <summary>Speaks the specified text.</summary>
+    /// <param name="text">The text.</param>
+    public void Speak(string text)
+    {
+        try
         {
-            var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            FilePath = Path.Combine(folder, "GoogleSpeechSynthesizer");
-            Directory.CreateDirectory(FilePath);
-            cultureInfo = CultureInfo.CurrentCulture;
-            this.device = device;
-            Trace.WriteLine(string.Format("Using <green>GoogleSpeechSynthesizer <default>Cache: <cyan>{0}<default> Device: {1}", FilePath, device));
-        }
+            Trace.WriteLine(string.Format("Speak: {0}", text));
+            var uri = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" + cultureInfo.Name + "&q=" + Uri.EscapeDataString(text);
+            var hash = Base32.Safe.Encode(uri.GetHashCode() * (long)text.Length);
 
-        /// <summary>Gets the name of the log source.</summary>
-        /// <value>The name of the log source.</value>
-        public string LogSourceName => "GoogleSpeechSynthesizer";
-
-        /// <summary>Gets the file path where audio files are stored.</summary>
-        /// <value>The file path where audio files are stored.</value>
-        public string FilePath { get; }
-
-        /// <summary>Gets or sets the volume.</summary>
-        /// <value>The volume.</value>
-        public float Volume { get; set; } = 1;
-
-        /// <summary>Selects a voice with a specific gender, age, and locale.</summary>
-        /// <param name="gender">The gender.</param>
-        /// <param name="age">The age.</param>
-        /// <param name="cultureInfo">The culture information.</param>
-        /// <exception cref="ArgumentNullException">cultureInfo.</exception>
-        public void SelectVoiceByHints(VoiceGender gender, VoiceAge age, CultureInfo cultureInfo) => this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
-
-        /// <summary>Speaks the specified text.</summary>
-        /// <param name="text">The text.</param>
-        public void Speak(string text)
-        {
-            try
+            lock (this)
             {
-                Trace.WriteLine(string.Format("Speak: {0}", text));
-                var uri = "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" + cultureInfo.Name + "&q=" + Uri.EscapeDataString(text);
-                var hash = Base32.Safe.Encode(uri.GetHashCode() * (long)text.Length);
-
-                lock (this)
+                if (TryPlay(Path.Combine(FilePath, hash + ".snd")))
                 {
-                    if (TryPlay(Path.Combine(FilePath, hash + ".snd")))
-                    {
-                        return;
-                    }
-
-                    Trace.WriteLine(string.Format("Request new google translation for {0}", text));
-                    byte[] data;
-                    {
-                        var fileName = Path.Combine(FilePath, hash + ".mp3");
-                        if (File.Exists(fileName))
-                        {
-                            data = File.ReadAllBytes(fileName);
-                        }
-                        else
-                        {
-                            data = HttpConnection.Get(uri);
-                            File.WriteAllBytes(fileName, data);
-                        }
-                    }
-                    DecodeAndPlay(data, Path.Combine(FilePath, hash + ".snd"), text);
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Could not speak desired text.", ex);
+
+                Trace.WriteLine(string.Format("Request new google translation for {0}", text));
+                byte[] data;
+                {
+                    var fileName = Path.Combine(FilePath, hash + ".mp3");
+                    if (File.Exists(fileName))
+                    {
+                        data = File.ReadAllBytes(fileName);
+                    }
+                    else
+                    {
+                        data = HttpConnection.Get(uri);
+                        File.WriteAllBytes(fileName, data);
+                    }
+                }
+                DecodeAndPlay(data, Path.Combine(FilePath, hash + ".snd"), text);
             }
         }
-
-        private bool TryPlay(string fileName)
+        catch (Exception ex)
         {
-            if (!File.Exists(fileName))
-            {
-                return false;
-            }
+            throw new Exception("Could not speak desired text.", ex);
+        }
+    }
 
-            SoundFile soundFile;
-            try
-            {
-                soundFile = SoundFile.Read(fileName);
-            }
-            catch (InvalidDataException)
-            {
-                File.Delete(fileName);
-                return false;
-            }
-            catch { return false; }
-            try { soundFile.Play(device, Volume); } catch { }
-            return true;
+    bool TryPlay(string fileName)
+    {
+        if (!File.Exists(fileName))
+        {
+            return false;
         }
 
-        private void DecodeAndPlay(byte[] data, string fileName, string text)
+        SoundFile soundFile;
+        try
         {
-            SoundFile soundFile;
-            using (Stream s = new MemoryStream(data))
-            {
-                soundFile = Decode(s);
-                soundFile.Comment = text;
-            }
-            using (Stream fs = File.OpenWrite(fileName))
-            {
-                soundFile.Save(fs);
-                fs.Close();
-            }
+            soundFile = SoundFile.Read(fileName);
+        }
+        catch (InvalidDataException)
+        {
+            File.Delete(fileName);
+            return false;
+        }
+        catch { return false; }
+        try { soundFile.Play(device, Volume); } catch { }
+        return true;
+    }
+
+    void DecodeAndPlay(byte[] data, string fileName, string text)
+    {
+        SoundFile soundFile;
+        using (Stream s = new MemoryStream(data))
+        {
+            soundFile = Decode(s);
+            soundFile.Comment = text;
+        }
+        using (Stream fs = File.OpenWrite(fileName))
+        {
+            soundFile.Save(fs);
+            fs.Close();
+        }
 #if DEBUG
-            // check read after write
-            SoundFile.Read(fileName);
+        // check read after write
+        SoundFile.Read(fileName);
 #endif
-            try { soundFile.Play(device, Volume); } catch { }
+        try { soundFile.Play(device, Volume); } catch { }
+    }
+
+    SoundFile Decode(Stream s)
+    {
+        IAudioDecoder decoder = new Mpg123();
+        if (!decoder.IsAvailable)
+        {
+            decoder = new MP3AudioDecoder();
         }
 
-        private SoundFile Decode(Stream s)
+        if (!decoder.IsAvailable)
         {
-            IAudioDecoder decoder = new Mpg123();
-            if (!decoder.IsAvailable)
-            {
-                decoder = new MP3AudioDecoder();
-            }
+            throw new Exception("No mp3 decoder available!");
+        }
 
-            if (!decoder.IsAvailable)
+        try
+        {
+            decoder.BeginDecode(s);
+            using var data = new MemoryStream();
+            var packet = decoder.Decode() ?? throw new InvalidOperationException("No data received.");
+            IAudioConfiguration config = packet;
+            while (packet != null)
             {
-                throw new Exception("No mp3 decoder available!");
+                data.Write(packet.Data, 0, packet.Length);
+                packet = decoder.Decode();
             }
-
-            try
-            {
-                decoder.BeginDecode(s);
-                using var data = new MemoryStream();
-                var packet = decoder.Decode();
-                IAudioConfiguration config = packet;
-                while (packet != null)
-                {
-                    data.Write(packet.Data, 0, packet.Length);
-                    packet = decoder.Decode();
-                }
-                return new SoundFile(config, data.ToArray());
-            }
-            finally
-            {
-                decoder.Close();
-            }
+            return new SoundFile(config, data.ToArray());
+        }
+        finally
+        {
+            decoder.Close();
         }
     }
 }

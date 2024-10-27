@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<!--project-->
+		<RootNamespace>Cave.Media</RootNamespace>
+		<AssemblyOriginatorKeyFile>cave-media.snk</AssemblyOriginatorKeyFile>
+		<Product>CaveSystems Media Native Libraries for Windows</Product>
+		<PackageTags>CaveSystems Media Audio Video OpenGL OpenAL PortAudio</PackageTags>
+		<Description>CaveSystems Media Library. This packages contains methods for audio, video, image and color handling.</Description>
+		<PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/CaveSystems/cave-media</RepositoryUrl>
+		<!--settings-->
+		<PackageReleaseNotes />
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<SignAssembly>true</SignAssembly>
+		<NeutralLanguage />
+		<DelaySign>false</DelaySign>
+		<!--no code, library or symbols-->
+		<DebugSymbols>false</DebugSymbols>
+		<IncludeSymbols>false</IncludeSymbols>
+		<IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
+		<SymbolPackageFormat></SymbolPackageFormat>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="glfw/osx-arm64/*.*" Pack="true" PackagePath="runtimes/osx-arm64/native/"/>
+		<None Include="glfw/osx-x64/*.*" Pack="true" PackagePath="runtimes/osx-x64/native/"/>
+		<None Include="glfw/win-x86/*.*" Pack="true" PackagePath="runtimes/win-x86/native/"/>
+		<None Include="glfw/win-x64/*.*" Pack="true" PackagePath="runtimes/win-x64/native/"/>
+		<None Include="openal/win-x86/*.*" Pack="true" PackagePath="runtimes/win-x86/native/"/>
+		<None Include="openal/win-x64/*.*" Pack="true" PackagePath="runtimes/win-x64/native/"/>
+		<!--
+		<None Include="portaudio/win-x86/*.*" Pack="true" PackagePath="runtimes/win-x86/native/"/>
+		<None Include="portaudio/win-x64/*.*" Pack="true" PackagePath="runtimes/win-x64/native/"/>
+		-->
+	</ItemGroup>
+
+</Project>

@@ -6,15 +6,13 @@ using System.Drawing.Imaging;
 
 namespace Cave.Media;
 
-/// <summary>
-/// Provides extensions to the <see cref="ARGBImageData"/> class.
-/// </summary>
+/// <summary>Provides extensions to the <see cref="ARGBImageData"/> class.</summary>
 public static class ARGBImageDataExtension
 {
-    /// <summary>
-    /// Copies the image to the specified bitmapdata instance.
-    /// </summary>
-    public static void CopyTo32BitBitmapData(this ARGBImageData source, BitmapData target)
+    #region Public Methods
+
+    /// <summary>Copies the image to the specified bitmapdata instance.</summary>
+    public static unsafe void CopyTo32BitBitmapData(this ARGBImageData source, BitmapData target)
     {
         if (target.Width != source.Width)
         {
@@ -31,52 +29,38 @@ public static class ARGBImageDataExtension
             throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
         }
 
-        if (target.Stride != source.Stride)
+        var targetPointer = target.Scan0;
+        var sourcePointer = (IntPtr)source.Pixels1;
+        if (target.Stride == source.Stride)
         {
-            Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", source.Stride, target.Stride));
-            var start = target.Scan0;
-            var index = 0;
+            Interop.SafeNativeMethods.memcpy(targetPointer, sourcePointer, source.DataLength);
+            return;
+        }
+
+        var swapLines = (target.Stride > 0 && source.Stride < 0) || (target.Stride < 0 && source.Stride > 0);
+        Trace.WriteLine(string.Format("Copy ARGB image data with stride {0} to GDI bitmap data with stride {1}!", source.Stride, target.Stride));
+        if (swapLines)
+        {
+            sourcePointer += source.DataLength;
             for (var y = 0; y < source.Height; y++)
             {
-                Marshal.Copy(source.Pixels, index, start, source.Pixels.Length);
-                index += source.Stride;
-                start = new IntPtr(start.ToInt64() + target.Stride);
+                sourcePointer -= source.Stride;
+                Interop.SafeNativeMethods.memcpy(targetPointer, sourcePointer, source.Stride);
+                targetPointer += target.Stride;
             }
         }
         else
         {
-            Marshal.Copy(source.Pixels, 0, target.Scan0, source.Pixels.Length);
+            for (var y = 0; y < source.Height; y++)
+            {
+                Interop.SafeNativeMethods.memcpy(targetPointer, sourcePointer, source.Stride);
+                sourcePointer += source.Stride;
+                targetPointer += target.Stride;
+            }
         }
     }
 
-    /// <summary>
-    /// Loads the specified bitmap.
-    /// </summary>
-    /// <param name="bitmap">The bitmap.</param>
-    /// <returns></returns>
-    public static ARGBImageData ToARGBImageData(this Bitmap bitmap)
-    {
-        byte[] bytes;
-        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-        int stride;
-        try
-        {
-            stride = data.Stride;
-            bytes = new byte[Math.Abs(data.Stride * data.Height)];
-            Marshal.Copy(data.Scan0, bytes, 0, bytes.Length);
-        }
-        finally
-        {
-            bitmap.UnlockBits(data);
-        }
-        return new ARGBImageData(bytes, bitmap.Width, bitmap.Height, stride);
-    }
-
-
-
-    /// <summary>
-    /// Copies the image to the specified bitmap.
-    /// </summary>
+    /// <summary>Copies the image to the specified bitmap.</summary>
     public static void CopyToBitmap(this ARGBImageData source, Bitmap img)
     {
         var data = img.LockBits(new Rectangle(Point.Empty, img.Size), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
@@ -84,13 +68,29 @@ public static class ARGBImageDataExtension
         img.UnlockBits(data);
     }
 
-    /// <summary>
-    /// Creates a new bitmap from the image.
-    /// </summary>
+    /// <summary>Loads the specified bitmap.</summary>
+    /// <param name="bitmap">The bitmap.</param>
+    /// <returns></returns>
+    public static ARGBImageData ToARGBImageData(this Bitmap bitmap)
+    {
+        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+        try
+        {
+            return ARGBImageData.Copy(data.Scan0, data.Stride, data.Width, data.Height);
+        }
+        finally
+        {
+            bitmap.UnlockBits(data);
+        }
+    }
+
+    /// <summary>Creates a new bitmap from the image.</summary>
     public static Bitmap ToBitmap(this ARGBImageData source)
     {
         var result = new Bitmap(source.Width, source.Height, PixelFormat.Format32bppArgb);
         source.CopyToBitmap(result);
         return result;
     }
+
+    #endregion Public Methods
 }

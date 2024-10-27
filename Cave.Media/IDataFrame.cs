@@ -1,30 +1,29 @@
-namespace Cave.Media
+namespace Cave.Media;
+
+/// <summary>
+/// provides an interface for media frames.
+/// </summary>
+public interface IDataFrame
 {
     /// <summary>
-    /// provides an interface for media frames.
+    /// Parses the specified buffer starting at index to load all data for this frame.
     /// </summary>
-    public interface IDataFrame
-    {
-        /// <summary>
-        /// Parses the specified buffer starting at index to load all data for this frame.
-        /// </summary>
-        /// <param name="reader">FrameReader to read from.</param>
-        bool Parse(DataFrameReader reader);
+    /// <param name="reader">FrameReader to read from.</param>
+    bool Parse(DataFrameReader reader);
 
-        /// <summary>
-        /// Gets an array with the data for this instance.
-        /// </summary>
-        /// <returns></returns>
-        byte[] Data { get; }
+    /// <summary>
+    /// Gets an array with the data for this instance.
+    /// </summary>
+    /// <returns></returns>
+    byte[] Data { get; }
 
-        /// <summary>
-        /// Length of the frame in bytes, this always matches Data.Length!.
-        /// </summary>
-        int Length { get; }
+    /// <summary>
+    /// Length of the frame in bytes, this always matches Data.Length!.
+    /// </summary>
+    int Length { get; }
 
-        /// <summary>
-        /// Gets whether the <see cref="Length"/> of the frame is immutable or not.
-        /// </summary>
-        bool IsFixedLength { get; }
-    }
+    /// <summary>
+    /// Gets whether the <see cref="Length"/> of the frame is immutable or not.
+    /// </summary>
+    bool IsFixedLength { get; }
 }
