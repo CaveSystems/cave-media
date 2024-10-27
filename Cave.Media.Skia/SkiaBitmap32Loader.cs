@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text;
 using SkiaSharp;
 
@@ -9,6 +10,13 @@ namespace Cave.Media;
 /// <seealso cref="Cave.Media.IBitmap32"/>
 public class SkiaBitmap32Loader : IBitmap32Loader
 {
+    #region Public Properties
+
+    /// <inheritdoc/>
+    public string[] FontNames => SKFontManager.Default.FontFamilies.ToArray();
+
+    #endregion Public Properties
+
     #region Public Methods
 
     /// <summary>Creates a bitmap instance from the specified data.</summary>

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <!--project-->
+        <RootNamespace>Cave.Media</RootNamespace>
+        <AssemblyOriginatorKeyFile>cave-media.snk</AssemblyOriginatorKeyFile>
+        <Product>CaveSystems Media Library</Product>
+        <PackageTags>CaveSystems Media Audio Video OpenGL OpenAL PortAudio</PackageTags>
+        <Description>
+			CaveSystems Media Library. This packages contains methods for audio, video, image and color handling.
+			Can be used with any of the following libraries:
+			* OpenAL soft (https://www.openal-soft.org/) uses LGPL 2 (Cave.Media.OpenAL-Soft Package available)
+			* Creative Labs OpenAL 1.1 (https://www.openal.org/downloads/) uses a proprietary license (Windows installer only)
+			* Rapture3D offers a commercial license for their SDK (https://www.blueripplesound.com/rapture3d_universal_sdk)
+			* MojoAL (https://github.com/icculus/mojoAL) is MIT licensed
+			* PortAudio (https://www.portaudio.com/license.html) is MIT licensed (Cave.Media.PortAudio Package available)
+		</Description>
+        <PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/CaveSystems/cave-media</RepositoryUrl>
+        <!--settings-->
+        <PackageReleaseNotes />
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <SignAssembly>true</SignAssembly>
+        <NeutralLanguage />
+        <DelaySign>false</DelaySign>
+    </PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\cave-extensions\Cave.Extensions\Cave.Extensions.8.csproj" />
+		<ProjectReference Include="..\..\cave-io\Cave.IO\Cave.IO.8.csproj" />
+		<ProjectReference Include="..\..\cave-net\Cave.Net\Cave.Net.8.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+        <Content Include="Cave.Media.dll.config">
+            <Pack>true</Pack>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Link>Cave.Media.dll.config</Link>
+        </Content>
+    </ItemGroup>
+        
+</Project>

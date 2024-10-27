@@ -1,34 +1,33 @@
 using System.Collections.Generic;
 
-namespace Cave.Media
+namespace Cave.Media;
+
+/// <summary>
+/// Allows to create MediaPacket objects.
+/// </summary>
+public class MediaPacketBuilder
 {
     /// <summary>
-    /// Allows to create MediaPacket objects.
+    /// Video Frames of the packet.
     /// </summary>
-    public class MediaPacketBuilder
-    {
-        /// <summary>
-        /// Video Frames of the packet.
-        /// </summary>
-        readonly List<IVideoFrame> m_Frames = new List<IVideoFrame>();
+    readonly List<IVideoFrame> m_Frames = new List<IVideoFrame>();
 
-        /// <summary>
-        /// Audio Data of the packet.
-        /// </summary>
-        readonly List<IAudioData> m_AudioData = new List<IAudioData>();
+    /// <summary>
+    /// Audio Data of the packet.
+    /// </summary>
+    readonly List<IAudioData> m_AudioData = new List<IAudioData>();
 
-        /// <summary>Adds a frame.</summary>
-        /// <param name="frame">The frame.</param>
-        public void AddFrame(IVideoFrame frame) => m_Frames.Add(frame);
+    /// <summary>Adds a frame.</summary>
+    /// <param name="frame">The frame.</param>
+    public void AddFrame(IVideoFrame frame) => m_Frames.Add(frame);
 
-        /// <summary>Adds an audio data.</summary>
-        /// <param name="data">The audio data.</param>
-        public void AddAudioData(IAudioData data) => m_AudioData.Add(data);
+    /// <summary>Adds an audio data.</summary>
+    /// <param name="data">The audio data.</param>
+    public void AddAudioData(IAudioData data) => m_AudioData.Add(data);
 
-        /// <summary>
-        /// Gets a MediaPacket.
-        /// </summary>
-        /// <returns>Returns a MediaPacket.</returns>
-        public IMediaPacket ToPacket() => new MediaPacket(m_AudioData.ToArray(), m_Frames.ToArray());
-    }
+    /// <summary>
+    /// Gets a MediaPacket.
+    /// </summary>
+    /// <returns>Returns a MediaPacket.</returns>
+    public IMediaPacket ToPacket() => new MediaPacket(m_AudioData.ToArray(), m_Frames.ToArray());
 }
