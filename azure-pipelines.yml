@@ -5,6 +5,8 @@
 # trigger: add any branches with releases to build AND change fixedBuildVersion variable!
 trigger:
 - refs/tags/*
+- bugfix/*
+- feature/*
 - master
 - next
 
@@ -12,24 +14,43 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  fixedBuildVersion: '2.1'
+  fixedBuildVersion: '4.0'
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  system.debug: true
 
 steps:
+
+- checkout: self 
+  clean: true
+  fetchDepth: 99999
+  lfs: false
+  submodules: false
 
 - task: PowerShell@2
   name: SetGitVars
   displayName: Set git variables
   env:
     BUILD_BUILDNUMBER: $(Build.BuildNumber)
+    BUILD_SOURCEBRANCH: $(Build.SourceBranch)
     BUILD_SOURCEBRANCHNAME: $(Build.SourceBranchName)
   inputs:
     targetType: inline
     script: |
       $fixedVersion = [Version]"$(fixedBuildVersion)"
-      $gitTag = "$(git describe --tags --always)".Trim().TrimStart('v')                                # possible return values: 'hash' (no tags), 'tag-hash' (old tag), 'tag' (if commit == tag)
+      # build 
+      $build = $env:BUILD_BUILDNUMBER.Split('.')
+      $build = $build[0] + "-" + ([int]$build[1]).ToString("x4")
+      echo "Build: $build"
+      # set branch for tag lookup
+      $branch = $env:BUILD_SOURCEBRANCH.Replace("refs/heads/", "")
+      git branch $branch
+      git branch --set-upstream-to=origin/$branch --force
+      git fetch
+      # get latest tag in history
+      $gitTag = "$(git describe --tags --always $branch)".Trim().TrimStart('v')
+      # possible return values: 'hash' (no tags), 'tag-hash' (old tag), 'tag' (if commit == tag)
       if (!$gitTag.Contains('.'))
       {
         echo "no tag set yet!"
@@ -42,7 +63,8 @@ steps:
       }
       else
       {
-        $semVer = "ci-$env:BUILD_BUILDNUMBER".Replace('.', '-')                                     # semVer = ci-yyyyMMdd-NN
+        $semVer = "ci-$env:BUILD_SOURCEBRANCHNAME-$build"
+        # semVer = ci-branch-yyyyMMdd-NNNN
         $gitTagVersion = [Version]$gitTag.Split('-')[0]
         if ($gitTagVersion.Major -ne $fixedVersion.Major)
         {
@@ -55,7 +77,7 @@ steps:
           $version = "$($gitTagVersion.Major).$($gitTagVersion.Minor).$($gitTagVersion.Build+1)-$semVer"
         }
       }	  
-      echo "branch = $env:BUILD_SOURCEBRANCHNAME"
+      echo "branch = $branch"
       echo "fixedVersion = '$fixedVersion'"
       echo "gitTag = '$gitTag'"
       echo "build version = '$version'"
@@ -64,6 +86,20 @@ steps:
 - task: NuGetToolInstaller@0
   inputs:
     versionSpec: '>=4.9.0'
+
+- task: UseDotNet@2
+  displayName: 'Install .NET sdk 8'
+  inputs:
+    packageType: sdk
+    version: 8.x
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: UseDotNet@2
+  displayName: 'Install .NET sdk 6'
+  inputs:
+    packageType: sdk
+    version: 6.x
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: NuGetCommand@2
   displayName: Restore nuget packages
@@ -79,59 +115,38 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
-  displayName: Test netcore
+  displayName: Test net5+
   inputs:
-    runInParallel: true
+    runSettingsFile: 'Tests.RunSettings'
+    runInParallel: false
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     codeCoverageEnabled: true
     testAssemblyVer2: |
-      **/bin/Release/netcoreapp*/Test.dll
-
-- task: VSTest@2
-  displayName: Test net5
-  inputs:
-    runInParallel: true
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: true
-    testAssemblyVer2: |
-      **/bin/Release/net5.0/Test.dll
-
-- task: VSTest@2
-  displayName: Test net6
-  inputs:
-    runInParallel: true
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: true
-    testAssemblyVer2: |
-      **/bin/Release/net6.0/Test.dll
+      **/bin/$(buildConfiguration)/net?.?/Test.dll
 
 - task: VSTest@2
   displayName: Test net2x, net3x
   inputs:
-    runInParallel: true
+    runSettingsFile: 'Tests.RunSettings'
+    runInParallel: false
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     codeCoverageEnabled: true
     testAssemblyVer2: |
-      **/bin/Release/net20/Test.exe
-      **/bin/Release/net35/Test.exe
+      **/bin/$(buildConfiguration)/net20/Test.exe
+      **/bin/$(buildConfiguration)/net35/Test.exe
 
 - task: VSTest@2
   displayName: Test net4x
   inputs:
-    runInParallel: true
+    runSettingsFile: 'Tests.RunSettings'
+    runInParallel: false
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     codeCoverageEnabled: true
     testAssemblyVer2: |
-      **/bin/Release/net40/Test.exe
-      **/bin/Release/net45/Test.exe
-      **/bin/Release/net46/Test.exe
-      **/bin/Release/net47/Test.exe
-      **/bin/Release/net48/Test.exe
+      **/bin/$(buildConfiguration)/net4?/Test.exe
 
 - task: NuGetCommand@2
   displayName: Push to nuget (release)
