@@ -5,22 +5,22 @@ namespace Cave.Media.OpenGL
     public static partial class glfw3
     {
         /// <summary>
-        /// glfw3 size event args, z.B. window resize.
+        /// glfw3 size event args, sent on window resize
         /// </summary>
         public class SizeEventArgs : EventArgs
         {
             /// <summary>
-            /// the width.
+            /// Gets the window width
             /// </summary>
             public int Width { get; private set; }
 
             /// <summary>
-            /// the height.
+            /// Gets the window height
             /// </summary>
             public int Height { get; private set; }
 
             /// <summary>
-            /// constructor.
+            /// Initializes a new instance of the <see cref="SizeEventArgs"/> class.
             /// </summary>
             /// <param name="width"></param>
             /// <param name="height"></param>
@@ -32,7 +32,7 @@ namespace Cave.Media.OpenGL
         }
 
         /// <summary>
-        /// glfw3 mouse button event args send when a mouse button event (down, up) occured.
+        /// glfw3 mouse button event args, sent when a mouse button event (down, up) occured
         /// </summary>
         public class MouseButtonEventArgs : EventArgs
         {
@@ -74,6 +74,94 @@ namespace Cave.Media.OpenGL
                 Position = position;
                 PositionNorm = positionNorm;
                 Button = button;
+                State = state;
+                Mods = mods;
+            }
+        }
+
+        /// <summary>
+        /// glfw3 cursor move event args, sent when the cursor is moved over the window
+        /// </summary>
+        public class CursorPosEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Gets mouse cursor position in window coordinates (<see cref="Vector2"/> in range [0,0;width,height]).
+            /// </summary>
+            public Vector2 Position { get; private set; }
+
+            /// <summary>
+            /// Gets mouse cursor position in normalized window coordinates (<see cref="Vector2"/> in range [0,0;1,1]).
+            /// </summary>
+            public Vector2 PositionNorm { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CursorPosEventArgs"/> class.
+            /// </summary>
+            /// <param name="position"></param>
+            /// <param name="positionNorm"></param>
+            public CursorPosEventArgs(Vector2 position, Vector2 positionNorm)
+            {
+                Position = position;
+                PositionNorm = positionNorm;
+            }
+        }
+
+        /// <summary>
+        /// glfw3 scroll event args, sent when window is scrolled
+        /// </summary>
+        public class ScrollEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Gets the scroll offset (<see cref="Vector2"/>).
+            /// </summary>
+            public Vector2 Offset { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ScrollEventArgs"/> class.
+            /// </summary>
+            /// <param name="offset"></param>
+            public ScrollEventArgs(Vector2 offset)
+            {
+                Offset = offset;
+            }
+        }
+
+        /// <summary>
+        /// glfw3 key event args, sent when a key is pressed or released
+        /// </summary>
+        public class KeyEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Gets the key that triggered this event.
+            /// </summary>
+            public KeyCode Key { get; private set; }
+
+            /// <summary>
+            /// Gets the system specific scancode of the key that triggered this event.
+            /// </summary>
+            public int ScanCode { get; private set; }
+
+            /// <summary>
+            /// Gets the input state <see cref="InputState"/> of the button when the event was triggered.
+            /// </summary>
+            public InputState State { get; private set; }
+
+            /// <summary>
+            /// Gets additional keys that were pressed when the event was triggered.
+            /// </summary>
+            public KeyMods Mods { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="KeyEventArgs"/> class.
+            /// </summary>
+            /// <param name="key">Keyname</param>
+            /// <param name="scancode">Scancode</param>
+            /// <param name="state">Key and button actions</param>
+            /// <param name="mods">Modifier flags</param>
+            public KeyEventArgs(KeyCode key, int scancode, InputState state, KeyMods mods)
+            {
+                Key = key;
+                ScanCode = scancode;
                 State = state;
                 Mods = mods;
             }
