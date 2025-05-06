@@ -20,6 +20,10 @@ namespace Cave.Media.Video
         glfw3.WindowCloseFunc funcWindowClose;
         glfw3.FramebufferSizeFunc funcWindowChange;
         glfw3.MouseButtonFunc funcMouseButtonChange;
+        glfw3.CursorPosFunc funcCursorPosChange;
+        glfw3.ScrollFunc funcScrollEvent;
+        glfw3.KeyFunc funcKeyEvent;
+
         ResizeMode aspectCorrection = ResizeMode.None;
 
         #endregion
@@ -196,6 +200,24 @@ namespace Cave.Media.Video
             MouseButtonChanged?.Invoke(this, new glfw3.MouseButtonEventArgs(mousePosition, mousePositionNorm, button, state, mods));
         }
 
+        private void CursorPosChange(glfw3.Window window, double xpos, double ypos)
+        {
+            var mousePosition = Vector2.Create((float)xpos, (float)ypos);
+            var mousePositionNorm = Vector2.Create(mousePosition.X / Resolution.X, mousePosition.Y / Resolution.Y);
+            CursorPosChanged?.Invoke(this, new glfw3.CursorPosEventArgs(mousePosition, mousePositionNorm));
+        }
+
+        private void ScrollEventTriggered(glfw3.Window window, double xoffset, double yoffset)
+        {
+            var scrollOffset = Vector2.Create((float)xoffset, (float)yoffset);
+            ScrollEvent?.Invoke(this, new glfw3.ScrollEventArgs(scrollOffset));
+        }
+
+        private void KeyEventTriggered(glfw3.Window window, glfw3.KeyCode key, int scancode, glfw3.InputState state, glfw3.KeyMods mods)
+        {
+            KeyEvent?.Invoke(this, new glfw3.KeyEventArgs(key, scancode, state, mods));
+        }
+
         void PrepareFramebuffer()
         {
             glfw3.GetFramebufferSize(Window, out var w, out var h);
@@ -285,6 +307,21 @@ namespace Cave.Media.Video
         /// Provides a callback when the framebuffer size changes
         /// </summary>
         public event EventHandler<glfw3.SizeEventArgs> FrameBufferChanged;
+
+        /// <summary>
+        /// Provides a callback for cursor position change events
+        /// </summary>
+        public event EventHandler<glfw3.CursorPosEventArgs> CursorPosChanged;
+
+        /// <summary>
+        /// Provides a callback for cursor position change events
+        /// </summary>
+        public event EventHandler<glfw3.ScrollEventArgs> ScrollEvent;
+
+        /// <summary>
+        /// Provides a callback for key events
+        /// </summary>
+        public event EventHandler<glfw3.KeyEventArgs> KeyEvent;
 
         /// <summary>
         /// Gets the resolution of the backbuffer.
@@ -429,6 +466,9 @@ namespace Cave.Media.Video
             glfw3.SetFramebufferSizeCallback(Window, funcWindowChange = new glfw3.FramebufferSizeFunc(WindowChange));
             glfw3.SetWindowCloseCallback(Window, funcWindowClose = new glfw3.WindowCloseFunc(WindowClose));
             glfw3.SetMouseButtonCallback(Window, funcMouseButtonChange = new glfw3.MouseButtonFunc(MouseButtonChange));
+            glfw3.SetCursorPosCallback(Window, funcCursorPosChange = new glfw3.CursorPosFunc(CursorPosChange));
+            glfw3.SetScrollCallback(Window, funcScrollEvent = new glfw3.ScrollFunc(ScrollEventTriggered));
+            glfw3.SetKeyCallback(Window, funcKeyEvent = new glfw3.KeyFunc(KeyEventTriggered));
 
             gl2.GetIntegerv(GL._MAX_TEXTURE_SIZE, out var maxTextureSize);
             CheckErrors("GL_MAX_TEXTURE_SIZE");
@@ -450,6 +490,7 @@ namespace Cave.Media.Video
             PrepareFramebuffer();
             Trace.TraceInformation("Initialized {0} using {1} resolution {2}x{3} using OpenGL {4} Shader {5}", parent, flags, width, height, gl2.GetString(GL._VERSION), gl2.GetString(GL._SHADING_LANGUAGE_VERSION));
         }
+
 
         /// <summary>
         /// Sets the size of the underlying glfw3 window.
