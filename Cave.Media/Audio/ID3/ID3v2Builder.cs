@@ -213,7 +213,7 @@ public class ID3v2Builder
     /// <value>The lyrics.</value>
     public SynchronizedLyrics? Lyrics
     {
-        get => TryGetFrame("XSLT", out ID3v2XSLTFrame? frame) && frame?.Content is not null ? SynchronizedLyrics.FromData(frame.Content) : null;
+        get => TryGetFrame<ID3v2XSLTFrame>("XSLT", out var frame) && frame?.Content is not null ? SynchronizedLyrics.FromData(frame.Content) : null;
         set
         {
             var frame = ID3v2XSLTFrame.Create(Header, new ID3v2FrameFlags(), value?.ToArray() ?? []);
@@ -530,7 +530,7 @@ public class ID3v2Builder
         RemoveFrames(id);
         if (!string.IsNullOrEmpty(value))
         {
-            var frame = ID3v2TextFrame.Create(Header, flags, id, value);
+            var frame = ID3v2TextFrame.Create(Header, flags, id, value!);
             AddFrame(frame);
         }
     }

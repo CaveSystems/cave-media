@@ -17,7 +17,7 @@ public interface ISynchronizedLyricsBackbuffer
     /// Do not dispose this bitmap. The bitmap will be automatically replaced, disposed, updated, whenever <see cref="Play(ISynchronizedLyricsCommand)" /> is called.
     /// Do not save references to this across play calls!.
     /// </remarks>
-    Bitmap32 ToBitmap();
+    IBitmap32 ToBitmap();
 
     /// <summary>Gets the size of the screen.</summary>
     /// <value>The size of the screen.</value>

@@ -19,9 +19,9 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <PackageReference Include="Cave.Extensions" Version="2.1.13" />
-      <PackageReference Include="Cave.IO" Version="2.1.5" />
-      <PackageReference Include="Cave.Net" Version="2.1.6" />
+      <PackageReference Include="Cave.Extensions" Version="4.0.5" />
+      <PackageReference Include="Cave.IO" Version="4.0.3" />
+      <PackageReference Include="Cave.Net" Version="4.0.3" />
     </ItemGroup>
     
     <ItemGroup>

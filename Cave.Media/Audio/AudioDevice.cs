@@ -5,12 +5,6 @@ namespace Cave.Media.Audio;
 /// <summary>provides a generic wrapper for audio devices.</summary>
 public abstract class AudioDevice : IAudioDevice
 {
-    #region Private Fields
-
-    IAudioConfiguration? configuration;
-
-    #endregion Private Fields
-
     #region Protected Constructors
 
     /// <summary>Creates a new AudioDevice instance with the specified name and capabilities.</summary>
@@ -69,7 +63,7 @@ public abstract class AudioDevice : IAudioDevice
 
     /// <summary>Gets the hashcode based on the name and configuration.</summary>
     /// <returns></returns>
-    public override int GetHashCode() => Name.GetHashCode() ^ (configuration?.GetHashCode() ?? -1);
+    public override int GetHashCode() => Name.GetHashCode();
 
     /// <summary>Gets the name of the device.</summary>
     /// <returns></returns>

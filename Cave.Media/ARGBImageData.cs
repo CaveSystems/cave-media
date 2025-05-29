@@ -191,7 +191,7 @@ public unsafe class ARGBImageData : IDisposable
     public void Clear(int value)
     {
         var source = (IntPtr)Pixels1;
-        var target = (IntPtr)Pixels1 + 16;
+        var target = (IntPtr)(source.ToInt64() + 16);
         Pixels1[0] = value;
         Pixels1[1] = value;
         Pixels1[2] = value;
@@ -335,7 +335,7 @@ public unsafe class ARGBImageData : IDisposable
     }
 
     /// <summary>Converts this instance to a bitmap32 instance.</summary>
-    public Bitmap32 ToBitmap32() => Bitmap32.Loader.Create(this);
+    public IBitmap32 ToBitmap32() => Bitmap32.Loader.Create(this);
 
     /// <summary>Checks whether an index is valid or not</summary>
     /// <param name="index">Index to check</param>

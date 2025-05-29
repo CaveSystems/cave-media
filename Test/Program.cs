@@ -31,20 +31,20 @@ namespace Test
 
                     GC.Collect(999, GCCollectionMode.Default);
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine($"{method.DeclaringType.Name}.cs: info TI0001: Start {method.Name} framework {Environment.Version} bits {IntPtr.Size * 8}");
+                    Console.WriteLine($"{method.DeclaringType?.Name}.cs: info TI0001: Start {method.Name} framework {Environment.Version} bits {IntPtr.Size * 8}");
                     Console.ResetColor();
                     try
                     {
                         method.Invoke(instance, null);
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"{method.DeclaringType.Name}.cs: info TI0002: Success {method.Name} framework {Environment.Version} bits {IntPtr.Size * 8}");
+                        Console.WriteLine($"{method.DeclaringType?.Name}.cs: info TI0002: Success {method.Name} framework {Environment.Version} bits {IntPtr.Size * 8}");
                         Console.ResetColor();
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{method.DeclaringType.Name}.cs: error TE0001: {ex.Message} framework {Environment.Version} bits {IntPtr.Size * 8}");
+                        Console.WriteLine($"{method.DeclaringType?.Name}.cs: error TE0001: {ex.Message} framework {Environment.Version} bits {IntPtr.Size * 8}");
                         Console.WriteLine(ex);
                         Console.ResetColor();
                         errors++;
@@ -83,8 +83,12 @@ namespace Test
             }
         }
 
+        #endregion Private Methods
+
+        #region Public Properties
+
         public static bool Verbose { get; private set; }
 
-        #endregion Private Methods
+        #endregion Public Properties
     }
 }

@@ -29,8 +29,8 @@ public static class ARGBImageDataExtension
             throw new ArgumentException(string.Format("PixelFormat is not compatible!"));
         }
 
-        var targetPointer = target.Scan0;
-        var sourcePointer = (IntPtr)source.Pixels1;
+        var targetPointer = (byte*)target.Scan0;
+        var sourcePointer = (byte*)source.Pixels1;
         if (target.Stride == source.Stride)
         {
             Interop.SafeNativeMethods.memcpy(targetPointer, sourcePointer, source.DataLength);

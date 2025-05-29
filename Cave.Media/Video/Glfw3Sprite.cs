@@ -29,7 +29,7 @@ class Glfw3Sprite : RenderSprite
         renderer.CheckErrors("TexParameteri");
     }
 
-    unsafe void LoadNewTexture(Bitmap32 image)
+    unsafe void LoadNewTexture(IBitmap32 image)
     {
         DeleteTexture();
         CreateTexture();
@@ -48,7 +48,7 @@ class Glfw3Sprite : RenderSprite
         renderer.CheckErrors("TexImage2D");
     }
 
-    unsafe void UpdateTexture(Bitmap32 image)
+    unsafe void UpdateTexture(IBitmap32 image)
     {
         Trace.TraceInformation("Updating Texture...");
         gl2.BindTexture(GL._TEXTURE_2D, texture);
@@ -107,7 +107,7 @@ class Glfw3Sprite : RenderSprite
         }
     }
 
-    public override void LoadTexture(Bitmap32 image)
+    public override void LoadTexture(IBitmap32 image)
     {
         if (renderer.MaxTextureSize > 0)
         {

@@ -244,7 +244,7 @@ public static partial class glfw3
     public static VideoMode GetVideoMode(Monitor monitor)
     {
         var ptr = glfwGetVideoMode(monitor.Ptr);
-        return (VideoMode)Marshal.PtrToStructure(ptr, typeof(VideoMode));
+        return (VideoMode)Marshal.PtrToStructure(ptr, typeof(VideoMode))!;
     }
 
     [DllImport(NATIVE_LIB, CallingConvention = CallingConvention.Cdecl)]
@@ -425,7 +425,7 @@ public static partial class glfw3
     /// <para><strong>Win32:</strong> The context to share resources with must not be current on any other thread.</para>
     /// <para>
     /// <strong>OSX:</strong> The GLFW window has no icon, as it is not a document window, but the dock icon will be the same as the application bundle's icon.
-    /// For more information on bundles, see the <a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/"> Bundle
+    /// For more information on bundles, see the <a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/">Bundle
     /// Programming Guide</a> in the Mac Developer Library.
     /// </para>
     /// <para>
@@ -435,7 +435,7 @@ public static partial class glfw3
     /// <para>
     /// <strong>OSX:</strong> On OS X 10.10 and later the window frame will not be rendered at full resolution on Retina displays unless the
     /// <c>NSHighResolutionCapable</c> key is enabled in the application bundle's <c>Info.plist</c>. For more information, see <a
-    /// href="https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html"> High Resolution
+    /// href="https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html">High Resolution
     /// Guidelines for OS X</a> in the Mac Developer Library.
     /// </para>
     /// <para><strong>X11:</strong> Some window managers will not respect the placement of initially hidden windows.</para>
@@ -508,7 +508,7 @@ public static partial class glfw3
     /// <remarks>
     /// <strong>OSX:</strong> The GLFW window has no icon, as it is not a document window, so this function does nothing. The dock icon will be the same as the
     /// application bundle's icon. For more information on bundles, see the <a
-    /// href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/"> Bundle Programming Guide</a> in the Mac Developer Library.
+    /// href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/">Bundle Programming Guide</a> in the Mac Developer Library.
     /// </remarks>
     public static void SetWindowIcon(Window window, Image image) => SetWindowIcon(window, new Image[] { image });
 
@@ -527,7 +527,7 @@ public static partial class glfw3
     /// <remarks>
     /// <strong>OSX:</strong> The GLFW window has no icon, as it is not a document window, so this function does nothing. The dock icon will be the same as the
     /// application bundle's icon. For more information on bundles, see the <a
-    /// href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/"> Bundle Programming Guide</a> in the Mac Developer Library.
+    /// href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/">Bundle Programming Guide</a> in the Mac Developer Library.
     /// </remarks>
     public static unsafe void SetWindowIcon(Window window, Image[] images)
     {

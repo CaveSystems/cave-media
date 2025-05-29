@@ -4,18 +4,25 @@ using Cave.IO;
 
 namespace Cave.Media.Codecs;
 
-/// <summary>
-/// Provides an CCITT4 encoder.
-/// </summary>
+/// <summary>Provides an CCITT4 encoder.</summary>
 public sealed class CCITT4Encoder : CCITT4, IDisposable
 {
+    #region Private Fields
+
     FifoStream buffer;
     bool disposed;
     int state = 1;
 
-    public CCITT4Encoder()
+    #endregion Private Fields
+
+    #region Private Methods
+
+    byte[] Complete(BitStreamWriterReverse writer)
     {
-        buffer = new();
+        writer.Flush();
+        var result = buffer.ToArray();
+        buffer.Clear();
+        return result;
     }
 
     void WriteBits(BitStreamWriterReverse writer, int count)
@@ -54,17 +61,32 @@ public sealed class CCITT4Encoder : CCITT4, IDisposable
         writer.WriteBits(terminationCodes[count, 0], terminationCodes[count, 1]);
     }
 
-    byte[] Complete(BitStreamWriterReverse writer)
+    #endregion Private Methods
+
+    #region Public Constructors
+
+    /// <summary>Creates a new instance of the <see cref="CCITT4Encoder"/> class.</summary>
+    public CCITT4Encoder()
     {
-        writer.Flush();
-        var result = buffer.ToArray();
-        buffer.Clear();
-        return result;
+        buffer = new();
     }
 
-    /// <summary>
-    /// Encodes a single pixel row.
-    /// </summary>
+    #endregion Public Constructors
+
+    #region Public Methods
+
+    /// <summary>Disposes the buffer.</summary>
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        if (!disposed)
+        {
+            disposed = true;
+            buffer.Dispose();
+        }
+    }
+
+    /// <summary>Encodes a single pixel row.</summary>
     /// <param name="data"></param>
     /// <returns></returns>
     public byte[] EncodeRow(byte[] data)
@@ -101,16 +123,5 @@ public sealed class CCITT4Encoder : CCITT4, IDisposable
         return Complete(writer);
     }
 
-    /// <summary>
-    /// Disposes the buffer.
-    /// </summary>
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-        if (!disposed)
-        {
-            disposed = true;
-            buffer.Dispose();
-        }
-    }
+    #endregion Public Methods
 }

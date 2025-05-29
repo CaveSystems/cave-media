@@ -209,7 +209,7 @@ public abstract class RenderSprite : IRenderSprite
     /// Loads a new texture bitmap.
     /// </summary>
     /// <param name="bitmap">The bitmap to load.</param>
-    public abstract void LoadTexture(Bitmap32 bitmap);
+    public abstract void LoadTexture(IBitmap32 bitmap);
 
     /// <summary>
     /// Loads a texture copied from the current backbuffer.

@@ -15,13 +15,13 @@ public interface IBitmap32Loader
     #region Public Methods
 
     /// <summary>Creates a bitmap instance from the specified data.</summary>
-    Bitmap32 Create(byte[] data);
+    IBitmap32 Create(byte[] data);
 
     /// <summary>Creates a new bitmap instance.</summary>
-    Bitmap32 Create(int width, int height);
+    IBitmap32 Create(int width, int height);
 
     /// <summary>Creates a new bitmap instance.</summary>
-    Bitmap32 Create(ARGBImageData data);
+    IBitmap32 Create(ARGBImageData data);
 
     /// <summary>Creates a new bitmap instance.</summary>
     /// <param name="fontName">Name of the font.</param>
@@ -29,13 +29,13 @@ public interface IBitmap32Loader
     /// <param name="foreColor">ForeColor.</param>
     /// <param name="backColor">BackColor.</param>
     /// <param name="text">text to draw.</param>
-    Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text);
+    IBitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text);
 
     /// <summary>Creates a bitmap instance from the specified file.</summary>
-    Bitmap32 FromFile(string fileName);
+    IBitmap32 FromFile(string fileName);
 
     /// <summary>Creates a bitmap instance from the specified stream.</summary>
-    Bitmap32 FromStream(Stream stream);
+    IBitmap32 FromStream(Stream stream);
 
     #endregion Public Methods
 }

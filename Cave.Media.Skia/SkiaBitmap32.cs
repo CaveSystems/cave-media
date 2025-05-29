@@ -1,38 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using SkiaSharp;
 
 namespace Cave.Media;
 
-/// <summary>
-/// Provides platform independent 32 bit argb bitmap functions
-/// </summary>
-/// <seealso cref="System.IDisposable" />
-/// <seealso cref="Cave.Media.IBitmap32" />
+/// <summary>Provides platform independent 32 bit argb bitmap functions</summary>
+/// <seealso cref="System.IDisposable"/>
+/// <seealso cref="Cave.Media.IBitmap32"/>
 public class SkiaBitmap32 : Bitmap32
 {
-    SKBitmap bitmap;
+    #region Private Fields
 
-    SKCanvas GetCanvas() => new SKCanvas(bitmap);
+    SKBitmap? skBitmap;
 
-    /// <summary>
-    /// Converts a bitmap
-    /// </summary>
-    /// <param name="bitmap"></param>
-    /// <returns></returns>
-    public static SKBitmap Convert(IBitmap32 bitmap)
-    {
-        if (bitmap is SkiaBitmap32) return ((SkiaBitmap32)bitmap).bitmap;
-        using var ms = new MemoryStream();
-        bitmap.Save(ms);
-        ms.Position = 0;
-        return SKBitmap.Decode(ms);
-    }
+    #endregion Private Fields
 
-    /// <summary>
-    /// Creates a new SkiaBitmap
-    /// </summary>
+    #region Private Methods
+
+    SKCanvas GetCanvas() => new SKCanvas(SKBitmap);
+
+    #endregion Private Methods
+
+    #region Protected Properties
+
+    protected SKBitmap SKBitmap => skBitmap ?? throw new ObjectDisposedException(nameof(SkiaBitmap32));
+
+    #endregion Protected Properties
+
+    #region Public Constructors
+
+    /// <summary>Creates a new SkiaBitmap</summary>
     /// <param name="bitmap"></param>
     public SkiaBitmap32(IBitmap32 bitmap)
         : this(Convert(bitmap))
@@ -51,16 +50,14 @@ public class SkiaBitmap32 : Bitmap32
             bitmap.CopyTo(bmp, SKImageInfo.PlatformColorType);
             bitmap = bmp;
         }
-        this.bitmap = bitmap ?? throw new ArgumentNullException("bitmap");
+        skBitmap = bitmap ?? throw new ArgumentNullException(nameof(bitmap));
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SkiaBitmap32"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="SkiaBitmap32"/> class.</summary>
     /// <param name="data">The data.</param>
     public SkiaBitmap32(ARGBImageData data)
     {
-        bitmap = data.ToSKBitmap();
+        skBitmap = data.ToSKBitmap();
     }
 
     /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
@@ -68,33 +65,61 @@ public class SkiaBitmap32 : Bitmap32
     /// <param name="height">The height.</param>
     public SkiaBitmap32(int width, int height)
     {
-        bitmap = new SKBitmap(width, height);
-        bitmap.Erase(new SKColor(0));
+        skBitmap = new SKBitmap(width, height);
+        skBitmap.Erase(new SKColor(0));
+    }
+
+    #endregion Public Constructors
+
+    #region Public Properties
+
+    /// <inheritdoc/>
+    public override int Height => SKBitmap.Height;
+
+    /// <inheritdoc/>
+    public override int Width => SKBitmap.Width;
+
+    #endregion Public Properties
+
+    #region Public Methods
+
+    /// <summary>Converts a bitmap</summary>
+    /// <param name="bitmap"></param>
+    /// <returns></returns>
+    public static SKBitmap Convert(IBitmap32 bitmap)
+    {
+        if (bitmap is SkiaBitmap32 skiaBitmap32) return skiaBitmap32.SKBitmap;
+        using var ms = new MemoryStream();
+        bitmap.Save(ms);
+        ms.Position = 0;
+        return SKBitmap.Decode(ms);
     }
 
     /// <inheritdoc/>
-    public override void Draw(Bitmap32 other, int x, int y, Translation? translation = null)
+    public override void Clear(ARGB color)
     {
-        Draw(other, x, y, other.Width, other.Height, translation);
+        using var canvas = GetCanvas();
+        canvas.Clear(new SKColor(color.AsUInt32));
     }
 
     /// <inheritdoc/>
-    public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null)
+    public override void Dispose()
     {
-        Draw(other.ToSKBitmap(), x, y, width, height, translation);
+        skBitmap?.Dispose();
+        skBitmap = null;
     }
 
     /// <inheritdoc/>
-    public override void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null)
-    {
-        Draw(Convert(other), x, y, width, height, translation);
-    }
+    public override void Draw(IBitmap32 other, int x, int y, Translation? translation = null) => Draw(other, x, y, other.Width, other.Height, translation);
 
     /// <inheritdoc/>
-    public override void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null)
-    {
-        Draw(Convert(other), x, y, width, height, translation);
-    }
+    public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => Draw(other.ToSKBitmap(), x, y, width, height, translation);
+
+    /// <inheritdoc/>
+    public override void Draw(IBitmap32 other, int x, int y, int width, int height, Translation? translation = null) => Draw(Convert(other), x, y, width, height, translation);
+
+    /// <inheritdoc/>
+    public override void Draw(IBitmap32 other, float x, float y, float width, float height, Translation? translation = null) => Draw(Convert(other), x, y, width, height, translation);
 
     /// <summary>Draws the specified image ontop of this one.</summary>
     /// <param name="other">The image to draw.</param>
@@ -131,31 +156,50 @@ public class SkiaBitmap32 : Bitmap32
     }
 
     /// <inheritdoc/>
+    public override ARGBImageData GetImageData() => SKBitmap.ToARGBImageData();
+
+    /// <inheritdoc/>
+    public override void MakeTransparent()
+    {
+        if (skBitmap is null) throw new ObjectDisposedException(nameof(SkiaBitmap32));
+        var result = new SKBitmap(skBitmap.Width, skBitmap.Height);
+        using (var canvas = new SKCanvas(result))
+        using (var paint = new SKPaint())
+        using (var colorFilter = SKColorFilter.CreateBlendMode(skBitmap.GetPixel(0, 0), SKBlendMode.DstIn))
+        {
+            paint.ColorFilter = colorFilter;
+            canvas.DrawBitmap(skBitmap, 0, 0, paint);
+        }
+        skBitmap.Dispose();
+        skBitmap = result;
+    }
+
+    /// <inheritdoc/>
+    public override void MakeTransparent(ARGB color)
+    {
+        if (skBitmap is null) throw new ObjectDisposedException(nameof(SkiaBitmap32));
+        var result = new SKBitmap(skBitmap.Width, skBitmap.Height);
+        using (var canvas = new SKCanvas(result))
+        using (var paint = new SKPaint())
+        using (var colorFilter = SKColorFilter.CreateBlendMode(new SKColor(color.AsUInt32), SKBlendMode.DstIn))
+        {
+            paint.ColorFilter = colorFilter;
+            canvas.DrawBitmap(skBitmap, 0, 0, paint);
+        }
+        skBitmap.Dispose();
+        skBitmap = result;
+    }
+
+    /// <inheritdoc/>
     public override void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100)
     {
         switch (type)
         {
-            case ImageType.Jpeg: bitmap.Save(stream, SKEncodedImageFormat.Jpeg, quality); break;
-            case ImageType.Png: bitmap.Save(stream, SKEncodedImageFormat.Png, quality); break;
+            case ImageType.Jpeg: SKBitmap.Save(stream, SKEncodedImageFormat.Jpeg, quality); break;
+            case ImageType.Png: SKBitmap.Save(stream, SKEncodedImageFormat.Png, quality); break;
             default: throw new NotImplementedException();
         }
     }
-
-    /// <inheritdoc/>
-    public override void Dispose()
-    {
-        bitmap?.Dispose();
-        base.Dispose();
-    }
-
-    /// <inheritdoc/>
-    public override ARGBImageData GetImageData() => bitmap.ToARGBImageData();
-
-    /// <inheritdoc/>
-    public override int Width => bitmap.Width;
-
-    /// <inheritdoc/>
-    public override int Height => bitmap.Height;
 
     /// <inheritdoc/>
     public override void Save(string fileName, int quality = 100)
@@ -171,40 +215,5 @@ public class SkiaBitmap32 : Bitmap32
         using var file = File.Create(fileName); Save(file, type, quality);
     }
 
-    /// <inheritdoc/>
-    public override void Clear(ARGB color)
-    {
-        using var canvas = GetCanvas();
-        canvas.Clear(new SKColor(color.AsUInt32));
-    }
-
-    /// <inheritdoc />
-    public override void MakeTransparent()
-    {
-        var result = new SKBitmap(bitmap.Width, bitmap.Height);
-        using (var canvas = new SKCanvas(result))
-        using (var paint = new SKPaint())
-        using (var colorFilter = SKColorFilter.CreateBlendMode(bitmap.GetPixel(0, 0), SKBlendMode.DstIn))
-        {
-            paint.ColorFilter = colorFilter;
-            canvas.DrawBitmap(bitmap, 0, 0, paint);
-        }
-        bitmap.Dispose();
-        bitmap = result;
-    }
-
-    /// <inheritdoc />
-    public override void MakeTransparent(ARGB color)
-    {
-        var result = new SKBitmap(bitmap.Width, bitmap.Height);
-        using (var canvas = new SKCanvas(result))
-        using (var paint = new SKPaint())
-        using (var colorFilter = SKColorFilter.CreateBlendMode(new SKColor(color.AsUInt32), SKBlendMode.DstIn))
-        {
-            paint.ColorFilter = colorFilter;
-            canvas.DrawBitmap(bitmap, 0, 0, paint);
-        }
-        bitmap.Dispose();
-        bitmap = result;
-    }
+    #endregion Public Methods
 }

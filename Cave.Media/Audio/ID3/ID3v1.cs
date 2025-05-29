@@ -242,7 +242,8 @@ public sealed class ID3v1 : MP3MetaFrame
         Stream stream = File.OpenRead(fileName);
         stream.Seek(-128, SeekOrigin.End);
         var buffer = new byte[128];
-        stream.Read(buffer, 0, 128);
+        var len = stream.Read(buffer, 0, 128);
+        if (len < 128) throw new EndOfStreamException();
         var result = new ID3v1(buffer);
         stream.Close();
         return result;
@@ -304,7 +305,8 @@ public sealed class ID3v1 : MP3MetaFrame
         {
             // try to load existing tag
             var buffer = new byte[128];
-            stream.Read(buffer, 0, 128);
+            var len = stream.Read(buffer, 0, 128);
+            if (len < 128) throw new EndOfStreamException();
             var result = new ID3v1(buffer);
 
             // success -> replace
