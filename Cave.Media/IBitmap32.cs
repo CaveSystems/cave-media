@@ -25,7 +25,7 @@ public interface IBitmap32 : IDisposable
     /// <param name="x">The x position.</param>
     /// <param name="y">The y position.</param>
     /// <param name="translation">The translation.</param>
-    void Draw(Bitmap32 other, int x, int y, Translation? translation = null);
+    void Draw(IBitmap32 other, int x, int y, Translation? translation = null);
 
     /// <summary>Draws the specified image ontop of this one.</summary>
     /// <param name="other">The image to draw.</param>
@@ -34,7 +34,7 @@ public interface IBitmap32 : IDisposable
     /// <param name="width">The width.</param>
     /// <param name="height">The height.</param>
     /// <param name="translation">The translation.</param>
-    void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null);
+    void Draw(IBitmap32 other, int x, int y, int width, int height, Translation? translation = null);
 
     /// <summary>Draws the specified image ontop of this one.</summary>
     /// <param name="other">The image to draw.</param>
@@ -43,7 +43,7 @@ public interface IBitmap32 : IDisposable
     /// <param name="width">The width.</param>
     /// <param name="height">The height.</param>
     /// <param name="translation">The translation.</param>
-    void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null);
+    void Draw(IBitmap32 other, float x, float y, float width, float height, Translation? translation = null);
 
     /// <summary>Draws the specified image ontop of this one.</summary>
     /// <param name="other">The image to draw.</param>
@@ -71,7 +71,7 @@ public interface IBitmap32 : IDisposable
     /// <param name="width">new width.</param>
     /// <param name="height">new height.</param>
     /// <param name="mode">the resize mode.</param>
-    Bitmap32 Resize(int width, int height, ResizeMode mode = 0);
+    IBitmap32 Resize(int width, int height, ResizeMode mode = 0);
 
     /// <summary>Detects the most common colors.</summary>
     /// <param name="max">The maximum number of colors to retrieve.</param>

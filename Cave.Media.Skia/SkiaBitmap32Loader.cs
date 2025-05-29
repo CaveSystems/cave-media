@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Text;
 using SkiaSharp;
 
 namespace Cave.Media;
@@ -22,23 +21,14 @@ public class SkiaBitmap32Loader : IBitmap32Loader
     /// <summary>Creates a bitmap instance from the specified data.</summary>
     /// <param name="data">The data.</param>
     /// <returns></returns>
-    public Bitmap32 Create(byte[] data)
-    {
-        return new SkiaBitmap32(SKBitmap.Decode(data));
-    }
+    public IBitmap32 Create(byte[] data) => new SkiaBitmap32(SKBitmap.Decode(data));
 
     /// <summary>Creates a bitmap instance from the specified data.</summary>
-    public Bitmap32 Create(ARGBImageData data)
-    {
-        return new SkiaBitmap32(data);
-    }
+    public IBitmap32 Create(ARGBImageData data) => new SkiaBitmap32(data);
 
     /// <summary>Creates a bitmap instance from the specified data.</summary>
     /// <returns></returns>
-    public Bitmap32 Create(int width, int height)
-    {
-        return new SkiaBitmap32(width, height);
-    }
+    public IBitmap32 Create(int width, int height) => new SkiaBitmap32(width, height);
 
     /// <summary>Creates a new bitmap instance</summary>
     /// <param name="fontName">Name of the font</param>
@@ -46,7 +36,7 @@ public class SkiaBitmap32Loader : IBitmap32Loader
     /// <param name="foreColor">ForeColor</param>
     /// <param name="backColor">BackColor</param>
     /// <param name="text">text to draw</param>
-    public Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
+    public IBitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
     {
         var paint = new SKPaint();
         var emSize = fontSize / 4f * 3f;
@@ -69,18 +59,12 @@ public class SkiaBitmap32Loader : IBitmap32Loader
     /// <summary>Creates a bitmap instance from the specified file.</summary>
     /// <param name="fileName">Name of the file.</param>
     /// <returns></returns>
-    public Bitmap32 FromFile(string fileName)
-    {
-        return Create(File.ReadAllBytes(fileName));
-    }
+    public IBitmap32 FromFile(string fileName) => Create(File.ReadAllBytes(fileName));
 
     /// <summary>Creates a bitmap instance from the specified stream.</summary>
     /// <param name="stream">The stream.</param>
     /// <returns></returns>
-    public Bitmap32 FromStream(Stream stream)
-    {
-        return new SkiaBitmap32(SKBitmap.Decode(stream));
-    }
+    public IBitmap32 FromStream(Stream stream) => new SkiaBitmap32(SKBitmap.Decode(stream));
 
     #endregion Public Methods
 }

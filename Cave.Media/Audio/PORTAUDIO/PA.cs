@@ -7,7 +7,7 @@ using System.Security;
 namespace Cave.Media.Audio.PORTAUDIO;
 
 /// <summary>Provides direct access to the portaudio functions.</summary>
-internal static class PA
+internal static unsafe class PA
 {
     const string NATIVE_LIBRARY = "portaudio";
     const CallingConvention CALLING_CONVENTION = CallingConvention.Cdecl;
@@ -40,22 +40,18 @@ internal static class PA
 
     public static string? GetErrorText(PAErrorCode errorCode) => Marshal.PtrToStringAnsi(SafeNativeMethods.Pa_GetErrorText(errorCode));
 
-    public static PAHostApiInfo GetHostApiInfo(int hostApi) => (PAHostApiInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetHostApiInfo(hostApi), typeof(PAHostApiInfo));
+    public static PAHostApiInfo GetHostApiInfo(int hostApi) => *SafeNativeMethods.Pa_GetHostApiInfo(hostApi);
 
-    public static PAHostErrorInfo LastHostErrorInfo => (PAHostErrorInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetLastHostErrorInfo(), typeof(PAHostErrorInfo));
+    public static PAHostErrorInfo LastHostErrorInfo => *SafeNativeMethods.Pa_GetLastHostErrorInfo();
 
-    public static PADeviceInfo GetDeviceInfo(int dev)
-    {
-        var value = SafeNativeMethods.Pa_GetDeviceInfo(dev);
-        return (PADeviceInfo)Marshal.PtrToStructure(value, typeof(PADeviceInfo));
-    }
+    public static PADeviceInfo GetDeviceInfo(int dev) => *SafeNativeMethods.Pa_GetDeviceInfo(dev);
 
-    public static PAStreamInfo GetStreamInfo(IntPtr stream) => (PAStreamInfo)Marshal.PtrToStructure(SafeNativeMethods.Pa_GetStreamInfo(stream), typeof(PAStreamInfo));
+    public static PAStreamInfo GetStreamInfo(IntPtr stream) => *SafeNativeMethods.Pa_GetStreamInfo(stream);
 
     #endregion interopped functions
 
     [SuppressUnmanagedCodeSecurity]
-    internal static class SafeNativeMethods
+    internal static unsafe class SafeNativeMethods
     {
         #region function imports
 
@@ -89,7 +85,7 @@ internal static class PA
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
-        public static extern IntPtr Pa_GetHostApiInfo(int hostApi);
+        public static extern PAHostApiInfo* Pa_GetHostApiInfo(int hostApi);
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
@@ -101,7 +97,7 @@ internal static class PA
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
-        public static extern IntPtr Pa_GetLastHostErrorInfo();
+        public static extern PAHostErrorInfo* Pa_GetLastHostErrorInfo();
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
@@ -117,7 +113,7 @@ internal static class PA
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
-        public static extern IntPtr Pa_GetDeviceInfo(int dev);
+        public static extern PADeviceInfo* Pa_GetDeviceInfo(int dev);
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
@@ -169,7 +165,7 @@ internal static class PA
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]
-        public static extern IntPtr Pa_GetStreamInfo(IntPtr stream);
+        public static extern PAStreamInfo* Pa_GetStreamInfo(IntPtr stream);
 
         [DllImport(NATIVE_LIBRARY, CallingConvention = CALLING_CONVENTION)]
         [SuppressUnmanagedCodeSecurity]

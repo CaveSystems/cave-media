@@ -124,7 +124,7 @@ public class GdiBitmap32 : Bitmap32
     {
         if (!disposed)
         {
-            base.Dispose();
+            disposed = true;
             graphics?.Dispose();
             Bitmap?.Dispose();
             GC.SuppressFinalize(this);
@@ -132,26 +132,21 @@ public class GdiBitmap32 : Bitmap32
     }
 
     /// <inheritdoc/>
-    public override void Draw(Bitmap32 other, int x, int y, Translation? translation = null) => Draw(other, x, y, other.Width, other.Height, translation);
+    public override void Draw(IBitmap32 other, int x, int y, Translation? translation = null) => Draw(other, x, y, other.Width, other.Height, translation);
 
     /// <inheritdoc/>
-    public override void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
+    public override void Draw(IBitmap32 other, int x, int y, int width, int height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
 
     /// <inheritdoc/>
-    public override void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
+    public override void Draw(IBitmap32 other, float x, float y, float width, float height, Translation? translation = null) => Draw(GdiBitmap32Extensions.ToGdiBitmap(other), x, y, width, height, translation);
 
     /// <inheritdoc/>
     public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => Draw(other.ToBitmap32(), x, y, width, height, translation);
 
-    /// <summary>Draws the specified image ontop of this one.</summary>
-    /// <param name="other">The image to draw.</param>
-    /// <param name="x">The x position.</param>
-    /// <param name="y">The y position.</param>
-    /// <param name="width">The width.</param>
-    /// <param name="height">The height.</param>
-    /// <param name="translation">The translation.</param>
+    /// <inheritdoc/>
     public virtual void Draw(Bitmap other, float x, float y, float width, float height, Translation? translation = null)
     {
+        if (disposed) throw new ObjectDisposedException(nameof(GdiBitmap32));
         if (translation.HasValue)
         {
             var mx = Width / 2f;
@@ -186,6 +181,7 @@ public class GdiBitmap32 : Bitmap32
     /// <inheritdoc/>
     public override void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100)
     {
+        if (disposed) throw new ObjectDisposedException(nameof(GdiBitmap32));
         switch (type)
         {
             case ImageType.Png: Save(stream, ImageFormat.Png, quality); break;
@@ -197,6 +193,7 @@ public class GdiBitmap32 : Bitmap32
     /// <inheritdoc/>
     public override void Save(string fileName, int quality = 100)
     {
+        if (disposed) throw new ObjectDisposedException(nameof(GdiBitmap32));
         var extension = Path.GetExtension(fileName).ToLower();
         var type = extension switch
         {

@@ -25,17 +25,17 @@ public class GdiBitmap32Loader : IBitmap32Loader
     #region Public Methods
 
     /// <summary>Creates a bitmap instance from the specified data.</summary>
-    public Bitmap32 Create(byte[] data)
+    public IBitmap32 Create(byte[] data)
     {
         using var ms = new MemoryStream(data);
         return FromStream(ms);
     }
 
     /// <summary>Creates a new bitmap instance.</summary>
-    public Bitmap32 Create(int width, int height) => new GdiBitmap32(width, height);
+    public IBitmap32 Create(int width, int height) => new GdiBitmap32(width, height);
 
     /// <summary>Creates a bitmap instance from the specified data.</summary>
-    public Bitmap32 Create(ARGBImageData data) => new GdiBitmap32(data);
+    public IBitmap32 Create(ARGBImageData data) => new GdiBitmap32(data);
 
     /// <summary>Creates a new bitmap instance.</summary>
     /// <param name="fontName">Name of the font.</param>
@@ -43,7 +43,7 @@ public class GdiBitmap32Loader : IBitmap32Loader
     /// <param name="foreColor">ForeColor.</param>
     /// <param name="backColor">BackColor.</param>
     /// <param name="text">text to draw.</param>
-    public Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
+    public IBitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
     {
         SizeF size;
         using var b = new Bitmap(1, 1);
@@ -71,10 +71,10 @@ public class GdiBitmap32Loader : IBitmap32Loader
     }
 
     /// <summary>Creates a bitmap instance from the specified file.</summary>
-    public Bitmap32 FromFile(string fileName) => new GdiBitmap32(Image.FromFile(fileName));
+    public IBitmap32 FromFile(string fileName) => new GdiBitmap32(Image.FromFile(fileName));
 
     /// <summary>Creates a bitmap instance from the specified stream.</summary>
-    public Bitmap32 FromStream(Stream stream) => new GdiBitmap32(Image.FromStream(stream));
+    public IBitmap32 FromStream(Stream stream) => new GdiBitmap32(Image.FromStream(stream));
 
     #endregion Public Methods
 }

@@ -69,17 +69,13 @@ public class ID3v2FrameHeader
     /// <param name="header">The header.</param>
     /// <param name="reader">The reader.</param>
     /// <exception cref="NotSupportedException"></exception>
-    public ID3v2FrameHeader(ID3v2Header header, DataFrameReader reader)
+    public ID3v2FrameHeader(ID3v2Header header, DataFrameReader reader) : this(header, header.Version switch
     {
-        TagHeader = header;
-        switch (header.Version)
-        {
-            case 2: ParseVersion2(reader.Read(0, 6)); break;
-            case 3: ParseVersion3(reader.Read(0, 10)); break;
-            case 4: ParseVersion4(reader.Read(0, 10)); break;
-            default: throw new NotSupportedException(string.Format("Unsupported ID3v2 Version {0}", header.Version));
-        }
-    }
+        2 => reader.Read(0, 6),
+        3 or 4 => reader.Read(0, 10),
+        _ => throw new NotSupportedException(string.Format("Unsupported ID3v2 Version {0}", header.Version))
+    })
+    { /* no body required */ }
 
     /// <summary>Initializes a new instance of the <see cref="ID3v2FrameHeader"/> class.</summary>
     /// <param name="header">The header.</param>
@@ -87,7 +83,7 @@ public class ID3v2FrameHeader
     /// <exception cref="NotSupportedException"></exception>
     public ID3v2FrameHeader(ID3v2Header header, byte[] data)
     {
-        this.data = data;
+        this.data = data ?? throw new ArgumentNullException(nameof(data));
         TagHeader = header;
         switch (header.Version)
         {
@@ -112,7 +108,7 @@ public class ID3v2FrameHeader
 
     /// <summary>Gets the flags.</summary>
     /// <value>The flags.</value>
-    public ID3v2FrameFlags Flags { get; private set; }
+    public ID3v2FrameFlags Flags { get; private set; } = new();
 
     /// <summary>Gets the size of the header.</summary>
     /// <value>The size of the header.</value>
@@ -120,7 +116,7 @@ public class ID3v2FrameHeader
 
     /// <summary>Gets or sets the identifier.</summary>
     /// <value>The identifier.</value>
-    public string ID { get; set; }
+    public string ID { get; set; } = string.Empty;
 
     /// <summary>Gets the global tag header.</summary>
     /// <value>The tag header.</value>

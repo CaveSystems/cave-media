@@ -307,7 +307,7 @@ public sealed class ID3v2 : MP3MetaFrame
 
     /// <summary>Gets or sets the lyrics.</summary>
     /// <value>The lyrics.</value>
-    public SynchronizedLyrics? Lyrics => TryGetFrame("XSLT", out ID3v2XSLTFrame? frame) && frame?.Content is not null ? SynchronizedLyrics.FromData(frame.Content) : null;
+    public SynchronizedLyrics? Lyrics => TryGetFrame<ID3v2XSLTFrame>("XSLT", out var frame) && frame?.Content is not null ? SynchronizedLyrics.FromData(frame.Content) : null;
 
     /// <summary>Gets the mood.</summary>
     /// <value>The mood.</value>

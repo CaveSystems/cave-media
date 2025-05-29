@@ -14,7 +14,7 @@ public class SynchronizedLyricsBackbufferV1 : ISynchronizedLyricsBackbuffer
     const int BufferWidth = 300;
     const int ScreenHeight = BufferHeight - 24;
     const int ScreenWidth = BufferWidth - 12;
-    Bitmap32? bitmap;
+    IBitmap32? bitmap;
     byte[] buffer = new byte[BufferSize];
     byte clearColor;
     sbyte offsetHorizontal;
@@ -266,7 +266,7 @@ public class SynchronizedLyricsBackbufferV1 : ISynchronizedLyricsBackbuffer
     }
 
     /// <summary>Copies the image to the specified bitmapdata instance.</summary>
-    public Bitmap32 ToBitmap()
+    public IBitmap32 ToBitmap()
     {
         if (Updated || bitmap == null)
         {

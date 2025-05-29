@@ -126,12 +126,12 @@ public class RenderText : IRenderText, IDisposable
         }
 
         Trace.TraceInformation("Update text font:{0} size:{1} fg:{2} bg:{3} text:{4}", FontName, FontSize, ForeColor, BackColor, Text);
-        var bitmap = Bitmap32.Create(FontName, FontSize, ForeColor, BackColor, Text);
+        var bitmap = Bitmap32.Loader.Create(FontName, FontSize, ForeColor, BackColor, Text);
         if ((maxWidth > 0) && (maxHeight > 0))
         {
             if ((bitmap.Width > maxWidth) || (bitmap.Height > maxHeight))
             {
-                var b = new Bitmap32(Math.Min(bitmap.Width, maxWidth), Math.Min(bitmap.Height, maxHeight));
+                var b = Bitmap32.Loader.Create(Math.Min(bitmap.Width, maxWidth), Math.Min(bitmap.Height, maxHeight));
                 b.Draw(bitmap, 0, 0);
                 bitmap.Dispose();
                 bitmap = b;

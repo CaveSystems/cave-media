@@ -24,7 +24,7 @@ public unsafe class FrameBufferLinux : FrameBufferBase
         FixScreenInfo = fsi;
         VarScreenInfo = vsi;
         Memory = memory;
-        BackBuffer = new((int)vsi.xres, (int)vsi.yres);
+        BackBuffer = Bitmap32.Loader.Create((int)vsi.xres, (int)vsi.yres);
     }
 
     #endregion Private Constructors
@@ -96,7 +96,7 @@ public unsafe class FrameBufferLinux : FrameBufferBase
 
     #region Public Properties
 
-    public Bitmap32 BackBuffer { get; }
+    public IBitmap32 BackBuffer { get; }
 
     /// <summary>Gets the bytes per pixel.</summary>
     /// <value>The bytes per pixel.</value>
@@ -181,12 +181,6 @@ public unsafe class FrameBufferLinux : FrameBufferBase
         return new FrameBufferLinux(device, handle, fixScreenInfo, varScreenInfo, memory, format);
     }
 
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
     /// <summary>Draws the specified bitmap at the given position.</summary>
     /// <param name="img">The bitmap.</param>
     /// <param name="x">The x.</param>
@@ -211,7 +205,7 @@ public unsafe class FrameBufferLinux : FrameBufferBase
         var source = sourceData.Pixels1;
         var target = (int*)Memory;
         var height = sourceData.Height;
-        target = target + (targetStride * y + x);
+        target += ((targetStride * y) + x);
         if (x < 0)
         {
             source += x;

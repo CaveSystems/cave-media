@@ -176,8 +176,8 @@ public sealed class MP3Reader : IFrameSource
             {
                 stream.Seek(-128, SeekOrigin.End);
                 var buffer = new byte[128];
-                stream.Read(buffer, 0, 128);
-                if ((buffer[0] == (byte)'T') && (buffer[1] == (byte)'A') && (buffer[2] == (byte)'G'))
+                var len = stream.Read(buffer, 0, 128);
+                if ((len == 128) && (buffer[0] == (byte)'T') && (buffer[1] == (byte)'A') && (buffer[2] == (byte)'G'))
                 {
                     id3v1 = new ID3v1(buffer);
                     endOfStream = stream.Length - 128;

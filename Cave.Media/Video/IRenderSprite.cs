@@ -103,7 +103,7 @@ public interface IRenderSprite : IDisposable
     /// Loads a new texture bitmap.
     /// </summary>
     /// <param name="bitmap">The bitmap to load.</param>
-    void LoadTexture(Bitmap32 bitmap);
+    void LoadTexture(IBitmap32 bitmap);
 
     /// <summary>
     /// Clears the texture bitmap.

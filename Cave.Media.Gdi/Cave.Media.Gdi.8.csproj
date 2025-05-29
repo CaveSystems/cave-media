@@ -2,6 +2,10 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+
+		<Version>9.99-future</Version>
+		<AssemblyName>Cave.Media.Gdi</AssemblyName>
+
 		<TargetPlatformIdentifier>windows</TargetPlatformIdentifier>
 		<!--project-->
 		<RootNamespace>Cave.Media</RootNamespace>
