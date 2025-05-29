@@ -1,42 +1,27 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using SkiaSharp;
 
-namespace Cave.Media
-{
-    /// <summary>
-    /// Provides extensions for <see cref="ARGBImageData"/>
-    /// </summary>
-    public static class ARGBImageDataExtension
-    {
-        /// <summary>
-        /// Loads the specified bitmap.
-        /// </summary>
-        /// <param name="bitmap">The bitmap.</param>
-        /// <returns></returns>
-        public static ARGBImageData ToARGBImageData(this SKBitmap bitmap)
-        {
-            var pix = bitmap.Bytes;
-            var data = new int[bitmap.Width * bitmap.Height];
-            Buffer.BlockCopy(pix, 0, data, 0, 4 * data.Length);
-            return new ARGBImageData(data, bitmap.Width, bitmap.Height, pix.Length / bitmap.Height);
-        }
+namespace Cave.Media;
 
-        /// <summary>
-        /// Writes all data to a new <see cref="SKBitmap"/> instance
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception">Invalid length!</exception>
-        public static SKBitmap ToSKBitmap(this ARGBImageData imageData)
-        {
-            var imgInfo = new SKImageInfo(imageData.Width, imageData.Height, SKColorType.Rgba8888, SKAlphaType.Unpremul);
-            var bitmap = SKBitmap.FromImage(SKImage.Create(imgInfo));
-            IntPtr len;
-            var ptr = bitmap.GetPixels(out len);
-            var byteLen = imageData.Pixels.Length * 4;
-            if (len.ToInt32() != byteLen) throw new Exception("Invalid length!");
-            Marshal.Copy(imageData.Pixels, 0, ptr, imageData.Pixels.Length);
-            return bitmap;
-        }
+/// <summary>Provides extensions for <see cref="ARGBImageData"/></summary>
+public static class ARGBImageDataExtension
+{
+    #region Public Methods
+
+    /// <summary>Loads the specified bitmap.</summary>
+    /// <param name="bitmap">The bitmap.</param>
+    /// <returns></returns>
+    public static ARGBImageData ToARGBImageData(this SKBitmap bitmap) => new ARGBImageData(bitmap.Bytes, bitmap.Width, bitmap.Height, bitmap.RowBytes);
+
+    /// <summary>Writes all data to a new <see cref="SKBitmap"/> instance</summary>
+    /// <returns></returns>
+    /// <exception cref="Exception">Invalid length!</exception>
+    public static unsafe SKBitmap ToSKBitmap(this ARGBImageData imageData)
+    {
+        var imgInfo = new SKImageInfo(imageData.Width, imageData.Height, SKColorType.Rgba8888, SKAlphaType.Unpremul);
+        var image = SKImage.FromPixels(imgInfo, (IntPtr)imageData.Pixels1);
+        return SKBitmap.FromImage(image);
     }
+
+    #endregion Public Methods
 }

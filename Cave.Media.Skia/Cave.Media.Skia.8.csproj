@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+
+		<Version>9.99-future</Version>
+		<AssemblyName>Cave.Media.Skia</AssemblyName>
+
+		<!--project-->
+		<RootNamespace>Cave.Media</RootNamespace>
+		<AssemblyOriginatorKeyFile>cave-media.snk</AssemblyOriginatorKeyFile>
+		<Product>CaveSystems Media Skia Library</Product>
+		<PackageTags>CaveSystems Media Audio Video OpenGL OpenAL PortAudio</PackageTags>
+		<Description>CaveSystems Media Library. This packages contains methods for audio, video, image and color handling.</Description>
+		<PackageProjectUrl>https://github.com/CaveSystems/cave-media</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/CaveSystems/cave-media</RepositoryUrl>
+		<!--settings-->
+		<PackageReleaseNotes />
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<SignAssembly>true</SignAssembly>
+		<NeutralLanguage />
+		<DelaySign>false</DelaySign>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Cave.Media\Cave.Media.8.csproj" />
+	</ItemGroup>
+
+</Project>

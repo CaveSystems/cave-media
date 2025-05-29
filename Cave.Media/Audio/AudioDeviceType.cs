@@ -1,23 +1,22 @@
-namespace Cave.Media.Audio
+namespace Cave.Media.Audio;
+
+/// <summary>
+/// Provides device types.
+/// </summary>
+public enum AudioDeviceType : byte
 {
     /// <summary>
-    /// Provides device types.
+    /// Invalid device
     /// </summary>
-    public enum AudioDeviceType : byte
-    {
-        /// <summary>
-        /// Invalid device
-        /// </summary>
-        Invalid = 0,
+    Invalid = 0,
 
-        /// <summary>
-        /// Input device (also called capture device)
-        /// </summary>
-        Input = 1,
+    /// <summary>
+    /// Input device (also called capture device)
+    /// </summary>
+    Input = 1,
 
-        /// <summary>
-        /// Output device (also called playback device)
-        /// </summary>
-        Output = 2,
-    }
+    /// <summary>
+    /// Output device (also called playback device)
+    /// </summary>
+    Output = 2,
 }

@@ -3,246 +3,153 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Cave.Media
+namespace Cave.Media;
+
+/// <summary>Provides generic 32 bit bitmap functions</summary>
+public abstract class Bitmap32 : IDisposable, IBitmap32
 {
-    /// <summary>
-    /// Provides platform independent 32 bit argb bitmap functions.
-    /// </summary>
-    public class Bitmap32 : IDisposable, IBitmap32
+    #region Private Fields
+
+    static IBitmap32Loader? loader;
+
+    #endregion Private Fields
+
+    #region Private Methods
+
+    static IBitmap32Loader LoaderFind()
     {
-        static IBitmap32Loader loader;
+        var loaders = AppDom.GetInstances<IBitmap32Loader>(true);
+        return loaders.FirstOrDefault() ?? throw new InvalidOperationException("No IBitmap32Loader found. Load any of the native implementations first!");
+    }
 
-        /// <summary>
-        /// Provides the default loader.
-        /// </summary>
-        public static IBitmap32Loader Loader { get => loader ??= FindLoader(); set => loader = value ?? throw new ArgumentNullException(nameof(value)); }
+    #endregion Private Methods
 
-        static IBitmap32Loader FindLoader()
+    #region Public Properties
+
+    /// <summary>Provides the default loader.</summary>
+    public static IBitmap32Loader Loader
+    {
+        get => loader ??= LoaderFind();
+        set => loader = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    /// <inheritdoc/>
+    public abstract int Height { get; }
+
+    /// <inheritdoc/>
+    public abstract int Width { get; }
+
+    #endregion Public Properties
+
+    #region Public Methods
+
+    /// <inheritdoc/>
+    public abstract void Clear(ARGB color);
+
+    /// <inheritdoc/>
+    public virtual unsafe IList<ARGB> DetectColors(int max)
+    {
+        if ((Width + Height) / 2 > max)
         {
-            var loaders = AppDom.GetInstances<IBitmap32Loader>(true);
-            return loaders.FirstOrDefault();
+            using var bmp = Resize(max, max, ResizeMode.None);
+            return bmp.DetectColors(max);
         }
 
-        IBitmap32 bitmap;
-
-        /// <summary>Creates a bitmap instance from the specified stream.</summary>
-        public static Bitmap32 FromStream(Stream stream)
+        var colorCounters = new List<ColorCounter>();
+        var data = GetImageData();
+        var pixels = data.Pixels1;
+        var pixelCount = data.PixelCount;
+        for (var y = 0; y < Height; y++)
         {
-            if (Loader == null)
+            var colorDict = new Dictionary<ARGB, ColorCounter>();
+            for (var i = 0; i < pixelCount; i++)
             {
-                throw new Exception("No valid IBitmap32Loader found!");
-            }
-
-            return Loader.FromStream(stream);
-        }
-
-        /// <summary>Creates a bitmap instance from the specified file.</summary>
-        public static Bitmap32 FromFile(string fileName)
-        {
-            if (Loader == null)
-            {
-                throw new Exception("No valid IBitmap32Loader found!");
-            }
-
-            return Loader.FromFile(fileName);
-        }
-
-        /// <summary>Creates a bitmap instance from the specified data.</summary>
-        public static Bitmap32 Create(byte[] data)
-        {
-            if (Loader == null)
-            {
-                throw new Exception("No valid IBitmap32Loader found!");
-            }
-
-            return Loader.Create(data);
-        }
-
-        /// <summary>Creates a bitmap instance from the specified data.</summary>
-        public static Bitmap32 Create(string fontName, float fontSize, ARGB foreColor, ARGB backColor, string text)
-        {
-            if (Loader == null)
-            {
-                throw new Exception("No valid IBitmap32Loader found!");
-            }
-
-            return Loader.Create(fontName, fontSize, foreColor, backColor, text);
-        }
-
-        /// <summary>
-        /// Creates an empty instance.
-        /// </summary>
-        protected Bitmap32() { }
-
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
-        /// <param name="bitmap"></param>
-        public Bitmap32(IBitmap32 bitmap)
-        {
-            this.bitmap = bitmap;
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="Bitmap32"/> class.</summary>
-        /// <param name="width">Width in pixel.</param>
-        /// <param name="height">Height in pixel.</param>
-        public Bitmap32(int width, int height)
-        {
-            if (Loader == null)
-            {
-                throw new Exception("No valid IBitmap32Loader found!");
-            }
-
-            bitmap = Loader.Create(width, height);
-        }
-
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="translation">The translation.</param>
-        public virtual void Draw(Bitmap32 other, int x, int y, Translation? translation = null) => bitmap.Draw(other, x, y, other.Width, other.Height, translation);
-
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="translation">The translation.</param>
-        public virtual void Draw(Bitmap32 other, int x, int y, int width, int height, Translation? translation = null) => bitmap.Draw(other, x, y, width, height, translation);
-
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="translation">The translation.</param>
-        public virtual void Draw(Bitmap32 other, float x, float y, float width, float height, Translation? translation = null) => bitmap.Draw(other, x, y, width, height, translation);
-
-        /// <summary>Draws the specified image ontop of this one.</summary>
-        /// <param name="other">The image to draw.</param>
-        /// <param name="x">The x position.</param>
-        /// <param name="y">The y position.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="translation">The translation.</param>
-        public virtual void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => bitmap.Draw(other, x, y, width, height, translation);
-
-        /// <summary>Saves the image to the specified stream.</summary>
-        /// <param name="stream">The stream.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="quality">The quality.</param>
-        /// <exception cref="NotImplementedException"></exception>
-        public virtual void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100) => bitmap.Save(stream, type, quality);
-
-        /// <summary>
-        /// Clear the image with the specified color.
-        /// </summary>
-        /// <param name="color">The color.</param>
-        public virtual void Clear(ARGB color) => bitmap.Clear(color);
-
-        /// <summary>Resizes the bitmap to the specified size.</summary>
-        /// <remarks>This should be overloaded to speed up the resize.</remarks>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="mode">The resize mode.</param>
-        /// <returns></returns>
-        public virtual Bitmap32 Resize(int width, int height, ResizeMode mode = 0)
-        {
-            var result = new Bitmap32(width, height);
-            float w = width;
-            float h = height;
-            if (mode != ResizeMode.None)
-            {
-                var fw = w / (float)Width;
-                var fh = h / (float)Height;
-                float f;
-                if (mode.HasFlag(ResizeMode.TouchFromInside))
+                var color = pixels[i];
+                if (!colorDict.ContainsKey(color))
                 {
-                    f = Math.Min(fw, fh);
+                    colorDict.Add(color, new ColorCounter(color, 1));
                 }
                 else
                 {
-                    f = Math.Max(fw, fh);
+                    colorDict[color].Count++;
                 }
-                w = Width * f;
-                h = Height * f;
             }
-            var x = (width - w) / 2;
-            var y = (height - h) / 2;
-            result.Draw(this, x, y, w, h);
-            return result;
+            colorCounters.AddRange(colorDict.Values);
         }
-
-        /// <inheritdoc />
-        public virtual void Save(string fileName, int quality = 100) => bitmap.Save(fileName, quality);
-
-        /// <inheritdoc />
-        public virtual ARGBImageData GetImageData() => bitmap.GetImageData();
-
-        /// <inheritdoc />
-        public virtual int Width => bitmap.Width;
-
-        /// <inheritdoc />
-        public virtual int Height => bitmap.Height;
-
-        /// <inheritdoc />
-        public virtual void MakeTransparent() => bitmap.MakeTransparent();
-
-        /// <inheritdoc />
-        public virtual void MakeTransparent(ARGB color) => bitmap.MakeTransparent(color);
-
-        /// <inheritdoc />
-        public virtual void Dispose()
+        uint distance = 255;
+        while (colorCounters.Count > max)
         {
-            bitmap?.Dispose();
-            bitmap = null;
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc />
-        public IList<ARGB> DetectColors(int max)
-        {
-            if ((Width + Height) / 2 > max)
-            {
-                using var bmp = Resize(max, max, ResizeMode.None);
-                return bmp.DetectColors(max);
-            }
-
-            var colorCounters = new List<ColorCounter>();
-            for (var y = 0; y < Height; y++)
-            {
-                var pixels = GetImageData().Pixels;
-                var colorDict = new Dictionary<ARGB, ColorCounter>();
-                for (var i = 0; i < pixels.Length; i++)
-                {
-                    var color = pixels[i];
-                    if (!colorDict.ContainsKey(color))
-                    {
-                        colorDict.Add(color, new ColorCounter(color, 1));
-                    }
-                    else
-                    {
-                        colorDict[color].Count++;
-                    }
-                }
-                colorCounters.AddRange(colorDict.Values);
-            }
-            uint distance = 255;
-            while (colorCounters.Count > max)
-            {
-                colorCounters.Sort();
-                colorCounters = ColorCounter.Reduce(colorCounters, ref distance);
-                distance += 255;
-            }
             colorCounters.Sort();
-            var colors = new List<ARGB>(colorCounters.Count);
-            for (var i = 0; i < colorCounters.Count; i++)
-            {
-                colors.Add(colorCounters[i].Color);
-            }
-
-            return colors;
+            colorCounters = ColorCounter.Reduce(colorCounters, ref distance);
+            distance += 255;
         }
+        colorCounters.Sort();
+        var colors = new List<ARGB>(colorCounters.Count);
+        for (var i = 0; i < colorCounters.Count; i++)
+        {
+            colors.Add(colorCounters[i].Color);
+        }
+
+        return colors;
     }
+
+    /// <inheritdoc/>
+    public abstract void Dispose();
+
+    /// <inheritdoc/>
+    public abstract void Draw(IBitmap32 other, int x, int y, Translation? translation = null);
+
+    /// <inheritdoc/>
+    public abstract void Draw(IBitmap32 other, int x, int y, int width, int height, Translation? translation = null);
+
+    /// <inheritdoc/>
+    public abstract void Draw(IBitmap32 other, float x, float y, float width, float height, Translation? translation = null);
+
+    /// <inheritdoc/>
+    public abstract void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null);
+
+    /// <inheritdoc/>
+    public abstract ARGBImageData GetImageData();
+
+    /// <inheritdoc/>
+    public abstract void MakeTransparent();
+
+    /// <inheritdoc/>
+    public abstract void MakeTransparent(ARGB color);
+
+    /// <inheritdoc/>
+    public virtual IBitmap32 Resize(int width, int height, ResizeMode mode = 0)
+    {
+        var result = Loader.Create(width, height);
+        float w = width;
+        float h = height;
+        if (mode != ResizeMode.None)
+        {
+            var fw = w / (float)Width;
+            var fh = h / (float)Height;
+            float f;
+            if (mode.HasFlag(ResizeMode.TouchFromInside))
+            {
+                f = Math.Min(fw, fh);
+            }
+            else
+            {
+                f = Math.Max(fw, fh);
+            }
+            w = Width * f;
+            h = Height * f;
+        }
+        var x = (width - w) / 2;
+        var y = (height - h) / 2;
+        result.Draw(this, x, y, w, h);
+        return result;
+    }
+
+    /// <inheritdoc/>
+    public abstract void Save(Stream stream, ImageType type = ImageType.Png, int quality = 100);
+
+    /// <inheritdoc/>
+    public abstract void Save(string filename, int quality = 100);
+
+    #endregion Public Methods
 }

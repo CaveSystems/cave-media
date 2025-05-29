@@ -1,44 +1,43 @@
 using System;
 
-namespace Cave.Media.Audio
+namespace Cave.Media.Audio;
+
+/// <summary>
+/// Provides a generic interface for audio apis.
+/// </summary>
+public interface IAudioAPI : IComparable<IAudioAPI>
 {
+    /// <summary>Gets the preference value.</summary>
+    /// <remarks>Small values represent a higher priority.</remarks>
+    /// <value>The preference.</value>
+    int Preference { get; }
+
     /// <summary>
-    /// Provides a generic interface for audio apis.
+    /// Determines if the API is available.
     /// </summary>
-    public interface IAudioAPI : IComparable<IAudioAPI>
-    {
-        /// <summary>Gets the preference value.</summary>
-        /// <remarks>Small values represent a higher priority.</remarks>
-        /// <value>The preference.</value>
-        int Preference { get; }
+    bool IsAvailable { get; }
 
-        /// <summary>
-        /// Determines if the API is available.
-        /// </summary>
-        bool IsAvailable { get; }
+    /// <summary>
+    /// Gets the default output device.
+    /// </summary>
+    /// <returns>Returns the default output device.</returns>
+    IAudioDevice? DefaultOutputDevice { get; }
 
-        /// <summary>
-        /// Gets the default output device.
-        /// </summary>
-        /// <returns>Returns the default output device.</returns>
-        IAudioDevice DefaultOutputDevice { get; }
+    /// <summary>
+    /// Gets the default input device.
+    /// </summary>
+    /// <returns>Returns the default input device.</returns>
+    IAudioDevice? DefaultInputDevice { get; }
 
-        /// <summary>
-        /// Gets the default input device.
-        /// </summary>
-        /// <returns>Returns the default input device.</returns>
-        IAudioDevice DefaultInputDevice { get; }
+    /// <summary>
+    /// Gets all available output devices.
+    /// </summary>
+    /// <returns>Returns all output devices.</returns>
+    IAudioDevice[] OutputDevices { get; }
 
-        /// <summary>
-        /// Gets all available output devices.
-        /// </summary>
-        /// <returns>Returns all output devices.</returns>
-        IAudioDevice[] OutputDevices { get; }
-
-        /// <summary>
-        /// Gets the available input devices.
-        /// </summary>
-        /// <returns>Returns all input devices.</returns>
-        IAudioDevice[] InputDevices { get; }
-    }
+    /// <summary>
+    /// Gets the available input devices.
+    /// </summary>
+    /// <returns>Returns all input devices.</returns>
+    IAudioDevice[] InputDevices { get; }
 }

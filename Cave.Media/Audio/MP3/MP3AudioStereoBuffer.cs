@@ -7,52 +7,51 @@
 */
 #endregion
 
-namespace Cave.Media.Audio.MP3
+namespace Cave.Media.Audio.MP3;
+
+/// <summary>
+/// Audio data buffer for the MP3 decoder.
+/// </summary>
+public sealed class MP3AudioStereoBuffer
 {
-    /// <summary>
-    /// Audio data buffer for the MP3 decoder.
-    /// </summary>
-    public sealed class MP3AudioStereoBuffer
+    readonly float[] m_Buffer = new float[1152 * 2];
+    readonly int[] m_Index = new int[2];
+    int m_SamplingRate;
+
+    /// <summary>Gets the sample count.</summary>
+    /// <value>The sample count.</value>
+    public int SampleCount => m_Index[0];
+
+    /// <summary>Initializes a new instance of the <see cref="MP3AudioStereoBuffer"/> class.</summary>
+    public MP3AudioStereoBuffer(int samplingRate)
     {
-        readonly float[] m_Buffer = new float[1152 * 2];
-        readonly int[] m_Index = new int[2];
-        int m_SamplingRate;
-
-        /// <summary>Gets the sample count.</summary>
-        /// <value>The sample count.</value>
-        public int SampleCount => m_Index[0];
-
-        /// <summary>Initializes a new instance of the <see cref="MP3AudioStereoBuffer"/> class.</summary>
-        public MP3AudioStereoBuffer(int samplingRate)
-        {
-            m_SamplingRate = samplingRate;
-            Clear();
-        }
-
-        /// <summary>Clears this instance.</summary>
-        public void Clear()
-        {
-            m_Index[0] = 0;
-            m_Index[1] = 1;
-        }
-
-        /// <summary>Adds samples.</summary>
-        /// <param name="channelNumber">The channel number.</param>
-        /// <param name="samples">The samples.</param>
-        public void AddSamples(int channelNumber, float[] samples)
-        {
-            var index = m_Index[channelNumber];
-            for (var i = 0; i < samples.Length; i++)
-            {
-                var value = samples[i];
-                m_Buffer[index] = value;
-                index += 2;
-            }
-            m_Index[channelNumber] = index;
-        }
-
-        /// <summary>Retries the sample byte buffer as array.</summary>
-        /// <returns></returns>
-        public IAudioData GetAudioData() => new AudioData(m_SamplingRate, AudioChannelSetup.Stereo, m_Buffer, SampleCount);
+        m_SamplingRate = samplingRate;
+        Clear();
     }
+
+    /// <summary>Clears this instance.</summary>
+    public void Clear()
+    {
+        m_Index[0] = 0;
+        m_Index[1] = 1;
+    }
+
+    /// <summary>Adds samples.</summary>
+    /// <param name="channelNumber">The channel number.</param>
+    /// <param name="samples">The samples.</param>
+    public void AddSamples(int channelNumber, float[] samples)
+    {
+        var index = m_Index[channelNumber];
+        for (var i = 0; i < samples.Length; i++)
+        {
+            var value = samples[i];
+            m_Buffer[index] = value;
+            index += 2;
+        }
+        m_Index[channelNumber] = index;
+    }
+
+    /// <summary>Retries the sample byte buffer as array.</summary>
+    /// <returns></returns>
+    public IAudioData GetAudioData() => new AudioData(m_SamplingRate, AudioChannelSetup.Stereo, m_Buffer, SampleCount);
 }
