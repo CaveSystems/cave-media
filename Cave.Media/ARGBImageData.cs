@@ -58,8 +58,7 @@ public unsafe class ARGBImageData : IDisposable
         freePointerOnDispose = true;
         PixelCount = width * height;
         DataLength = PixelCount * 4;
-        Pixels1 = (int*)Marshal.AllocHGlobal(DataLength);
-        Pixels2 = (ARGB*)Pixels1;
+        Pointer = Marshal.AllocHGlobal(DataLength);
         Width = width;
         Height = height;
         PixelsPerLine = width;
@@ -73,19 +72,9 @@ public unsafe class ARGBImageData : IDisposable
     /// <param name="height">The height.</param>
     /// <param name="stride">The stride.</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public ARGBImageData(IntPtr data, int dataLength, int width, int height, int stride) : this((int*)data.ToPointer(), dataLength, width, height, stride) { }
-
-    /// <summary>Initializes a new instance of the <see cref="ARGBImageData"/> class.</summary>
-    /// <param name="data">The data.</param>
-    /// <param name="dataLength">Length of the image data memory buffer</param>
-    /// <param name="width">The width.</param>
-    /// <param name="height">The height.</param>
-    /// <param name="stride">The stride.</param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public ARGBImageData(int* data, int dataLength, int width, int height, int stride)
+    public ARGBImageData(IntPtr data, int dataLength, int width, int height, int stride)
     {
-        Pixels1 = data;
-        Pixels2 = (ARGB*)Pixels1;
+        Pointer = data;
         Width = width;
         Height = height;
         Stride = stride;
@@ -98,6 +87,15 @@ public unsafe class ARGBImageData : IDisposable
 
     /// <summary>Initializes a new instance of the <see cref="ARGBImageData"/> class.</summary>
     /// <param name="data">The data.</param>
+    /// <param name="dataLength">Length of the image data memory buffer</param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
+    /// <param name="stride">The stride.</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public ARGBImageData(int* data, int dataLength, int width, int height, int stride) : this((IntPtr)data, dataLength, width, height, stride) { }
+
+    /// <summary>Initializes a new instance of the <see cref="ARGBImageData"/> class.</summary>
+    /// <param name="data">The data.</param>
     /// <param name="width">The width.</param>
     /// <param name="height">The height.</param>
     /// <param name="stride">The stride.</param>
@@ -105,8 +103,7 @@ public unsafe class ARGBImageData : IDisposable
     public ARGBImageData(Array data, int width, int height, int stride)
     {
         handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-        Pixels1 = (int*)handle.Value.AddrOfPinnedObject();
-        Pixels2 = (ARGB*)Pixels1;
+        Pointer = handle.Value.AddrOfPinnedObject();
         Width = width;
         Height = height;
         Stride = stride;
@@ -130,11 +127,16 @@ public unsafe class ARGBImageData : IDisposable
     /// <summary>Number of pixels</summary>
     public int PixelCount { get; }
 
-    /// <summary>Gets the data of the image.</summary>
-    public int* Pixels1 { get; }
+    /// <summary>Accesses the data of the image as int* pointer.</summary>
+    public int* Pixels1 => (int*)Pointer;
 
-    /// <summary>Gets the data of the image.</summary>
-    public ARGB* Pixels2 { get; }
+    /// <summary>Accesses the data of the image as ARGB* pointer.</summary>
+    public ARGB* Pixels2 => (ARGB*)Pointer;
+
+    /// <summary>
+    /// Pointer to the pixel data
+    /// </summary>
+    public IntPtr Pointer { get; }
 
     /// <summary>Number of pixels per line (this is &lt;= Abs(Stride) / 4)</summary>
     public int PixelsPerLine { get; }
@@ -340,7 +342,7 @@ public unsafe class ARGBImageData : IDisposable
     /// <summary>Checks whether an index is valid or not</summary>
     /// <param name="index">Index to check</param>
     /// <returns>Returns <see langword="true"/> if the index is valid, false otherwise.</returns>
-    public bool ValidIndex(int index) => index > 0 && index < PixelCount;
+    public bool ValidIndex(int index) => index >= 0 && index < PixelCount;
 
     #endregion Public Methods
 }
