@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 #pragma warning disable 1591
+#pragma warning disable 8500
 
 namespace Cave.Media.Audio.PORTAUDIO;
 
@@ -203,4 +204,5 @@ internal static unsafe class PA
     }
 }
 
+#pragma warning restore 8500
 #pragma warning restore 1591
