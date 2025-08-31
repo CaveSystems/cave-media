@@ -9,6 +9,13 @@ namespace Cave.Media;
 /// <seealso cref="Cave.Media.IBitmap32"/>
 public class SkiaBitmap32Loader : IBitmap32Loader
 {
+    #region Public Fields
+
+    /// <summary>Default color type to use to ensure 32 Bit per pixel <see cref="ARGB"/>.</summary>
+    public const SKColorType ColorType = SKColorType.Bgra8888;
+
+    #endregion Public Fields
+
     #region Public Properties
 
     /// <inheritdoc/>
@@ -47,7 +54,7 @@ public class SkiaBitmap32Loader : IBitmap32Loader
         paint.IsAntialias = true;
         var height = paint.GetFontMetrics(out var metrics);
         var width = paint.MeasureText(text);
-        var bitmap = new SKBitmap(1 + (int)width, 1 + (int)height, SKImageInfo.PlatformColorType, SKAlphaType.Unpremul);
+        var bitmap = new SKBitmap(1 + (int)width, 1 + (int)height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
         using (var canvas = new SKCanvas(bitmap))
         {
             canvas.Clear(new SKColor(backColor.AsUInt32));

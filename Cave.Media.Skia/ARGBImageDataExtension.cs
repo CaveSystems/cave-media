@@ -13,9 +13,11 @@ public static class ARGBImageDataExtension
     /// <returns></returns>
     public static ARGBImageData ToARGBImageData(this SKBitmap bitmap)
     {
-        if (bitmap.ColorType != SKColorType.Rgba8888 || bitmap.AlphaType != SKAlphaType.Unpremul)
+        if (bitmap.ColorType != SkiaBitmap32Loader.ColorType || bitmap.AlphaType != SKAlphaType.Unpremul)
         {
-            bitmap = new SKBitmap(bitmap.Width, bitmap.Height, SKColorType.Rgba8888, SKAlphaType.Unpremul);
+            var result = new SKBitmap(bitmap.Width, bitmap.Height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
+            bitmap.CopyTo(result, SkiaBitmap32Loader.ColorType);
+            bitmap = result;
         }
         return new ARGBImageData(bitmap.GetPixels(), bitmap.RowBytes * bitmap.Height, bitmap.Width, bitmap.Height, bitmap.RowBytes);
     }
@@ -26,7 +28,7 @@ public static class ARGBImageDataExtension
     public static unsafe SKBitmap ToSKBitmap(this ARGBImageData imageData)
     {
         var bitmap = new SKBitmap();
-        var imgInfo = new SKImageInfo(imageData.Width, imageData.Height, SKColorType.Rgba8888, SKAlphaType.Unpremul);
+        var imgInfo = new SKImageInfo(imageData.Width, imageData.Height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
         bitmap.InstallPixels(imgInfo, imageData.Pointer, imageData.Stride);
         return bitmap;
     }

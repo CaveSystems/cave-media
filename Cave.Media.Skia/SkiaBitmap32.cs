@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Cave.IO;
 using SkiaSharp;
 
 namespace Cave.Media;
@@ -43,10 +44,10 @@ public class SkiaBitmap32 : Bitmap32
     public SkiaBitmap32(SKBitmap bitmap)
         : base()
     {
-        if (bitmap.ColorType != SKImageInfo.PlatformColorType)
+        if (bitmap.ColorType != SkiaBitmap32Loader.ColorType || bitmap.AlphaType != SKAlphaType.Unpremul)
         {
             //change colortype
-            var bmp = new SKBitmap(bitmap.Width, bitmap.Height, SKImageInfo.PlatformColorType, SKAlphaType.Unpremul);
+            var bmp = new SKBitmap(bitmap.Width, bitmap.Height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
             bitmap.CopyTo(bmp, SKImageInfo.PlatformColorType);
             bitmap = bmp;
         }
@@ -65,7 +66,7 @@ public class SkiaBitmap32 : Bitmap32
     /// <param name="height">The height.</param>
     public SkiaBitmap32(int width, int height)
     {
-        skBitmap = new SKBitmap(width, height);
+        skBitmap = new SKBitmap(width, height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
         skBitmap.Erase(new SKColor(0));
     }
 
@@ -110,16 +111,20 @@ public class SkiaBitmap32 : Bitmap32
     }
 
     /// <inheritdoc/>
-    public override void Draw(IBitmap32 other, int x, int y, Translation? translation = null) => Draw(other, x, y, other.Width, other.Height, translation);
+    public override void Draw(IBitmap32 other, int x, int y, Translation? translation = null)
+        => Draw(other, x, y, other.Width, other.Height, translation);
 
     /// <inheritdoc/>
-    public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null) => Draw(other.ToSKBitmap(), x, y, width, height, translation);
+    public override void Draw(ARGBImageData other, int x, int y, int width, int height, Translation? translation = null)
+        => Draw(other.ToSKBitmap(), x, y, width, height, translation);
 
     /// <inheritdoc/>
-    public override void Draw(IBitmap32 other, int x, int y, int width, int height, Translation? translation = null) => Draw(Convert(other), x, y, width, height, translation);
+    public override void Draw(IBitmap32 other, int x, int y, int width, int height, Translation? translation = null)
+        => Draw(Convert(other), x, y, width, height, translation);
 
     /// <inheritdoc/>
-    public override void Draw(IBitmap32 other, float x, float y, float width, float height, Translation? translation = null) => Draw(Convert(other), x, y, width, height, translation);
+    public override void Draw(IBitmap32 other, float x, float y, float width, float height, Translation? translation = null)
+        => Draw(Convert(other), x, y, width, height, translation);
 
     /// <summary>Draws the specified image ontop of this one.</summary>
     /// <param name="other">The image to draw.</param>
@@ -162,7 +167,7 @@ public class SkiaBitmap32 : Bitmap32
     public override void MakeTransparent()
     {
         if (skBitmap is null) throw new ObjectDisposedException(nameof(SkiaBitmap32));
-        var result = new SKBitmap(skBitmap.Width, skBitmap.Height);
+        var result = new SKBitmap(skBitmap.Width, skBitmap.Height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
         using (var canvas = new SKCanvas(result))
         using (var paint = new SKPaint())
         using (var colorFilter = SKColorFilter.CreateBlendMode(skBitmap.GetPixel(0, 0), SKBlendMode.DstIn))
@@ -178,7 +183,7 @@ public class SkiaBitmap32 : Bitmap32
     public override void MakeTransparent(ARGB color)
     {
         if (skBitmap is null) throw new ObjectDisposedException(nameof(SkiaBitmap32));
-        var result = new SKBitmap(skBitmap.Width, skBitmap.Height);
+        var result = new SKBitmap(skBitmap.Width, skBitmap.Height, SkiaBitmap32Loader.ColorType, SKAlphaType.Unpremul);
         using (var canvas = new SKCanvas(result))
         using (var paint = new SKPaint())
         using (var colorFilter = SKColorFilter.CreateBlendMode(new SKColor(color.AsUInt32), SKBlendMode.DstIn))
