@@ -133,9 +133,7 @@ public unsafe class ARGBImageData : IDisposable
     /// <summary>Accesses the data of the image as ARGB* pointer.</summary>
     public ARGB* Pixels2 => (ARGB*)Pointer;
 
-    /// <summary>
-    /// Pointer to the pixel data
-    /// </summary>
+    /// <summary>Pointer to the pixel data</summary>
     public IntPtr Pointer { get; }
 
     /// <summary>Number of pixels per line (this is &lt;= Abs(Stride) / 4)</summary>
@@ -207,6 +205,11 @@ public unsafe class ARGBImageData : IDisposable
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
+#if NET5_0_OR_GREATER
+    /// <summary>Span containing the pixel data</summary>
+    public Span<byte> GetSpan() => new Span<byte>(Pixels1, DataLength);
+#endif
 
     /// <summary>Gets the raw data (stride * width).</summary>
     public byte[] GetBytes()
